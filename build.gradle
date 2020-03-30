@@ -10,7 +10,8 @@ buildscript {
 		classpath('gradle.plugin.com.boxfuse.client:gradle-plugin-publishing:5.2.4')
 	}
 }
-
+sourceCompatibility = 11
+targetCompatibility = 11
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'idea'
@@ -19,8 +20,6 @@ subprojects {
 
 	group = 'br.edu.ifsp.spo.bulls'
 	version = '0.0.1-SNAPSHOT'
-	sourceCompatibility = 11
-	targetCompatibility = 11
 
 	configurations {
 		compileOnly {
