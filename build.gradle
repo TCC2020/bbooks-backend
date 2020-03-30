@@ -19,7 +19,8 @@ subprojects {
 
 	group = 'br.edu.ifsp.spo.bulls'
 	version = '0.0.1-SNAPSHOT'
-	sourceCompatibility = '11'
+	sourceCompatibility = 11
+	targetCompatibility = 11
 
 	configurations {
 		compileOnly {
