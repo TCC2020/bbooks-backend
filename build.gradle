@@ -1,13 +1,15 @@
-plugins {
-	id 'org.springframework.boot' version '2.2.5.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'java'
+buildscript {
+	repositories {
+		mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath('org.springframework.boot:spring-boot-gradle-plugin:2.2.4.RELEASE')
+		classpath('gradle.plugin.com.boxfuse.client:gradle-plugin-publishing:5.2.4')
+	}
 }
-
-group = 'br.edu.ifsp.spo.bulls'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
 
 subprojects {
 	apply plugin: 'java'
