@@ -1,8 +1,8 @@
 language: java
 jdk:
-  - openjdk11
+- openjdk11
 deploy:
   provider: heroku
-  api-key:
-    secure: $HEROKU_API_KEY
+  api_key:
+    secure: jr/PGF6slvgMMiSh+GciX3f9UgZvaMzvfZRkbvHZlRX7S/zt/6PfKJiNzReyTsv4TAxfEiktsCnK4riW88YEiiLXHUUDcF3/MM1sfUw3w1xcXGCyC9JUnA0sTckyBX1mZGXqFHDBaDKEaNmTTL+ehuBSfcimEXuSlA1MuxKbzXGcGBpGXqC4cGqZxmujpor3OrGK7OLBHUBogygRSZmlzCKPTTTzBJylziJcqghv/bGzYz47wVJYteFYzhOesWAzvp5511WKxdy7V/xSsUKANnlnIC/K9ah94h+AY6JUXdcdnObe3S8/MaS1niJjZbJXSYaRGzXw+iHwoj0UPZQWCBAFEwD89zGw4aszfROosHtVGaCHFHZkXgdoeFD2NuPEN/+kThX6hDb3RTp2PdxZYuO+HcTBp0Thl4eYgMSIVENHkngqbiV8bb2lxbT4/HTzaA7rHPW0EkIyUnBsXmdye8N6v86pCDSsBm8N2Y0nBm9IPrkSIZQBLxMzc3VqPpCy/cNW07LMxrEALS4tTUOGaCz/me79scH5NBcVZhfz8eCDgBt72opzANu6ECfBJUpVAKYQETKmoSwWA4MmwyrrI8MksWv+mwEvUpbmcln3V2yD56G8LvIYT9XtMI6yasYNos2rexhik5LZOrEMMCLNLYTfVw1DEGAqnuWSk2ydOZ8=
   app: bbooks-back
