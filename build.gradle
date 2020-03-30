@@ -10,9 +10,11 @@ buildscript {
 		classpath('gradle.plugin.com.boxfuse.client:gradle-plugin-publishing:5.2.4')
 	}
 }
-sourceCompatibility = 11
-targetCompatibility = 11
+
 subprojects {
+	sourceCompatibility = 11
+	targetCompatibility = 11
+
 	apply plugin: 'java'
 	apply plugin: 'idea'
 	apply plugin: 'org.springframework.boot'
