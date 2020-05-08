@@ -1,11 +1,15 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
-import java.util.List;
 
+import java.util.List;
+import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import org.springframework.stereotype.Service;
 import br.edu.ifsp.spo.bulls.usersApi.Repository.UserRepository;
-import br.edu.ifsp.spo.bulls.usersApi.dto.User;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
 @Service
@@ -55,6 +59,20 @@ public class UserService implements BaseService<User>{
 		
 		return (List<User>) rep.findAll();
 	}
+	
+	@Autowired
+    private UserRepository repository;
 
+    public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
+        Optional<User> optionalUser = repository.findByToken(token);
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            org.springframework.security.core.userdetails.User userFromSpringSecurity = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), true, true, true, true,
+                    AuthorityUtils.createAuthorityList("USER"));
+            return Optional.of(userFromSpringSecurity);
+        }
+        return  Optional.empty();
+    }
 
 }
+
