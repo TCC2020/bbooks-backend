@@ -150,3 +150,7 @@ gradle-app.setting
 
 # End of https://www.gitignore.io/api/gradle
 
+#H2
+.mv.db
+.db
+
