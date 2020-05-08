@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long>, JpaSpecificationExecutor {
+public interface UserRepository extends CrudRepository<User, String>, JpaSpecificationExecutor {
     Optional<User> findByToken(String token);
+
+	boolean existsByEmail(String email);
 }

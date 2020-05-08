@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import org.springframework.stereotype.Service;
 import br.edu.ifsp.spo.bulls.usersApi.Repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
@@ -31,13 +30,13 @@ public class UserService implements BaseService<User>{
 	}
 
 	@Override
-	public User getById(Long id) {
+	public User getById(String id) {
 		
 		return rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		
 		rep.deleteById(id);
 		
@@ -60,11 +59,9 @@ public class UserService implements BaseService<User>{
 		return (List<User>) rep.findAll();
 	}
 	
-	@Autowired
-    private UserRepository repository;
-
+	
     public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
-        Optional<User> optionalUser = repository.findByToken(token);
+        Optional<User> optionalUser = rep.findByToken(token);
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();
             org.springframework.security.core.userdetails.User userFromSpringSecurity = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), true, true, true, true,

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifsp.spo.bulls.usersApi.dto.User;
+import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 
 @RestController
@@ -40,7 +40,7 @@ public class UserController {
 	}
 	
 	@GetMapping ("/{id}")
-	public User getById(@PathVariable long id) {
+	public User getById(@PathVariable String id) {
 		
 		return userService.getById(id);
 		//return rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(""));
@@ -48,7 +48,7 @@ public class UserController {
 
 	
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable long id) {
+	public String delete(@PathVariable String id) {
 		userService.delete(id);
 		return "User deletado" ;
 	}

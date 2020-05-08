@@ -6,9 +6,9 @@ public interface BaseService<T> {
 
 	 T save(T entity) throws Exception;
 
-	 T getById(Long id);
+	 T getById(String id);
 
-	 void delete(Long id);
+	 void delete(String id);
 
 	 T update(T entity);
 
