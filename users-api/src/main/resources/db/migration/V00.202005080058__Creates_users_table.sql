@@ -1,6 +1,5 @@
 CREATE TABLE users (
-    id               VARCHAR PRIMARY KEY NOT NULL       ,
-    userName         VARCHAR(100)                       ,
+    userName         VARCHAR(100) PRIMARY KEY NOT NULL  ,
     email            VARCHAR(255) NOT NULL              ,
     password         VARCHAR(100)                       ,
     token            VARCHAR(255)                       ,
