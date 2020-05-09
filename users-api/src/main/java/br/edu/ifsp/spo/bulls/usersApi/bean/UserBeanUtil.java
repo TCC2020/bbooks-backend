@@ -32,7 +32,7 @@ public class UserBeanUtil {
 	}
 	public HashSet<UserTO> toUserTO(HashSet<User> users){
 		
-		HashSet<UserTO> usersTO = null;
+		HashSet<UserTO> usersTO = new HashSet<UserTO>();
 
 	    for (User user: users ) {
 	        usersTO.add(toUserTO(user));
