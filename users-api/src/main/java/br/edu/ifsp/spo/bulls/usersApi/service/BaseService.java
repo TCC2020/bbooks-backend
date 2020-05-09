@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
-import java.util.List;
 
 public interface BaseService<T> {
 
@@ -12,5 +11,5 @@ public interface BaseService<T> {
 
 	 T update(T entity);
 
-	 List<T> getAll();
+	 Iterable<T> getAll();
 }

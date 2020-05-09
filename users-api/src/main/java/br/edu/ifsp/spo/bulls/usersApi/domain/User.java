@@ -1,11 +1,10 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
@@ -25,7 +24,9 @@ public class User implements Serializable {
 	//Uuid
     @Id
     private String userName;
+    @NotBlank(message = "Email is mandatory")
     private String email;
+    @NotBlank(message = "Password is mandatory")
     private String password;
     private String token;
     private LocalDateTime creationDate;

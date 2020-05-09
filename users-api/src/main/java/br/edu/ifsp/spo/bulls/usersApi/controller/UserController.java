@@ -1,9 +1,9 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
+
+import java.util.HashSet;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
@@ -29,21 +28,20 @@ public class UserController {
 	private UserBeanUtil beanUtil;
 
 	@PostMapping ("")
-	public User create(@RequestBody @Valid UserTO userTO) throws Exception {
+	public UserTO create(@RequestBody @Valid UserTO userTO) throws Exception {
 		
 		User user = beanUtil.toUser(userTO);
+		service.save(user);
 		
-//		user.setEmail(userTO.getEmail());
-//		user.setPassword(userTO.getPassword());
-//		user.setUserName(userTO.getUserName());
-		
-		return service.save(user);
+		return beanUtil.toUserTO(user);
 		
 	}
 	
 	@GetMapping ("")
-	public List<User> getAll(){
-		return service.getAll();
+	public HashSet<UserTO> getAll(){
+		//return service.getAll();
+		System.out.println(beanUtil.toUserTO(service.getAll()).toString() );
+		return beanUtil.toUserTO(service.getAll());
 	}
 	
 	@GetMapping ("/{id}")
@@ -54,14 +52,17 @@ public class UserController {
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable String id) {
+	public void delete(@PathVariable String id) {
 		service.delete(id);
-		return "User deletado" ;
 	}
 	
 	@PutMapping("")
-	public User update(@RequestBody User user) {
+	public UserTO update(@RequestBody UserTO userTO) {
 		
-		return service.update(user);
+		User user = beanUtil.toUser(userTO);
+		service.update(user);
+		return beanUtil.toUserTO(user);
+
+		
 	}
 }

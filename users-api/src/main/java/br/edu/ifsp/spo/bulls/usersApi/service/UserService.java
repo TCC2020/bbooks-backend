@@ -1,12 +1,13 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 
+import java.util.HashSet;
 import java.util.List;
+import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
@@ -17,12 +18,16 @@ public class UserService implements BaseService<User>{
 	@Autowired
 	private UserRepository rep;
 	
+	@Autowired
+	private UserBeanUtil beanUtil;
 	
 	@Override
 	public User save( User entity) throws Exception {
         
 		if (rep.existsByEmail(entity.getEmail())){
 			throw new Exception("Email ja cadastrado");
+		}else if (rep.existsByUserName(entity.getUserName())) {
+			throw new Exception("UserName ja esta sendo usado");
 		}
 		return rep.save(entity);
 	}
@@ -35,9 +40,10 @@ public class UserService implements BaseService<User>{
 
 	@Override
 	public void delete(String id) {
-		
+				
+		rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 		rep.deleteById(id);
-		
+					
 	}
 
 	@Override
@@ -48,14 +54,15 @@ public class UserService implements BaseService<User>{
 			user.setPassword(entity.getPassword());
 			return rep.save(user);
 		}).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		
 	}
 
 	@Override
-	public List<User> getAll() {
+	public HashSet<User> getAll() {
 		
-		return (List<User>) rep.findAll();
+		return (HashSet<User>) rep.findAll();
 	}
-	
+	 
    public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
         Optional<User> optionalUser = rep.findByToken(token);
         if(optionalUser.isPresent()) {
@@ -66,7 +73,6 @@ public class UserService implements BaseService<User>{
         }
         return  Optional.empty();
     }
- 
    
 }
 
