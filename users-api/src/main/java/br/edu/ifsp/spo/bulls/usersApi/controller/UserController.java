@@ -2,9 +2,9 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 
 import java.util.HashSet;
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 
 @RestController
@@ -28,7 +29,7 @@ public class UserController {
 	private UserBeanUtil beanUtil;
 
 	@PostMapping ("")
-	public UserTO create(@RequestBody @Valid UserTO userTO) throws Exception {
+	public UserTO create(@RequestBody @Valid UserTO userTO) throws ResourceBadRequestException, Exception  {
 		
 		User user = beanUtil.toUser(userTO);
 		service.save(user);
@@ -39,8 +40,7 @@ public class UserController {
 	
 	@GetMapping ("")
 	public HashSet<UserTO> getAll(){
-		//return service.getAll();
-		System.out.println(beanUtil.toUserTO(service.getAll()).toString() );
+		
 		return beanUtil.toUserTO(service.getAll());
 	}
 	
@@ -57,7 +57,7 @@ public class UserController {
 	}
 	
 	@PutMapping("")
-	public UserTO update(@RequestBody UserTO userTO) {
+	public UserTO update(@RequestBody UserTO userTO) throws Exception {
 		
 		User user = beanUtil.toUser(userTO);
 		service.update(user);

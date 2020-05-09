@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 
 import java.util.HashSet;
-import java.util.List;
 import org.springframework.beans.BeanUtils;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import org.springframework.stereotype.Component;

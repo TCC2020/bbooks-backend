@@ -9,7 +9,7 @@ public interface BaseService<T> {
 
 	 void delete(String id);
 
-	 T update(T entity);
+	 T update(T entity) throws Exception;
 
 	 Iterable<T> getAll();
 }

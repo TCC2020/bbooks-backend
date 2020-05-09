@@ -2,7 +2,6 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 
 import java.util.HashSet;
-import java.util.List;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
 @Service
@@ -22,13 +22,21 @@ public class UserService implements BaseService<User>{
 	private UserBeanUtil beanUtil;
 	
 	@Override
-	public User save( User entity) throws Exception {
+	public User save( User entity) throws Exception, ResourceBadRequestException {
         
-		if (rep.existsByEmail(entity.getEmail())){
-			throw new Exception("Email ja cadastrado");
-		}else if (rep.existsByUserName(entity.getUserName())) {
-			throw new Exception("UserName ja esta sendo usado");
+		if(entity.getEmail() == null) {
+			throw new ResourceBadRequestException("Email is mandatory");
 		}
+		else if(entity.getPassword() == null) {
+			throw new ResourceBadRequestException("Password is mandatory");
+		}else {
+			if (rep.existsByEmail(entity.getEmail())){
+				throw new Exception("Email ja cadastrado");
+			}else if (rep.existsByUserName(entity.getUserName())) {
+				throw new Exception("UserName ja esta sendo usado");
+			}		
+		}
+		
 		return rep.save(entity);
 	}
 
@@ -47,7 +55,18 @@ public class UserService implements BaseService<User>{
 	}
 
 	@Override
-	public User update(User entity) {
+	public User update(User entity) throws Exception {
+		
+		if(entity.getEmail().isEmpty()) {
+			throw new ResourceBadRequestException("Email is mandatory");
+		}
+		else if(entity.getPassword().isEmpty()) {
+			throw new ResourceBadRequestException("Password is mandatory");
+		}else {
+			if (rep.existsByEmail(entity.getEmail())){
+				throw new Exception("Email ja cadastrado");
+			}	
+		}
 		
 		return rep.findById(entity.getUserName()).map( user -> {
 			user.setEmail(entity.getEmail());
