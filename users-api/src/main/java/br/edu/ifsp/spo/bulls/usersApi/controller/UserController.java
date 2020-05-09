@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 	
 	private UserService userService;
+	private UserBeanUtil userBeanUtil;
 	
 	public UserController(UserService userService) {
 		super();
@@ -28,7 +32,13 @@ public class UserController {
 	}
 	
 	@PostMapping ("")
-	public User create(@RequestBody @Valid User user) throws Exception {
+	public User create(@RequestBody @Valid UserTO userTO) throws Exception {
+		
+		User user = userBeanUtil.toUser(userTO);
+		
+//		user.setEmail(userTO.getEmail());
+//		user.setPassword(userTO.getPassword());
+//		user.setUserName(userTO.getUserName());
 		
 		return userService.save(user);
 		
@@ -40,10 +50,10 @@ public class UserController {
 	}
 	
 	@GetMapping ("/{id}")
-	public User getById(@PathVariable String id) {
+	public UserTO getById(@PathVariable String id) {
 		
-		return userService.getById(id);
-		//return rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(""));
+		return userBeanUtil.toUserTO(userService.getById(id));
+		
 	}
 
 	

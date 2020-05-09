@@ -3,25 +3,25 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.List;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import br.edu.ifsp.spo.bulls.usersApi.Repository.UserRepository;
+import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
 @Service
 public class UserService implements BaseService<User>{
 
-	UserRepository rep;
+	@Autowired
+	private UserRepository rep;
 	
-	public UserService(UserRepository repository) {
-		this.rep = repository;
-	}
 	
 	@Override
-	public User save(User entity) throws Exception {
+	public User save( User entity) throws Exception {
         
 		if (rep.existsByEmail(entity.getEmail())){
 			throw new Exception("Email ja cadastrado");
@@ -45,10 +45,9 @@ public class UserService implements BaseService<User>{
 	@Override
 	public User update(User entity) {
 		
-		return rep.findById(entity.getId()).map( user -> {
+		return rep.findById(entity.getUserName()).map( user -> {
 			user.setEmail(entity.getEmail());
 			user.setPassword(entity.getPassword());
-			user.setUserName(entity.getUserName());
 			return rep.save(user);
 		}).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 	}
@@ -60,7 +59,7 @@ public class UserService implements BaseService<User>{
 	}
 	
 	
-    public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
+   public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
         Optional<User> optionalUser = rep.findByToken(token);
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -70,6 +69,7 @@ public class UserService implements BaseService<User>{
         }
         return  Optional.empty();
     }
-
+ 
+   
 }
 

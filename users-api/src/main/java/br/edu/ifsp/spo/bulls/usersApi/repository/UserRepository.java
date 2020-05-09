@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.usersApi.Repository;
+package br.edu.ifsp.spo.bulls.usersApi.repository;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
