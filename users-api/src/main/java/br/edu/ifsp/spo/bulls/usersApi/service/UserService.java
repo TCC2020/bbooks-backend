@@ -3,8 +3,6 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.List;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -57,7 +55,6 @@ public class UserService implements BaseService<User>{
 		
 		return (List<User>) rep.findAll();
 	}
-	
 	
    public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
         Optional<User> optionalUser = rep.findByToken(token);
