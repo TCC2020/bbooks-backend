@@ -15,7 +15,7 @@ public class UserBeanUtil {
 		try {
 			BeanUtils.copyProperties(userTO, user);
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 		return user;
 	}
@@ -25,18 +25,16 @@ public class UserBeanUtil {
 		try{
 			BeanUtils.copyProperties(user, userTO);
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 		return userTO;
 	}
-	public HashSet<UserTO> toUserTO(HashSet<User> users){
-		
-		HashSet<UserTO> usersTO = new HashSet<UserTO>();
 
+	public HashSet<UserTO> toUserTO(HashSet<User> users){
+		HashSet<UserTO> usersTO = new HashSet<UserTO>();
 	    for (User user: users ) {
 	        usersTO.add(toUserTO(user));
 	     }
-		
 		return usersTO;
 	}
 }
