@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body
+        style="
+	margin: 0px;
+	padding: 0px;
+	font-family: sans-serif;
+	">
+<div class="header" style="
+	background-image: linear-gradient(to left, rgb(128,255,157), rgb(37,182,55), rgb(128,255,157));width:100%;">
+    <div class="top-component"
+         style="
+	width: 100%;
+	margin: none;
+	text-align: center;
+	">
+        <ul
+                style="
+	padding:0px;
+	margin:0px;
+	list-style: none;">
+            <li
+                    style="
+	font-size: 16pt;
+	font-weight: bold;
+	color: #fff;
+	width:100%;
+	height:auto;
+	display: inline-block;
+	margin:0px;
+	padding: 10px 0px;
+	"><b>BBOOKS</b></li>
+        </ul>
+    </div>
+</div>
+
+<div class="body"
+     style="
+	width: 90%;
+	height: auto;
+	word-wrap: break-word;
+	background-color: #f3f3f3;
+	padding: 20px;
+	text-align: justify;
+	margin: auto;
+	">
+    <div
+            style="
+	width: 90%;
+	height: auto;
+	word-wrap: break-word;
+	background-color: #f3f3f3;
+	padding: 20px;
+	text-align: justify;
+	margin: auto;
+	font-size:11pt;">
+        <span th:text="${text}"></span>
+    </div>
+    <div class="footer" style="
+	height: auto;
+	width:100%;
+	"><div style="
+	background-color:#f3f3f3;
+	font-size: 8pt;
+	font-weight: bold;
+	color: #000;
+	height: auto;
+	width:80%;
+	text-align: center;
+	margin:auto;
+	padding: 0px 20px;	">
+        NO REPLY - AUTOMATIC EMAIL DO NOT ANSWER.
+    </div>
+        <div style="
+	background-color:rgb(37,182,55);
+	font-size: 8pt;
+	font-weight: bold;
+	color: #fff;
+	height: auto;
+	width:80%;
+	text-align: center;
+	margin:auto;
+	padding: 10px 20px;	">
+            BBOOKS
+        </div>
+    </div>
+</div>
+</body>
+</html>
