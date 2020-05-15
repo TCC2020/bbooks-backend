@@ -13,8 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.MailException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -49,7 +48,14 @@ public class EmailServiceTest {
 
     @Test
     void verify_email_has_sent(){
-        assertEquals(true, this.emailService.send());
+        boolean result = this.emailService.send();
+
+        if (result){
+            assertEquals(true, result);
+        }else{
+            assertNotEquals(true, result);
+        }
+
     }
 
 
