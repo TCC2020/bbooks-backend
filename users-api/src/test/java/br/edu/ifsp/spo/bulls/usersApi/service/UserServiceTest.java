@@ -5,20 +5,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class UserServiceTest {
 
-	private UserService service = new UserService();
-	
+	@Autowired
+	private UserService service;
+	//private UserRepository repository;
 
 	@Test
 	public void testSave() throws ResourceBadRequestException, Exception {
