@@ -5,6 +5,7 @@ import java.util.HashSet;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class UserService implements BaseService<User>{
 	@Autowired
 	private UserRepository rep;
 	
-	@Autowired
+	@Autowired 
 	private UserBeanUtil beanUtil;
 	
 	@Override
@@ -31,7 +32,7 @@ public class UserService implements BaseService<User>{
 			throw new ResourceBadRequestException("Password is mandatory");
 		}else {
 			if (rep.existsByEmail(entity.getEmail())){
-				throw new Exception("Email ja cadastrado");
+				throw new Exception("Email ja cadastrado: " + entity.getEmail());
 			}else if (rep.existsByUserName(entity.getUserName())) {
 				throw new Exception("UserName ja esta sendo usado");
 			}		
@@ -64,7 +65,7 @@ public class UserService implements BaseService<User>{
 			throw new ResourceBadRequestException("Password is mandatory");
 		}else {
 			if (rep.existsByEmail(entity.getEmail())){
-				throw new Exception("Email ja cadastrado");
+				throw new Exception("Email ja cadastrado: " + entity.getEmail());
 			}	
 		}
 		

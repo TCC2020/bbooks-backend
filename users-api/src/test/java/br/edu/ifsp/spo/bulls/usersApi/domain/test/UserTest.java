@@ -1,6 +1,9 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain.test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +16,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 public class UserTest {
 
 	@Test
-	public void userMustHaveUserName() {
+	void userMustHaveUserName() {
 		User user = new User();
 		user.setUserName("testeUsername");
 		
@@ -21,7 +24,7 @@ public class UserTest {
 	}
 	
 	@Test
-	public void userMustHaveEmail() {
+	void userMustHaveEmail() {
 		User user = new User();
 		user.setEmail("testeEmail");
 		
@@ -29,11 +32,83 @@ public class UserTest {
 	}
 	
 	@Test
-	public void userMustHavePassword() {
+	void userMustHavePassword() {
 		User user = new User();
 		user.setPassword("testePassword");
 		
 		assertEquals("testePassword", user.getPassword());
 	}
+	
+	@Test
+	void construtor() {
+		User user = new User("testeConstrutor", "testeC@teste", "senhateste");
+		
+		assertEquals("testeConstrutor", user.getUserName());
+		assertEquals("testeC@teste", user.getEmail());
+		assertEquals("senhateste", user.getPassword());
+	}
 
+	@Test
+	void prePersist() {
+		
+		User user = new User("teste", "testeC@teste", "senhateste");
+		
+		user.prePersist();
+		
+		assertEquals(LocalDateTime.now().toLocalDate(), user.getCreationDate().toLocalDate());
+		
+	}
+	
+	@Test
+	void testEquals() {
+		User user = new User("teste", "testeC@teste", "senhateste");
+		User user1 = new User("teste", "testeC@teste", "senhateste");
+		
+		boolean result = user.equals(user1);
+		
+		assertTrue(result);
+	}
+	
+	@Test
+	void testNotEquals() {
+		User user = new User("teste", "testeC@teste", "senhateste");
+		User user1 = new User("teste123", "testeC@teste123", "senhateste123");
+		
+		boolean result = user.equals(user1);
+		
+		assertFalse(result);
+	}
+	
+	
+	@Test
+	void testHashCode() {
+		User user = new User("teste", "testeC@teste", "senhateste");
+		User user1 = new User("teste", "testeC@teste", "senhateste");
+
+		assertEquals(user.hashCode(),user1.hashCode());
+	}
+	
+	@Test
+	void testSetToken() {
+		User user = new User();
+		user.setToken("teste");
+		
+		assertEquals("teste", user.getToken());
+	}
+	
+	@Test
+	void testSetCreationDate() {
+		User user = new User();
+		user.setCreationDate(LocalDateTime.now());
+		
+		assertEquals(LocalDateTime.now().toLocalDate(), user.getCreationDate().toLocalDate());
+	}
+	
+	@Test
+	void testToString() {
+		
+		User user = new User("teste", "testeC@teste", "senhateste");
+		assertTrue("User(userName=teste, email=testeC@teste, password=senhateste, token=null, creationDate=null)".equals(user.toString()));
+	}
+	
 }
