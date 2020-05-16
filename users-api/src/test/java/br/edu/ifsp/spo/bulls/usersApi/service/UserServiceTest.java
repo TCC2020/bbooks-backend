@@ -42,9 +42,7 @@ public class UserServiceTest {
 		
 		User userUpEmail = new User("testeSEmail123", "testeS12@teste", "senhateste"); 
 
-		Throwable exception = assertThrows(Exception.class, ()-> {
-			service.save(userUpEmail);
-		});
+		Throwable exception = assertThrows(Exception.class, ()-> service.save(userUpEmail));
 		assertTrue(exception.getMessage().startsWith("Email ja cadastrado:"));
 	}
 	
@@ -55,9 +53,7 @@ public class UserServiceTest {
 		
 		User userUpEmail = new User("testeSEmail", "testeS2@teste", "senhateste"); 
 
-		Throwable exception = assertThrows(Exception.class, ()-> {
-			service.save(userUpEmail);
-		});
+		Throwable exception = assertThrows(Exception.class, ()-> service.save(userUpEmail));
 		assertTrue(exception.getMessage().startsWith("UserName ja esta sendo usado"));
 	}
 	
@@ -67,9 +63,7 @@ public class UserServiceTest {
 		userUp.setPassword("senhateste");
 		userUp.setUserName("testeSPasswordMandatory");
 		
-		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> {
-			service.save(userUp);
-		});
+		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> service.save(userUp));
 		assertEquals("Email is mandatory", exception.getMessage());
 	}
 	
@@ -80,9 +74,7 @@ public class UserServiceTest {
 		userUp.setEmail("testeS6@teste");
 		userUp.setUserName("testeSPasswordMandatory");
 		
-		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> {
-			service.save(userUp);
-		});
+		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> service.save(userUp));
 		assertEquals("Password is mandatory", exception.getMessage());
 	}
 	
@@ -103,9 +95,7 @@ public class UserServiceTest {
 	@Test
 	void testFailGetByIdUserNotFound() {
 		
-		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
-			service.getById("testeFail");
-		});
+		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> service.getById("testeFail"));
 		assertEquals("User not found", exception.getMessage());
 	}
 
@@ -124,9 +114,7 @@ public class UserServiceTest {
 	@Test
 	void testFailUpdateUserNotFound() throws Exception {
 		User userUp = new User("testeUpUser", "testeUp2@teste", "senhateste"); 
-		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
-			service.update(userUp);
-		});
+		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> service.update(userUp));
 		assertEquals("User not found", exception.getMessage());
 	}
 	
@@ -140,9 +128,7 @@ public class UserServiceTest {
 		
 		userUp.setEmail("testeUp4@teste");
 		
-		Throwable exception = assertThrows(Exception.class, ()-> {
-			service.update(userUp);
-		});
+		Throwable exception = assertThrows(Exception.class, ()-> service.update(userUp));
 		assertTrue(exception.getMessage().startsWith("Email ja cadastrado:"));
 	}
 	
@@ -153,9 +139,7 @@ public class UserServiceTest {
 
 		userUp.setEmail("");
 		
-		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> {
-			service.update(userUp);
-		});
+		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> service.update(userUp));
 		assertEquals("Email is mandatory", exception.getMessage());
 	}
 	
@@ -166,9 +150,7 @@ public class UserServiceTest {
 
 		userUp.setPassword("");
 		
-		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> {
-			service.update(userUp);
-		});
+		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> service.update(userUp));
 		assertEquals("Password is mandatory", exception.getMessage());
 	}
 	
@@ -181,18 +163,14 @@ public class UserServiceTest {
 		
 		// Se realmente apagou o "getById" não irá achar
 		
-		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
-			service.getById("testeDel");
-		});
+		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {service.getById("testeDel");});
 		assertEquals("User not found", exception.getMessage());
 	}
 	
 	@Test
 	void testFailDeleteUserNotFound() {
 		
-		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
-			service.delete("testeFail");
-		});
+		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> service.delete("testeFail"));
 		assertEquals("User not found", exception.getMessage());
 	}
 
