@@ -12,21 +12,17 @@ public class UserBeanUtil {
 
 	public User toUser(UserTO userTO) {
 		User user = new User();
-		try {
-			BeanUtils.copyProperties(userTO, user);
-		}catch(Exception e) {
-			
-		}
+		
+		BeanUtils.copyProperties(userTO, user);
+		
 		return user;
 	}
 	
 	public UserTO toUserTO(User user) {
 		UserTO userTO = new UserTO();
-		try{
-			BeanUtils.copyProperties(user, userTO);
-		}catch(Exception e) {
-			
-		}
+		
+		BeanUtils.copyProperties(user, userTO);
+		
 		return userTO;
 	}
 	public HashSet<UserTO> toUserTO(HashSet<User> users){

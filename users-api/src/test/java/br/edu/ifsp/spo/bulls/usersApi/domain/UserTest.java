@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.usersApi.domain.test;
+package br.edu.ifsp.spo.bulls.usersApi.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
