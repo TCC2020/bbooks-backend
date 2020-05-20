@@ -51,9 +51,9 @@ public class EmailServiceTest {
         boolean result = this.emailService.send();
 
         if (result){
-            assertEquals(true, result);
+            assertTrue(result);
         }else{
-            assertNotEquals(true, result);
+            assertFalse(result);
         }
 
     }
