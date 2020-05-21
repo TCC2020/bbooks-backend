@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, String>, JpaSpecificationExecutor {
     Optional<User> findByToken(String token);
 
+    Optional<User> findByEmail(String email);
+
 	boolean existsByEmail(String email);
 	boolean existsByUserName(String userName);
 	HashSet<User> findAll();
