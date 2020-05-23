@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
@@ -23,13 +24,19 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = -3104545566617263249L;
 	//Uuid
-    @Id
+	@Id
+	@NotBlank(message = "UserName is mandatory")
     private String userName;
+	
     @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email format is invalid")
     private String email;
+    
     @NotBlank(message = "Password is mandatory")
     private String password;
+    
     private String token;
+    
     private LocalDateTime creationDate;
 
     @PrePersist

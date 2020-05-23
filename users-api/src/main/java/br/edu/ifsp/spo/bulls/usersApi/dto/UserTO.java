@@ -3,13 +3,25 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import java.util.Objects;
 
+import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import lombok.Data;
 
 @Data
 public class UserTO {
+	@Id
+	@NotBlank(message = "UserName is mandatory")
     private String userName;
+	
+	@NotBlank(message = "Email is mandatory")
+	@Email(message = "Email format is invalid")
     private String email;
+	
+	@NotBlank(message = "Password is mandatory")
     private String password;
+	
     private String token;
     
 	@Override
