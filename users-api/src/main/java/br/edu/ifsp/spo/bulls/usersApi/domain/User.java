@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -16,7 +17,6 @@ import java.util.Objects;
 @Data
 @Entity
 @Table(name = "users")
-
 public class User implements Serializable {
     
 	/**
@@ -38,7 +38,10 @@ public class User implements Serializable {
     private String token;
     
     private LocalDateTime creationDate;
-
+    
+    @OneToOne
+    private Profile profile;
+    
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();
