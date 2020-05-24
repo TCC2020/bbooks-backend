@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 
 
@@ -151,17 +150,17 @@ public class UserControllerTest {
     	
         mockMvc.perform(post("/users")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(user)));
+                .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isOk());
         
         // Alterando o usuário
         
         user.setEmail("testeUP@teste");
 
-        mockMvc.perform(put("/users")
+        mockMvc.perform(put("/users/testeUP")
         		.contentType("application/json")
         		.content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk());
-
     }
     
     @Test
@@ -173,7 +172,7 @@ public class UserControllerTest {
     	user.setEmail("teste@testeUPFound");
     	user.setPassword("1234");
 
-        mockMvc.perform(put("/users")
+        mockMvc.perform(put("/users/testeUPNotFound")
         		.contentType("application/json")
         		.content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isNotFound());
