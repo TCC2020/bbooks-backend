@@ -1,6 +1,8 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -14,7 +16,8 @@ import lombok.Data;
 public class Profile {
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
 	
 	@NotBlank(message = "Fullname is mandatory")
 	private String fullName;
@@ -28,5 +31,19 @@ public class Profile {
 	
 	@OneToOne
 	private User user;
+
+	public Profile(int id, @NotBlank(message = "Fullname is mandatory") String fullName, String country, String city,
+			String state, @NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.country = country;
+		this.city = city;
+		this.state = state;
+		this.birthDate = birthDate;
+		this.user = user;
+	}
+	
+	
 	
 }
