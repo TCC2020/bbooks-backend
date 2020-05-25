@@ -8,7 +8,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 
 @Repository
-public interface ProfileRepository extends CrudRepository<Profile, String>{
+public interface ProfileRepository extends CrudRepository<Profile, Integer>{
 
 	boolean existsByUser(User user);
 	HashSet<Profile> findAll();

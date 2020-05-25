@@ -43,7 +43,21 @@ public class Profile {
 		this.birthDate = birthDate;
 		this.user = user;
 	}
+
+	public Profile(@NotBlank(message = "Fullname is mandatory") String fullName, String country, String city,
+			String state, @NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+		super();
+		this.fullName = fullName;
+		this.country = country;
+		this.city = city;
+		this.state = state;
+		this.birthDate = birthDate;
+		this.user = user;
+	}
 	
+	public Profile() {
+		
+	}
 	
 	
 }
