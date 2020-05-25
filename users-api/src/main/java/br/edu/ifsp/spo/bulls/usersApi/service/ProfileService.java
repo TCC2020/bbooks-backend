@@ -32,6 +32,10 @@ public class ProfileService {
 	private void validationUserAlreadyUsed(User entity) {
 		if(profileRep.existsByUser(entity))
 			throw new ResourceConflictException("User already used");
+	} 
+	
+	public Profile getByUser(User user) {
+		return profileRep.getByUser(user);
 	}
 
 	private void validationUserNotFound(User entity) {
