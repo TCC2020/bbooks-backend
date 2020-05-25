@@ -1,7 +1,5 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
-
-
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 import org.junit.jupiter.api.Test;
@@ -9,8 +7,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.TransactionSystemException;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import java.util.Optional;
 
@@ -42,8 +42,8 @@ public class UserServiceTest {
 		
 		User userUpEmail = new User("testeSEmail123", "testeS12@teste", "senhateste"); 
 
-		Throwable exception = assertThrows(Exception.class, ()-> service.save(userUpEmail));
-		assertTrue(exception.getMessage().startsWith("Email ja cadastrado:"));
+		ResourceConflictException e = assertThrows(ResourceConflictException.class, ()-> service.save(userUpEmail));
+		assertEquals("Email ja esta sendo usado", e.getMessage());
 	}
 	
 	@Test
@@ -53,8 +53,8 @@ public class UserServiceTest {
 		
 		User userUpEmail = new User("testeSEmail", "testeS2@teste", "senhateste"); 
 
-		Throwable exception = assertThrows(Exception.class, ()-> service.save(userUpEmail));
-		assertTrue(exception.getMessage().startsWith("UserName ja esta sendo usado"));
+		ResourceConflictException e = assertThrows(ResourceConflictException.class, ()-> service.save(userUpEmail));
+		assertEquals("UserName ja esta sendo usado", e.getMessage());
 	}
 	
 	@Test
@@ -63,8 +63,7 @@ public class UserServiceTest {
 		userUp.setPassword("senhateste");
 		userUp.setUserName("testeSPasswordMandatory");
 		
-		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> service.save(userUp));
-		assertEquals("Email is mandatory", exception.getMessage());
+		assertThrows(TransactionSystemException.class, ()-> service.save(userUp));
 	}
 	
 	@Test
@@ -74,8 +73,7 @@ public class UserServiceTest {
 		userUp.setEmail("testeS6@teste");
 		userUp.setUserName("testeSPasswordMandatory");
 		
-		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> service.save(userUp));
-		assertEquals("Password is mandatory", exception.getMessage());
+		assertThrows(TransactionSystemException.class, ()-> service.save(userUp));
 	}
 	
 	@Test
@@ -128,8 +126,7 @@ public class UserServiceTest {
 		
 		userUp.setEmail("testeUp4@teste");
 		
-		Throwable exception = assertThrows(Exception.class, ()-> service.update(userUp));
-		assertTrue(exception.getMessage().startsWith("Email ja cadastrado:"));
+		assertThrows(ResourceConflictException.class, ()-> service.update(userUp));
 	}
 	
 	@Test
@@ -139,8 +136,7 @@ public class UserServiceTest {
 
 		userUp.setEmail("");
 		
-		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> service.update(userUp));
-		assertEquals("Email is mandatory", exception.getMessage());
+		assertThrows(TransactionSystemException.class, ()-> service.update(userUp));
 	}
 	
 	@Test
@@ -150,8 +146,7 @@ public class UserServiceTest {
 
 		userUp.setPassword("");
 		
-		Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> service.update(userUp));
-		assertEquals("Password is mandatory", exception.getMessage());
+		assertThrows(TransactionSystemException.class, ()-> service.update(userUp));
 	}
 	
 	@Test

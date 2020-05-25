@@ -27,7 +27,7 @@ public class UserController {
 	@Autowired
 	private UserBeanUtil beanUtil;
 
-	@PostMapping ("")
+	@PostMapping ()
 	public UserTO create(@RequestBody @Valid UserTO userTO) throws ResourceBadRequestException, Exception  {
 		
 		User user = beanUtil.toUser(userTO);
@@ -55,13 +55,14 @@ public class UserController {
 		service.delete(id);
 	}
 	
-	@PutMapping("")
-	public UserTO update(@RequestBody UserTO userTO) throws Exception {
+	@PutMapping("/{id}")
+	public UserTO update(@RequestBody UserTO userTO, @PathVariable String id) throws Exception {
 		
 		User user = beanUtil.toUser(userTO);
+		user.setUserName(id);
 		service.update(user);
+		
 		return beanUtil.toUserTO(user);
 
-		
 	}
 }

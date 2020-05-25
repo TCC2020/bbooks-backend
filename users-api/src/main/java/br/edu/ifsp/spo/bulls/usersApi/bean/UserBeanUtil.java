@@ -13,7 +13,11 @@ public class UserBeanUtil {
 	public User toUser(UserTO userTO) {
 		User user = new User();
 		
-		BeanUtils.copyProperties(userTO, user);
+		try{
+			BeanUtils.copyProperties(userTO, user);
+		}catch(Exception e) {
+			
+		}
 		
 		return user;
 	}
@@ -21,7 +25,11 @@ public class UserBeanUtil {
 	public UserTO toUserTO(User user) {
 		UserTO userTO = new UserTO();
 		
-		BeanUtils.copyProperties(user, userTO);
+		try{
+			BeanUtils.copyProperties(user, userTO);
+		}catch(Exception e) {
+			
+		}
 		
 		return userTO;
 	}

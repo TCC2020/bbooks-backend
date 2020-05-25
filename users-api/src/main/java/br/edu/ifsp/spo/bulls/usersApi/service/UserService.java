@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
@@ -18,22 +17,23 @@ public class UserService implements BaseService<User>{
 	private UserRepository rep;
 	
 	@Override
-	public User save( User entity) throws Exception, ResourceBadRequestException {
+	public User save( User entity) throws Exception {
         
-		validationEmailIsUnique(entity);
 		validationUserNameIsUnique(entity);
-		
+		validationEmailIsUnique(entity);
 		return rep.save(entity);
-	}
-
-	private void validationEmailIsUnique(User entity) throws Exception {
-		if (rep.existsByEmail(entity.getEmail()))
-			throw new ResourceConflictException("Email ja cadastrado: " + entity.getEmail());
 	}
 	
 	private void validationUserNameIsUnique(User entity) throws Exception {
 		if (rep.existsByUserName(entity.getUserName())) 
 			throw new ResourceConflictException("UserName ja esta sendo usado");
+	}
+	
+	private void validationEmailIsUnique(User entity) throws Exception {
+		
+		User user = rep.findByEmail(entity.getEmail());
+		if ((user != null) && (!user.getUserName().equals(entity.getUserName())) ) 
+			throw new ResourceConflictException("Email ja esta sendo usado");
 	}
 
 	@Override
@@ -52,9 +52,8 @@ public class UserService implements BaseService<User>{
 
 	@Override
 	public User update(User entity) throws Exception {
-		
 		validationEmailIsUnique(entity);
-	
+		
 		return rep.findById(entity.getUserName()).map( user -> {
 			user.setEmail(entity.getEmail());
 			user.setPassword(entity.getPassword());
