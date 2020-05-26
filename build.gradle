@@ -54,6 +54,8 @@ project(':users-api') {
 		implementation 'org.springframework.boot:spring-boot-starter-security'
 		testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
 		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+		implementation 'org.springframework.boot:spring-boot-starter-mail'
 	}
 	test {
 		useJUnitPlatform()
