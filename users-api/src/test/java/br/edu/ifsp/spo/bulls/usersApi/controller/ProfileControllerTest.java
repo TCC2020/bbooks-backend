@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 
@@ -50,7 +49,7 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        Profile profile = new Profile("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -64,7 +63,7 @@ public class ProfileControllerTest {
         
         User user = new User("username", "email", "senha"); 
 
-        Profile profile = new Profile("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -86,13 +85,13 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        Profile profile = new Profile("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(profile)));
         
-        Profile profile2 = new Profile("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile2 = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -114,7 +113,7 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        Profile profile = new Profile("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -140,7 +139,7 @@ public class ProfileControllerTest {
     	user.setEmail("testeUp@profileController404");
     	user.setPassword("1234");
 
-        Profile profile = new Profile("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+    	ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(put("/profiles/123456" )
                 .contentType("application/json")
@@ -161,7 +160,7 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        Profile profile = new Profile("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -197,7 +196,7 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        Profile profile = new Profile("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")

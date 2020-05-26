@@ -1,9 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import java.util.HashSet;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
+import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 
@@ -24,18 +24,25 @@ public class ProfileController {
 	@Autowired
 	private ProfileService service;
 
+	@Autowired
+	private ProfileBeanUtil beanUtil;
 
 	@PostMapping ("")
-	public Profile create(@RequestBody @Valid Profile profile) throws ResourceBadRequestException, Exception  {
+	public ProfileTO create(@RequestBody @Valid ProfileTO profileTO) throws ResourceBadRequestException, Exception  {
 		
-		return service.save(profile);
+		Profile profile = beanUtil.toProfile(profileTO);
+		Profile profile1 = service.save(profile);
+		return beanUtil.toProfileTO(profile1);
 	}
 	
 	@PutMapping("{id}")
-	public Profile update(@RequestBody Profile profile, @PathVariable int id) throws Exception {
+	public ProfileTO update(@RequestBody ProfileTO profileTO, @PathVariable int id) throws Exception {
 		
-		profile.setId(id);
-		return service.update(profile);
+		profileTO.setId(id);
+		Profile profile = beanUtil.toProfile(profileTO);
+		Profile profile1 = service.update(profile);
+		
+		return beanUtil.toProfileTO(profile1);
 	}
 	
 	@DeleteMapping("{id}")
@@ -44,12 +51,17 @@ public class ProfileController {
 	}
 	
 	@GetMapping("{id}")
-	public Profile get(@PathVariable int id) {
-		return service.getById(id);
+	public ProfileTO get(@PathVariable int id) {
+		
+		Profile profile1 = service.getById(id);
+		return beanUtil.toProfileTO(profile1);
+		
 	}
 	
 	@GetMapping("")
-	public HashSet<Profile> getAll() {
-		return service.getAll();
+	public HashSet<ProfileTO> getAll() {
+		
+		HashSet<Profile> profile1 = service.getAll();
+		return beanUtil.toProfileTO(profile1);
 	}
 }
