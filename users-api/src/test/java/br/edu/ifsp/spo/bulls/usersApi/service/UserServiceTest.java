@@ -25,7 +25,7 @@ public class UserServiceTest {
 	@Test
 	void testSave() throws ResourceBadRequestException, Exception {
 		
-		User user = new User("testeS", "testeS@teste", "senhateste"); 
+		User user = new User("testeS", "testeS@teste12", "senhateste"); 
 		
 		User user1 =  service.save(user);	
 		

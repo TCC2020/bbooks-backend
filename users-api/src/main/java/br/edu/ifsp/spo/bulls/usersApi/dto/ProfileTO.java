@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 public class ProfileTO {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
@@ -27,4 +27,19 @@ public class ProfileTO {
 	
 	@OneToOne
 	private User user;
+
+	public ProfileTO(int id, @NotBlank(message = "Fullname is mandatory") String fullName, String country, String city,
+			String state, @NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.country = country;
+		this.city = city;
+		this.state = state;
+		this.birthDate = birthDate;
+		this.user = user;
+	}
+
+	public ProfileTO() {
+	}
 }
