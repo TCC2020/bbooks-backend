@@ -16,4 +16,5 @@ public interface UserRepository extends CrudRepository<User, String> {
 	HashSet<User> findAll();
 
 	User findByEmail(String email);
+	User findByUid(int uid);
 }

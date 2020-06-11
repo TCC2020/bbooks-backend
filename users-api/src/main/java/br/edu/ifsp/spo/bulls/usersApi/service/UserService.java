@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
+import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
@@ -16,11 +17,16 @@ public class UserService implements BaseService<User>{
 	@Autowired
 	private UserRepository rep;
 	
+	@Autowired
+	EmailServiceImpl email;
+	
 	@Override
 	public User save( User entity) throws Exception {
         
 		validationUserNameIsUnique(entity);
 		validationEmailIsUnique(entity);
+		String texto = "Ola, " + entity.getUserName() + "! Confirme seu email abaixo: ";
+		email.sendEmailTo(entity.getEmail(), "BBooks - Confirme seu email", texto);
 		return rep.save(entity);
 	}
 	
@@ -57,6 +63,7 @@ public class UserService implements BaseService<User>{
 		return rep.findById(entity.getUserName()).map( user -> {
 			user.setEmail(entity.getEmail());
 			user.setPassword(entity.getPassword());
+			user.setUid(entity.getUid());
 			return rep.save(user);
 		}).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 		
@@ -78,5 +85,22 @@ public class UserService implements BaseService<User>{
         }
         return  Optional.empty();
     }
+   
+  
+	public User verified(User entity) throws Exception {
+		
+		validationUid(entity);
+		
+		return rep.findById(entity.getUserName()).map( user -> {
+			user.setVerified(true);
+			return rep.save(user);
+		}).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		
+	}
+
+	private void validationUid(User entity) {
+		if (rep.findByUid(entity.getUid()).getUserName() == entity.getUserName()) 
+			throw new ResourceConflictException("Uid não corresponde a esse usuário");
+	}
 }
 

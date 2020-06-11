@@ -24,16 +24,21 @@ public class UserTO {
 	
     private String token;
     
+    private int uid;
+    
+    private Boolean verified ;
+    
 	@Override
 	public boolean equals(Object obj) {
 		UserTO other = (UserTO) obj;
 		return Objects.equals(email, other.email) && Objects.equals(password, other.password)
-				&& Objects.equals(token, other.token) && Objects.equals(userName, other.userName);
+				&& Objects.equals(token, other.token) && Objects.equals(userName, other.userName)
+				&& Objects.equals(verified, other.verified) && Objects.equals(uid, other.uid);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, password, token, userName);
+		return Objects.hash(email, password, token, userName, verified, uid);
 	}
 
 	public UserTO(String userName, String email, String password, String token) {

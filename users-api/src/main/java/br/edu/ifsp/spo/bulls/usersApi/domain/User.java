@@ -23,7 +23,7 @@ public class User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -3104545566617263249L;
-	//Uuid
+	
 	@Id
 	@NotBlank(message = "UserName is mandatory")
     private String userName;
@@ -39,9 +39,14 @@ public class User implements Serializable {
     
     private LocalDateTime creationDate;
 
+    private int uid;
+    
+    private Boolean verified ;
+    
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();
+        verified = false;
     }
 
 	public User(String userName, @NotBlank(message = "Email is mandatory") String email,
@@ -63,13 +68,14 @@ public class User implements Serializable {
 		
 		return Objects.equals(creationDate, other.creationDate) && Objects.equals(email, other.email)
 				&& Objects.equals(password, other.password) && Objects.equals(token, other.token)
-				&& Objects.equals(userName, other.userName);
+				&& Objects.equals(userName, other.userName) && Objects.equals(verified, other.verified)
+				&& Objects.equals(uid, other.uid);
 	}
 	
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(creationDate, email, password, token, userName);
+		return Objects.hash(creationDate, email, password, token, userName, verified, uid);
 	}
 	
 }

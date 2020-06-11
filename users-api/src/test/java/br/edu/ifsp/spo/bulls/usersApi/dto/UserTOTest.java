@@ -59,6 +59,6 @@ public class UserTOTest {
 	void testToString() {
 		
 		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123");
-		assertTrue("UserTO(userName=teste, email=teste@teste, password=senhateste, token=123)".equals(userTo.toString()));
+		assertEquals("UserTO(userName=teste, email=teste@teste, password=senhateste, token=123, uid=0, verified=null)", userTo.toString());
 	}
 }

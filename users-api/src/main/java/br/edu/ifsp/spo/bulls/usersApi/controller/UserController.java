@@ -65,4 +65,12 @@ public class UserController {
 		return beanUtil.toUserTO(user);
 
 	}
+	
+	@PutMapping("/verified/{id}")
+	public void verified(@RequestBody UserTO userTO, @PathVariable String id) throws Exception {
+		
+		User user = beanUtil.toUser(userTO);
+		user.setUserName(id);
+		service.verified(user);
+	}
 }
