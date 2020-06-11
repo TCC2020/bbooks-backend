@@ -36,9 +36,8 @@ public class UserService implements BaseService<User>{
 	}
 	
 	private void validationEmailIsUnique(User entity) throws Exception {
-		
-		User user = rep.findByEmail(entity.getEmail());
-		if ((user != null) && (!user.getUserName().equals(entity.getUserName())) ) 
+		User user = rep.findByEmail(entity.getEmail()).get();
+		if ((user != null) && (!user.getUserName().equals(entity.getUserName())) )
 			throw new ResourceConflictException("Email ja esta sendo usado");
 	}
 
@@ -71,11 +70,14 @@ public class UserService implements BaseService<User>{
 	
 	@Override
 	public HashSet<User> getAll() {
-		
 		return (HashSet<User>) rep.findAll();
 	}
+
+	public User getByToken(String token){
+		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Autenticação não encontrada."));
+	}
 	 
-   public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
+   	public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
         Optional<User> optionalUser = rep.findByToken(token);
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -100,7 +102,7 @@ public class UserService implements BaseService<User>{
 
 	private void validationUid(User entity) {
 		if (rep.findByUid(entity.getUid()).getUserName() == entity.getUserName()) 
-			throw new ResourceConflictException("Uid n�o corresponde a esse usu�rio");
+			throw new ResourceConflictException("Uid não corresponde a esse usuário");
 	}
 }
 

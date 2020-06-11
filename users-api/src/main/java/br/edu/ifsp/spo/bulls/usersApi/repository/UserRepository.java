@@ -11,10 +11,11 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, String> {
     Optional<User> findByToken(String token);
 
+    Optional<User> findByEmail(String email);
+
 	boolean existsByEmail(String email);
 	boolean existsByUserName(String userName);
 	HashSet<User> findAll();
 
-	User findByEmail(String email);
 	User findByUid(int uid);
 }
