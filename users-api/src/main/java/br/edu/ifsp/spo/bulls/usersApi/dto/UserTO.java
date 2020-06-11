@@ -7,6 +7,5 @@ import lombok.Data;
 public class UserTO {
     private String userName;
     private String email;
-    private String password;
     private String token;
 }

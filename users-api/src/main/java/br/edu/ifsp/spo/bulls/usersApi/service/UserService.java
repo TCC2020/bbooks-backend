@@ -81,8 +81,12 @@ public class UserService implements BaseService<User>{
 		
 		return (HashSet<User>) rep.findAll();
 	}
+
+	public User getByToken(String token){
+		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Autenticação não encontrada."));
+	}
 	 
-   public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
+   	public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
         Optional<User> optionalUser = rep.findByToken(token);
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();
