@@ -258,7 +258,8 @@ hs_err_pid*
 # End of https://www.gitignore.io/api/java
 
 #H2
-.mv.db
-.db
+*.mv.db
+*.db
+*.trace.db
 *Db.*
 

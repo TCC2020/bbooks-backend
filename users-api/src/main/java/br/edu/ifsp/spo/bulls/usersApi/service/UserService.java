@@ -62,7 +62,7 @@ public class UserService implements BaseService<User>{
 		return rep.findById(entity.getUserName()).map( user -> {
 			user.setEmail(entity.getEmail());
 			user.setPassword(entity.getPassword());
-			user.setUid(entity.getUid());
+			user.setUuid(entity.getUuid());
 			return rep.save(user);
 		}).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 		
@@ -101,7 +101,7 @@ public class UserService implements BaseService<User>{
 	}
 
 	private void validationUid(User entity) {
-		if (rep.findByUid(entity.getUid()).getUserName() == entity.getUserName()) 
+		if (rep.findByUuid(entity.getUuid()).getUserName() == entity.getUserName())
 			throw new ResourceConflictException("Uid não corresponde a esse usuário");
 	}
 }

@@ -17,5 +17,5 @@ public interface UserRepository extends CrudRepository<User, String> {
 	boolean existsByUserName(String userName);
 	HashSet<User> findAll();
 
-	User findByUid(int uid);
+	User findByUuid(String uuid);
 }

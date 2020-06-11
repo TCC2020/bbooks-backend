@@ -16,7 +16,6 @@ import java.util.Objects;
 @Data
 @Entity
 @Table(name = "users")
-
 public class User implements Serializable {
     
 	/**
@@ -39,7 +38,7 @@ public class User implements Serializable {
     
     private LocalDateTime creationDate;
 
-    private int uid;
+    private String uuid;
     
     private Boolean verified ;
     
@@ -69,13 +68,12 @@ public class User implements Serializable {
 		return Objects.equals(creationDate, other.creationDate) && Objects.equals(email, other.email)
 				&& Objects.equals(password, other.password) && Objects.equals(token, other.token)
 				&& Objects.equals(userName, other.userName) && Objects.equals(verified, other.verified)
-				&& Objects.equals(uid, other.uid);
+				&& Objects.equals(uuid, other.uuid);
 	}
-	
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(creationDate, email, password, token, userName, verified, uid);
+		return Objects.hash(creationDate, email, password, token, userName, verified, uuid);
 	}
 	
 }
