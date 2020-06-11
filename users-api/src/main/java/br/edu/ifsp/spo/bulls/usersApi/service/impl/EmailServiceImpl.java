@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.usersApi.service.impl;
 import br.edu.ifsp.spo.bulls.usersApi.service.EmailContentBuilder;
 import br.edu.ifsp.spo.bulls.usersApi.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;

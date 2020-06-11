@@ -4,7 +4,6 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 import java.util.HashSet;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +27,7 @@ public class UserController {
 	@Autowired
 	private UserBeanUtil beanUtil;
 
-	@PostMapping ("")
+	@PostMapping ()
 	public UserTO create(@RequestBody @Valid UserTO userTO) throws ResourceBadRequestException, Exception  {
 		
 		User user = beanUtil.toUser(userTO);
@@ -56,13 +55,22 @@ public class UserController {
 		service.delete(id);
 	}
 	
-	@PutMapping("")
-	public UserTO update(@RequestBody UserTO userTO) throws Exception {
+	@PutMapping("/{id}")
+	public UserTO update(@RequestBody UserTO userTO, @PathVariable String id) throws Exception {
 		
 		User user = beanUtil.toUser(userTO);
+		user.setUserName(id);
 		service.update(user);
+		
 		return beanUtil.toUserTO(user);
 
+	}
+	
+	@PutMapping("/verified/{id}")
+	public void verified(@RequestBody UserTO userTO, @PathVariable String id) throws Exception {
 		
+		User user = beanUtil.toUser(userTO);
+		user.setUserName(id);
+		service.verified(user);
 	}
 }
