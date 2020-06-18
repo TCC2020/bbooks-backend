@@ -1,7 +1,12 @@
+
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
+
+import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -19,13 +24,16 @@ public class UserService implements BaseService<User>{
 	
 	@Autowired
 	EmailServiceImpl email;
+	@Autowired
+    private UserBeanUtil utils;
 	
 	@Override
 	public User save( User entity) throws Exception {
         
 		validationUserNameIsUnique(entity);
-		validationEmailIsUnique(entity);
-		String texto = "Ola, " + entity.getUserName() + "! Confirme seu email abaixo: ";
+		//validationEmailIsUnique(entity);
+		String texto = "Ola, " + entity.getUserName() + "! Confirme seu email abaixo: <br>\r\n" + 
+				"<a href='http://localhost:4200/confirm'>Aqui</a>\r\n";
 		email.sendEmailTo(entity.getEmail(), "BBooks - Confirme seu email", texto);
 		return rep.save(entity);
 	}
@@ -87,22 +95,6 @@ public class UserService implements BaseService<User>{
         }
         return  Optional.empty();
     }
-   
-  
-	public User verified(User entity) throws Exception {
-		
-		validationUid(entity);
-		
-		return rep.findById(entity.getUserName()).map( user -> {
-			user.setVerified(true);
-			return rep.save(user);
-		}).orElseThrow( () -> new ResourceNotFoundException("User not found"));
-		
-	}
-
-	private void validationUid(User entity) {
-		if (rep.findByUuid(entity.getUuid()).getUserName() == entity.getUserName())
-			throw new ResourceConflictException("Uid não corresponde a esse usuário");
-	}
+	
 }
 

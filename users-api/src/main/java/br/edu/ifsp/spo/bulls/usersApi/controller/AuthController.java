@@ -17,4 +17,9 @@ public class AuthController {
     public UserTO login(@RequestBody LoginTO loginTO){
         return service.authLogin(loginTO);
     }
+    
+    @PostMapping("/confirm")
+    public UserTO confirm( @RequestBody LoginTO loginTO) throws Exception{
+        return service.verified(loginTO);
+    }
 }

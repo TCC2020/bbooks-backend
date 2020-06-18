@@ -30,7 +30,7 @@ public class UserController {
 	@Autowired
 	private UserBeanUtil beanUtil;
 
-	@PostMapping ()
+	@PostMapping ("")
 	public UserTO create(@RequestBody @Valid UserTO userTO) throws ResourceBadRequestException, Exception  {
 		
 		User user = beanUtil.toUser(userTO);
@@ -67,18 +67,12 @@ public class UserController {
 		
 		return beanUtil.toUserTO(user);
 	}
-	
-	@PutMapping("/verified/{id}")
-	public void verified(@RequestBody UserTO userTO, @PathVariable String id) throws Exception {
-		
-		User user = beanUtil.toUser(userTO);
-		user.setUserName(id);
-		service.verified(user);
-	}
 
 	@GetMapping("/info")
 	public UserTO getInfoByToken(@RequestHeader(value = "AUTHORIZATION") String token){
 		token = StringUtils.removeStart(token, "Bearer").trim();
 		return beanUtil.toUserTO(service.getByToken(token));
 	}
+	
+	
 }

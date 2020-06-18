@@ -21,7 +21,7 @@ public class EmailContentBuilderTest {
     void verify_message_in_template_engine(){
         EmailContentBuilder ecb = new EmailContentBuilder(te);
         String content = "Confirm your e-mail";
-        String result = ecb.build("Confirm your e-mail", "nessa");
+        String result = ecb.build("Confirm your e-mail");
         assertEquals(true, result.contains(content));
     }
 

@@ -19,6 +19,7 @@ public class AuthService {
     private UserRepository repository;
     @Autowired
     private UserBeanUtil utils;
+    
     public UserTO authLogin(LoginTO loginTO){
         Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
 
@@ -38,4 +39,27 @@ public class AuthService {
             throw new ResourceNotFoundException("User doesn't exist.");
         }
     }
+
+    public UserTO verified(LoginTO loginTO) throws Exception {
+    	Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
+
+        if(optionalUser.isPresent()){
+            if(optionalUser.get().getPassword().equals(loginTO.getPassword())){
+                if(optionalUser.get().getToken() == null) {
+                	optionalUser.get().setToken(UUID.randomUUID().toString());
+                }
+                  
+                optionalUser.get().setVerified(true);
+                repository.save(optionalUser.get());
+                return utils.toUserTO(optionalUser.get());
+            }
+            else {
+                throw new ResourceUnauthorizedException("Wrong password.");
+            }
+        }
+        else{
+            throw new ResourceNotFoundException("User doesn't exist.");
+        }
+
+	}
 }

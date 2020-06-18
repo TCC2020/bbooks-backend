@@ -24,7 +24,7 @@ public class UserTO {
 	
     private String token;
     
-    private int uuid;
+    private String uuid;
     
     private Boolean verified ;
     
@@ -41,14 +41,20 @@ public class UserTO {
 		return Objects.hash(email, password, token, userName, verified, uuid);
 	}
 
-	public UserTO(String userName, String email, String password, String token) {
+
+    
+	public UserTO() {}
+
+	public UserTO(@NotBlank(message = "UserName is mandatory") String userName,
+			@NotBlank(message = "Email is mandatory") @Email(message = "Email format is invalid") String email,
+			@NotBlank(message = "Password is mandatory") String password, String token, String uuid, Boolean verified) {
 		super();
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
 		this.token = token;
+		this.uuid = uuid;
+		this.verified = verified;
 	}
-    
-	public UserTO() {}
     
 }
