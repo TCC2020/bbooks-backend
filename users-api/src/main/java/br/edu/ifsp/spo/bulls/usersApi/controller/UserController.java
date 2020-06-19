@@ -30,7 +30,7 @@ public class UserController {
 	@Autowired
 	private UserBeanUtil beanUtil;
 
-	@PostMapping ("")
+	@PostMapping
 	public UserTO create(@RequestBody @Valid UserTO userTO) throws ResourceBadRequestException, Exception  {
 		
 		User user = beanUtil.toUser(userTO);
@@ -40,7 +40,7 @@ public class UserController {
 		
 	}
 	
-	@GetMapping ("")
+	@GetMapping
 	public HashSet<UserTO> getAll(){
 		
 		return beanUtil.toUserTO(service.getAll());

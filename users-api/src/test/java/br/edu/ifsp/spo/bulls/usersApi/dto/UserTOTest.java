@@ -28,8 +28,8 @@ public class UserTOTest {
 	
 	@Test
 	void testEquals() {
-		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123");
-		UserTO userTo2 = new UserTO("teste", "teste@teste", "senhateste", "123");
+		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123", false);
+		UserTO userTo2 = new UserTO("teste", "teste@teste", "senhateste", "123", false);
 		
 		boolean resultado = userTo.equals(userTo2);
 		
@@ -38,8 +38,8 @@ public class UserTOTest {
 
 	@Test
 	void testNotEquals() {
-		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123");
-		UserTO userTo2 = new UserTO("teste123", "teste@teste123", "senhateste", "123");
+		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123", false);
+		UserTO userTo2 = new UserTO("teste123", "teste@teste123", "senhateste", "123", true);
 		
 		boolean resultado = userTo.equals(userTo2);
 		
@@ -48,8 +48,8 @@ public class UserTOTest {
 
 	@Test
 	void testHashCode() {
-		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123");
-		UserTO userTo2 = new UserTO("teste", "teste@teste", "senhateste", "123");
+		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123", false);
+		UserTO userTo2 = new UserTO("teste", "teste@teste", "senhateste", "123", false);
 		
 		
 		assertEquals(userTo.hashCode(), userTo2.hashCode());
@@ -58,7 +58,7 @@ public class UserTOTest {
 	@Test
 	void testToString() {
 		
-		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123");
-		assertEquals("UserTO(userName=teste, email=teste@teste, password=senhateste, token=123, uid=0, verified=null)", userTo.toString());
+		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123", null);
+		assertEquals("UserTO(userName=teste, email=teste@teste, password=senhateste, token=123, verified=null)", userTo.toString());
 	}
 }

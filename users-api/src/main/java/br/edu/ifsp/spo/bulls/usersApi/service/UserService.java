@@ -2,11 +2,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
-
-import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -17,21 +13,19 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
 @Service
-public class UserService implements BaseService<User>{
+public class UserService implements BaseService<User> {
 
 	@Autowired
 	private UserRepository rep;
 	
 	@Autowired
 	EmailServiceImpl email;
-	@Autowired
-    private UserBeanUtil utils;
 	
 	@Override
 	public User save( User entity) throws Exception {
         
 		validationUserNameIsUnique(entity);
-		//validationEmailIsUnique(entity);
+		validationEmailIsUnique(entity);
 		String texto = "Ola, " + entity.getUserName() + "! Confirme seu email abaixo: <br>\r\n" + 
 				"<a href='http://localhost:4200/confirm'>Aqui</a>\r\n";
 		email.sendEmailTo(entity.getEmail(), "BBooks - Confirme seu email", texto);
@@ -70,7 +64,6 @@ public class UserService implements BaseService<User>{
 		return rep.findById(entity.getUserName()).map( user -> {
 			user.setEmail(entity.getEmail());
 			user.setPassword(entity.getPassword());
-			user.setUuid(entity.getUuid());
 			return rep.save(user);
 		}).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 		

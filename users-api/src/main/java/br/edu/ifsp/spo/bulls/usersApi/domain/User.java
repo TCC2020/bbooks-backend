@@ -37,8 +37,6 @@ public class User implements Serializable {
     private String token;
     
     private LocalDateTime creationDate;
-
-    private String uuid;
     
     private Boolean verified ;
     
@@ -67,13 +65,12 @@ public class User implements Serializable {
 		
 		return Objects.equals(creationDate, other.creationDate) && Objects.equals(email, other.email)
 				&& Objects.equals(password, other.password) && Objects.equals(token, other.token)
-				&& Objects.equals(userName, other.userName) && Objects.equals(verified, other.verified)
-				&& Objects.equals(uuid, other.uuid);
+				&& Objects.equals(userName, other.userName) && Objects.equals(verified, other.verified);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(creationDate, email, password, token, userName, verified, uuid);
+		return Objects.hash(creationDate, email, password, token, userName);
 	}
 	
 }

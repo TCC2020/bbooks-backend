@@ -7,7 +7,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.HashSet;
+//import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 
 @ExtendWith(SpringExtension.class)
@@ -19,7 +19,7 @@ public class UserBeanUtilTest {
 	
 	@Test
 	void testToUser() {
-		UserTO userTO = new UserTO("teste", "teste@teste", "senhateste", "123");
+		UserTO userTO = new UserTO("teste", "teste@teste", "senhateste","123", false);
 		
 		User userResultado = bean.toUser(userTO);
 		

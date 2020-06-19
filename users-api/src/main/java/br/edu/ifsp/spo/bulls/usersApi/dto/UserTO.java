@@ -24,8 +24,6 @@ public class UserTO {
 	
     private String token;
     
-    private String uuid;
-    
     private Boolean verified ;
     
 	@Override
@@ -33,12 +31,12 @@ public class UserTO {
 		UserTO other = (UserTO) obj;
 		return Objects.equals(email, other.email) && Objects.equals(password, other.password)
 				&& Objects.equals(token, other.token) && Objects.equals(userName, other.userName)
-				&& Objects.equals(verified, other.verified) && Objects.equals(uuid, other.uuid);
+				&& Objects.equals(verified, other.verified);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, password, token, userName, verified, uuid);
+		return Objects.hash(email, password, token, userName, verified);
 	}
 
 
@@ -47,13 +45,22 @@ public class UserTO {
 
 	public UserTO(@NotBlank(message = "UserName is mandatory") String userName,
 			@NotBlank(message = "Email is mandatory") @Email(message = "Email format is invalid") String email,
-			@NotBlank(message = "Password is mandatory") String password, String token, String uuid, Boolean verified) {
+			@NotBlank(message = "Password is mandatory") String password, String token, Boolean verified) {
 		super();
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
 		this.token = token;
-		this.uuid = uuid;
+		this.verified = verified;
+	}
+	
+	public UserTO(@NotBlank(message = "UserName is mandatory") String userName,
+			@NotBlank(message = "Email is mandatory") @Email(message = "Email format is invalid") String email,
+			@NotBlank(message = "Password is mandatory") String password, Boolean verified) {
+		super();
+		this.userName = userName;
+		this.email = email;
+		this.password = password;
 		this.verified = verified;
 	}
     

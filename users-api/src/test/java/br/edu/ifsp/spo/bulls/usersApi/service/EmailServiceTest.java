@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.usersApi.service.test;
+package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import br.edu.ifsp.spo.bulls.usersApi.service.EmailService;

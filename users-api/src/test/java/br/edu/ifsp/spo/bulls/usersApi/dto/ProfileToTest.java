@@ -18,7 +18,7 @@ public class ProfileToTest {
 	void testToString() {
 		
 		ProfileTO profile = new ProfileTO(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
-		assertEquals("ProfileTO(id=1, fullName=nome completo, country=pais, city=sao paulo, state=SP, birthDate=10/10/1998, user=User(userName=null, email=null, password=null, token=null, creationDate=null))", profile.toString());
+		assertEquals("ProfileTO(id=1, fullName=nome completo, country=pais, city=sao paulo, state=SP, birthDate=10/10/1998, user=User(userName=null, email=null, password=null, token=null, creationDate=null, verified=null))", profile.toString());
 	}
 	
 	@Test

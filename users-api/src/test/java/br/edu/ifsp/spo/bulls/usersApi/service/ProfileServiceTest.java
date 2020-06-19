@@ -112,7 +112,7 @@ public class ProfileServiceTest {
 		
 		Profile profileUpdate = service.update(profile);
 		
-		assertEquals("Mudando o nome", profileUpdate.getFullName());
+		assertEquals("Mudando o nome", profileUpdate.getFullName()); 
 	}
 	
 	@Test
