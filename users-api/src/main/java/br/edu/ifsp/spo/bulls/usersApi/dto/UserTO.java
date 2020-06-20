@@ -11,6 +11,7 @@ import lombok.Data;
 
 @Data
 public class UserTO {
+	
 	@Id
 	@NotBlank(message = "UserName is mandatory")
     private String userName;
@@ -25,6 +26,13 @@ public class UserTO {
     private String token;
     
     private Boolean verified ;
+    
+    @NotBlank(message = "Nome é obrigatório")
+    private String name;
+    
+    @NotBlank(message = "Sobrenome é obrigatório")
+    private String lastName;
+    
     
 	@Override
 	public boolean equals(Object obj) {
@@ -43,9 +51,7 @@ public class UserTO {
     
 	public UserTO() {}
 
-	public UserTO(@NotBlank(message = "UserName is mandatory") String userName,
-			@NotBlank(message = "Email is mandatory") @Email(message = "Email format is invalid") String email,
-			@NotBlank(message = "Password is mandatory") String password, String token, Boolean verified) {
+	public UserTO(String userName,String email,String password, String token, Boolean verified) {
 		super();
 		this.userName = userName;
 		this.email = email;
@@ -54,14 +60,28 @@ public class UserTO {
 		this.verified = verified;
 	}
 	
-	public UserTO(@NotBlank(message = "UserName is mandatory") String userName,
-			@NotBlank(message = "Email is mandatory") @Email(message = "Email format is invalid") String email,
-			@NotBlank(message = "Password is mandatory") String password, Boolean verified) {
+	public UserTO(String userName,String email,String password, Boolean verified) {
 		super();
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
 		this.verified = verified;
+	}
+
+	public UserTO(String userName,String email,String password) {
+		super();
+		this.userName = userName;
+		this.email = email;
+		this.password = password;
+	}
+
+	public UserTO(String userName,String email,String password,String nome, String sobrenome) {
+		super();
+		this.userName = userName;
+		this.email = email;
+		this.password = password;
+		this.name = nome;
+		this.lastName = sobrenome;
 	}
     
 }

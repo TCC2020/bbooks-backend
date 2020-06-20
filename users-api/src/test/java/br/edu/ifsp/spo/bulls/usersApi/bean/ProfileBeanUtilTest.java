@@ -22,14 +22,15 @@ public class ProfileBeanUtilTest {
 	
 	@Test
 	void testToUser() {
-		ProfileTO profileTO = new ProfileTO(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
+		ProfileTO profileTO = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
 		
 		Profile profileResultado = bean.toProfile(profileTO);
 		
 		assertEquals(profileTO.getBirthDate(), profileResultado.getBirthDate());
 		assertEquals(profileTO.getCity(), profileResultado.getCity());
 		assertEquals(profileTO.getCountry(), profileResultado.getCountry());
-		assertEquals(profileTO.getFullName(), profileResultado.getFullName());
+		assertEquals(profileTO.getName(), profileResultado.getName());
+		assertEquals(profileTO.getLastName(), profileResultado.getLastName());
 		assertEquals(profileTO.getId(), profileResultado.getId());
 		assertEquals(profileTO.getState(), profileResultado.getState());
 		assertEquals(profileTO.getUser(), profileResultado.getUser());
@@ -38,14 +39,15 @@ public class ProfileBeanUtilTest {
 	
 	@Test
 	void testToUserTO() {
-	Profile profile = new Profile(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
+	Profile profile = new Profile(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
 
 		ProfileTO profileTO = bean.toProfileTO(profile);
 		
 		assertEquals(profile.getBirthDate(), profileTO.getBirthDate());
 		assertEquals(profile.getCity(), profileTO.getCity() );
 		assertEquals(profile.getCountry(), profileTO.getCountry());
-		assertEquals(profile.getFullName(), profileTO.getFullName());
+		assertEquals(profileTO.getName(), profileTO.getName());
+		assertEquals(profileTO.getLastName(), profileTO.getLastName());
 		assertEquals(profile.getId(), profileTO.getId());
 		assertEquals(profile.getState(), profileTO.getState());
 		assertEquals(profile.getUser(),profileTO.getUser());
@@ -53,8 +55,8 @@ public class ProfileBeanUtilTest {
 	
 	@Test
 	void toHashUserTO() {
-		Profile profile0 = new Profile(1, "nome completo1", "pais1", "sao paulo1", "SP1", "10/10/19981", new User());
-		Profile profile1 = new Profile(2, "nome completo2", "pais2", "sao paulo2", "SP2", "10/10/19982", new User());
+		Profile profile0 = new Profile(1, "nome1", "sobrenome", "pais1", "sao paulo1", "SP1", "10/10/19981", new User());
+		Profile profile1 = new Profile(2, "nome2", "sobrenome", "pais2", "sao paulo2", "SP2", "10/10/19982", new User());
 
 		HashSet<Profile> listaProfiles = new HashSet<Profile>();
 		listaProfiles.add(profile0);
@@ -81,7 +83,8 @@ public class ProfileBeanUtilTest {
 		assertEquals(profile0.getBirthDate(), profile0TO.getBirthDate());
 		assertEquals(profile0.getCity(), profile0TO.getCity() );
 		assertEquals(profile0.getCountry(), profile0TO.getCountry());
-		assertEquals(profile0.getFullName(), profile0TO.getFullName());
+		assertEquals(profile0.getName(), profile0TO.getName());
+		assertEquals(profile0.getLastName(), profile0TO.getLastName());
 		assertEquals(profile0.getId(), profile0TO.getId());
 		assertEquals(profile0.getState(), profile0TO.getState());
 		assertEquals(profile0.getUser(),profile0TO.getUser());
@@ -89,7 +92,8 @@ public class ProfileBeanUtilTest {
 		assertEquals(profile1.getBirthDate(), profile1TO.getBirthDate());
 		assertEquals(profile1.getCity(), profile1TO.getCity() );
 		assertEquals(profile1.getCountry(), profile1TO.getCountry());
-		assertEquals(profile1.getFullName(), profile1TO.getFullName());
+		assertEquals(profile1.getName(), profile1TO.getName());
+		assertEquals(profile1.getLastName(), profile1TO.getLastName());
 		assertEquals(profile1.getId(), profile1TO.getId());
 		assertEquals(profile1.getState(), profile1TO.getState());
 		assertEquals(profile1.getUser(),profile1TO.getUser());

@@ -19,24 +19,34 @@ public class Profile {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@NotBlank(message = "Fullname is mandatory")
-	private String fullName;
+	@NotBlank(message = "Name is mandatory")
+	private String name;
+	
+	@NotBlank(message = "lastName is mandatory")
+	private String lastName;
 	
 	private String country;
 	private String city;
 	private String state;
-	
-	@NotBlank(message = "Birthdate is mandatory")
+
 	private String birthDate;
 	
 	@OneToOne
 	private User user;
 
-	public Profile(int id, @NotBlank(message = "Fullname is mandatory") String fullName, String country, String city,
-			String state, @NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+
+	public Profile() {
+		
+	}
+
+
+	public Profile(int id, @NotBlank(message = "Name is mandatory") String name,
+			@NotBlank(message = "lastName is mandatory") String lastName, String country, String city, String state,
+			@NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
 		super();
 		this.id = id;
-		this.fullName = fullName;
+		this.name = name;
+		this.lastName = lastName;
 		this.country = country;
 		this.city = city;
 		this.state = state;
@@ -44,19 +54,27 @@ public class Profile {
 		this.user = user;
 	}
 
-	public Profile(@NotBlank(message = "Fullname is mandatory") String fullName, String country, String city,
-			String state, @NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+
+	public Profile(@NotBlank(message = "Name is mandatory") String name,
+			@NotBlank(message = "lastName is mandatory") String lastName, String country, String city, String state,
+			@NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
 		super();
-		this.fullName = fullName;
+		this.name = name;
+		this.lastName = lastName;
 		this.country = country;
 		this.city = city;
 		this.state = state;
 		this.birthDate = birthDate;
 		this.user = user;
 	}
-	
-	public Profile() {
-		
+
+
+	public Profile(@NotBlank(message = "Name is mandatory") String name,
+			@NotBlank(message = "lastName is mandatory") String lastName, User user) {
+		super();
+		this.name = name;
+		this.lastName = lastName;
+		this.user = user;
 	}
 	
 }

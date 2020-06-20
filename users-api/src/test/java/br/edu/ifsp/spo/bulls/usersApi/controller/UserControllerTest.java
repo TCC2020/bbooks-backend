@@ -36,7 +36,9 @@ public class UserControllerTest {
     	user.setUserName("teste");
     	user.setEmail("teste@teste");
     	user.setPassword("1234");
-
+    	user.setName("nome");
+    	user.setLastName("sobrenome");
+    	
         mockMvc.perform(post("/users")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(user)))
@@ -117,12 +119,14 @@ public class UserControllerTest {
     	user.setUserName("testeID");
     	user.setEmail("teste@testeID");
     	user.setPassword("1234");
-
+    	user.setName("nome");
+    	user.setLastName("sobrenome");
     	// Criando o usuário
     	
         mockMvc.perform(post("/users")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(user)));
+                .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isOk());
         
         // Recuperando o usuário
         mockMvc.perform(get("/users/testeID")
@@ -147,6 +151,8 @@ public class UserControllerTest {
     	user.setUserName("testeUP");
     	user.setEmail("teste@testeUP");
     	user.setPassword("1234");
+    	user.setName("nome");
+    	user.setLastName("sobrenome");
     	
         mockMvc.perform(post("/users")
                 .contentType("application/json")
@@ -186,6 +192,8 @@ public class UserControllerTest {
     	user.setUserName("testeDelete");
     	user.setEmail("teste@testeDEL");
     	user.setPassword("1234");
+    	user.setName("nome");
+    	user.setLastName("sobrenome");
     	
         mockMvc.perform(post("/users")
                 .contentType("application/json")

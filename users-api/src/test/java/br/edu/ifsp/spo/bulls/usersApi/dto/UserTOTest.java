@@ -58,7 +58,7 @@ public class UserTOTest {
 	@Test
 	void testToString() {
 		
-		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123", null);
-		assertEquals("UserTO(userName=teste, email=teste@teste, password=senhateste, token=123, verified=null)", userTo.toString());
+		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste");
+		assertEquals("UserTO(userName=teste, email=teste@teste, password=senhateste, token=null, verified=null, name=null, lastName=null)", userTo.toString());
 	}
 }

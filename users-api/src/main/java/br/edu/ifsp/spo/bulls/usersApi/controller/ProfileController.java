@@ -1,12 +1,14 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import java.util.HashSet;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 
 @RestController
 @RequestMapping("/profiles")
+@CrossOrigin(origins = "*")
 public class ProfileController {
 
 	@Autowired
@@ -26,17 +28,9 @@ public class ProfileController {
 
 	@Autowired
 	private ProfileBeanUtil beanUtil;
-
-	@PostMapping ("")
-	public ProfileTO create(@RequestBody @Valid ProfileTO profileTO) throws ResourceBadRequestException, Exception  {
-		
-		Profile profile = beanUtil.toProfile(profileTO);
-		Profile profile1 = service.save(profile);
-		return beanUtil.toProfileTO(profile1);
-	}
 	
 	@PutMapping("{id}")
-	public ProfileTO update(@RequestBody ProfileTO profileTO, @PathVariable int id) throws Exception {
+	public ProfileTO update(@RequestBody @Valid ProfileTO profileTO, @PathVariable int id) throws Exception {
 		
 		profileTO.setId(id);
 		Profile profile = beanUtil.toProfile(profileTO);

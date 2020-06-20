@@ -17,14 +17,14 @@ public class ProfileToTest {
 	@Test
 	void testToString() {
 		
-		ProfileTO profile = new ProfileTO(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
-		assertEquals("ProfileTO(id=1, fullName=nome completo, country=pais, city=sao paulo, state=SP, birthDate=10/10/1998, user=User(userName=null, email=null, password=null, token=null, creationDate=null, verified=null))", profile.toString());
+		ProfileTO profile = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
+		assertEquals("ProfileTO(id=1, name=nome, lastName=sobrenome, country=pais, city=sao paulo, state=SP, birthDate=10/10/1998, user=User(userName=null, email=null, password=null, token=null, creationDate=null, verified=null))", profile.toString());
 	}
 	
 	@Test
 	void testEquals() {
-		ProfileTO profile = new ProfileTO(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
-		ProfileTO profile1 = new ProfileTO(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
+		ProfileTO profile = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
+		ProfileTO profile1 = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
 		
 		boolean result = profile.equals(profile1);
 		
@@ -33,8 +33,8 @@ public class ProfileToTest {
 	
 	@Test
 	void testNotEquals() {
-		ProfileTO profile = new ProfileTO(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
-		ProfileTO profile1 = new ProfileTO(1, "nome completo 2", "pais", "sao paulo", "SP", "10/10/1998", new User());
+		ProfileTO profile = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
+		ProfileTO profile1 = new ProfileTO(1, "nome2", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
 		
 		boolean result = profile.equals(profile1);
 		
@@ -44,8 +44,8 @@ public class ProfileToTest {
 	
 	@Test
 	void testHashCode() {
-		ProfileTO profile = new ProfileTO(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
-		ProfileTO profile1 = new ProfileTO(1, "nome completo", "pais", "sao paulo", "SP", "10/10/1998", new User());
+		ProfileTO profile = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
+		ProfileTO profile1 = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
 		
 
 		assertEquals(profile.hashCode(),profile1.hashCode());

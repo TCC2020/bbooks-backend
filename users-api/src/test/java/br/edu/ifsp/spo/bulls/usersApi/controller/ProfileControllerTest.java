@@ -37,33 +37,11 @@ public class ProfileControllerTest {
 	ProfileService service;
     
     @Test
-    void testCreateProfile() throws Exception {
-        
-    	UserTO userTo = new UserTO();
-    	userTo.setUserName("testeSaveController");
-    	userTo.setEmail("teste@profileController");
-    	userTo.setPassword("1234");
-
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)));
-        
-        User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
-		
-        mockMvc.perform(post("/profiles")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile)))
-                .andExpect(status().isOk());
-        
-    }
-    
-    @Test
     void testCreateProfileUserNotFound() throws Exception {
         
         User user = new User("username", "email", "senha"); 
 
-        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -85,13 +63,13 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(profile)));
         
-        ProfileTO profile2 = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile2 = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -113,7 +91,7 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -139,7 +117,7 @@ public class ProfileControllerTest {
     	user.setEmail("testeUp@profileController404");
     	user.setPassword("1234");
 
-    	ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+    	ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(put("/profiles/123456" )
                 .contentType("application/json")
@@ -160,7 +138,7 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")
@@ -196,7 +174,7 @@ public class ProfileControllerTest {
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome completo", "pais", "sao paulo", "SP", "10/10/1998", user);
+        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
         mockMvc.perform(post("/profiles")
                 .contentType("application/json")

@@ -9,23 +9,20 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
-import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
+import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 
 @Service
 public class ProfileService {
 	
 	@Autowired
-	private UserRepository userRep;
+	private ProfileRepository profileRep;
 	
 	@Autowired
-	private ProfileRepository profileRep;
+	EmailServiceImpl email;
 	
 	public Profile save(Profile entity) throws Exception {
 		
-		validationUserNotFound(entity.getUser());
-		
 		validationUserAlreadyUsed(entity.getUser());
-			
 		return profileRep.save(entity);
 	}
 
@@ -35,12 +32,7 @@ public class ProfileService {
 	} 
 	
 	public Profile getByUser(User user) {
-		return profileRep.getByUser(user);
-	}
-
-	private void validationUserNotFound(User entity) {
-		if(userRep.existsByUserName(entity.getUserName()) == false) 
-			throw new ResourceNotFoundException("User not found");
+		return profileRep.findByUser(user);
 	}
 
 	public Profile getById(int id) {
@@ -53,17 +45,36 @@ public class ProfileService {
 		profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
 		profileRep.deleteById(id);
 	}
+	
+	public void deleteByUser(User  user) {
+		
+		Profile profile = profileRep.findByUser(user);
+		profileRep.deleteById(profile.getId());
+	}
 
 	public Profile update(Profile entity) throws Exception {
 		
-		return profileRep.findById(entity.getId()).map( profile -> {
+		Profile retorno = profileRep.findById(entity.getId()).map( profile -> {
 			profile.setBirthDate(entity.getBirthDate());
 			profile.setCity(entity.getCity());
 			profile.setCountry(entity.getCountry());
-			profile.setFullName(entity.getFullName());
+			profile.setName(entity.getName());
+			profile.setLastName(entity.getLastName());
 			profile.setState(entity.getState());
 			return profileRep.save(profile);
 		}).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+		
+		enviarEmail(entity);
+		
+		return retorno; // depois mudar para ProfileTO 
+		
+	}
+
+	private void enviarEmail(Profile entity) {
+		String texto = "Ola, " + entity.getName() + " " + entity.getLastName() + 
+				"! Confirme seu email aqui: http://localhost:4200/confirm";
+		
+		email.sendEmailTo(entity.getUser().getEmail(), "BBooks - Confirme seu email", texto);
 	}
 
 	public HashSet<Profile> getAll() {

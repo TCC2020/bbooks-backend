@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.TransactionSystemException;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
@@ -25,9 +26,9 @@ public class UserServiceTest {
 	@Test
 	void testSave() throws ResourceBadRequestException, Exception {
 		
-		User user = new User("testeS", "testeS@teste12", "senhateste"); 
+		UserTO user = new UserTO("testeS", "testeS@teste12", "senhateste", "nome", "sobrenome"); 
 		
-		User user1 =  service.save(user);	
+		UserTO user1 =  service.save(user);	
 		
 		// Testando campos obrigatorios 
 		assertEquals(user.getUserName(), user1.getUserName());
@@ -37,10 +38,10 @@ public class UserServiceTest {
 
 	@Test
 	void testFailSaveEmail() throws Exception {
-		User userUp = new User("testeSEmail1234", "testeS12@teste", "senhateste"); 
+		UserTO userUp = new UserTO("testeSEmail1234", "testeS12@teste", "senhateste","nome", "sobrenome"); 
 		service.save(userUp);
 		
-		User userUpEmail = new User("testeSEmail123", "testeS12@teste", "senhateste"); 
+		UserTO userUpEmail = new UserTO("testeSEmail123", "testeS12@teste", "senhateste","nome", "sobrenome"); 
 
 		ResourceConflictException e = assertThrows(ResourceConflictException.class, ()-> service.save(userUpEmail));
 		assertEquals("Email ja esta sendo usado", e.getMessage());
@@ -48,10 +49,10 @@ public class UserServiceTest {
 	
 	@Test
 	void testFailSaveUserName() throws Exception {
-		User userUp = new User("testeSEmail", "testeS1@teste", "senhateste"); 
+		UserTO userUp = new UserTO("testeSEmail", "testeS1@teste", "senhateste","nome", "sobrenome"); 
 		service.save(userUp);
 		
-		User userUpEmail = new User("testeSEmail", "testeS2@teste", "senhateste"); 
+		UserTO userUpEmail = new UserTO("testeSEmail", "testeS2@teste", "senhateste","nome", "sobrenome"); 
 
 		ResourceConflictException e = assertThrows(ResourceConflictException.class, ()-> service.save(userUpEmail));
 		assertEquals("UserName ja esta sendo usado", e.getMessage());
@@ -59,7 +60,7 @@ public class UserServiceTest {
 	
 	@Test
 	void testFailSaveEmailMandatory() throws Exception {
-		User userUp = new User(); 
+		UserTO userUp = new UserTO(); 
 		userUp.setPassword("senhateste");
 		userUp.setUserName("testeSPasswordMandatory");
 		
@@ -69,7 +70,7 @@ public class UserServiceTest {
 	@Test
 	void testFailSavePasswordMandatory() throws Exception {
 		
-		User userUp = new User(); 
+		UserTO userUp = new UserTO(); 
 		userUp.setEmail("testeS6@teste");
 		userUp.setUserName("testeSPasswordMandatory");
 		
@@ -79,7 +80,7 @@ public class UserServiceTest {
 	@Test
 	void testGetById() throws ResourceBadRequestException, Exception {
  
-		User user = new User("testeGI", "testeGi@teste", "senhateste"); 
+		UserTO user = new UserTO("testeGI", "testeGi@teste", "senhateste","nome", "sobrenome"); 
 		service.save(user);	
 		User user1 =  service.getById(user.getUserName());
 				
@@ -99,29 +100,29 @@ public class UserServiceTest {
 
 	@Test
 	void testUpdate() throws Exception {
-		User userUp = new User("testeUp", "testeUp1@teste", "senhateste"); 
+		UserTO userUp = new UserTO("testeUp", "testeUp1@teste", "senhateste","nome", "sobrenome"); 
 		
 		service.save(userUp);
 		
 		userUp.setEmail("testUp2@teste");
-		User userUpdated = service.update(userUp);
+		UserTO userUpdated = service.update(userUp);
 		
 		assertEquals(userUp.getEmail(), userUpdated.getEmail());
 	}
 	
 	@Test
 	void testFailUpdateUserNotFound() throws Exception {
-		User userUp = new User("testeUpUser", "testeUp2@teste", "senhateste"); 
+		UserTO userUp = new UserTO("testeUpUser", "testeUp2@teste", "senhateste"); 
 		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> service.update(userUp));
 		assertEquals("User not found", exception.getMessage());
 	}
 	
 	@Test
 	void testFailUpdateEmail() throws Exception {
-		User userUp = new User("testeUpEmail", "testeUp3@teste", "senhateste"); 
+		UserTO userUp = new UserTO("testeUpEmail", "testeUp3@teste", "senhateste","nome", "sobrenome"); 
 		service.save(userUp);
 		
-		User userUpEmail = new User("testeUpEmail2", "testeUp4@teste", "senhateste"); 
+		UserTO userUpEmail = new UserTO("testeUpEmail2", "testeUp4@teste", "senhateste","nome", "sobrenome"); 
 		service.save(userUpEmail);
 		
 		userUp.setEmail("testeUp4@teste");
@@ -131,7 +132,7 @@ public class UserServiceTest {
 	
 	@Test
 	void testFailUpdateEmailMandatory() throws Exception {
-		User userUp = new User("testeUpEmailMandatory", "testeUp5@teste", "senhateste"); 
+		UserTO userUp = new UserTO("testeUpEmailMandatory", "testeUp5@teste", "senhateste","nome", "sobrenome"); 
 		service.save(userUp);
 
 		userUp.setEmail("");
@@ -141,7 +142,7 @@ public class UserServiceTest {
 	
 	@Test
 	void testFailUpdatePasswordMandatory() throws Exception {
-		User userUp = new User("testeUpPasswordMandatory", "testeUp6@teste", "senhateste"); 
+		UserTO userUp = new UserTO("testeUpPasswordMandatory", "testeUp6@teste", "senhateste","nome", "sobrenome"); 
 		service.save(userUp);
 
 		userUp.setPassword("");
@@ -151,7 +152,7 @@ public class UserServiceTest {
 	
 	@Test
 	void testDelete() throws ResourceBadRequestException, Exception  {
-		User user = new User("testeDel1", "testeDel1@teste", "senhateste"); 
+		UserTO user = new UserTO("testeDel1", "testeDel1@teste", "senhateste","nome", "sobrenome"); 
 		
 		service.save(user);
 		service.delete("testeDel");
@@ -171,7 +172,7 @@ public class UserServiceTest {
 
 	@Test
 	void testGetAll() throws ResourceBadRequestException, Exception {
-		User user = new User("testeGA", "testeGA@teste", "senhateste"); 
+		UserTO user = new UserTO("testeGA", "testeGA@teste", "senhateste","nome", "sobrenome"); 
 		service.save(user);
 		
 		HashSet<User> listaUser = service.getAll();
@@ -182,7 +183,7 @@ public class UserServiceTest {
 
 	@Test
 	void testFindByToken() throws ResourceBadRequestException, Exception {
-		User user = new User("testeDel", "testeDel@teste", "senhateste"); 
+		UserTO user = new UserTO("testeDel", "testeDel@teste", "senhateste","nome", "sobrenome"); 
 		user.setToken("123");
 		service.save(user);
 		

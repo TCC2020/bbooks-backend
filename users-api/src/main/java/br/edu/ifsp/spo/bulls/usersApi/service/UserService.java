@@ -2,7 +2,10 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
+import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,7 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
 @Service
-public class UserService implements BaseService<User> {
+public class UserService{
 
 	@Autowired
 	private UserRepository rep;
@@ -21,15 +24,23 @@ public class UserService implements BaseService<User> {
 	@Autowired
 	EmailServiceImpl email;
 	
-	@Override
-	public User save( User entity) throws Exception {
+	@Autowired
+	private UserBeanUtil beanUtil;
+	
+	@Autowired
+	private ProfileService profileService;
+	
+	public UserTO save( UserTO userTO) throws Exception {
         
-		validationUserNameIsUnique(entity);
-		validationEmailIsUnique(entity);
-		String texto = "Ola, " + entity.getUserName() + "! Confirme seu email abaixo: <br>\r\n" + 
-				"<a href='http://localhost:4200/confirm'>Aqui</a>\r\n";
-		email.sendEmailTo(entity.getEmail(), "BBooks - Confirme seu email", texto);
-		return rep.save(entity);
+		User user = beanUtil.toUser(userTO);
+		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
+		
+		validationUserNameIsUnique(user);
+		validationEmailIsUnique(user);
+	
+		User retorno = rep.save(user);
+		profileService.save(profile);
+		return beanUtil.toUserTO(retorno);
 	}
 	
 	private void validationUserNameIsUnique(User entity) throws Exception {
@@ -38,38 +49,37 @@ public class UserService implements BaseService<User> {
 	}
 	
 	private void validationEmailIsUnique(User entity) throws Exception {
-		User user = rep.findByEmail(entity.getEmail()).get();
-		if ((user != null) && (!user.getUserName().equals(entity.getUserName())) )
+		Optional<User> user = rep.findByEmail(entity.getEmail());
+		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
 			throw new ResourceConflictException("Email ja esta sendo usado");
 	}
 
-	@Override
 	public User getById(String id) {
 		
 		return rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 	}
 
-	@Override
 	public void delete(String id) {
-				
-		rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+			
+		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		profileService.deleteByUser(user);
 		rep.deleteById(id);
 					
 	}
 
-	@Override
-	public User update(User entity) throws Exception {
-		validationEmailIsUnique(entity);
+	public UserTO update(UserTO entity) throws Exception {
 		
-		return rep.findById(entity.getUserName()).map( user -> {
-			user.setEmail(entity.getEmail());
-			user.setPassword(entity.getPassword());
+		User user = beanUtil.toUser(entity);
+		validationEmailIsUnique(user);
+		
+		return beanUtil.toUserTO(rep.findById(user.getUserName()).map( user1 -> {
+			user1.setEmail(user.getEmail());
+			user1.setPassword(user.getPassword());
 			return rep.save(user);
-		}).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		}).orElseThrow( () -> new ResourceNotFoundException("User not found")));
 		
 	}
-	
-	@Override
+
 	public HashSet<User> getAll() {
 		return (HashSet<User>) rep.findAll();
 	}
