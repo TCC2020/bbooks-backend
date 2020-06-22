@@ -3,8 +3,12 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
@@ -16,20 +20,36 @@ public class ProfileService {
 	private ProfileRepository profileRep;
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	EmailServiceImpl email;
+	
+	@Autowired
+	private ProfileBeanUtil beanUtil;
+	
+	@Autowired
+	private UserBeanUtil userBeanUtil;
+	
 	
 	public Profile save(Profile entity) throws Exception {
 		
 		return profileRep.save(entity);
 	}
 	
-	public Profile getByUser(User user) {
-		return profileRep.findByUser(user);
+	public ProfileTO getByUser(String username) {
+		
+		UserTO user = userService.getById(username);
+		Profile profile =  profileRep.findByUser(userBeanUtil.toUser(user));
+		
+		return beanUtil.toProfileTO(profile);
 	}
 
-	public Profile getById(int id) {
+	public ProfileTO getById(int id) {
 		
-		return profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+		
+		return beanUtil.toProfileTO(profile); 
 	}
 
 	public void delete(int  id) {
@@ -44,7 +64,7 @@ public class ProfileService {
 		profileRep.deleteById(profile.getId());
 	}
 
-	public Profile update(Profile entity) throws Exception {
+	public ProfileTO update(ProfileTO entity) throws Exception {
 		
 		Profile retorno = profileRep.findById(entity.getId()).map( profile -> {
 			profile.setBirthDate(entity.getBirthDate());
@@ -56,9 +76,9 @@ public class ProfileService {
 			return profileRep.save(profile);
 		}).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
 		
-		enviarEmail(entity);
+		enviarEmail(beanUtil.toProfile(entity));
 		
-		return retorno; // depois mudar para ProfileTO 
+		return beanUtil.toProfileTO(retorno);
 		
 	}
 
@@ -69,9 +89,10 @@ public class ProfileService {
 		email.sendEmailTo(entity.getUser().getEmail(), "BBooks - Confirme seu email", texto);
 	}
 
-	public HashSet<Profile> getAll() {
+	public HashSet<ProfileTO> getAll() {
 		
-		return profileRep.findAll();
+		HashSet<Profile> profile =  profileRep.findAll();
+		return beanUtil.toProfileTO(profile);
 	}
 
 }

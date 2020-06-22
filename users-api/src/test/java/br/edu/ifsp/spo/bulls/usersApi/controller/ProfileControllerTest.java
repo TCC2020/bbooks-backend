@@ -13,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
@@ -32,9 +30,6 @@ public class ProfileControllerTest {
     private ObjectMapper objectMapper;
     
     @Autowired
-	private UserBeanUtil beanUtil;
-    
-    @Autowired
 	ProfileService service;
     
     @Test
@@ -45,9 +40,7 @@ public class ProfileControllerTest {
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userTo)));
         
-        User user = beanUtil.toUser(userTo);
-        
-        Profile profile = service.getByUser(user);
+        ProfileTO profile = service.getByUser(userTo.getUserName());
        
         profile.setState("RJ");
         profile.setCity("Rio de janeiro");
@@ -83,10 +76,8 @@ public class ProfileControllerTest {
         mockMvc.perform(post("/users")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userTo)));
-        
-        User user = beanUtil.toUser(userTo);
     
-        int id = service.getByUser(user).getId();
+        int id = service.getByUser(userTo.getUserName()).getId();
         
         mockMvc.perform(delete("/profiles/" + id)
                 .contentType("application/json"))
@@ -111,9 +102,8 @@ public class ProfileControllerTest {
         mockMvc.perform(post("/users")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userTo)));
-      
-        User user = beanUtil.toUser(userTo);
-        int id = service.getByUser(user).getId();
+
+        int id = service.getByUser(userTo.getUserName()).getId();
        
         mockMvc.perform(get("/profiles/" + id)
                 .contentType("application/json"))

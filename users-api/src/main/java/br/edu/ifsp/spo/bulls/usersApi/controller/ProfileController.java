@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 
@@ -25,18 +23,13 @@ public class ProfileController {
 
 	@Autowired
 	private ProfileService service;
-
-	@Autowired
-	private ProfileBeanUtil beanUtil;
 	
 	@PutMapping("{id}")
 	public ProfileTO update(@RequestBody @Valid ProfileTO profileTO, @PathVariable int id) throws Exception {
 		
 		profileTO.setId(id);
-		Profile profile = beanUtil.toProfile(profileTO);
-		Profile profile1 = service.update(profile);
-		
-		return beanUtil.toProfileTO(profile1);
+
+		return service.update(profileTO);
 	}
 	
 	@DeleteMapping("{id}")
@@ -46,16 +39,18 @@ public class ProfileController {
 	
 	@GetMapping("{id}")
 	public ProfileTO get(@PathVariable int id) {
+		return service.getById(id);
+	}
+	
+	@GetMapping("/user/{userName}")
+	public ProfileTO getByUser(@PathVariable String username) {
 		
-		Profile profile1 = service.getById(id);
-		return beanUtil.toProfileTO(profile1);
+		return service.getByUser(username);
 		
 	}
 	
 	@GetMapping("")
 	public HashSet<ProfileTO> getAll() {
-		
-		HashSet<Profile> profile1 = service.getAll();
-		return beanUtil.toProfileTO(profile1);
+		return service.getAll();
 	}
 }
