@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,6 +22,7 @@ public class UserTO {
     private String email;
 	
 	@NotBlank(message = "Password is mandatory")
+	@Column(length=7)
     private String password;
 	
     private String token;

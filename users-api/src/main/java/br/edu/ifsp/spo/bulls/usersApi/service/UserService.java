@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 
@@ -37,10 +38,17 @@ public class UserService{
 		
 		validationUserNameIsUnique(user);
 		validationEmailIsUnique(user);
-	
+		validationPassword(userTO.getPassword());
+		
 		User retorno = rep.save(user);
 		profileService.save(profile);
 		return beanUtil.toUserTO(retorno);
+	}
+
+	private void validationPassword(String password) {
+		if(password.length() <7 ) 
+			throw new ResourceBadRequestException("Senha deve ter 7 caracteres");
+		
 	}
 	
 	private void validationUserNameIsUnique(User entity) throws Exception {
@@ -70,7 +78,9 @@ public class UserService{
 	public UserTO update(UserTO entity) throws Exception {
 		
 		User user = beanUtil.toUser(entity);
+		
 		validationEmailIsUnique(user);
+		validationPassword(user.getPassword());
 		
 		return beanUtil.toUserTO(rep.findById(user.getUserName()).map( user1 -> {
 			user1.setEmail(user.getEmail());

@@ -35,7 +35,7 @@ public class ProfileServiceTest {
 	@Test
 	void testSave() throws ResourceBadRequestException, Exception {
 		
-		User user = userRepository.save(new User("testeProfile3", "testeS@teste13", "senhateste"));
+		User user = userRepository.save(new User("testeProfile3", "testeS@teste13", "senhate"));
 		
 		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998",user );
 		
@@ -48,7 +48,7 @@ public class ProfileServiceTest {
 	@Test
 	void testGetById() throws Exception {
 		
-		User user = userRepository.save(new User("testeProfileGet", "testeS@gert", "senhateste"));
+		User user = userRepository.save(new User("testeProfileGet", "testeS@gert", "senhate"));
 		
 		Profile profileSet = service.save(new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998",user));
 		
@@ -67,7 +67,7 @@ public class ProfileServiceTest {
 	@Test
 	void testDelete() throws ResourceBadRequestException, Exception {
 		
-		User user = userRepository.save(new User("testeProfileGet", "testeS@gert", "senhateste"));
+		User user = userRepository.save(new User("testeProfileGet", "testeS@gert", "senhate"));
 		
 		Profile profile = service.save(new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user));
 		
@@ -89,7 +89,7 @@ public class ProfileServiceTest {
 	@Test
 	void testUpdate() throws ResourceBadRequestException, Exception {
 		
-		userService.save(new UserTO("testeUpdateOk", "testeS@updateOk", "senhateste", "nome", "sobrenome"));
+		userService.save(new UserTO("testeUpdateOk", "testeS@updateOk", "senhate", "nome", "sobrenome"));
 		
 		ProfileTO profile = service.getByUser("testeUpdateOk");
 		
@@ -103,7 +103,7 @@ public class ProfileServiceTest {
 	@Test
 	void testUpdateProfileNotFound() throws ResourceBadRequestException, Exception {
 		
-		User user = new User("testeProfile3", "testeS@teste13", "senhateste");
+		User user = new User("testeProfile3", "testeS@teste13", "senhate");
 		
 		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
@@ -115,7 +115,7 @@ public class ProfileServiceTest {
 	@Test
 	void testGetAllProfiles() throws ResourceBadRequestException, Exception {
 		
-		userService.save(new UserTO("testeProfileGetAll", "testeS@getAll", "senhateste", "nome", "sobrenome"));
+		userService.save(new UserTO("testeProfileGetAll", "testeS@getAll", "senhate", "nome", "sobrenome"));
 		HashSet<ProfileTO> allProfiles = service.getAll();
 		
 		assertFalse(allProfiles.isEmpty());

@@ -34,7 +34,7 @@ public class ProfileControllerTest {
     
     @Test
     void testUpdateProfile() throws Exception {
-    	UserTO userTo = new UserTO("testeUpdateProfile", "testeUp@profileController", "senhateste", "nome", "sobrenome");
+    	UserTO userTo = new UserTO("testeUpdateProfile", "testeUp@profileController", "senhate", "nome", "sobrenome");
 
         mockMvc.perform(post("/users")
                 .contentType("application/json")
@@ -71,7 +71,7 @@ public class ProfileControllerTest {
     @Test
     void testDeleteProfile() throws Exception {
         
-    	UserTO userTo = new UserTO("testeDeleteController", "teste@profileDelete", "senhateste", "nome", "sobrenome");
+    	UserTO userTo = new UserTO("testeDeleteController", "teste@profileDelete", "senhate", "nome", "sobrenome");
 
         mockMvc.perform(post("/users")
                 .contentType("application/json")
@@ -97,7 +97,7 @@ public class ProfileControllerTest {
     @Test
     void testeGetByIdProfile() throws Exception {
         
-    	UserTO userTo = new UserTO("testeUpdateOk", "testeS@updateOk", "senhateste", "nome", "sobrenome");
+    	UserTO userTo = new UserTO("testeUpdateOk", "testeS@updateOk", "senhate", "nome", "sobrenome");
     
         mockMvc.perform(post("/users")
                 .contentType("application/json")
