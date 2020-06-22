@@ -35,7 +35,7 @@ public class UserControllerTest {
     	UserTO user = new UserTO();
     	user.setUserName("teste");
     	user.setEmail("teste@teste");
-    	user.setPassword("1234");
+    	user.setPassword("1234567");
     	user.setName("nome");
     	user.setLastName("sobrenome");
     	
@@ -118,7 +118,7 @@ public class UserControllerTest {
     	UserTO user = new UserTO();
     	user.setUserName("testeID");
     	user.setEmail("teste@testeID");
-    	user.setPassword("1234");
+    	user.setPassword("1234567");
     	user.setName("nome");
     	user.setLastName("sobrenome");
     	// Criando o usuário
@@ -150,7 +150,7 @@ public class UserControllerTest {
     	UserTO user = new UserTO();
     	user.setUserName("testeUP");
     	user.setEmail("teste@testeUP");
-    	user.setPassword("1234");
+    	user.setPassword("1234567");
     	user.setName("nome");
     	user.setLastName("sobrenome");
     	
@@ -176,7 +176,7 @@ public class UserControllerTest {
     	UserTO user = new UserTO();
     	user.setUserName("testeUPNotFound");
     	user.setEmail("teste@testeUPFound");
-    	user.setPassword("1234");
+    	user.setPassword("1234567");
 
         mockMvc.perform(put("/users/testeUPNotFound")
         		.contentType("application/json")
@@ -191,7 +191,7 @@ public class UserControllerTest {
     	UserTO user = new UserTO();
     	user.setUserName("testeDelete");
     	user.setEmail("teste@testeDEL");
-    	user.setPassword("1234");
+    	user.setPassword("1234567");
     	user.setName("nome");
     	user.setLastName("sobrenome");
     	

@@ -38,16 +38,17 @@ public class UserService{
 		
 		validationUserNameIsUnique(user);
 		validationEmailIsUnique(user);
-		validationPassword(userTO.getPassword());
+		validationPassword(userTO);
 		
 		User retorno = rep.save(user);
 		profileService.save(profile);
+		
 		return beanUtil.toUserTO(retorno);
 	}
 
-	private void validationPassword(String password) {
-		if(password.length() <7 ) 
-			throw new ResourceBadRequestException("Senha deve ter 7 caracteres");
+	private void validationPassword(UserTO userTO) {
+		if(userTO.getPassword().isEmpty()) 
+			throw new ResourceBadRequestException("Senha não deve estar vazio");
 		
 	}
 	
@@ -80,7 +81,7 @@ public class UserService{
 		User user = beanUtil.toUser(entity);
 		
 		validationEmailIsUnique(user);
-		validationPassword(user.getPassword());
+		validationPassword(entity);
 		
 		return beanUtil.toUserTO(rep.findById(user.getUserName()).map( user1 -> {
 			user1.setEmail(user.getEmail());

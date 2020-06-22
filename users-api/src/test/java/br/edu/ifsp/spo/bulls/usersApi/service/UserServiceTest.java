@@ -72,8 +72,9 @@ public class UserServiceTest {
 		UserTO userUp = new UserTO(); 
 		userUp.setEmail("testeS6@teste");
 		userUp.setUserName("testeSPasswordMandatory");
+		userUp.setPassword("");
 		
-		assertThrows(TransactionSystemException.class, ()-> service.save(userUp));
+		assertThrows(ResourceBadRequestException.class, ()-> service.save(userUp));
 	}
 	
 	@Test
@@ -146,7 +147,7 @@ public class UserServiceTest {
 
 		userUp.setPassword("");
 		
-		assertThrows(TransactionSystemException.class, ()-> service.update(userUp));
+		assertThrows(ResourceBadRequestException.class, ()-> service.update(userUp));
 	}
 	
 	@Test

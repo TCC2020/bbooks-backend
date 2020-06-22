@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
@@ -33,7 +32,6 @@ public class User implements Serializable {
     private String email;
     
     @NotBlank(message = "Password is mandatory")
-    @Column(length=7)
     private String password;
     
     private String token;
