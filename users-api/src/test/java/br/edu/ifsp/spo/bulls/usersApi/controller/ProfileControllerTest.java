@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
@@ -38,29 +39,20 @@ public class ProfileControllerTest {
     
     @Test
     void testUpdateProfile() throws Exception {
-        
-    	UserTO userTo = new UserTO();
-    	userTo.setUserName("testeUpdateProfile");
-    	userTo.setEmail("testeUp@profileController");
-    	userTo.setPassword("1234");
+    	UserTO userTo = new UserTO("testeUpdateProfile", "testeUp@profileController", "senhateste", "nome", "sobrenome");
 
         mockMvc.perform(post("/users")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
-		
-        mockMvc.perform(put("/profiles")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile)));
         
-        int id = service.getByUser(user).getId();
+        Profile profile = service.getByUser(user);
        
         profile.setState("RJ");
         profile.setCity("Rio de janeiro");
 		
-        mockMvc.perform(put("/profiles/" + id)
+        mockMvc.perform(put("/profiles/" + profile.getId())
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(profile)))
                 .andExpect(status().isOk());
@@ -86,22 +78,14 @@ public class ProfileControllerTest {
     @Test
     void testDeleteProfile() throws Exception {
         
-    	UserTO userTo = new UserTO();
-    	userTo.setUserName("testeDeleteController");
-    	userTo.setEmail("teste@profileDelete");
-    	userTo.setPassword("1234");
+    	UserTO userTo = new UserTO("testeDeleteController", "teste@profileDelete", "senhateste", "nome", "sobrenome");
 
         mockMvc.perform(post("/users")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userTo)));
         
         User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
-		
-        mockMvc.perform(post("/profiles")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile)));
-        
+    
         int id = service.getByUser(user).getId();
         
         mockMvc.perform(delete("/profiles/" + id)
@@ -122,29 +106,18 @@ public class ProfileControllerTest {
     @Test
     void testeGetByIdProfile() throws Exception {
         
-    	UserTO userTo = new UserTO();
-    	userTo.setUserName("testeGetByIdProfile");
-    	userTo.setEmail("testeGet@profileController");
-    	userTo.setPassword("1234");
-
+    	UserTO userTo = new UserTO("testeUpdateOk", "testeS@updateOk", "senhateste", "nome", "sobrenome");
+    
         mockMvc.perform(post("/users")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userTo)));
-        
+      
         User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
-		
-        mockMvc.perform(put("/profiles")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile)));
-        
         int id = service.getByUser(user).getId();
        
         mockMvc.perform(get("/profiles/" + id)
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile)))
+                .contentType("application/json"))
                 .andExpect(status().isOk());
-        
     }
 
     @Test
