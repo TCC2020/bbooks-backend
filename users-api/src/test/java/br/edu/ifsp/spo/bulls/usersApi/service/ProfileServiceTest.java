@@ -9,14 +9,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -31,11 +30,15 @@ public class ProfileServiceTest {
 	@Autowired
 	private UserBeanUtil beanUtil;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	@Test
 	void testSave() throws ResourceBadRequestException, Exception {
-		UserTO user = userService.save(new UserTO("testeProfile3", "testeS@teste13", "senhateste"));
-	
-		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", beanUtil.toUser(user));
+		
+		User user = userRepository.save(new User("testeProfile3", "testeS@teste13", "senhateste"));
+		
+		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998",user );
 		
 		Profile profile2 = service.save(profile);
 		
@@ -44,34 +47,11 @@ public class ProfileServiceTest {
 	}
 	
 	@Test
-	void testSaveUserNotFound() {
-
-		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User("testeS", "testeS@testeFail", "senhateste"));
-		
-		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> service.save(profile));
-		assertEquals("User not found", e.getMessage());
-	}
-	
-	@Test
-	void testSaveUserAlreadyUsed() throws ResourceBadRequestException, Exception {
-
-		UserTO user = userService.save(new UserTO("testeProfile", "testeS@teste", "senhateste"));
-		
-		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", beanUtil.toUser(user));
-		service.save(profile);
-		
-		Profile profile2 = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", beanUtil.toUser(user));
-		
-		Throwable e = assertThrows(ResourceConflictException.class, ()-> service.save(profile2));
-		assertEquals("User already used", e.getMessage());
-	}
-	
-	@Test
 	void testGetById() throws Exception {
 		
-		UserTO user = userService.save(new UserTO("testeProfileGet", "testeS@gert", "senhateste"));
+		User user = userRepository.save(new User("testeProfileGet", "testeS@gert", "senhateste"));
 		
-		Profile profileSet = service.save(new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", beanUtil.toUser(user)));
+		Profile profileSet = service.save(new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998",user));
 		
 		Profile profileGet = service.getById(profileSet.getId());
 		
@@ -88,9 +68,9 @@ public class ProfileServiceTest {
 	@Test
 	void testDelete() throws ResourceBadRequestException, Exception {
 		
-		UserTO user = userService.save(new UserTO("testeProfDelete", "testeS@delete", "senhateste"));
+		User user = userRepository.save(new User("testeProfileGet", "testeS@gert", "senhateste"));
 		
-		Profile profile = service.save(new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", beanUtil.toUser(user)));
+		Profile profile = service.save(new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user));
 		
 		service.delete(profile.getId());
 		
@@ -110,9 +90,9 @@ public class ProfileServiceTest {
 	@Test
 	void testUpdate() throws ResourceBadRequestException, Exception {
 		
-		UserTO user = userService.save(new UserTO("testeUpdateOk", "testeS@updateOk", "senhateste"));
+		UserTO user = userService.save(new UserTO("testeUpdateOk", "testeS@updateOk", "senhateste", "nome", "sobrenome"));
 		
-		Profile profile = service.save(new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", beanUtil.toUser(user)));
+		Profile profile = service.getByUser(beanUtil.toUser(user));
 		
 		profile.setName("Mudando o nome");
 		
@@ -124,9 +104,9 @@ public class ProfileServiceTest {
 	@Test
 	void testUpdateProfileNotFound() throws ResourceBadRequestException, Exception {
 		
-		UserTO user = userService.save(new UserTO("testeProfileUpdateFail", "testeS@updateFail", "senhateste"));
+		User user = new User("testeProfile3", "testeS@teste13", "senhateste");
 		
-		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", beanUtil.toUser(user));
+		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> service.update(profile));
 		assertEquals("Profile not found", e.getMessage());
@@ -136,9 +116,7 @@ public class ProfileServiceTest {
 	@Test
 	void testGetAllProfiles() throws ResourceBadRequestException, Exception {
 		
-		UserTO user = userService.save(new UserTO("testeProfileGetAll", "testeS@getAll", "senhateste"));
-		service.save(new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", beanUtil.toUser(user)));
-	
+		userService.save(new UserTO("testeProfileGetAll", "testeS@getAll", "senhateste", "nome", "sobrenome"));
 		HashSet<Profile> allProfiles = service.getAll();
 		
 		assertFalse(allProfiles.isEmpty());

@@ -1,12 +1,10 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
@@ -22,14 +20,8 @@ public class ProfileService {
 	
 	public Profile save(Profile entity) throws Exception {
 		
-		validationUserAlreadyUsed(entity.getUser());
 		return profileRep.save(entity);
 	}
-
-	private void validationUserAlreadyUsed(User entity) {
-		if(profileRep.existsByUser(entity))
-			throw new ResourceConflictException("User already used");
-	} 
 	
 	public Profile getByUser(User user) {
 		return profileRep.findByUser(user);

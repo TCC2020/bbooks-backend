@@ -56,6 +56,16 @@ public class ProfileTO {
 		this.birthDate = birthDate;
 		this.user = user;
 	}
+	
+	public ProfileTO( String country, String city, String state,
+			@NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+		super();
+		this.country = country;
+		this.city = city;
+		this.state = state;
+		this.birthDate = birthDate;
+		this.user = user;
+	}
 
 	public ProfileTO() {
 	}

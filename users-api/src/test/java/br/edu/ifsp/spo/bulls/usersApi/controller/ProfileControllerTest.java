@@ -37,48 +37,6 @@ public class ProfileControllerTest {
 	ProfileService service;
     
     @Test
-    void testCreateProfileUserNotFound() throws Exception {
-        
-        User user = new User("username", "email", "senha"); 
-
-        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
-		
-        mockMvc.perform(post("/profiles")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile)))
-                .andExpect(status().isNotFound());
-        
-    }
-    
-    @Test
-    void testCreateProfileUserAlreadyUsed() throws Exception {
-        
-    	UserTO userTo = new UserTO();
-    	userTo.setUserName("testeSaveController");
-    	userTo.setEmail("teste@profileController");
-    	userTo.setPassword("1234");
-
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)));
-        
-        User user = beanUtil.toUser(userTo);
-        ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
-		
-        mockMvc.perform(post("/profiles")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile)));
-        
-        ProfileTO profile2 = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
-		
-        mockMvc.perform(post("/profiles")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile2)))
-                .andExpect(status().isConflict());
-        
-    }
-    
-    @Test
     void testUpdateProfile() throws Exception {
         
     	UserTO userTo = new UserTO();
@@ -93,7 +51,7 @@ public class ProfileControllerTest {
         User user = beanUtil.toUser(userTo);
         ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
-        mockMvc.perform(post("/profiles")
+        mockMvc.perform(put("/profiles")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(profile)));
         
@@ -176,7 +134,7 @@ public class ProfileControllerTest {
         User user = beanUtil.toUser(userTo);
         ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
-        mockMvc.perform(post("/profiles")
+        mockMvc.perform(put("/profiles")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(profile)));
         
