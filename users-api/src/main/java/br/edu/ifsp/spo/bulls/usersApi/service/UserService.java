@@ -54,9 +54,9 @@ public class UserService{
 			throw new ResourceConflictException("Email ja esta sendo usado");
 	}
 
-	public User getById(String id) {
-		
-		return rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+	public UserTO getById(String id) {
+		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		return beanUtil.toUserTO(user);
 	}
 
 	public void delete(String id) {
@@ -80,8 +80,10 @@ public class UserService{
 		
 	}
 
-	public HashSet<User> getAll() {
-		return (HashSet<User>) rep.findAll();
+	public HashSet<UserTO> getAll() {
+		HashSet<User> users = rep.findAll();
+		
+		return beanUtil.toUserTO(users);
 	}
 
 	public User getByToken(String token){

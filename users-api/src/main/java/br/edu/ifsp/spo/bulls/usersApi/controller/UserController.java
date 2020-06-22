@@ -28,14 +28,13 @@ public class UserController {
 	
 	@GetMapping
 	public HashSet<UserTO> getAll(){
-		
-		return beanUtil.toUserTO(service.getAll());
+		return service.getAll();
 	}
 	
 	@GetMapping ("/{id}")
 	public UserTO getById(@PathVariable String id) {
 		
-		return beanUtil.toUserTO(service.getById(id));
+		return service.getById(id);
 		
 	}
 

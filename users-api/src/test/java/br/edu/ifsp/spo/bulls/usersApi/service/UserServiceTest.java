@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.TransactionSystemException;
-import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
@@ -82,7 +81,7 @@ public class UserServiceTest {
  
 		UserTO user = new UserTO("testeGI", "testeGi@teste", "senhateste","nome", "sobrenome"); 
 		service.save(user);	
-		User user1 =  service.getById(user.getUserName());
+		UserTO user1 =  service.getById(user.getUserName());
 				
 		// Testando se campos obrigatorios foram gravados corretamente
 		
@@ -175,7 +174,7 @@ public class UserServiceTest {
 		UserTO user = new UserTO("testeGA", "testeGA@teste", "senhateste","nome", "sobrenome"); 
 		service.save(user);
 		
-		HashSet<User> listaUser = service.getAll();
+		HashSet<UserTO> listaUser = service.getAll();
 		
 		assertFalse(listaUser.isEmpty());
 	}
