@@ -1,17 +1,17 @@
-package br.edu.ifsp.spo.bulls.usersApi.domain;
+package br.edu.ifsp.spo.bulls.usersApi.dto;
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "books")
-public class Book {
-
+public class BookTO {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -33,16 +33,9 @@ public class Book {
     @NotBlank(message = "Publisher is mandatory")
     private String publisher;
 
-    private String category;
-
     @NotBlank(message = "Published Date is mandatory")
     private LocalDateTime publishedDate;
 
-    private String edition;
-
-    private String printType;
-
     @NotBlank(message = "Description is mandatory")
     private String description;
-
 }
