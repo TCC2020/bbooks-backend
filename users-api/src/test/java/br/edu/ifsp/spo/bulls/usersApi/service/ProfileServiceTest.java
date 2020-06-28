@@ -89,9 +89,9 @@ public class ProfileServiceTest {
 	@Test
 	void testUpdate() throws ResourceBadRequestException, Exception {
 		
-		userService.save(new UserTO("testeUpdateOk", "testeS@updateOk", "senhate", "nome", "sobrenome"));
+		userService.save(new UserTO("testeUpdat", "testeS@updat", "senhate", "nome", "sobrenome"));
 		
-		ProfileTO profile = service.getByUser("testeUpdateOk");
+		ProfileTO profile = service.getByUser("testeUpdat");
 		
 		profile.setName("Mudando o nome");
 		

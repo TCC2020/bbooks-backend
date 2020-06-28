@@ -73,13 +73,13 @@ public class UserTO {
 		this.password = password;
 	}
 
-	public UserTO(String userName,String email,String password,String nome, String sobrenome) {
+	public UserTO(String userName,String email,String password,String name, String lastName) {
 		super();
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
-		this.name = nome;
-		this.lastName = sobrenome;
+		this.name = name;
+		this.lastName = lastName;
 	}
     
 }

@@ -43,9 +43,9 @@ public class ProfileController {
 	}
 	
 	@GetMapping("/user/{userName}")
-	public ProfileTO getByUser(@PathVariable String username) {
+	public ProfileTO getByUser(@PathVariable String userName) {
 		
-		return service.getByUser(username);
+		return service.getByUser(userName);
 		
 	}
 	

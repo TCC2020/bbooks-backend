@@ -111,6 +111,21 @@ public class ProfileControllerTest {
     }
 
     @Test
+    void testeGetByUser() throws Exception {
+
+        UserTO userTo = new UserTO("testGetByUser", "testeS@up", "senhate", "nome", "sobrenome");
+
+        mockMvc.perform(post("/users")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(userTo)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/profiles/user/" + userTo.getUserName())
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void testGetProfileNotFound() throws Exception {
    
         mockMvc.perform(get("/profiles/12345678")
