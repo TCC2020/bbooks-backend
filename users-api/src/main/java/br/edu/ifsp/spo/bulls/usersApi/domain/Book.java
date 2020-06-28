@@ -21,6 +21,7 @@ public class Book {
     @NotBlank(message = "Title is mandatory")
     private String title;
 
+    @OneToMany
     @NotBlank(message = "Author is mandatory")
     private List<Author> authors;
 
@@ -45,4 +46,22 @@ public class Book {
     @NotBlank(message = "Description is mandatory")
     private String description;
 
+    public Book(@NotBlank(message = "Title is mandatory") String title,
+                @NotBlank(message = "Author is mandatory") List<Author> authors,
+                @NotBlank(message = "Author is mandatory") int numberPage,
+                @NotBlank(message = "Language is mandatory") String language,
+                @NotBlank(message = "Publisher is mandatory") String publisher,
+                @NotBlank(message = "Published Date is mandatory") LocalDateTime publishedDate,
+                @NotBlank(message = "Description is mandatory") String description) {
+        this.title = title;
+        this.authors = authors;
+        this.numberPage = numberPage;
+        this.language = language;
+        this.publisher = publisher;
+        this.publishedDate = publishedDate;
+        this.description = description;
+    }
+
+    public Book() {
+    }
 }

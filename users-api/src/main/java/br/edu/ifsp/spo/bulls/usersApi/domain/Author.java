@@ -13,4 +13,9 @@ public class Author {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private String name;
+
+    public Author(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
