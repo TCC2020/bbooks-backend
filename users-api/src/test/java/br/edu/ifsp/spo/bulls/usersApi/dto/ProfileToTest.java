@@ -20,7 +20,14 @@ public class ProfileToTest {
 		ProfileTO profile = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());
 		assertEquals("ProfileTO(id=1, name=nome, lastName=sobrenome, country=pais, city=sao paulo, state=SP, birthDate=10/10/1998, user=User(userName=null, email=null, password=null, token=null, creationDate=null, verified=null))", profile.toString());
 	}
-	
+
+	@Test
+	void testCadastro2() {
+
+		ProfileTO profile = new ProfileTO("pais", "sao paulo", "SP", "10/10/1998", new User());
+		assertEquals("ProfileTO(id=0, name=null, lastName=null, country=pais, city=sao paulo, state=SP, birthDate=10/10/1998, user=User(userName=null, email=null, password=null, token=null, creationDate=null, verified=null))", profile.toString());
+	}
+
 	@Test
 	void testEquals() {
 		ProfileTO profile = new ProfileTO(1, "nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", new User());

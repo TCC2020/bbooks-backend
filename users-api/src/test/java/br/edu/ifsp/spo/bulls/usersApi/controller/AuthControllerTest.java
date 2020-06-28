@@ -42,6 +42,21 @@ public class AuthControllerTest {
     }
 
     @Test
+    void testLoginPasswordFail() throws Exception {
+        UserTO userTo = new UserTO("testeLogin", "testeUp@login", "senhate", "nome", "sobrenome");
+        LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), "123" );
+
+        mockMvc.perform(post("/users")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(userTo)));
+
+        mockMvc.perform(post("/auth/login")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(loginTo)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void testConfirm() throws Exception {
         UserTO userTo = new UserTO("testConfirm", "testeUp@confirm", "senhate", "nome", "sobrenome");
         LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), userTo.getPassword() );
