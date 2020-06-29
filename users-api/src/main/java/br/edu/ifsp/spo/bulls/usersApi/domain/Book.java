@@ -21,8 +21,12 @@ public class Book {
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @OneToMany
+
     @NotBlank(message = "Author is mandatory")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Livro_Autor",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
     @NotBlank(message = "Author is mandatory")

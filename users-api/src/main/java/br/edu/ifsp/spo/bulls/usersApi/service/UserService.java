@@ -48,7 +48,7 @@ public class UserService{
 
 	private void validationPassword(UserTO userTO) {
 		if(userTO.getPassword().isEmpty()) 
-			throw new ResourceBadRequestException("Senha não deve estar vazio");
+			throw new ResourceBadRequestException("Senha nao deve estar vazio");
 		
 	}
 	

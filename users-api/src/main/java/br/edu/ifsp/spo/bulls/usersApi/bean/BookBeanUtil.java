@@ -1,12 +1,9 @@
 package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
-
 import java.util.HashSet;
 
 @Component
