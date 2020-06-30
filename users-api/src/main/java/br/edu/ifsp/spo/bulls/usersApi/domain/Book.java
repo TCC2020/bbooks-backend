@@ -21,15 +21,12 @@ public class Book {
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-
-    @NotBlank(message = "Author is mandatory")
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Livro_Autor",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
-    @NotBlank(message = "Author is mandatory")
     private int numberPage;
 
     @NotBlank(message = "Language is mandatory")
@@ -40,7 +37,6 @@ public class Book {
 
     private String category;
 
-    @NotBlank(message = "Published Date is mandatory")
     private LocalDateTime publishedDate;
 
     private String edition;
@@ -58,7 +54,7 @@ public class Book {
                 @NotBlank(message = "Published Date is mandatory") LocalDateTime publishedDate,
                 @NotBlank(message = "Description is mandatory") String description) {
         this.title = title;
-        this.authors = authors;
+//        this.authors = authors;
         this.numberPage = numberPage;
         this.language = language;
         this.publisher = publisher;

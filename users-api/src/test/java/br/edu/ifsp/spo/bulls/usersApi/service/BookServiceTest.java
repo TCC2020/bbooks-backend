@@ -26,7 +26,8 @@ public class BookServiceTest {
     @Test
     void testSave(){
         List<Author> author = new ArrayList<Author>( );
-        author.add(new Author(1, "Autor1"));
+        Author author1 = new Author( "Autor1");
+        author.add(author1);
         BookTO bookTO = new BookTO("lIVRO TESTE", author, 10, "português", "editora",  LocalDateTime.now(), "livro");
 
         BookTO result = service.save(bookTO);

@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.bean.BookBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
@@ -16,9 +17,16 @@ public class BookService {
     @Autowired
     BookRepository repository;
 
+    @Autowired
+    AuthorService authorService;
+
     public BookTO save(BookTO entity) {
         Book book = beanUtil.toBook(entity);
-        
+
+//        for(int i = 0; i<book.getAuthors().size(); i++){
+//            authorService.verifyIfAuthorExists(book.getAuthors().get(i));
+//        }
+
         Book result = repository.save(book);
 
         return beanUtil.toBookTO(result);
