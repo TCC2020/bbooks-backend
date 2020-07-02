@@ -49,7 +49,7 @@ public class BookBeanUtilTest {
         List<Author>  author = new ArrayList<Author>( );
         author.add(new Author(1, "Autor1"));
 
-        Book book = new Book( "lIVRO TESTE", author, 10, "português", "editora",  LocalDateTime.now(), "livro");
+        Book book = new Book( "lIVRO TESTE", author, 10, "português", "editora", LocalDateTime.now(), "livro");
 
         BookTO bookTo = beanUtil.toBookTO(book);
 

@@ -8,20 +8,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Data
 public class BookTO {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+
+    private int id;
 
     private String isbn10;
 
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @NotBlank(message = "Author is mandatory")
+    //@NotBlank(message = "Author is mandatory")
     private List<Author> authors;
 
     private int numberPage;
@@ -38,14 +39,12 @@ public class BookTO {
     private String description;
 
     public BookTO(@NotBlank(message = "Title is mandatory") String title,
-                  @NotBlank(message = "Author is mandatory") List<Author> authors,
                   @NotBlank(message = "Author is mandatory") int numberPage,
                   @NotBlank(message = "Language is mandatory") String language,
                   @NotBlank(message = "Publisher is mandatory") String publisher,
                   @NotBlank(message = "Published Date is mandatory") LocalDateTime publishedDate,
                   @NotBlank(message = "Description is mandatory") String description) {
         this.title = title;
-        this.authors = authors;
         this.numberPage = numberPage;
         this.language = language;
         this.publisher = publisher;
@@ -74,4 +73,16 @@ public class BookTO {
         return description != null ? description.equals(bookTO.description) : bookTO.description == null;
     }
 
+    public BookTO( @NotBlank(message = "Title is mandatory") String title, List<Author> authors,
+                  int numberPage, @NotBlank(message = "Language is mandatory") String language,
+                  @NotBlank(message = "Publisher is mandatory") String publisher, LocalDateTime publishedDate,
+                  @NotBlank(message = "Description is mandatory") String description) {
+        this.title = title;
+        this.authors = authors;
+        this.numberPage = numberPage;
+        this.language = language;
+        this.publisher = publisher;
+        this.publishedDate = publishedDate;
+        this.description = description;
+    }
 }

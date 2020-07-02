@@ -26,10 +26,11 @@ public class BookServiceTest {
     @Test
     void testSave(){
         List<Author> author = new ArrayList<Author>( );
-        Author author1 = new Author( "Autor1");
-        author.add(author1);
-        BookTO bookTO = new BookTO("lIVRO TESTE", author, 10, "português", "editora",  LocalDateTime.now(), "livro");
+        Author author1 = new Author( "Autor2");
 
+        author.add(author1);
+        BookTO bookTO = new BookTO("lIVRO TESTE", 10, "português", "editora",  LocalDateTime.now(), "livro");
+        bookTO.setAuthors(author);
         BookTO result = service.save(bookTO);
 
         assertEquals(bookTO, result);

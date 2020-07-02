@@ -15,10 +15,12 @@ public class AuthorService {
         return repository.save(author);
     }
 
-//    public void verifyIfAuthorExists(Author author){
-//
-//        if(!repository.existsByName(author.getName().toLowerCase())){
-//            this.save(author);
-//        }
-//    }
+    public Author verifyIfAuthorExists(Author author){
+
+        if(!repository.existsByName(author.getName().toLowerCase())){
+            return this.save(author);
+        }else{
+            return repository.findByName(author.getName().toLowerCase());
+        }
+    }
 }
