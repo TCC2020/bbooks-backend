@@ -2,16 +2,14 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +26,7 @@ public class BookBeanUtilTest {
         List<Author>  author = new ArrayList<Author>( );
         author.add(new Author("Autor1"));
 
-        BookTO bookTo = new BookTO( "lIVRO TESTE3", author, 10, "português", "editora",  LocalDateTime.now(), "livro");
+        BookTO bookTo = new BookTO( "lIVRO TESTE3", author, 10, "português", "editora",  Calendar.getInstance(), "livro");
 
         Book book = beanUtil.toBook(bookTo);
 
@@ -49,7 +47,7 @@ public class BookBeanUtilTest {
         List<Author>  author = new ArrayList<Author>( );
         author.add(new Author("Autor1"));
 
-        Book book = new Book( "lIVRO TESTE2", author, 10, "português", "editora", LocalDateTime.now(), "livro");
+        Book book = new Book( "lIVRO TESTE2", author, 10, "português", "editora", Calendar.getInstance(), "livro");
 
         BookTO bookTo = beanUtil.toBookTO(book);
 
@@ -70,7 +68,9 @@ public class BookBeanUtilTest {
         List<Author>  author = new ArrayList<Author>( );
         author.add(new Author("Autor1"));
 
-        Book book = new Book( "lIVRO TESTE", author, 10, "português", "editora",  LocalDateTime.now(), "livro");
+        Book book = new Book( "123455665", "lIVRO TESTE",author,
+                10, "português",
+                "editora", Calendar.getInstance(), "livro");
 
         HashSet<Book> listBooks = new HashSet<Book>();
         listBooks.add(book);

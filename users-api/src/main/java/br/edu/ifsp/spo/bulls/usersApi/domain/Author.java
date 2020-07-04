@@ -12,6 +12,8 @@ public class Author {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
+
+    @Column(unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)

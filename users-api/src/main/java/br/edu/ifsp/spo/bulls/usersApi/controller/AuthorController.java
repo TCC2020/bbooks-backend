@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
+import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.AuthorService;
 import br.edu.ifsp.spo.bulls.usersApi.service.BookService;
@@ -16,7 +17,7 @@ public class AuthorController {
     AuthorService service;
 
     @PostMapping
-    public Author save(@RequestBody Author author){
+    public AuthorTO save(@RequestBody AuthorTO author){
         return service.save(author);
     }
 }

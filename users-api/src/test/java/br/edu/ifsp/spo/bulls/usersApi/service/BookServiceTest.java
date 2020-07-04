@@ -1,17 +1,16 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
+import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
-import ch.qos.logback.classic.jmx.MBeanUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,14 +24,41 @@ public class BookServiceTest {
 
     @Test
     void testSave(){
-        List<Author> author = new ArrayList<Author>( );
-        Author author1 = new Author( "Autor2");
+        List<Author> authors = new ArrayList<Author>( );
+        Author author = new Author( "Autor2");
 
-        author.add(author1);
-        BookTO bookTO = new BookTO("lIVRO TESTE", 10, "português", "editora",  LocalDateTime.now(), "livro");
-        bookTO.setAuthors(author);
+        authors.add(author);
+        BookTO bookTO = new BookTO("1234489-",
+                "lIVRO TESTE",
+                10,
+                "português",
+                "editora",
+                Calendar.getInstance(),
+                "livro");
+        bookTO.setAuthors(authors);
         BookTO result = service.save(bookTO);
 
         assertEquals(bookTO, result);
+    }
+
+    @Test
+    void testGetAll(){
+        List<Author> authors = new ArrayList<Author>( );
+        Author author = new Author( "Autor2");
+
+        authors.add(author);
+        BookTO bookTO = new BookTO("1234489-",
+                "lIVRO TESTE",
+                10,
+                "português",
+                "editora",
+                Calendar.getInstance(),
+                "livro");
+        bookTO.setAuthors(authors);
+        BookTO result = service.save(bookTO);
+
+        HashSet<BookTO> books = service.getAll();
+
+        assertFalse(books.isEmpty());
     }
 }
