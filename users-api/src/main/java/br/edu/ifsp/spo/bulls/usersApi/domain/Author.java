@@ -1,11 +1,11 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,12 +17,7 @@ public class Author {
     private int id;
     private String name;
 
-    @ManyToMany
-    @JoinTable(joinColumns=
-            @JoinColumn(name="book_id", referencedColumnName="id"),
-            inverseJoinColumns=
-            @JoinColumn(name="author_id", referencedColumnName="id")
-    )
+    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
     private List<Book> books ;
 
     public Author( String name) {
