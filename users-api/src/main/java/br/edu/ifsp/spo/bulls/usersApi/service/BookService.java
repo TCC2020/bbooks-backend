@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -37,5 +38,11 @@ public class BookService {
         Book result = repository.save(book);
 
         return beanUtil.toBookTO(result);
+    }
+
+    public HashSet<BookTO> getAll(){
+        HashSet<Book> books = repository.findAll();
+
+        return beanUtil.toBookTO(books);
     }
 }

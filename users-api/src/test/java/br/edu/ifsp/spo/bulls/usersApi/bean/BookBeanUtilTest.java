@@ -2,18 +2,12 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
-import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;

@@ -39,4 +39,25 @@ public class BookServiceTest {
 
         assertEquals(bookTO, result);
     }
+
+    @Test
+    void testGetAll(){
+        List<Author> authors = new ArrayList<Author>( );
+        Author author = new Author( "Autor2");
+
+        authors.add(author);
+        BookTO bookTO = new BookTO("1234489-",
+                "lIVRO TESTE",
+                10,
+                "português",
+                "editora",
+                Calendar.getInstance(),
+                "livro");
+        bookTO.setAuthors(authors);
+        BookTO result = service.save(bookTO);
+
+        List<BookTO> books = service.getAll();
+
+        assertFalse(books.isEmpty());
+    }
 }
