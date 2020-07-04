@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +48,7 @@ public class BookServiceTest {
         Author author = new Author( "Autor2");
 
         authors.add(author);
-        BookTO bookTO = new BookTO("1234489-",
+        BookTO bookTO = new BookTO("123448",
                 "lIVRO TESTE",
                 10,
                 "português",

@@ -15,7 +15,8 @@ public class Book {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,
+            unique = true)
     @NotBlank(message = "ISBN10 is mandatory")
     private String isbn10;
 

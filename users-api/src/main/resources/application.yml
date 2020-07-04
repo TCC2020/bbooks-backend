@@ -15,3 +15,24 @@ spring:
         web-allow-others: true
   jpa:
     open-in-view: true
+    hibernate:
+      ddl-auto: update
+---
+spring:
+  profiles: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    password: ''
+    url: jdbc:h2:file:./api-users-test
+    username: sa
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: true
+        web-allow-others: true
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop

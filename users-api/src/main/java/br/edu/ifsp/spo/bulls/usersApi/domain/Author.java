@@ -19,9 +19,6 @@ public class Author {
     @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
-    private List<Book> books ;
-
     public Author( String name) {
         this.name = name;
     }
