@@ -15,7 +15,7 @@ public class ProfileTO {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@NotBlank(message = "Nname is mandatory")
+	@NotBlank(message = "Name is mandatory")
 	private String name;
 	
 	@NotBlank(message = "Lastname is mandatory")

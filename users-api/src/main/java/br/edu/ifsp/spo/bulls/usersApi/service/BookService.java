@@ -8,6 +8,9 @@ import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class BookService {
 
@@ -21,13 +24,15 @@ public class BookService {
     AuthorService authorService;
 
     public BookTO save(BookTO entity) {
-        Book book = beanUtil.toBook(entity);
-        System.out.println(entity.toString());
-        System.out.println(book .toString());
 
-//        for(int i = 0; i<book.getAuthors().size(); i++){
-//            book.setAuthors(authorService.verifyIfAuthorExists(book.getAuthors().get(i)));
-//        }
+        List<Author> author = new ArrayList<Author>();
+
+        for(int i = 0; i<entity.getAuthors().size(); i++){
+            author.add(authorService.verifyIfAuthorExists(entity.getAuthors().get(i)));
+        }
+
+        Book book = beanUtil.toBook(entity);
+        book.setAuthors(author);
 
         Book result = repository.save(book);
 

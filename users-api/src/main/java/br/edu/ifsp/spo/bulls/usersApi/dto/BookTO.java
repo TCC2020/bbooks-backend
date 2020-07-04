@@ -2,14 +2,10 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import lombok.Data;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
+import javax.validation.constraints.NotNull;
+import java.util.Calendar;
 import java.util.List;
 
 @Data
@@ -17,32 +13,40 @@ public class BookTO {
 
     private int id;
 
+    @Column(nullable = false)
+    @NotBlank(message = "ISBN10 is mandatory")
     private String isbn10;
 
+    @Column(nullable = false)
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-    //@NotBlank(message = "Author is mandatory")
+    @Column(nullable = false)
     private List<Author> authors;
 
+    @Column(nullable = false)
+    @NotNull(message = "NumberPage is mandatory")
     private int numberPage;
 
+    @Column(nullable = false)
     @NotBlank(message = "Language is mandatory")
     private String language;
 
+    @Column(nullable = false)
     @NotBlank(message = "Publisher is mandatory")
     private String publisher;
 
-    private LocalDateTime publishedDate;
+    private Calendar publishedDate;
 
+    @Column(nullable = false)
     @NotBlank(message = "Description is mandatory")
     private String description;
 
     public BookTO(@NotBlank(message = "Title is mandatory") String title,
-                  @NotBlank(message = "Author is mandatory") int numberPage,
+                  @NotNull(message = "Author is mandatory") int numberPage,
                   @NotBlank(message = "Language is mandatory") String language,
                   @NotBlank(message = "Publisher is mandatory") String publisher,
-                  @NotBlank(message = "Published Date is mandatory") LocalDateTime publishedDate,
+                  @NotBlank(message = "Published Date is mandatory") Calendar publishedDate,
                   @NotBlank(message = "Description is mandatory") String description) {
         this.title = title;
         this.numberPage = numberPage;
@@ -65,7 +69,6 @@ public class BookTO {
         if (numberPage != bookTO.numberPage) return false;
         if (isbn10 != null ? !isbn10.equals(bookTO.isbn10) : bookTO.isbn10 != null) return false;
         if (title != null ? !title.equals(bookTO.title) : bookTO.title != null) return false;
-        if (authors != null ? !authors.equals(bookTO.authors) : bookTO.authors != null) return false;
         if (language != null ? !language.equals(bookTO.language) : bookTO.language != null) return false;
         if (publisher != null ? !publisher.equals(bookTO.publisher) : bookTO.publisher != null) return false;
         if (publishedDate != null ? !publishedDate.equals(bookTO.publishedDate) : bookTO.publishedDate != null)
@@ -73,12 +76,31 @@ public class BookTO {
         return description != null ? description.equals(bookTO.description) : bookTO.description == null;
     }
 
-    public BookTO( @NotBlank(message = "Title is mandatory") String title, List<Author> authors,
-                  int numberPage, @NotBlank(message = "Language is mandatory") String language,
-                  @NotBlank(message = "Publisher is mandatory") String publisher, LocalDateTime publishedDate,
+    public BookTO(@NotBlank(message = "Title is mandatory") String title,
+                  List<Author> authors,
+                  int numberPage,
+                  @NotBlank(message = "Language is mandatory") String language,
+                  @NotBlank(message = "Publisher is mandatory") String publisher,
+                  Calendar publishedDate,
                   @NotBlank(message = "Description is mandatory") String description) {
         this.title = title;
         this.authors = authors;
+        this.numberPage = numberPage;
+        this.language = language;
+        this.publisher = publisher;
+        this.publishedDate = publishedDate;
+        this.description = description;
+    }
+
+    public BookTO(@NotBlank(message = "ISBN10 is mandatory") String isbn10,
+                  @NotBlank(message = "Title is mandatory") String title,
+                  @NotNull(message = "NumberPage is mandatory") int numberPage,
+                  @NotBlank(message = "Language is mandatory") String language,
+                  @NotBlank(message = "Publisher is mandatory") String publisher,
+                  Calendar publishedDate,
+                  @NotBlank(message = "Description is mandatory") String description) {
+        this.isbn10 = isbn10;
+        this.title = title;
         this.numberPage = numberPage;
         this.language = language;
         this.publisher = publisher;
