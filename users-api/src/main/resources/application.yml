@@ -6,6 +6,8 @@ spring:
     password: ''
     url: jdbc:h2:file:./api-users-development
     username: sa
+    initialization-mode: always
+    initialize: true
   h2:
     console:
       enabled: true
@@ -15,3 +17,6 @@ spring:
         web-allow-others: true
   jpa:
     open-in-view: true
+    hibernate:
+      show-sql: true
+      ddl-auto: update

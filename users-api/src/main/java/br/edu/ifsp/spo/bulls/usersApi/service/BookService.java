@@ -23,7 +23,7 @@ public class BookService {
     public BookTO save(BookTO entity) {
         Book book = beanUtil.toBook(entity);
         System.out.println(entity.toString());
-        System.out.println(book .toString());
+        System.out.println(book.toString());
 
 //        for(int i = 0; i<book.getAuthors().size(); i++){
 //            book.setAuthors(authorService.verifyIfAuthorExists(book.getAuthors().get(i)));

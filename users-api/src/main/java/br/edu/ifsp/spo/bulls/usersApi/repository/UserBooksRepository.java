@@ -1,4 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.repository;
 
-public interface UserBooksRepository {
+import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserBooksRepository  extends CrudRepository<UserBooks, Long> {
 }

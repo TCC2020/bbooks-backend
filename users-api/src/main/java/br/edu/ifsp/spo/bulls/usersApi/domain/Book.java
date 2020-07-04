@@ -4,8 +4,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -79,6 +77,8 @@ public class Book {
         this.printType = printType;
         this.description = description;
     }
+
+
 //    public Book( @NotBlank(message = "Title is mandatory") String title, List<Author> authors,
 //                   int numberPage, @NotBlank(message = "Language is mandatory") String language,
 //                   @NotBlank(message = "Publisher is mandatory") String publisher, LocalDateTime publishedDate,
