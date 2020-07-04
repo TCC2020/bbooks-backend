@@ -17,6 +17,8 @@ public class UserBooksBeanUtil {
         }catch(Exception e) {
             e.printStackTrace();
         }
+        userBooksTO.setStatus(UserBooks.Status.valueOf(userBooks.getStatus().name()).toString());
+
         return userBooksTO;
     }
 
@@ -27,6 +29,7 @@ public class UserBooksBeanUtil {
         }catch(Exception e) {
             e.printStackTrace();
         }
+        userBooks.setStatus(UserBooks.Status.getByString(dto.getStatus()));
         return userBooks;
     }
 

@@ -31,9 +31,18 @@ public class UserBooks {
         Status(final String text) {
             this.text = text;
         }
+
         @Override
         public String toString() {
             return text;
+        }
+
+        public static Status getByString(String value) {
+            for(Status status : Status.values()){
+                if(status.text.equalsIgnoreCase(value))
+                    return status;
+            }
+            return null;
         }
     }
 

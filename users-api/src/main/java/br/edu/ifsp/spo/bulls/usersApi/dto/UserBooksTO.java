@@ -11,7 +11,7 @@ public class UserBooksTO {
     private Long id;
     private String isbn10;
     private String isbn13;
-    private UserBooks.Status status;
+    private String status;
     private LocalDateTime addDate;
     private Book book;
     private int profileId;
