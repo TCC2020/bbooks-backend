@@ -13,6 +13,8 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -80,9 +82,9 @@ public class UserServiceTest {
 	@Test
 	void testGetById() throws ResourceBadRequestException, Exception {
  
-		UserTO user = new UserTO("testeGI", "testeGi@teste", "senhate","nome", "sobrenome"); 
-		service.save(user);	
-		UserTO user1 =  service.getById(user.getUserName());
+		UserTO user = new UserTO("testeGI", "testeGi@teste", "senhate","nome", "sobrenome");
+		user = service.save(user);
+		UserTO user1 =  service.getById(user.getId());
 				
 		// Testando se campos obrigatorios foram gravados corretamente
 		
@@ -94,7 +96,7 @@ public class UserServiceTest {
 	@Test
 	void testFailGetByIdUserNotFound() {
 		
-		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> service.getById("testeFail"));
+		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> service.getById(UUID.randomUUID()));
 		assertEquals("User not found", exception.getMessage());
 	}
 
@@ -102,12 +104,12 @@ public class UserServiceTest {
 	void testUpdate() throws Exception {
 		UserTO userUp = new UserTO("testeUp", "testeUp1@teste", "senhate","nome", "sobrenome"); 
 		
-		service.save(userUp);
+		UserTO u = service.save(userUp);
 		
-		userUp.setEmail("testUp2@teste");
-		UserTO userUpdated = service.update(userUp);
+		u.setEmail("testUp2@teste");
+		UserTO userUpdated = service.update(u);
 		
-		assertEquals(userUp.getEmail(), userUpdated.getEmail());
+		assertEquals("testUp2@teste", userUpdated.getEmail());
 	}
 	
 	@Test
@@ -119,54 +121,55 @@ public class UserServiceTest {
 	
 	@Test
 	void testFailUpdateEmail() throws Exception {
-		UserTO userUp = new UserTO("testeUpEmail", "testeUp3@teste", "senhate","nome", "sobrenome"); 
-		service.save(userUp);
+		UserTO userUp = service.save(new UserTO("testeUpEmail", "testeUp3@teste", "senhate","nome", "sobrenome"));
+
 		
 		UserTO userUpEmail = new UserTO("testeUpEmail2", "testeUp4@teste", "senhate","nome", "sobrenome"); 
 		service.save(userUpEmail);
 		
 		userUp.setEmail("testeUp4@teste");
-		
+		Set<UserTO> us = service.getAll();
+
 		assertThrows(ResourceConflictException.class, ()-> service.update(userUp));
 	}
 	
 	@Test
 	void testFailUpdateEmailMandatory() throws Exception {
 		UserTO userUp = new UserTO("testeUpEmailMandatory", "testeUp5@teste", "senhate","nome", "sobrenome"); 
-		service.save(userUp);
+		UserTO u = service.save(userUp);
 
-		userUp.setEmail("");
+		u.setEmail("");
 		
-		assertThrows(TransactionSystemException.class, ()-> service.update(userUp));
+		assertThrows(TransactionSystemException.class, ()-> service.update(u));
 	}
 	
 	@Test
 	void testFailUpdatePasswordMandatory() throws Exception {
-		UserTO userUp = new UserTO("testeUpPasswordMandatory", "testeUp6@teste", "senhate","nome", "sobrenome"); 
-		service.save(userUp);
+		UserTO userUp = new UserTO("testeUpPasswordMandatory", "testeUp6@teste", "senhate","nome", "sobrenome");
+		UserTO u = service.save(userUp);
 
-		userUp.setPassword("");
+		u.setPassword("");
 		
-		assertThrows(ResourceBadRequestException.class, ()-> service.update(userUp));
+		assertThrows(ResourceBadRequestException.class, ()-> service.update(u));
 	}
 	
 	@Test
 	void testDelete() throws ResourceBadRequestException, Exception  {
 		UserTO user = new UserTO("testeDel1", "testeDel1@teste", "senhate","nome", "sobrenome"); 
 		
-		service.save(user);
-		service.delete("testeDel");
+		UserTO u = service.save(user);
+		service.delete(u.getId());
 		
 		// Se realmente apagou o "getById" nao ira achar
 		
-		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {service.getById("testeDel");});
+		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {service.getById(u.getId());});
 		assertEquals("User not found", exception.getMessage());
 	}
 	
 	@Test
 	void testFailDeleteUserNotFound() {
 		
-		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> service.delete("testeFail"));
+		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> service.delete(UUID.randomUUID()));
 		assertEquals("User not found", exception.getMessage());
 	}
 

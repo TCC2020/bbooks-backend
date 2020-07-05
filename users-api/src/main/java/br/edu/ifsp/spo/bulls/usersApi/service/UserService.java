@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+import java.util.UUID;
+
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
@@ -63,12 +65,18 @@ public class UserService{
 			throw new ResourceConflictException("Email ja esta sendo usado");
 	}
 
-	public UserTO getById(String id) {
+	private void validationEmailIsUnique(String email, User entity) throws Exception {
+		Optional<User> user = rep.findByEmail(email);
+		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
+			throw new ResourceConflictException("Email ja esta sendo usado");
+	}
+
+	public UserTO getById(UUID id) {
 		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 		return beanUtil.toUserTO(user);
 	}
 
-	public void delete(String id) {
+	public void delete(UUID id) {
 			
 		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
 		profileService.deleteByUser(user);
@@ -77,15 +85,16 @@ public class UserService{
 	}
 
 	public UserTO update(UserTO entity) throws Exception {
-		
+		if(entity.getId() == null)
+			throw new ResourceNotFoundException("User not found");
+
 		User user = beanUtil.toUser(entity);
-		
-		validationEmailIsUnique(user);
+
+		validationEmailIsUnique(entity.getEmail(), user);
 		validationPassword(entity);
 		
-		return beanUtil.toUserTO(rep.findById(user.getUserName()).map( user1 -> {
+		return beanUtil.toUserTO(rep.findById(user.getId()).map( user1 -> {
 			user1.setEmail(user.getEmail());
-			user1.setPassword(user.getPassword());
 			return rep.save(user);
 		}).orElseThrow( () -> new ResourceNotFoundException("User not found")));
 		
@@ -111,6 +120,9 @@ public class UserService{
         }
         return  Optional.empty();
     }
-	
+
+	public UserTO getByUserName(String username) {
+		return beanUtil.toUserTO(rep.findByUserName(username));
+	}
 }
 

@@ -19,6 +19,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 
+import java.util.UUID;
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -127,14 +129,15 @@ public class UserControllerTest {
     	user.setName("nome");
     	user.setLastName("sobrenome");
     	// Criando o usu�rio
-    	
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isOk());
-        
+
+		UserTO res = service.save(user);
+//        mockMvc.perform(post("/users")
+//                .contentType("application/json")
+//                .content(objectMapper.writeValueAsString(user)))
+//                .andExpect(status().isOk());
+//
         // Recuperando o usu�rio
-        mockMvc.perform(get("/users/testeID")
+        mockMvc.perform(get("/users/" + res.getId())
         		.contentType("application/json"))
                 .andExpect(status().isOk());
     }
@@ -143,7 +146,7 @@ public class UserControllerTest {
     void testGetByIdUserNotFound() throws Exception {
         
         // Recuperando o usu�rio
-        mockMvc.perform(get("/users/testeID123")
+        mockMvc.perform(get("/users/" + UUID.randomUUID())
         		.contentType("application/json"))
                 .andExpect(status().isNotFound());
     }
@@ -158,19 +161,20 @@ public class UserControllerTest {
     	user.setPassword("1234567");
     	user.setName("nome");
     	user.setLastName("sobrenome");
-    	
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isOk());
-        
+
+    	UserTO res = service.save(user);
+//        mockMvc.perform(post("/users")
+//                .contentType("application/json")
+//                .content(objectMapper.writeValueAsString(user)))
+//                .andExpect(status().isOk());
+//
         // Alterando o usuario
         
-        user.setEmail("testeUP@teste");
+        res.setEmail("testeUP@teste");
 
-        mockMvc.perform(put("/users/testeU")
+        mockMvc.perform(put("/users/" + res.getId())
         		.contentType("application/json")
-        		.content(objectMapper.writeValueAsString(user)))
+        		.content(objectMapper.writeValueAsString(res)))
                 .andExpect(status().isOk());
     }
     
@@ -183,7 +187,7 @@ public class UserControllerTest {
     	user.setEmail("teste@testeUPFound");
     	user.setPassword("1234567");
 
-        mockMvc.perform(put("/users/testeUPNotFound")
+        mockMvc.perform(put("/users/" + UUID.randomUUID())
         		.contentType("application/json")
         		.content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isNotFound());
@@ -199,14 +203,15 @@ public class UserControllerTest {
     	user.setPassword("1234567");
     	user.setName("nome");
     	user.setLastName("sobrenome");
-    	
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(user)));
+
+    	UserTO res = service.save(user);
+//        mockMvc.perform(post("/users")
+//                .contentType("application/json")
+//                .content(objectMapper.writeValueAsString(user)));
         
         // Apagando o usu�rio
         
-        mockMvc.perform(delete("/users/testeDelete")
+        mockMvc.perform(delete("/users/" + res.getId())
         		.contentType("application/json"))
                 .andExpect(status().isOk());
 
@@ -217,7 +222,7 @@ public class UserControllerTest {
 
         // Apagando o usu�rio
         
-        mockMvc.perform(delete("/users/testeDelete")
+        mockMvc.perform(delete("/users/" + UUID.randomUUID())
         		.contentType("application/json"))
                 .andExpect(status().isNotFound());
 
@@ -233,9 +238,10 @@ public class UserControllerTest {
 		user.setName("nome");
 		user.setLastName("sobrenome");
 
-		mockMvc.perform(post("/users")
-				.contentType("application/json")
-				.content(objectMapper.writeValueAsString(user)));
+		UserTO res = service.save(user);
+//		mockMvc.perform(post("/users")
+//				.contentType("application/json")
+//				.content(objectMapper.writeValueAsString(user)));
 
 		// Criando o token
 
@@ -245,7 +251,7 @@ public class UserControllerTest {
 				.contentType("application/json")
 				.content(objectMapper.writeValueAsString(loginTo)));
 
-		String token  = service.getById(user.getUserName()).getToken();
+		String token  = service.getById(res.getId()).getToken();
 
 		// Requisição
 
