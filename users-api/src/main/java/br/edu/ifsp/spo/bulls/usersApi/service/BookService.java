@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.usersApi.bean.BookBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,14 @@ public class BookService {
         HashSet<Book> books = repository.findAll();
 
         return beanUtil.toBookTO(books);
+    }
+
+    public BookTO getOne(int id){
+        Book book = repository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Book not found"));
+        return beanUtil.toBookTO(book);
+    }
+
+    public void delete(int id){
+        repository.deleteById(id);
     }
 }
