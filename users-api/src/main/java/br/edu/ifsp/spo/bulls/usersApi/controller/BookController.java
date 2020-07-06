@@ -35,4 +35,9 @@ public class BookController {
     public void delete(@PathVariable int id){
         service.delete(id);
     }
+    
+    @PutMapping("/{id}")
+    public BookTO update(@PathVariable int id, @RequestBody BookTO bookTo){
+        return service.update(bookTo);
+    }
 }

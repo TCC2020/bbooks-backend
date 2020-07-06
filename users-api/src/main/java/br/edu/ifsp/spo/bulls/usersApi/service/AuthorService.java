@@ -16,11 +16,14 @@ public class AuthorService {
     AuthorBeanUtil beanUtil;
 
     public AuthorTO save (AuthorTO authorTo){
-        System.out.println("TO " + authorTo.toString());
         Author author = beanUtil.toAuthor(authorTo);
-        System.out.println("1 " + author.toString());
         author.setName(author.getName().toLowerCase());
-        System.out.println("2 " + author.toString());
+
+        return beanUtil.toAuthorTo(repository.save(author));
+    }
+
+    public AuthorTO getOne (int id){
+        Author author = repository.findById(id).orElseThrow();
         return beanUtil.toAuthorTo(repository.save(author));
     }
 

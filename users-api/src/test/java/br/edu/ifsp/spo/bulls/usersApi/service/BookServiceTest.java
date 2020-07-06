@@ -115,4 +115,29 @@ public class BookServiceTest {
         );
         assertEquals("Book not found", exception.getMessage());
     }
+
+    @Test
+    void update(){
+        List<Author> authors = new ArrayList<Author>( );
+        Author author = new Author( "Autor2");
+
+        authors.add(author);
+        BookTO bookTO = new BookTO("1267448",
+                "lIVRO TESTE",
+                10,
+                "português",
+                "editora",
+                Calendar.getInstance(),
+                "livro");
+        bookTO.setAuthors(authors);
+        bookTO.setId(service.save(bookTO).getId());
+
+        bookTO.setTitle("Teste");
+
+        BookTO result = service.update(bookTO);
+
+        assertTrue("Teste".equals(result.getTitle()));
+
+
+    }
 }

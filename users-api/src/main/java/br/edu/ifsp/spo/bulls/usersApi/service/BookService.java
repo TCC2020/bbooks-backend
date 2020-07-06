@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 import br.edu.ifsp.spo.bulls.usersApi.bean.BookBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
@@ -54,5 +55,23 @@ public class BookService {
 
     public void delete(int id){
         repository.deleteById(id);
+    }
+
+    public BookTO update(BookTO bookTo){
+
+        Book retorno = repository.findById(bookTo.getId()).map(book -> {
+            book.setAuthors(bookTo.getAuthors());
+            book.setDescription(bookTo.getDescription());
+            book.setIsbn10(bookTo.getIsbn10());
+            book.setLanguage(bookTo.getLanguage());
+            book.setNumberPage(bookTo.getNumberPage());
+            book.setPublishedDate(bookTo.getPublishedDate());
+            book.setPublisher(bookTo.getPublisher());
+            book.setTitle(bookTo.getTitle());
+            return repository.save(book);
+        }).orElseThrow( () -> new ResourceNotFoundException("Book not found"));
+
+
+        return beanUtil.toBookTO(retorno);
     }
 }
