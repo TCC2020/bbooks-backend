@@ -31,7 +31,7 @@ public class BookService {
         List<Author> author = new ArrayList<Author>();
 
         for(int i = 0; i<entity.getAuthors().size(); i++){
-            author.add(authorService.verifyIfAuthorExists(entity.getAuthors().get(i)));
+            author.add(authorService.returnTheAuthorFromDb(entity.getAuthors().get(i)));
         }
 
         Book book = beanUtil.toBook(entity);
