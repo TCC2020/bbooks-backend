@@ -32,6 +32,11 @@ public class AuthorService {
         return beanUtil.toAuthorTo(repository.save(author));
     }
 
+    public AuthorTO getByName (String name){
+        Author author = repository.findByName(name.toLowerCase()).orElseThrow( () -> new ResourceNotFoundException("Author not found"));
+        return beanUtil.toAuthorTo(repository.save(author));
+    }
+
     public List<AuthorTO> getAll(){
         List<Author> authors = repository.findAll();
 
@@ -65,7 +70,7 @@ public class AuthorService {
             AuthorTO authorTO  = this.save(beanUtil.toAuthorTo(author2));
             return beanUtil.toAuthor(authorTO);
         }else{
-            return repository.findByName(author2.getName().toLowerCase());
+            return repository.findByName(author2.getName().toLowerCase()).get();
         }
     }
 

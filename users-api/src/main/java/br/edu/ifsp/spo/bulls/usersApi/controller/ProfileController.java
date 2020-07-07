@@ -49,7 +49,7 @@ public class ProfileController {
 		
 	}
 	
-	@GetMapping("")
+	@GetMapping
 	public HashSet<ProfileTO> getAll() {
 		return service.getAll();
 	}

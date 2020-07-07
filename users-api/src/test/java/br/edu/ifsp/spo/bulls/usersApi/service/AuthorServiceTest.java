@@ -33,7 +33,6 @@ public class AuthorServiceTest {
     void testAuthorExist(){
         service.save(new AuthorTO("testeSaveFailAuthor"));
 
-
         Throwable exception = assertThrows(ResourceConflictException.class, ()-> {
             service.save(new AuthorTO("testeSaveFailAuthor"));}
         );
@@ -119,5 +118,15 @@ public class AuthorServiceTest {
         Author author = service.returnTheAuthorFromDb(new Author("returnFromDb"));
 
         assertNotNull(author.getId());
+    }
+
+    @Test
+    void testGetByName(){
+        String nome = "testGetByName";
+        service.save(new AuthorTO(nome));
+
+        AuthorTO author = service.getByName(nome);
+
+        assertNotNull(author);
     }
 }
