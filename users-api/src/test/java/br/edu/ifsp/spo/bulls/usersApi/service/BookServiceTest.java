@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,6 +36,25 @@ public class BookServiceTest {
         BookTO result = service.save(bookTO);
 
         assertEquals(bookTO, result);
+    }
+
+    @Test
+    void testSaveAuthorsNull(){
+
+        BookTO bookTO = new BookTO("1234489-",
+                "lIVRO TESTE",
+                10,
+                "português",
+                "editora",
+                Calendar.getInstance(),
+                "livro");
+
+
+        Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> {
+            service.save(bookTO);}
+        );
+        assertEquals("O livro deve ter pelo menos 1 autor", exception.getMessage());
+
     }
 
     @Test

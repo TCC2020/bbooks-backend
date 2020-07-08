@@ -3,8 +3,8 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 import br.edu.ifsp.spo.bulls.usersApi.bean.BookBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,8 @@ public class BookService {
 
     public BookTO save(BookTO entity) {
 
+        verificaSeTemAutores(entity);
+
         List<Author> author = new ArrayList<Author>();
 
         for(int i = 0; i<entity.getAuthors().size(); i++){
@@ -40,6 +42,12 @@ public class BookService {
         Book result = repository.save(book);
 
         return beanUtil.toBookTO(result);
+    }
+
+    private void verificaSeTemAutores(BookTO entity) {
+        if(entity.getAuthors() == null){
+            throw new ResourceBadRequestException("O livro deve ter pelo menos 1 autor");
+        }
     }
 
     public HashSet<BookTO> getAll(){
@@ -59,6 +67,7 @@ public class BookService {
 
     public BookTO update(BookTO bookTo){
 
+        this.verificaSeTemAutores(bookTo);
         Book retorno = repository.findById(bookTo.getId()).map(book -> {
             book.setAuthors(bookTo.getAuthors());
             book.setDescription(bookTo.getDescription());
