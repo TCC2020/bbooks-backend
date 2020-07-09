@@ -12,13 +12,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -47,19 +48,43 @@ class BookControllerTest {
     }
 
     @Test
-    void get() {
+    void testGet() throws Exception {
+        BookTO book = new BookTO("12346234","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
+
+        service.save(book);
+
+        mockMvc.perform(get("/books")
+                .contentType("application/json"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void getOne() {
+    void getOne() throws Exception {
+        BookTO book = service.save(new BookTO("1245688","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+
+        mockMvc.perform(get("/books/"+book.getId())
+                .contentType("application/json"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void delete() {
+    void testDelete() throws Exception {
+        BookTO book = service.save(new BookTO("1342345256","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+
+        mockMvc.perform(delete("/books/" + book.getId())
+                .contentType("application/json"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void update() {
+    void update() throws Exception {
+        BookTO book = service.save(new BookTO("2347904","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+        book.setTitle("Alterado");
+
+        mockMvc.perform(put("/books/"+book.getId())
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(book)))
+                .andExpect(status().isOk());
     }
 
     List<Author> listaAutores(){
