@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -68,12 +69,28 @@ class BookControllerTest {
     }
 
     @Test
+    void getOneFail() throws Exception {
+
+        mockMvc.perform(get("/books/"+ new Random().nextInt())
+                .contentType("application/json"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void testDelete() throws Exception {
         BookTO book = service.save(new BookTO("1342345256","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
 
         mockMvc.perform(delete("/books/" + book.getId())
                 .contentType("application/json"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testDeleteBookNotFound() throws Exception {
+
+        mockMvc.perform(delete("/books/" + new Random().nextInt())
+                .contentType("application/json"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -85,6 +102,16 @@ class BookControllerTest {
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(book)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateFail() throws Exception {
+        BookTO book = new BookTO("2347904","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
+
+        mockMvc.perform(put("/books/"+book.getId())
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(book)))
+                .andExpect(status().isNotFound());
     }
 
     List<Author> listaAutores(){

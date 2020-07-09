@@ -127,7 +127,7 @@ public class BookServiceTest {
     void deleteBookNotFound(){
 
         Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
-            service.getOne(new Random().nextInt());}
+            service.delete(new Random().nextInt());}
         );
         assertEquals("Book not found", exception.getMessage());
     }

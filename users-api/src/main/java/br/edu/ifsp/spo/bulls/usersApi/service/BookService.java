@@ -62,6 +62,7 @@ public class BookService {
     }
 
     public void delete(int id){
+        repository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Book not found") );
         repository.deleteById(id);
     }
 
