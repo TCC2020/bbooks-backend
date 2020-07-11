@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class BookService {
 
     public BookTO save(BookTO entity) {
 
+        verificaSeIsbnEstsCadastrado(entity);
         verificaSeTemAutores(entity);
 
         List<Author> author = new ArrayList<Author>();
@@ -42,6 +44,12 @@ public class BookService {
         Book result = repository.save(book);
 
         return beanUtil.toBookTO(result);
+    }
+
+    private void verificaSeIsbnEstsCadastrado(BookTO entity) {
+        if(repository.existsByIsbn(entity.getIsbn10())){
+            throw new ResourceConflictException("ISBN cadastrado");
+        }
     }
 
     private void verificaSeTemAutores(BookTO entity) {

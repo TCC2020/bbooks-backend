@@ -48,6 +48,19 @@ class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+//    @Test
+//    void saveFail() throws Exception {
+//
+//        service.save(new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+//
+//        BookTO book = new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
+//
+//        mockMvc.perform(post("/books")
+//                .contentType("application/json")
+//                .content(objectMapper.writeValueAsString(book)))
+//                .andExpect(status().isConflict());
+//    }
+
     @Test
     void testGet() throws Exception {
         BookTO book = new BookTO("12346234","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");

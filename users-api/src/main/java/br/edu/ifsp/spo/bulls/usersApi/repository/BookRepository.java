@@ -10,4 +10,6 @@ import java.util.HashSet;
 public interface BookRepository extends CrudRepository<Book, Integer> {
 
     HashSet<Book> findAll();
+
+    Boolean existsByIsbn(String isbn);
 }
