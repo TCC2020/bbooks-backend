@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,18 +46,18 @@ class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    void saveFail() throws Exception {
-//
-//        service.save(new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
-//
-//        BookTO book = new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
-//
-//        mockMvc.perform(post("/books")
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(book)))
-//                .andExpect(status().isConflict());
-//    }
+    @Test
+    void saveFail() throws Exception {
+
+        service.save(new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+
+        BookTO book = new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
+
+        mockMvc.perform(post("/books")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(book)))
+                .andExpect(status().isConflict());
+    }
 
     @Test
     void testGet() throws Exception {

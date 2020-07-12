@@ -11,5 +11,5 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
 
     HashSet<Book> findAll();
 
-    Boolean existsByIsbn(String isbn);
+    boolean existsByIsbn10(String isbn10);
 }

@@ -41,7 +41,7 @@ public class BookServiceTest {
     @Test
     void testSaveAuthorsNull(){
 
-        BookTO bookTO = new BookTO("1234489-",
+        BookTO bookTO = new BookTO("1234489675",
                 "lIVRO TESTE",
                 10,
                 "português",

@@ -13,8 +13,9 @@ class BookTOTest {
 
     @Test
     void testEquals() {
-        BookTO bookTo = new BookTO( "123","lIVRO TESTE3", this.listaAutores(), 10, "português", "editora",  Calendar.getInstance(), "livro");
-        BookTO bookTo2 = new BookTO( "123","lIVRO TESTE3", this.listaAutores(), 10, "português", "editora",  Calendar.getInstance(), "livro");
+        Calendar data = Calendar.getInstance();
+        BookTO bookTo = new BookTO( "123","lIVRO TESTE3", this.listaAutores(), 10, "português", "editora",  data, "livro");
+        BookTO bookTo2 = new BookTO( "123","lIVRO TESTE3", this.listaAutores(), 10, "português", "editora",  data, "livro");
 
         assertEquals(bookTo, bookTo2);
     }

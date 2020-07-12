@@ -22,7 +22,7 @@ public class AuthorBeanUtil {
         return author;
     }
 
-    public List<AuthorTO> toAuthorTo(List<Author> authors) {
+    public List<AuthorTO> toAuthorToList(List<Author> authors) {
 
         List<AuthorTO> authorsTo = new ArrayList<AuthorTO>();
 
@@ -33,26 +33,16 @@ public class AuthorBeanUtil {
         return authorsTo;
     }
 
-    public List<Author> toAuthor(List<AuthorTO> authorsTo) {
-
-        List<Author> authors  = new ArrayList<Author>();
-
-        for (Author author: authors ) {
-            authorsTo.add(this.toAuthorTo(author));
-        }
-
-        return authors;
-    }
-
     public AuthorTO toAuthorTo(Author author) {
         AuthorTO authorTO = new AuthorTO();
-
+        System.out.println(author);
+        System.out.println(authorTO);
         try{
             BeanUtils.copyProperties(author, authorTO);
         }catch(Exception e) {
 
         }
-
+        System.out.println(authorTO);
         return authorTO;
     }
 

@@ -51,58 +51,7 @@ public class Book {
     @NotBlank(message = "Description is mandatory")
     private String description;
 
-    public Book(@NotBlank(message = "Title is mandatory") String title,
-                @NotNull(message = "numberPage is mandatory") int numberPage,
-                @NotBlank(message = "Language is mandatory") String language,
-                @NotBlank(message = "Publisher is mandatory") String publisher,
-                @NotBlank(message = "Published Date is mandatory") Calendar publishedDate,
-                @NotBlank(message = "Description is mandatory") String description) {
-        this.title = title;
-        this.numberPage = numberPage;
-        this.language = language;
-        this.publisher = publisher;
-        this.publishedDate = publishedDate;
-        this.description = description;
-    }
-
     public Book() {
-    }
-
-    public Book(@NotBlank(message = "Title is mandatory") String title,
-                List<Author> authors,
-                @NotNull(message = "numberPage is mandatory") int numberPage,
-                @NotBlank(message = "Language is mandatory") String language,
-                @NotBlank(message = "Publisher is mandatory") String publisher,
-                String category,
-                @NotBlank(message = "Published Date is mandatory")Calendar publishedDate,
-                String edition, String printType,
-                @NotBlank(message = "Description is mandatory") String description) {
-        this.title = title;
-        this.authors = authors;
-        this.numberPage = numberPage;
-        this.language = language;
-        this.publisher = publisher;
-        this.category = category;
-        this.publishedDate = publishedDate;
-        this.edition = edition;
-        this.printType = printType;
-        this.description = description;
-    }
-
-    public Book( @NotBlank(message = "Title is mandatory") String title,
-                 List<Author> authors,
-                 @NotNull(message = "NumberPage is mandatory") int numberPage,
-                 @NotBlank(message = "Language is mandatory") String language,
-                 @NotBlank(message = "Publisher is mandatory") String publisher,
-                 @NotBlank(message = "Published Date is mandatory")Calendar publishedDate,
-                 @NotBlank(message = "Description is mandatory") String description) {
-        this.title = title;
-        this.authors = authors;
-        this.numberPage = numberPage;
-        this.language = language;
-        this.publisher = publisher;
-        this.publishedDate = publishedDate;
-        this.description = description;
     }
 
     public Book(@NotBlank(message = "ISBN10 is mandatory") String isbn10,

@@ -40,7 +40,7 @@ public class AuthorService {
     public List<AuthorTO> getAll(){
         List<Author> authors = repository.findAll();
 
-        return beanUtil.toAuthorTo(authors);
+        return beanUtil.toAuthorToList(authors);
     }
 
     public void delete(int id){

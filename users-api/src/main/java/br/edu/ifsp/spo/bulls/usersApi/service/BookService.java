@@ -47,7 +47,7 @@ public class BookService {
     }
 
     private void verificaSeIsbnEstsCadastrado(BookTO entity) {
-        if(repository.existsByIsbn(entity.getIsbn10())){
+        if(repository.existsByIsbn10(entity.getIsbn10())){
             throw new ResourceConflictException("ISBN cadastrado");
         }
     }
