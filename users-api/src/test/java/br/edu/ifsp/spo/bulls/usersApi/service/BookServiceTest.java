@@ -30,7 +30,7 @@ public class BookServiceTest {
                 10,
                 "português",
                 "editora",
-                Calendar.getInstance(),
+                3,
                 "livro");
         bookTO.setAuthors(authors);
         BookTO result = service.save(bookTO);
@@ -46,7 +46,7 @@ public class BookServiceTest {
                 10,
                 "português",
                 "editora",
-                Calendar.getInstance(),
+                3,
                 "livro");
 
 
@@ -68,7 +68,7 @@ public class BookServiceTest {
                 10,
                 "português",
                 "editora",
-                Calendar.getInstance(),
+                3,
                 "livro");
         bookTO.setAuthors(authors);
         BookTO result = service.save(bookTO);
@@ -89,7 +89,7 @@ public class BookServiceTest {
                 10,
                 "português",
                 "editora",
-                Calendar.getInstance(),
+                3,
                 "livro");
         bookTO.setAuthors(authors);
         BookTO result = service.save(bookTO);
@@ -110,7 +110,7 @@ public class BookServiceTest {
                 10,
                 "português",
                 "editora",
-                Calendar.getInstance(),
+                3,
                 "livro");
         bookTO.setAuthors(authors);
         BookTO result = service.save(bookTO);
@@ -143,7 +143,7 @@ public class BookServiceTest {
                 10,
                 "português",
                 "editora",
-                Calendar.getInstance(),
+                3,
                 "livro");
         bookTO.setAuthors(authors);
         bookTO.setId(service.save(bookTO).getId());

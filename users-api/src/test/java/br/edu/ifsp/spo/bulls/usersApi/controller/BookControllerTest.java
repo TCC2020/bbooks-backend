@@ -38,7 +38,8 @@ class BookControllerTest {
     @Test
     void save() throws Exception {
 
-        BookTO book = new BookTO("1234653","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
+        BookTO book = new BookTO("1234653","lIVRO TESTE3", this.listaAutores() ,
+                10, "português", "editora",  2, "livro123456 ");
 
         mockMvc.perform(post("/books")
                 .contentType("application/json")
@@ -49,9 +50,11 @@ class BookControllerTest {
     @Test
     void saveFail() throws Exception {
 
-        service.save(new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+        service.save(new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,
+                10, "português", "editora",  4, "livro123456 "));
 
-        BookTO book = new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
+        BookTO book = new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,
+                10, "português", "editora",  4, "livro123456 ");
 
         mockMvc.perform(post("/books")
                 .contentType("application/json")
@@ -61,7 +64,8 @@ class BookControllerTest {
 
     @Test
     void testGet() throws Exception {
-        BookTO book = new BookTO("12346234","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
+        BookTO book = new BookTO("12346234","lIVRO TESTE3", this.listaAutores() ,
+                10, "português", "editora",  7, "livro123456 ");
 
         service.save(book);
 
@@ -72,7 +76,9 @@ class BookControllerTest {
 
     @Test
     void getOne() throws Exception {
-        BookTO book = service.save(new BookTO("1245688","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+        BookTO book = service.save(new BookTO("1245688","lIVRO TESTE3",
+                this.listaAutores() ,10, "português", "editora",
+                7, "livro123456 "));
 
         mockMvc.perform(get("/books/"+book.getId())
                 .contentType("application/json"))
@@ -89,7 +95,9 @@ class BookControllerTest {
 
     @Test
     void testDelete() throws Exception {
-        BookTO book = service.save(new BookTO("1342345256","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+        BookTO book = service.save(new BookTO("1342345256","lIVRO TESTE3",
+                this.listaAutores() ,10, "português", "editora",
+               8, "livro123456 "));
 
         mockMvc.perform(delete("/books/" + book.getId())
                 .contentType("application/json"))
@@ -106,7 +114,9 @@ class BookControllerTest {
 
     @Test
     void update() throws Exception {
-        BookTO book = service.save(new BookTO("2347904","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 "));
+        BookTO book = service.save(new BookTO("2347904","lIVRO TESTE3",
+                this.listaAutores() ,10, "português", "editora",
+                2, "livro123456 "));
         book.setTitle("Alterado");
 
         mockMvc.perform(put("/books/"+book.getId())
@@ -117,7 +127,8 @@ class BookControllerTest {
 
     @Test
     void updateFail() throws Exception {
-        BookTO book = new BookTO("2347904","lIVRO TESTE3", this.listaAutores() ,10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
+        BookTO book = new BookTO("2347904","lIVRO TESTE3", this.listaAutores() ,
+                10, "português", "editora",  5, "livro123456 ");
 
         mockMvc.perform(put("/books/"+book.getId())
                 .contentType("application/json")

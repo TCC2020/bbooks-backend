@@ -13,9 +13,10 @@ class BookTOTest {
 
     @Test
     void testEquals() {
-        Calendar data = Calendar.getInstance();
-        BookTO bookTo = new BookTO( "123","lIVRO TESTE3", this.listaAutores(), 10, "português", "editora",  data, "livro");
-        BookTO bookTo2 = new BookTO( "123","lIVRO TESTE3", this.listaAutores(), 10, "português", "editora",  data, "livro");
+        BookTO bookTo = new BookTO( "123","lIVRO TESTE3", this.listaAutores(),
+                10, "português", "editora",  1, "livro");
+        BookTO bookTo2 = new BookTO( "123","lIVRO TESTE3", this.listaAutores(),
+                10, "português", "editora",  1, "livro");
 
         assertEquals(bookTo, bookTo2);
     }
@@ -23,8 +24,10 @@ class BookTOTest {
     @Test
     void testNotEquals() {
 
-        BookTO bookTo  = new BookTO( "123","lIVRO TESTE3", 10, "português", "editora",  Calendar.getInstance(), "livro123456 ");
-        BookTO bookTo2 = new BookTO( "1234567","livro 2", 10, "português", "editora",  Calendar.getInstance(), "livro");
+        BookTO bookTo  = new BookTO( "123","lIVRO TESTE3", 10,
+                "português", "editora",  2, "livro123456 ");
+        BookTO bookTo2 = new BookTO( "1234567","livro 2", 10,
+                "português", "editora",  2, "livro");
 
         assertNotEquals(bookTo, bookTo2);
     }
@@ -37,7 +40,7 @@ class BookTOTest {
         book.setAuthors(this.listaAutores());
 
 
-        assertEquals("BookTO(id=1, isbn10=null, title=title, authors=[Author(id=0, name=autor 1), Author(id=0, name=autor 2), Author(id=0, name=autor 3)], numberPage=0, language=null, publisher=null, publishedDate=null, description=null)", book.toString());
+        assertEquals("BookTO(id=1, isbn10=null, title=title, authors=[Author(id=0, name=autor 1), Author(id=0, name=autor 2), Author(id=0, name=autor 3)], numberPage=0, language=null, publisher=null, publishedDate=0, description=null, image=null)", book.toString());
     }
 
 

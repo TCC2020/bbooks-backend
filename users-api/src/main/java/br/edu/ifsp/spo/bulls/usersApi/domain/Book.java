@@ -41,7 +41,7 @@ public class Book {
 
     private String category;
 
-    private Calendar publishedDate;
+    private int publishedDate;
 
     private String edition;
 
@@ -60,7 +60,7 @@ public class Book {
                 @NotNull(message = "NumberPage is mandatory") int numberPage,
                 @NotBlank(message = "Language is mandatory") String language,
                 @NotBlank(message = "Publisher is mandatory") String publisher,
-                @NotBlank(message = "Published Date is mandatory") Calendar publishedDate,
+                @NotBlank(message = "Published Date is mandatory") int publishedDate,
                 @NotBlank(message = "Description is mandatory") String description) {
         this.isbn10 = isbn10;
         this.title = title;

@@ -26,7 +26,8 @@ public class BookBeanUtilTest {
         List<Author>  author = new ArrayList<Author>( );
         author.add(new Author("Autor1"));
 
-        BookTO bookTo = new BookTO( "123","lIVRO TESTE3", author, 10, "português", "editora",  Calendar.getInstance(), "livro");
+        BookTO bookTo = new BookTO( "123","lIVRO TESTE3", author, 10,
+                "português", "editora",  8, "livro");
 
         Book book = beanUtil.toBook(bookTo);
 
@@ -47,7 +48,8 @@ public class BookBeanUtilTest {
         List<Author>  author = new ArrayList<Author>( );
         author.add(new Author("Autor1"));
 
-        Book book = new Book( "1234", "lIVRO TESTE2", author, 10, "português", "editora", Calendar.getInstance(), "livro");
+        Book book = new Book( "1234", "lIVRO TESTE2", author, 10,
+                "português", "editora", 1, "livro");
 
         BookTO bookTo = beanUtil.toBookTO(book);
 
@@ -70,7 +72,7 @@ public class BookBeanUtilTest {
 
         Book book = new Book( "123455665", "lIVRO TESTE",author,
                 10, "português",
-                "editora", Calendar.getInstance(), "livro");
+                "editora", 1, "livro");
 
         HashSet<Book> listBooks = new HashSet<Book>();
         listBooks.add(book);
