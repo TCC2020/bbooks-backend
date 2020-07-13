@@ -157,7 +157,7 @@ public class UserServiceTest {
 		service.save(user);
 		service.delete("testeDel");
 		
-		// Se realmente apagou o "getById" não irá achar
+		// Se realmente apagou o "getById" nao ira achar
 		
 		Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {service.getById("testeDel");});
 		assertEquals("User not found", exception.getMessage());
