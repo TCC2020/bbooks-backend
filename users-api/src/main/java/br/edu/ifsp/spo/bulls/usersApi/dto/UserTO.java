@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import java.util.Objects;
-import javax.persistence.Id;
+import java.util.UUID;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class UserTO {
 	
-	@Id
+	private UUID id;
 	@NotBlank(message = "UserName is mandatory")
     private String userName;
 	

@@ -106,7 +106,7 @@ public class UserTest {
 	void testToString() {
 		
 		User user = new User("teste", "testeC@teste", "senhateste");
-		assertEquals("User(userName=teste, email=testeC@teste, password=senhateste, token=null, creationDate=null, verified=null)", user.toString());
+		assertEquals("User(id=null, userName=teste, email=testeC@teste, password=senhateste, token=null, creationDate=null, verified=null)", user.toString());
 	}
 	
 }

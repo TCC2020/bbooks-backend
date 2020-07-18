@@ -1,9 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -12,6 +9,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -24,6 +22,10 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -3104545566617263249L;
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, unique = true, nullable = false)
+	private UUID id;
+
 	@NotBlank(message = "UserName is mandatory")
     private String userName;
 	

@@ -6,6 +6,8 @@ spring:
     password: ''
     url: jdbc:h2:file:./api-users-development
     username: sa
+    initialization-mode: always
+    initialize: true
   h2:
     console:
       enabled: true

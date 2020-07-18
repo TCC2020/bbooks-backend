@@ -3,12 +3,19 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 
 import java.util.HashSet;
+import java.util.UUID;
+
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserBeanUtil {
+	@Autowired
+	private UserRepository repository;
 
 	public User toUser(UserTO userTO) {
 		User user = new User();
@@ -20,6 +27,10 @@ public class UserBeanUtil {
 		}
 		
 		return user;
+	}
+
+	public User toUser(UUID id) {
+		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 	}
 	
 	public UserTO toUserTO(User user) {

@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import java.util.HashSet;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +33,19 @@ public class UserController {
 	}
 	
 	@GetMapping ("/{id}")
-	public UserTO getById(@PathVariable String id) {
+	public UserTO getById(@PathVariable UUID id) {
 		
 		return service.getById(id);
 		
 	}
 
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable String id) {
+	public void delete(@PathVariable UUID id) {
 		service.delete(id);
 	}
 	
 	@PutMapping("/{id}")
-	public UserTO update(@RequestBody UserTO userTO, @PathVariable String id) throws Exception {
-
-		userTO.setUserName(id);
-		
+	public UserTO update(@RequestBody UserTO userTO, @PathVariable UUID id) throws Exception {
 		
 		return service.update(userTO);
 	}
