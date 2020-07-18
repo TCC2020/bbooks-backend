@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.usersApi.service.impl;
+package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
@@ -9,7 +9,6 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
-import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

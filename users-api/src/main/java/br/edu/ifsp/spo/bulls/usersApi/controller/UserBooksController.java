@@ -3,7 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
-import br.edu.ifsp.spo.bulls.usersApi.service.impl.UserBooksService;
+import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
