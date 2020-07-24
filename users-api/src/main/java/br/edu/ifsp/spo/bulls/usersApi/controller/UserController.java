@@ -26,6 +26,7 @@ public class UserController {
 		
 		return service.save(userTO);
 	}
+
 	
 	@GetMapping
 	public HashSet<UserTO> getAll(){

@@ -22,6 +22,10 @@ public class UserTO {
     private String password;
 	
     private String token;
+
+    private String idToken;
+
+    private String idSocial;
     
     private Boolean verified ;
     
