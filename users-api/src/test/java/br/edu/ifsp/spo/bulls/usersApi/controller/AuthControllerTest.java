@@ -42,6 +42,19 @@ public class AuthControllerTest {
     }
 
     @Test
+    void testLoginGoogle() throws Exception {
+        UserTO userTo = new UserTO("1010101012291", "testegooglep@login", "1010101012291", "nome", "sobrenome");
+        userTo.setUserName("1010101012291");
+        userTo.setIdToken("ewrdsfqwefdsfqwefdsfwefwqefweerw");
+        userTo.setToken("sdfoiwhefiodsfoiweahfoidsajfoiewajfoidsajfoiewajfoidsjfa");
+        userTo.setIdSocial("1010101012291");
+        mockMvc.perform(post("/auth/login/google")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(userTo)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void testLoginPasswordFail() throws Exception {
         UserTO userTo = new UserTO("testeLogin", "testeUp@login", "senhate", "nome", "sobrenome");
         LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), "123" );

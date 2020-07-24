@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import br.edu.ifsp.spo.bulls.usersApi.service.EmailService;
+import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,9 @@ public class EmailServiceTest {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    EmailServiceImpl emailServiceImpl;
 
     String to = "teste@teste.com";
     String content = "verify your e-mail";

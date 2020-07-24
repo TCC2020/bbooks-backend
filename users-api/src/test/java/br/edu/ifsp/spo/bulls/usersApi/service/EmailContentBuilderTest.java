@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,5 +25,4 @@ public class EmailContentBuilderTest {
         String result = ecb.build("Confirm your e-mail");
         assertEquals(true, result.contains(content));
     }
-
 }

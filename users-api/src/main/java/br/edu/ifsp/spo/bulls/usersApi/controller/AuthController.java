@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/google")
-    public UserTO createGoogle(@RequestBody @Valid UserTO userTO) throws ResourceBadRequestException, Exception  {
+    public UserTO createGoogle(@RequestBody @Valid UserTO userTO) throws  Exception  {
         return service.saveGoogle(userTO);
     }
     

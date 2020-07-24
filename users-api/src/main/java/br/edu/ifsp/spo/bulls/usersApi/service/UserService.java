@@ -129,7 +129,7 @@ public class UserService{
 		User user = beanUtil.toUser(userTO);
 		user.setToken(userTO.getToken());
 		user.setIdSocial(userTO.getIdSocial());
-
+		user.setVerified(userTO.getVerified());
 		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
 
 		validationUserNameIsUnique(user);
