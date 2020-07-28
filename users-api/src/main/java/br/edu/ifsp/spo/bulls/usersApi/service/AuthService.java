@@ -27,6 +27,8 @@ public class AuthService {
     private UserBeanUtil utils;
     @Autowired
     private EmailServiceImpl emailService;
+    @Autowired
+    private UserService userService;
     
     public UserTO authLogin(LoginTO loginTO){
         Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
@@ -85,5 +87,14 @@ public class AuthService {
 
     public UserTO getByToken(String token) {
         return  utils.toUserTO(repository.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("User not found.")));
+    }
+
+    public UserTO saveGoogle(UserTO userTO) throws Exception {
+        Optional<User> u = repository.findByIdSocial( userTO.getIdSocial());
+        if(u.isPresent()){
+            return utils.toUserTO(u.get());
+        }else{
+            return  this.userService.saveGoogle(userTO);
+        }
     }
 }

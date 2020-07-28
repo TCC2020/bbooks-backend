@@ -124,5 +124,22 @@ public class UserService{
 	public UserTO getByUserName(String username) {
 		return beanUtil.toUserTO(rep.findByUserName(username));
 	}
+
+	public UserTO saveGoogle(UserTO userTO)  throws Exception  {
+		User user = beanUtil.toUser(userTO);
+		user.setToken(userTO.getToken());
+		user.setIdSocial(userTO.getIdSocial());
+		user.setVerified(userTO.getVerified());
+		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
+
+		validationUserNameIsUnique(user);
+		validationEmailIsUnique(user);
+		validationPassword(userTO);
+
+		User retorno = rep.save(user);
+		profileService.save(profile);
+
+		return beanUtil.toUserTO(retorno);
+	}
 }
 

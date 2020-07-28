@@ -54,7 +54,7 @@ public class ProfileServiceTest {
 		
 		Profile profileGet = profileBeanUtil.toProfile(service.getById(profileSet.getId()));
 		
-		assertEquals(profileSet, profileGet);
+		assertEquals(profileSet.getId(), profileGet.getId());
 	}
 	
 	@Test
