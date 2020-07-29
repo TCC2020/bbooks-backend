@@ -11,6 +11,7 @@ public class UserBooksTO {
     private Long id;
     private String isbn10;
     private String isbn13;
+    private String idBook;
     private String status;
     private LocalDateTime addDate;
     private Book book;
