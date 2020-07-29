@@ -28,7 +28,10 @@ public class UserBooks {
     public enum Status {
         QUERO_LER("Quero ler"),
         LENDO("Lendo"),
-        LIDO("Lido");
+        LIDO("Lido"),
+        EMPRESTADO("Emprestado"),
+        RELENDO("Relendo"),
+        INTERROMPIDO("INTERROMPIDO");
 
         private final String text;
         Status(final String text) {
