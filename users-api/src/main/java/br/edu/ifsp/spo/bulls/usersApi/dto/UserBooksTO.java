@@ -12,7 +12,7 @@ public class UserBooksTO {
     private String isbn10;
     private String isbn13;
     private String idBook;
-    private String status;
+    private UserBooks.Status status;
     private LocalDateTime addDate;
     private Book book;
     private int profileId;

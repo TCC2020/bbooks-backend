@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import lombok.Data;
 
 @Data
@@ -27,7 +28,11 @@ public class UserTO {
 
     private String idSocial;
     
-    private Boolean verified ;
+    private Boolean verified;
+
+    private Long profileId;
+
+    private Profile profile;
     
     @NotBlank(message = "Nome é obrigatório")
     private String name;

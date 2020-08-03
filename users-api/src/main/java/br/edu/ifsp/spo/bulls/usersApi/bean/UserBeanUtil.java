@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Component;
 public class UserBeanUtil {
 	@Autowired
 	private UserRepository repository;
+	@Autowired
+	private ProfileRepository profileRepository;
 
 	public User toUser(UserTO userTO) {
 		User user = new User();
@@ -25,7 +28,7 @@ public class UserBeanUtil {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return user;
 	}
 
@@ -41,7 +44,7 @@ public class UserBeanUtil {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		userTO.setProfile(profileRepository.findByUser(user));
 		return userTO;
 	}
 
