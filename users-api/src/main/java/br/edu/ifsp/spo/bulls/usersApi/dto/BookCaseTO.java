@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class BookCaseTO {
     private int profileId;
-    Set<UserBooks> books;
-
+    private Tag tag;
+    private Set<UserBooks> books;
 }
