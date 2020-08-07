@@ -12,6 +12,7 @@ public class UserBooksTO {
     private String isbn10;
     private String isbn13;
     private String idBook;
+    private Long tagId;
     private UserBooks.Status status;
     private LocalDateTime addDate;
     private Book book;

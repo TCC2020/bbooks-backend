@@ -16,7 +16,7 @@ public class TagController {
     private TagService service;
 
     @PostMapping
-    public Tag save(Tag tag) {
+    public Tag save(@RequestBody Tag tag) {
         return service.save(tag);
     }
 
@@ -24,14 +24,18 @@ public class TagController {
     public LinkedHashSet<Tag> getByProfile(@PathVariable int profileId) {
         return service.getByProfile(profileId);
     }
+    @GetMapping("/tag/{idTag}")
+    public Tag getById(@PathVariable Long idTag) {
+        return service.getbyId(idTag);
+    }
 
     @PutMapping("/{tagId}/book/{userBookId}")
-    public Tag putTagOnBook(Long tagId, Long userBookId) {
+    public Tag putTagOnBook(@PathVariable Long tagId,@PathVariable Long userBookId) {
         return service.tagBook(tagId, userBookId);
     }
 
     @DeleteMapping("/{tagId}/book/{userBookId}")
-    public HttpStatus delete(Long tagId, Long userBookId) {
+    public HttpStatus delete(@PathVariable Long tagId, @PathVariable Long userBookId) {
         return service.untagBook(tagId, userBookId);
     }
 }

@@ -18,7 +18,6 @@ public class UserBooksBeanUtil {
             e.printStackTrace();
         }
         userBooksTO.setStatus(userBooks.getStatus());
-
         return userBooksTO;
     }
 

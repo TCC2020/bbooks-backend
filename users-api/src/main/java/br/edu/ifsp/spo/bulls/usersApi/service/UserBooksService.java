@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
@@ -20,9 +21,14 @@ public class UserBooksService {
     private UserBooksRepository repository;
     @Autowired
     private UserBooksBeanUtil util;
+    @Autowired
+    private TagService tagService;
 
     public UserBooksTO save(UserBooksTO dto) {
-        return util.toDto(repository.save(util.toDomain(dto)));
+        UserBooks userBooks = repository.save(util.toDomain(dto));
+        Tag tag = tagService.tagBook(dto.getTagId(), userBooks.getId());
+        tagService.save(tag);
+        return util.toDto(userBooks);
     }
 
     public UserBooksTO updateStatus(UserBookUpdateStatusTO dto) {

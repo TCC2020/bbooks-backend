@@ -37,4 +37,9 @@ public class TagService {
         repository.save(tag);
         return HttpStatus.ACCEPTED;
     }
+
+    public Tag getbyId(Long idTag) {
+        return repository.findById(idTag).orElseThrow(() -> new ResourceNotFoundException("Tag not found"));
+    }
 }
+
