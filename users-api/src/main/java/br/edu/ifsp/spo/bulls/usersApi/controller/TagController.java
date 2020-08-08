@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tags")
@@ -21,8 +22,12 @@ public class TagController {
     }
 
     @GetMapping("/profile/{profileId}")
-    public LinkedHashSet<Tag> getByProfile(@PathVariable int profileId) {
+    public List<Tag> getByProfile(@PathVariable int profileId) {
         return service.getByProfile(profileId);
+    }
+    @GetMapping("/book/{idUserBook}")
+    public List<Tag> getByBook(@PathVariable Long idUserBook) {
+        return service.getByIdBook(idUserBook);
     }
     @GetMapping("/tag/{idTag}")
     public Tag getById(@PathVariable Long idTag) {

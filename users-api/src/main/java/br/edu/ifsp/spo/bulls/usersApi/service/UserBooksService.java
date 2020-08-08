@@ -13,6 +13,7 @@ import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -26,8 +27,9 @@ public class UserBooksService {
 
     public UserBooksTO save(UserBooksTO dto) {
         UserBooks userBooks = repository.save(util.toDomain(dto));
-        Tag tag = tagService.tagBook(dto.getTagId(), userBooks.getId());
-        tagService.save(tag);
+        for(Tag t : dto.getTags()){
+            tagService.tagBook(t.getId(), userBooks.getId());
+        }
         return util.toDto(userBooks);
     }
 
@@ -50,5 +52,23 @@ public class UserBooksService {
         bookCase.setProfileId(profileId);
         bookCase.setBooks(userBooks);
         return bookCase;
+    }
+
+    public UserBooksTO update(UserBooksTO dto) {
+
+        if (dto.getTags().isEmpty()) {
+            List<Tag> tagsRemove = tagService.getByIdBook(dto.getId());
+            for(Tag tag: tagsRemove){
+                tagService.untagBook(tag.getId(),dto.getId());
+            }
+            this.deleteById(dto.getId());
+            return new UserBooksTO();
+        }else{
+            List<Tag> tagsRemove = tagService.getByIdBook(dto.getId());
+            for(Tag tag: tagsRemove){
+                    tagService.untagBook(tag.getId(),dto.getId());
+            }
+            return this.save(dto);
+        }
     }
 }

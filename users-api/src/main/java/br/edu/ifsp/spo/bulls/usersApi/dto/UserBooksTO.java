@@ -1,10 +1,13 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import lombok.Data;
 
 import java.awt.print.Book;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
 
 @Data
 public class UserBooksTO {
@@ -12,7 +15,7 @@ public class UserBooksTO {
     private String isbn10;
     private String isbn13;
     private String idBook;
-    private Long tagId;
+    private List<Tag> tags;
     private UserBooks.Status status;
     private LocalDateTime addDate;
     private Book book;
