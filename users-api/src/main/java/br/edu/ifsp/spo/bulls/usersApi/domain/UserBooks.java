@@ -15,11 +15,7 @@ public class UserBooks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String isbn10;
-    private String isbn13;
-
     private String idBook;
-
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime addDate;
