@@ -1,8 +1,10 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TagRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import javafx.scene.effect.SepiaTone;
@@ -10,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TagService {
@@ -21,6 +20,9 @@ public class TagService {
     private TagRepository repository;
     @Autowired
     private UserBooksRepository userBooksRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
     @Autowired
     private UserBooksService userBooksService;
 
@@ -29,7 +31,9 @@ public class TagService {
     }
 
     public List<Tag> getByProfile(int profileId) {
-        return repository.findByProfile(profileId);
+
+        Optional<Profile> profile = profileRepository.findById(profileId);
+        return repository.findByProfile(profile.get());
     }
 
     public Tag tagBook(Long tagId, Long userBookId) {
