@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TagRepository;
@@ -50,11 +51,22 @@ public class TagService {
     }
 
     public void delete(Long tagId){
-
         Tag tag = repository.findById(tagId).orElseThrow( () -> new ResourceNotFoundException("Tag not found"));
         this.retiraTagDeLivros(tag);
         repository.delete(tag);
+    }
 
+    public Tag update(Long idTag, Tag tagBody){
+        if(tagBody.getId() != idTag)
+            throw new ResourceBadRequestException("Tag enviada não corresponde ao ID");
+
+        Tag resultado = repository.findById(idTag).map( tag -> {
+            tag.setName(tagBody.getName());
+            tag.setColor(tagBody.getColor());
+            return repository.save(tag);
+        }).orElseThrow( () -> new ResourceNotFoundException("Tag não existe"));
+
+        return resultado;
     }
 
     public Tag getbyId(Long idTag) {

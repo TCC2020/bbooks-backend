@@ -25,13 +25,20 @@ public class TagController {
     public List<Tag> getByProfile(@PathVariable int profileId) {
         return service.getByProfile(profileId);
     }
+
     @GetMapping("/book/{idUserBook}")
     public List<Tag> getByBook(@PathVariable Long idUserBook) {
         return service.getByIdBook(idUserBook);
     }
+
     @GetMapping("/{idTag}")
     public Tag getById(@PathVariable Long idTag) {
         return service.getbyId(idTag);
+    }
+
+    @PutMapping("/{idTag}")
+    public Tag update(@PathVariable Long idTag, @RequestBody Tag tag){
+        return service.update(idTag, tag);
     }
 
     @PutMapping("/{tagId}/book/{userBookId}")

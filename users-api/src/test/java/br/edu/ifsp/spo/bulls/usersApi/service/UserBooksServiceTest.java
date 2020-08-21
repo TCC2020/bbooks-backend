@@ -35,7 +35,7 @@ public class UserBooksServiceTest {
 //    }
 
     @Test
-    private void getByProfileId(){
+    public void getByProfileId(){
         BookCaseTO result = service.getByProfileId(profile.getId());
 
         assertTrue(true);
