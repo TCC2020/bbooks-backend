@@ -39,21 +39,7 @@ public class BookTO {
     public BookTO() {
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BookTO)) return false;
 
-        BookTO bookTO = (BookTO) o;
-
-        if (numberPage != bookTO.numberPage) return false;
-        if (publishedDate != bookTO.publishedDate) return false;
-        if (isbn10 != null ? !isbn10.equals(bookTO.isbn10) : bookTO.isbn10 != null) return false;
-        if (title != null ? !title.equals(bookTO.title) : bookTO.title != null) return false;
-        if (language != null ? !language.equals(bookTO.language) : bookTO.language != null) return false;
-        if (publisher != null ? !publisher.equals(bookTO.publisher) : bookTO.publisher != null) return false;
-        return description != null ? description.equals(bookTO.description) : bookTO.description == null;
-    }
 
     public BookTO(@NotBlank(message = "ISBN10 is mandatory") String isbn10,
                   @NotBlank(message = "Title is mandatory") String title,

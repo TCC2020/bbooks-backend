@@ -15,17 +15,15 @@ public class UserBooks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String isbn10;
-    private String isbn13;
-
     private String idBook;
-
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime addDate;
-    @OneToOne
+    @ManyToOne
     private Book book;
-    private int profileId;
+
+    @OneToOne
+    private Profile profile;
 
     public enum Status {
         QUERO_LER("Quero ler"),

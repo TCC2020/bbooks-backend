@@ -14,7 +14,10 @@ public class Tag {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String name;
-    private int profileId;
+
+    @ManyToOne
+    private Profile profile;
+    private String color;
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<UserBooks> books;
 }
