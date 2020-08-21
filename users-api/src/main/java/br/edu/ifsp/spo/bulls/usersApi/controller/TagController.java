@@ -38,9 +38,13 @@ public class TagController {
     public Tag putTagOnBook(@PathVariable Long tagId,@PathVariable Long userBookId) {
         return service.tagBook(tagId, userBookId);
     }
-
     @DeleteMapping("/{tagId}/book/{userBookId}")
-    public HttpStatus delete(@PathVariable Long tagId, @PathVariable Long userBookId) {
+    public HttpStatus untag(@PathVariable Long tagId, @PathVariable Long userBookId) {
         return service.untagBook(tagId, userBookId);
+    }
+
+    @DeleteMapping("/{tagId}")
+    public void delete(@PathVariable Long tagId) {
+        service.delete(tagId);
     }
 }

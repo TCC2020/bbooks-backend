@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
+import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
@@ -20,7 +21,6 @@ public class TagService {
     private TagRepository repository;
     @Autowired
     private UserBooksRepository userBooksRepository;
-
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
@@ -49,6 +49,14 @@ public class TagService {
         return HttpStatus.ACCEPTED;
     }
 
+    public void delete(Long tagId){
+
+        Tag tag = repository.findById(tagId).orElseThrow( () -> new ResourceNotFoundException("Tag not found"));
+        this.retiraTagDeLivros(tag);
+        repository.delete(tag);
+
+    }
+
     public Tag getbyId(Long idTag) {
         return repository.findById(idTag).orElseThrow(() -> new ResourceNotFoundException("Tag not found"));
     }
@@ -64,5 +72,11 @@ public class TagService {
         }
         return tags;
     }
+
+    private void retiraTagDeLivros(Tag tag){
+        for(UserBooks userBook : tag.getBooks()){
+            this.untagBook(tag.getId(), userBook.getId() );
+        }
+    };
 }
 
