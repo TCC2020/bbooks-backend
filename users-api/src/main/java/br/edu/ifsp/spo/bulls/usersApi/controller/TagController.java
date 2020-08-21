@@ -29,7 +29,7 @@ public class TagController {
     public List<Tag> getByBook(@PathVariable Long idUserBook) {
         return service.getByIdBook(idUserBook);
     }
-    @GetMapping("/tag/{idTag}")
+    @GetMapping("/{idTag}")
     public Tag getById(@PathVariable Long idTag) {
         return service.getbyId(idTag);
     }
