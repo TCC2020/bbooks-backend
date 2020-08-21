@@ -19,9 +19,11 @@ public class UserBooks {
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime addDate;
-    @OneToOne
+    @ManyToOne
     private Book book;
-    private int profileId;
+
+    @OneToOne
+    private Profile profile;
 
     public enum Status {
         QUERO_LER("Quero ler"),

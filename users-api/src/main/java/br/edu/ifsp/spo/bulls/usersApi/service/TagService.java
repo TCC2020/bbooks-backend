@@ -29,7 +29,7 @@ public class TagService {
     }
 
     public List<Tag> getByProfile(int profileId) {
-        return repository.findByProfileId(profileId);
+        return repository.findByProfile(profileId);
     }
 
     public Tag tagBook(Long tagId, Long userBookId) {

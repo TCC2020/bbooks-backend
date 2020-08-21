@@ -12,7 +12,7 @@ import java.util.Set;
 @Repository
 public interface TagRepository extends CrudRepository <Tag, Long> {
 
-    List<Tag> findByProfileId(int profileId);
+    List<Tag> findByProfile(int profile);
 
     List<Tag> findAll();
 }
