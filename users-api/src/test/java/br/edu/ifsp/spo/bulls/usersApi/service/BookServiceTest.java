@@ -34,6 +34,8 @@ public class BookServiceTest {
                 "livro");
         bookTO.setAuthors(authors);
         BookTO result = service.save(bookTO);
+        bookTO.setId(result.getId());
+        bookTO.setAuthors(result.getAuthors());
 
         assertEquals(bookTO, result);
     }

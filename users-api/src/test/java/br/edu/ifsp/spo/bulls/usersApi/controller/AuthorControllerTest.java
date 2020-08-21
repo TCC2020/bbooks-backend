@@ -57,7 +57,7 @@ public class AuthorControllerTest {
     @Test
     void getOne() throws Exception {
 
-        int id = service.save(new AuthorTO("autor2")).getId();
+        int id = service.save(new AuthorTO("autor2ad")).getId();
 
         mockMvc.perform( get("/authors/" + id)
                 .contentType("application/json"))
@@ -97,7 +97,7 @@ public class AuthorControllerTest {
     @Test
     void deleteOne() throws Exception {
 
-        int id = service.save(new AuthorTO("autor325325")).getId();
+        int id = service.save(new AuthorTO("autor35325")).getId();
 
         mockMvc.perform( delete("/authors/" + id)
                 .contentType("application/json"))

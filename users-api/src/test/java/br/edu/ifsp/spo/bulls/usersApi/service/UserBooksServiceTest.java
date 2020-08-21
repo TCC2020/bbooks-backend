@@ -34,11 +34,11 @@ public class UserBooksServiceTest {
 //        service.save()
 //    }
 
-    @Test
-    public void getByProfileId(){
-        BookCaseTO result = service.getByProfileId(profile.getId());
-
-        assertTrue(true);
-    }
+//    @Test
+//    public void getByProfileId(){
+//        BookCaseTO result = service.getByProfileId(profile.getId());
+//
+//        assertTrue(true);
+//    }
 
 }
