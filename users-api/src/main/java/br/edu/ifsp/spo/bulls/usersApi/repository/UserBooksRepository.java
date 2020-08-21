@@ -9,5 +9,5 @@ import java.util.Set;
 
 @Repository
 public interface UserBooksRepository  extends CrudRepository<UserBooks, Long> {
-    Set<UserBooks> findByProfileId(int profile);
+    Set<UserBooks> findByProfile(Profile profile);
 }

@@ -9,11 +9,13 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -24,6 +26,9 @@ public class UserBooksService {
     private UserBooksBeanUtil util;
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     public UserBooksTO save(UserBooksTO dto) {
         UserBooks userBooks = repository.save(util.toDomain(dto));
@@ -48,7 +53,8 @@ public class UserBooksService {
 
     public BookCaseTO getByProfileId(int profileId) {
         BookCaseTO bookCase = new BookCaseTO();
-        Set<UserBooks> userBooks = repository.findByProfileId(profileId);
+        Optional<Profile> profile = profileRepository.findById(profileId);
+        Set<UserBooks> userBooks = repository.findByProfile(profile.get());
         bookCase.setProfileId(profileId);
         bookCase.setBooks(userBooks);
         return bookCase;
