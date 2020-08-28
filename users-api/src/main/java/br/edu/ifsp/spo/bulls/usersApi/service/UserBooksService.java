@@ -67,8 +67,7 @@ public class UserBooksService {
             for(Tag tag: tagsRemove){
                 tagService.untagBook(tag.getId(),dto.getId());
             }
-            this.deleteById(dto.getId());
-            return new UserBooksTO();
+            return this.save(dto);
         }else{
             List<Tag> tagsRemove = tagService.getByIdBook(dto.getId());
             for(Tag tag: tagsRemove){
