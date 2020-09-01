@@ -50,7 +50,7 @@ public class UserService{
 			getInstance()
 			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
 			.withTo(retorno.getEmail())
-			.withContent("Bem Vindo " + retorno.getUserName())
+			.withContent(" Bem Vindo " + retorno.getUserName())
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
 			.send();
 
@@ -152,7 +152,7 @@ public class UserService{
 			getInstance()
 			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
 			.withTo(retorno.getEmail())
-			.withContent("Bem Vindo " + retorno.getUserName())
+			.withContent(" Bem Vindo " + retorno.getUserName())
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
 			.send();;
 		return beanUtil.toUserTO(retorno);
