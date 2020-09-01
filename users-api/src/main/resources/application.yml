@@ -1,23 +1,6 @@
 server:
   port: 8080
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
-    url: jdbc:postgresql://localhost:5432/bbooksdev
-    username: postgres
-    password: 123
-    initialization-mode: always
-  jpa:
-    open-in-view: true
-    hibernate:
-      ddl-auto: update
-      hbm2ddl:
-          auto: create
-      properties:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
----
-spring:
   profiles: test
   datasource:
     driver-class-name: org.h2.Driver
