@@ -28,7 +28,7 @@ public class AuthControllerTest {
 
     @Test
     void testLogin() throws Exception {
-        UserTO userTo = new UserTO("testeLogin", "testeUp@login", "senhate", "nome", "sobrenome");
+        UserTO userTo = new UserTO("testexLogxin", "tesxteUp@login", "senhate", "nome", "sobrenome");
         LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), userTo.getPassword() );
 
         mockMvc.perform(post("/users")
@@ -43,8 +43,8 @@ public class AuthControllerTest {
 
     @Test
     void testLoginGoogle() throws Exception {
-        UserTO userTo = new UserTO("1010101012291", "testegooglep@login", "1010101012291", "nome", "sobrenome");
-        userTo.setUserName("1010101012291");
+        UserTO userTo = new UserTO("10101010122x91", "testegoxxoglep@login", "1010101012291", "nome", "sobrenome");
+        userTo.setUserName("1010101012291x");
         userTo.setIdToken("ewrdsfqwefdsfqwefdsfwefwqefweerw");
         userTo.setToken("sdfoiwhefiodsfoiweahfoidsajfoiewajfoidsajfoiewajfoidsjfa");
         userTo.setIdSocial("1010101012291");

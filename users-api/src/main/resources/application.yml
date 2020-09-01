@@ -2,23 +2,20 @@ server:
   port: 8080
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    password: ''
-    url: jdbc:h2:file:./api-users-development
-    username: sa
+    driver-class-name: org.postgresql.Driver
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    url: jdbc:postgresql://localhost:5432/bbooksdev
+    username: postgres
+    password: 123
     initialization-mode: always
-    initialize: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        trace: true
-        web-allow-others: true
   jpa:
     open-in-view: true
     hibernate:
       ddl-auto: update
+      hbm2ddl:
+          auto: create
+      properties:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 ---
 spring:
   profiles: test
