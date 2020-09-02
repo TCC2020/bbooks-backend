@@ -57,8 +57,8 @@ public class UserController {
 		return beanUtil.toUserTO(service.getByToken(token));
 	}
 
-	@GetMapping("/email")
-	public Boolean getByEmail(@RequestBody String email){
+	@GetMapping("/email/{email}")
+	public UserTO getByEmail(@PathVariable String email){
 		return service.getByEmail(email);
 	}
 }
