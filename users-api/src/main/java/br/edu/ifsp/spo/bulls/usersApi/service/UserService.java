@@ -6,6 +6,7 @@ import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,15 @@ public class UserService{
 		
 		User retorno = rep.save(user);
 		profileService.save(profile);
-		
+
+		email.
+			getInstance()
+			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
+			.withTo(retorno.getEmail())
+			.withContent(" Bem Vindo " + retorno.getUserName())
+			.withSubject(EmailSubject.VERIFY_EMAIL.name())
+			.send();
+
 		return beanUtil.toUserTO(retorno);
 	}
 
@@ -139,6 +148,13 @@ public class UserService{
 		User retorno = rep.save(user);
 		profileService.save(profile);
 
+		email.
+			getInstance()
+			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
+			.withTo(retorno.getEmail())
+			.withContent(" Bem Vindo " + retorno.getUserName())
+			.withSubject(EmailSubject.VERIFY_EMAIL.name())
+			.send();;
 		return beanUtil.toUserTO(retorno);
 	}
 }

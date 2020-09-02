@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ResetPassTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceUnauthorizedException;
@@ -52,9 +53,15 @@ public class AuthService {
 
     public void sendResetPasswordEmail(String email, String url) {
         User user = repository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found."));
-        String link = url + user.getToken();
-        emailService.sendEmailTo(user.getEmail(), "Recuperação de senha", "<h1>Acesse o link para redefinir a senha: "+link+"</h1>");
-    }
+
+        emailService.
+                getInstance()
+                .withUrls(url + user.getToken())
+                .withTo(user.getEmail())
+                .withContent(" Recuperar senha " + user.getUserName())
+                .withSubject(EmailSubject.RECUPERAR_SENHA.name())
+                .send();
+     }
 
     public UserTO verified(LoginTO loginTO) throws Exception {
     	Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
