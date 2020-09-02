@@ -85,6 +85,11 @@ public class UserService{
 		return beanUtil.toUserTO(user);
 	}
 
+	public Boolean getByEmail(String email) {
+		User user = rep.findByEmail(email).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		return true;
+	}
+
 	public void delete(UUID id) {
 			
 		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
