@@ -104,6 +104,7 @@ public class UserService{
 		
 		return beanUtil.toUserTO(rep.findById(user.getId()).map( user1 -> {
 			user1.setEmail(user.getEmail());
+			user1.setUserName(user.getUserName());
 			return rep.save(user);
 		}).orElseThrow( () -> new ResourceNotFoundException("User not found")));
 		
