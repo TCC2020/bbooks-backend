@@ -58,7 +58,7 @@ public class AuthService {
                 getInstance()
                 .withUrls(url + user.getToken())
                 .withTo(user.getEmail())
-                .withContent("Recuperar senha " + user.getUserName())
+                .withContent(" Recuperar senha " + user.getUserName())
                 .withSubject(EmailSubject.RECUPERAR_SENHA.name())
                 .send();
      }
