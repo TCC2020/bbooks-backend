@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import javax.validation.Valid;
 
+import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileRegisterTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,12 +25,16 @@ public class ProfileController {
 	@Autowired
 	private ProfileService service;
 	
-	@PutMapping("{id}")
+	@PutMapping()
 	public ProfileTO update(@RequestBody @Valid ProfileTO profileTO, @PathVariable int id) throws Exception {
-		
+
 		profileTO.setId(id);
 
 		return service.update(profileTO);
+	}
+	@PutMapping("/profileRegister")
+	public ProfileTO updateProfileRegister(@RequestBody @Valid ProfileRegisterTO profileRegisterTO) throws Exception {
+		return service.updateByProfileRegisterTO(profileRegisterTO);
 	}
 	
 	@DeleteMapping("{id}")
