@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +33,15 @@ public class ProfileControllerTest {
     
     @Autowired
 	ProfileService service;
+
+    @Autowired
+    UserService userService;
     
     @Test
     void testUpdateProfile() throws Exception {
     	UserTO userTo = new UserTO("testeUpdateProfile", "testeUp@profileController", "senhate", "nome", "sobrenome");
 
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)));
+    	userService.save(userTo);
         
         ProfileTO profile = service.getByUser(userTo.getUserName());
        

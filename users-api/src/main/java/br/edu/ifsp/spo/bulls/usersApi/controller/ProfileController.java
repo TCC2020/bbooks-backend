@@ -25,7 +25,7 @@ public class ProfileController {
 	@Autowired
 	private ProfileService service;
 	
-	@PutMapping()
+	@PutMapping("{id}")
 	public ProfileTO update(@RequestBody @Valid ProfileTO profileTO, @PathVariable int id) throws Exception {
 
 		profileTO.setId(id);
