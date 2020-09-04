@@ -1,6 +1,8 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
+
+import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileRegisterTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
@@ -75,11 +77,16 @@ public class ProfileService {
 			profile.setState(entity.getState());
 			return profileRep.save(profile);
 		}).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
-		
-		enviarEmail(beanUtil.toProfile(entity));
-		
+
 		return beanUtil.toProfileTO(retorno);
-		
+	}
+	public ProfileTO updateByProfileRegisterTO(ProfileRegisterTO profileRegisterTO) throws Exception {
+		ProfileTO profileTO = this.getById(profileRegisterTO.getId());
+		profileTO.setBirthDate(profileRegisterTO.getBirthDate());
+		profileTO.setCountry(profileRegisterTO.getCountry());
+		profileTO.setCity(profileRegisterTO.getCity());
+		profileTO.setState(profileRegisterTO.getState());
+		return  this.update(profileTO);
 	}
 
 	private void enviarEmail(Profile entity) {
