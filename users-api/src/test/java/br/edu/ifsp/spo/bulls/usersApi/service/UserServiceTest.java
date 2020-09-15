@@ -124,14 +124,14 @@ public class UserServiceTest {
 
     @Test
     void testUpdate() throws Exception {
-        UserTO userUp = new UserTO("testeUp", "testeUp1@teste", "senhate", "nome", "sobrenome");
+        UserTO userUp = new UserTO("testeUppppp", "testeUp1@teste", "senhate", "nome", "sobrenome");
 
         UserTO u = service.save(userUp);
 
-        u.setEmail("testUp2@teste");
+        u.setEmail("testUp2@testeeeee");
         UserTO userUpdated = service.update(u);
 
-        assertEquals("testUp2@teste", userUpdated.getEmail());
+        assertEquals("testUp2@testeeeee", userUpdated.getEmail());
     }
 
     @Test
