@@ -5,7 +5,7 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     password: ''
-    url: jdbc:h2:file:./api-users-test
+    url: jdbc:h2:file:./api-users-test;DB_CLOSE_ON_EXIT=FALSE
     username: sa
   h2:
     console:
