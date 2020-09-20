@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
@@ -36,6 +37,9 @@ public class UserControllerTest {
 
     @Autowired
 	private UserService service;
+
+    @Autowired
+	private UserBeanUtil userBeanUtil;
     
     @Test
     void testCreateUser() throws Exception {
@@ -162,11 +166,13 @@ public class UserControllerTest {
     	UserTO res = service.save(user);
 
         // Alterando o usuario
-        res.setEmail("testeUP@teste");
+		CadastroUserTO alterar = userBeanUtil.toCadastroTO(res);
+		alterar.setEmail("testeUP@teste");
+		alterar.setPassword(user.getPassword());
 
         mockMvc.perform(put("/users/" + res.getId())
         		.contentType("application/json")
-        		.content(objectMapper.writeValueAsString(res)))
+        		.content(objectMapper.writeValueAsString(alterar)))
                 .andExpect(status().isOk());
     }
     

@@ -111,8 +111,12 @@ public class UserServiceTest {
 
         UserTO u = service.save(userUp);
 
-        u.setEmail("testUp2@testeeeee");
-        UserTO userUpdated = service.update(userBeanUtil.toCadastroTO(u));
+        CadastroUserTO cadastroUserTO = userBeanUtil.toCadastroTO(u);
+        cadastroUserTO.setEmail("testUp2@testeeeee");
+        cadastroUserTO.setPassword(userUp.getPassword());
+
+
+        UserTO userUpdated = service.update(cadastroUserTO);
 
         assertEquals("testUp2@testeeeee", userUpdated.getEmail());
     }
@@ -143,9 +147,11 @@ public class UserServiceTest {
         CadastroUserTO userUp = new CadastroUserTO("testeUpEmailMandatory", "testeUp5@teste", "senhate", "nome", "sobrenome");
         UserTO u = service.save(userUp);
 
-        u.setEmail("");
+        CadastroUserTO cadastroUserTO = userBeanUtil.toCadastroTO(u);
+        cadastroUserTO.setEmail("");
+        cadastroUserTO.setPassword(userUp.getPassword());
 
-        assertThrows(TransactionSystemException.class, () -> service.update(userBeanUtil.toCadastroTO(u)));
+        assertThrows(TransactionSystemException.class, () -> service.update(cadastroUserTO));
     }
 
     @Test

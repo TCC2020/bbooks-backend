@@ -43,7 +43,7 @@ public class UserService{
 		
 		validationUserNameIsUnique(user);
 		validationEmailIsUnique(user);
-		validationPassword(cadastroUserTO.getPassword());
+		validationPassword(cadastroUserTO);
 		
 		User retorno = rep.save(user);
 		profileService.save(profile);
@@ -59,8 +59,8 @@ public class UserService{
 		return beanUtil.toUserTO(retorno);
 	}
 
-	private void validationPassword(String senha) {
-		if(senha.isEmpty())
+	private void validationPassword(CadastroUserTO entidade) {
+		if(entidade.getPassword().isEmpty())
 			throw new ResourceBadRequestException("Senha nao deve estar vazio");
 		
 	}
@@ -107,7 +107,7 @@ public class UserService{
 		User user = beanUtil.toUser(entity);
 
 		validationEmailIsUnique(entity.getEmail(), user);
-		validationPassword(entity.getPassword());
+		validationPassword(entity);
 		
 		return beanUtil.toUserTO(rep.findById(user.getId()).map( user1 -> {
 			user1.setEmail(user.getEmail());

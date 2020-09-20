@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,9 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 
 @ExtendWith(SpringExtension.class)
@@ -37,7 +37,7 @@ public class ProfileControllerTest {
     
     @Test
     void testUpdateProfile() throws Exception {
-    	UserTO userTo = new UserTO("testeUpdateProfile", "testeUp@profileController", "senhate", "nome", "sobrenome");
+        CadastroUserTO userTo = new CadastroUserTO("testeUpdateProfile", "testeUp@profileController", "senhate", "nome", "sobrenome");
 
     	String userName = userService.save(userTo).getUserName();
         
@@ -55,13 +55,8 @@ public class ProfileControllerTest {
     
     @Test
     void testUpdateProfileNotFound() throws Exception {
-        
-    	User user = new User();
-    	user.setUserName("testeUpdateProfileNotFound");
-    	user.setEmail("testeUp@profileController404");
-    	user.setPassword("1234");
 
-    	ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
+    	ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998");
 		
         mockMvc.perform(put("/profiles/123456" )
                 .contentType("application/json")
@@ -71,8 +66,8 @@ public class ProfileControllerTest {
     
     @Test
     void testDeleteProfile() throws Exception {
-        
-    	UserTO userTo = new UserTO("testeDeleteController", "teste@profileDelete", "senhate", "nome", "sobrenome");
+
+        CadastroUserTO userTo = new CadastroUserTO("testeDeleteController", "teste@profileDelete", "senhate", "nome", "sobrenome");
 
     	String userName = userService.save(userTo).getUserName();
     
@@ -95,8 +90,8 @@ public class ProfileControllerTest {
     
     @Test
     void testeGetByIdProfile() throws Exception {
-        
-    	UserTO userTo = new UserTO("testeUpdateOk", "testeS@updateOk", "senhate", "nome", "sobrenome");
+
+        CadastroUserTO userTo = new CadastroUserTO("testeUpdateOk", "testeS@updateOk", "senhate", "nome", "sobrenome");
 
         String userName = userService.save(userTo).getUserName();
 
@@ -110,7 +105,7 @@ public class ProfileControllerTest {
     @Test
     void testeGetByUser() throws Exception {
 
-        UserTO userTo = new UserTO("testGetByUser", "testeS@up", "senhate", "nome", "sobrenome");
+        CadastroUserTO userTo = new CadastroUserTO("testGetByUser", "testeS@up", "senhate", "nome", "sobrenome");
 
         String userName = userService.save(userTo).getUserName();
 

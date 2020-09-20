@@ -1,8 +1,10 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,14 +28,15 @@ public class AuthControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private UserService userService;
+
     @Test
     void testLogin() throws Exception {
-        UserTO userTo = new UserTO("testexLogxin", "tesxteUp@login", "senhate", "nome", "sobrenome");
+        CadastroUserTO userTo = new CadastroUserTO("testexLogxin", "tesxteUp@login", "senhate", "nome", "sobrenome");
         LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), userTo.getPassword() );
 
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)));
+        userService.save(userTo);
 
         mockMvc.perform(post("/auth/login")
                 .contentType("application/json")
@@ -42,26 +45,11 @@ public class AuthControllerTest {
     }
 
     @Test
-    void testLoginGoogle() throws Exception {
-        UserTO userTo = new UserTO("10101010122x91", "testegoxxoglep@login", "1010101012291", "nome", "sobrenome");
-        userTo.setUserName("1010101012291x");
-        userTo.setIdToken("ewrdsfqwefdsfqwefdsfwefwqefweerw");
-        userTo.setToken("sdfoiwhefiodsfoiweahfoidsajfoiewajfoidsajfoiewajfoidsjfa");
-        userTo.setIdSocial("1010101012291");
-        mockMvc.perform(post("/auth/login/google")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)))
-                .andExpect(status().isOk());
-    }
-
-    @Test
     void testLoginPasswordFail() throws Exception {
-        UserTO userTo = new UserTO("testeLogin", "testeUp@login", "senhate", "nome", "sobrenome");
+        CadastroUserTO userTo = new CadastroUserTO("testeLogin", "testeUp@login", "senhate", "nome", "sobrenome");
         LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), "123" );
 
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)));
+        userService.save(userTo);
 
         mockMvc.perform(post("/auth/login")
                 .contentType("application/json")
@@ -71,12 +59,10 @@ public class AuthControllerTest {
 
     @Test
     void testConfirm() throws Exception {
-        UserTO userTo = new UserTO("testConfirm", "testeUp@confirm", "senhate", "nome", "sobrenome");
+        CadastroUserTO userTo = new CadastroUserTO("testConfirm", "testeUp@confirm", "senhate", "nome", "sobrenome");
         LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), userTo.getPassword() );
 
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)));
+        userService.save(userTo);
 
         mockMvc.perform(post("/auth/confirm")
                 .contentType("application/json")
