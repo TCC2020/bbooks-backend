@@ -30,8 +30,6 @@ public class UserTO {
     
     private Boolean verified;
 
-    private Long profileId;
-
     private Profile profile;
     
     @NotBlank(message = "Nome é obrigatório")
