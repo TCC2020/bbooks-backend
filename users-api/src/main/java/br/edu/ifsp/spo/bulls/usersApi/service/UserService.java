@@ -143,28 +143,5 @@ public class UserService{
 		return beanUtil.toUserTO(rep.findByUserName(username));
 	}
 
-	public UserTO saveGoogle(CadastroUserTO userTO)  throws Exception  {
-		User user = beanUtil.toUser(userTO);
-		user.setToken(userTO.getToken());
-		user.setIdSocial(userTO.getIdSocial());
-		user.setVerified(userTO.getVerified());
-		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
-
-		validationUserNameIsUnique(user);
-		validationEmailIsUnique(user);
-		validationPassword(userTO.getPassword());
-
-		User retorno = rep.save(user);
-		profileService.save(profile);
-
-		email.
-			getInstance()
-			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
-			.withTo(retorno.getEmail())
-			.withContent(" Bem Vindo " + retorno.getUserName())
-			.withSubject(EmailSubject.VERIFY_EMAIL.name())
-			.send();;
-		return beanUtil.toUserTO(retorno);
-	}
 }
 
