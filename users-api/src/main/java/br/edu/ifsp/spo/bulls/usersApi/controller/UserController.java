@@ -3,6 +3,8 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 import java.util.HashSet;
 import java.util.UUID;
 import javax.validation.Valid;
+
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -31,7 +33,7 @@ public class UserController {
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
 	@PostMapping(consumes="application/json")
-	public UserTO create(@RequestBody @Valid UserTO userTO) throws ResourceBadRequestException, Exception  {
+	public UserTO create(@RequestBody @Valid CadastroUserTO userTO) throws ResourceBadRequestException, Exception  {
 		
 		return service.save(userTO);
 	}
@@ -74,7 +76,7 @@ public class UserController {
 			@ApiResponse(code = 409, message = "Conflito ao cadastrar o usuário. O email ou nome de usuário já está sendo utilizado")
 	})
 	@PutMapping(value = "/{id}", consumes="application/json")
-	public UserTO update(@RequestBody UserTO userTO, @PathVariable UUID id) throws Exception {
+	public UserTO update(@RequestBody CadastroUserTO userTO, @PathVariable UUID id) throws Exception {
 		
 		return service.update(userTO);
 	}
