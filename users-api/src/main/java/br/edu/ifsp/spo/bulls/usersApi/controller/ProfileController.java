@@ -18,7 +18,7 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 
 @RestController
-@RequestMapping("/profiles")
+@RequestMapping(value = "/profiles", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
 public class ProfileController {
 

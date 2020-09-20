@@ -4,7 +4,6 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.RequestPassResetTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ResetPassTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(value = "/auth", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
 public class AuthController {
     @Autowired

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bookcases")
+@RequestMapping(value = "/bookcases", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
 public class UserBooksController {
     @Autowired

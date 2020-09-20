@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/authors")
+@RequestMapping(value ="/authors", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
 public class AuthorController {
 

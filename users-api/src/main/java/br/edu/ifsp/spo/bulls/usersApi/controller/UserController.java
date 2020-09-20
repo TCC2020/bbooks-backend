@@ -12,7 +12,7 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = "/users", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
 public class UserController {
 	@Autowired
@@ -27,7 +27,7 @@ public class UserController {
 		return service.save(userTO);
 	}
 
-	
+	//@ApiOperation(value = "Inf de um usuário")
 	@GetMapping
 	public HashSet<UserTO> getAll(){
 		return service.getAll();

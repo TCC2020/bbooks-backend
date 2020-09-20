@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping(value = "/books", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
 public class BookController {
 
