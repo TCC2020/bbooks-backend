@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping(value = "/auth", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
@@ -21,11 +19,6 @@ public class AuthController {
     @PostMapping("/login")
     public UserTO login(@RequestBody LoginTO loginTO){
         return service.authLogin(loginTO);
-    }
-
-    @PostMapping("/login/google")
-    public UserTO createGoogle(@RequestBody @Valid UserTO userTO) throws  Exception  {
-        return service.saveGoogle(userTO);
     }
     
     @PostMapping("/confirm")

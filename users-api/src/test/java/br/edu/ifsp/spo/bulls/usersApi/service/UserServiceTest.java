@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
-import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
