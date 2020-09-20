@@ -65,6 +65,18 @@ public class UserBeanUtil {
 		return userTO;
 	}
 
+	public CadastroUserTO toCadastroTO(UserTO user) {
+		CadastroUserTO userTO = new CadastroUserTO();
+
+		try{
+			BeanUtils.copyProperties(user, userTO);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(this.toUser(user))));
+		return userTO;
+	}
+
 	public UserTO toUserTO(CadastroUserTO cadastroUserTO) {
 		UserTO userTO = new UserTO();
 
