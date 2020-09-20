@@ -98,10 +98,7 @@ public class AuthService {
 
     public UserTO saveGoogle(UserTO userTO) throws Exception {
         Optional<User> u = repository.findByIdSocial( userTO.getIdSocial());
-        if(u.isPresent()){
-            return utils.toUserTO(u.get());
-        }else{
-            return  this.userService.saveGoogle(userTO);
-        }
+
+        return utils.toUserTO(u.get());
     }
 }
