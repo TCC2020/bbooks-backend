@@ -5,6 +5,7 @@ import java.util.HashSet;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +35,16 @@ public class UserService{
 	@Autowired
 	private ProfileService profileService;
 	
-	public UserTO save( UserTO userTO) throws Exception {
+	public UserTO save(CadastroUserTO cadastroUserTO) throws Exception {
         
-		User user = beanUtil.toUser(userTO);
+		User user = beanUtil.toUser(cadastroUserTO);
 		user.setUserName(user.getUserName().toLowerCase());
 
-		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
+		Profile profile = new Profile (cadastroUserTO.getName(), cadastroUserTO.getLastName(), user);
 		
 		validationUserNameIsUnique(user);
 		validationEmailIsUnique(user);
-		validationPassword(userTO);
+		validationPassword(cadastroUserTO.getPassword());
 		
 		User retorno = rep.save(user);
 		profileService.save(profile);
@@ -59,8 +60,8 @@ public class UserService{
 		return beanUtil.toUserTO(retorno);
 	}
 
-	private void validationPassword(UserTO userTO) {
-		if(userTO.getPassword().isEmpty()) 
+	private void validationPassword(String senha) {
+		if(senha.isEmpty())
 			throw new ResourceBadRequestException("Senha nao deve estar vazio");
 		
 	}
@@ -100,14 +101,14 @@ public class UserService{
 					
 	}
 
-	public UserTO update(UserTO entity) throws Exception {
+	public UserTO update(CadastroUserTO entity) throws Exception {
 		if(entity.getId() == null)
 			throw new ResourceNotFoundException("User not found");
 
 		User user = beanUtil.toUser(entity);
 
 		validationEmailIsUnique(entity.getEmail(), user);
-		validationPassword(entity);
+		validationPassword(entity.getPassword());
 		
 		return beanUtil.toUserTO(rep.findById(user.getId()).map( user1 -> {
 			user1.setEmail(user.getEmail());
@@ -142,7 +143,7 @@ public class UserService{
 		return beanUtil.toUserTO(rep.findByUserName(username));
 	}
 
-	public UserTO saveGoogle(UserTO userTO)  throws Exception  {
+	public UserTO saveGoogle(CadastroUserTO userTO)  throws Exception  {
 		User user = beanUtil.toUser(userTO);
 		user.setToken(userTO.getToken());
 		user.setIdSocial(userTO.getIdSocial());
@@ -151,7 +152,7 @@ public class UserService{
 
 		validationUserNameIsUnique(user);
 		validationEmailIsUnique(user);
-		validationPassword(userTO);
+		validationPassword(userTO.getPassword());
 
 		User retorno = rep.save(user);
 		profileService.save(profile);

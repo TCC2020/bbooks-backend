@@ -24,15 +24,13 @@ public class ProfileTO {
 	private String country;
 	private String city;
 	private String state;
-	
+
 	private String birthDate;
-	
-	@OneToOne
-	private User user;
+
 
 	public ProfileTO(int id, @NotBlank(message = "Nname is mandatory") String name,
 			@NotBlank(message = "Lastname is mandatory") String lastName, String country, String city, String state,
-			@NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+			@NotBlank(message = "Birthdate is mandatory") String birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -41,12 +39,11 @@ public class ProfileTO {
 		this.city = city;
 		this.state = state;
 		this.birthDate = birthDate;
-		this.user = user;
 	}
 
 	public ProfileTO(@NotBlank(message = "Nname is mandatory") String name,
 			@NotBlank(message = "Lastname is mandatory") String lastName, String country, String city, String state,
-			@NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+			@NotBlank(message = "Birthdate is mandatory") String birthDate) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
@@ -54,16 +51,14 @@ public class ProfileTO {
 		this.city = city;
 		this.state = state;
 		this.birthDate = birthDate;
-		this.user = user;
 	}
 	
-	public ProfileTO( String country, String city, String state, String birthDate, User user) {
+	public ProfileTO( String country, String city, String state, String birthDate) {
 		super();
 		this.country = country;
 		this.city = city;
 		this.state = state;
 		this.birthDate = birthDate;
-		this.user = user;
 	}
 
 	public ProfileTO() {

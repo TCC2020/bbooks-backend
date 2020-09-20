@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.bean;
 
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 
 import java.util.HashSet;
@@ -17,6 +18,10 @@ import org.springframework.stereotype.Component;
 public class UserBeanUtil {
 	@Autowired
 	private UserRepository repository;
+
+	@Autowired
+	private ProfileBeanUtil profileBeanUtil;
+
 	@Autowired
 	private ProfileRepository profileRepository;
 
@@ -35,7 +40,19 @@ public class UserBeanUtil {
 	public User toUser(UUID id) {
 		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 	}
-	
+
+	public User toUser(CadastroUserTO cadastroUserTO) {
+		User user = new User();
+
+		try{
+			BeanUtils.copyProperties(cadastroUserTO, user);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
+
 	public UserTO toUserTO(User user) {
 		UserTO userTO = new UserTO();
 		
@@ -44,7 +61,21 @@ public class UserBeanUtil {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		userTO.setProfile(profileRepository.findByUser(user));
+		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
+		return userTO;
+	}
+
+	public UserTO toUserTO(CadastroUserTO cadastroUserTO) {
+		UserTO userTO = new UserTO();
+
+		try{
+			BeanUtils.copyProperties(cadastroUserTO, userTO);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		userTO.setProfile(profileBeanUtil.toProfileTO(
+				profileRepository.findByUser(
+						this.toUser(cadastroUserTO))));
 		return userTO;
 	}
 
@@ -55,4 +86,6 @@ public class UserBeanUtil {
 	     }
 		return usersTO;
 	}
+
+
 }
