@@ -74,11 +74,11 @@ public class AuthService {
                 return utils.toUserTO(optionalUser.get());
             }
             else {
-                throw new ResourceUnauthorizedException("Wrong password.");
+                throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
             }
         }
         else{
-            throw new ResourceNotFoundException("User doesn't exist.");
+            throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
         }
 	}
 
