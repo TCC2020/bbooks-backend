@@ -38,11 +38,13 @@ public class AuthService {
                 return utils.toUserTO(optionalUser.get());
             }
             else {
-                throw new ResourceUnauthorizedException("Wrong password.");
+                //log de senha errada
+                throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
             }
         }
         else{
-            throw new ResourceNotFoundException("User doesn't exist.");
+            //log de usuario não existe
+            throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
         }
     }
 
