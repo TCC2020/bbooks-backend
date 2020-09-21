@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
@@ -9,8 +10,10 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value = "Objeto de trânsito: Autor ")
 public class AuthorTO {
 
+    @ApiModelProperty(value = "Identificador")
     private int id;
 
+    @ApiModelProperty(value = "Nome do autor")
     @NotBlank(message = "Name is mandatory")
     private String name;
 

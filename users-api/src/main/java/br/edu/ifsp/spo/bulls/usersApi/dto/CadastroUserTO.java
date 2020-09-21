@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -12,25 +13,32 @@ import java.util.UUID;
 @ApiModel(value = "Objeto de trânsito: Cadastro de usuário ")
 public class CadastroUserTO {
 
+    @ApiModelProperty(value = "Identificador")
     private UUID id;
+
+    @ApiModelProperty(value = "Nome de usuário")
     @NotBlank(message = "UserName is mandatory")
     private String userName;
 
+    @ApiModelProperty(value = "Email")
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Email format is invalid")
     private String email;
 
+    @ApiModelProperty(value = "Senha")
     @NotBlank(message = "Password is mandatory")
     private String password;
 
+    @ApiModelProperty(value = "Token de login")
     private String token;
 
-    private String idToken;
-
+    @ApiModelProperty(value = "Token de login com o google")
     private String idSocial;
 
+    @ApiModelProperty(value = "Indica se o usuário tem o cadastro confirmado")
     private Boolean verified;
 
+    @ApiModelProperty(value = "Usuario relacionado aos dados de login")
     private ProfileTO profile;
 
     @NotBlank(message = "Nome é obrigatório")

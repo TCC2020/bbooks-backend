@@ -3,22 +3,34 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 import javax.validation.constraints.NotBlank;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @ApiModel(value = "Objeto de trânsito: Perfil usuário ")
 public class ProfileTO {
 
+	@ApiModelProperty(value = "Idedntificador")
 	private int id;
 
+	@ApiModelProperty(value = "Nome")
 	@NotBlank(message = "Name is mandatory")
 	private String name;
-	
+
+	@ApiModelProperty(value = "Sobrenome")
 	@NotBlank(message = "Lastname is mandatory")
 	private String lastName;
+
+	@ApiModelProperty(value = "País")
 	private String country;
+
+	@ApiModelProperty(value = "Cidade")
 	private String city;
+
+	@ApiModelProperty(value = "Estado")
 	private String state;
+
+	@ApiModelProperty(value = "Data Nascimento")
 	private String birthDate;
 
 

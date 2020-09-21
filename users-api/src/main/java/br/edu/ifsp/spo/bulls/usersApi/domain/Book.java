@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,43 +16,55 @@ import java.util.*;
 public class Book {
 
     @Id
+    @ApiModelProperty(value = "Identificador")
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
 
     @Column(nullable = false,
             unique = true)
     @NotBlank(message = "ISBN10 is mandatory")
+    @ApiModelProperty(value = "Número ISBN10 do livro")
     private String isbn10;
 
     @Column(nullable = false)
     @NotBlank(message = "Title is mandatory")
+    @ApiModelProperty(value = "Título do livro")
     private String title;
 
     @ManyToMany(cascade = CascadeType.MERGE)
+    @ApiModelProperty(value = "Lista de autores que escreveram o livro")
     private List<Author> authors;
 
     @Column(nullable = false)
     @NotNull(message = "NumberPage is mandatory")
+    @ApiModelProperty(value = "Quantidade de páginas do livro")
     private int numberPage;
 
     @Column(nullable = false)
     @NotBlank(message = "Language is mandatory")
+    @ApiModelProperty(value = "Língua")
     private String language;
 
     @Column(nullable = false)
     @NotBlank(message = "Publisher is mandatory")
+    @ApiModelProperty(value = "Editora")
     private String publisher;
 
+    @ApiModelProperty(value = "Categoria do livro")
     private String category;
 
+    @ApiModelProperty(value = "Data de publicação")
     private int publishedDate;
 
+    @ApiModelProperty(value = "Edição do livro")
     private String edition;
 
+    @ApiModelProperty(value = "Tipo de impressão")
     private String printType;
 
     @Column(nullable = false)
     @NotBlank(message = "Description is mandatory")
+    @ApiModelProperty(value = "Descrição do livro")
     private String description;
 
     public Book() {
