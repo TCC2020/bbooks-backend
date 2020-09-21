@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -8,6 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Data
+@ApiModel(value = "Objeto de trânsito: Cadastro de usuário ")
 public class CadastroUserTO {
 
     private UUID id;

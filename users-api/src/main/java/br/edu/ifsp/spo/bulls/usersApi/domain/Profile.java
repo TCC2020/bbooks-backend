@@ -8,10 +8,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
 @Entity
+@ApiModel(value = "Objeto de domínio: Usuarios ")
 @Table(name = "profiles")
 public class Profile {
 

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Data
 @Entity
+@ApiModel(value = "Objeto de domínio: Login ")
 @Table(name = "users")
 public class User implements Serializable {
     

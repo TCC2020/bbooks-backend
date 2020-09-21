@@ -1,9 +1,12 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import javax.validation.constraints.NotBlank;
+
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
+@ApiModel(value = "Objeto de trânsito: Perfil usuário ")
 public class ProfileTO {
 
 	private int id;

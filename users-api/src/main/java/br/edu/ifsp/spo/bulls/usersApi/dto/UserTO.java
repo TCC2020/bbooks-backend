@@ -4,11 +4,11 @@ import java.util.Objects;
 import java.util.UUID;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
+@ApiModel(value = "Objeto de trânsito: Usuario ")
 public class UserTO {
 	
 	private UUID id;

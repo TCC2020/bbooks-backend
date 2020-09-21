@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +10,7 @@ import java.util.*;
 
 @Data
 @Entity
+@ApiModel(value = "Objeto de domínio: Livro")
 @Table(name = "books")
 public class Book {
 

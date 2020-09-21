@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,8 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 
 @Data
-
 @Entity
+@ApiModel(value = "Objeto de domínio: Livros do usuario")
 @Table(name = "userBooks")
 public class UserBooks {
     @Id

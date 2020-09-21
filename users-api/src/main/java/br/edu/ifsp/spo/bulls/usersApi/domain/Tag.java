@@ -1,13 +1,13 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Data
-
 @Entity
+@ApiModel(value = "Objeto de domínio: TAG")
 @Table(name = "tag")
 public class Tag {
     @Id
