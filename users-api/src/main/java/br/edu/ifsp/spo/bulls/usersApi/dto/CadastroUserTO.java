@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -29,17 +28,8 @@ public class CadastroUserTO {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    @ApiModelProperty(value = "Token de login")
-    private String token;
-
     @ApiModelProperty(value = "Token de login com o google")
     private String idSocial;
-
-    @ApiModelProperty(value = "Indica se o usuário tem o cadastro confirmado")
-    private Boolean verified;
-
-    @ApiModelProperty(value = "Usuario relacionado aos dados de login")
-    private ProfileTO profile;
 
     @NotBlank(message = "Nome é obrigatório")
     private String name;
@@ -52,35 +42,17 @@ public class CadastroUserTO {
     public boolean equals(Object obj) {
         CadastroUserTO other = (CadastroUserTO) obj;
         return Objects.equals(email, other.email) && Objects.equals(password, other.password)
-                && Objects.equals(token, other.token) && Objects.equals(userName, other.userName)
-                && Objects.equals(verified, other.verified);
+                && Objects.equals(userName, other.userName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, password, token, userName, verified);
+        return Objects.hash(email, password, userName);
     }
 
 
 
     public CadastroUserTO() {}
-
-    public CadastroUserTO(String userName,String email,String password, String token, Boolean verified) {
-        super();
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.token = token;
-        this.verified = verified;
-    }
-
-    public CadastroUserTO(String userName,String email,String password, Boolean verified) {
-        super();
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.verified = verified;
-    }
 
     public CadastroUserTO(String userName,String email,String password) {
         super();
@@ -88,6 +60,7 @@ public class CadastroUserTO {
         this.email = email;
         this.password = password;
     }
+
 
     public CadastroUserTO(String userName,String email,String password,String name, String lastName) {
         super();

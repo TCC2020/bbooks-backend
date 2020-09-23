@@ -10,7 +10,7 @@ import lombok.Data;
 @ApiModel(value = "Objeto de trânsito: Perfil usuário ")
 public class ProfileTO {
 
-	@ApiModelProperty(value = "Idedntificador")
+	@ApiModelProperty(value = "Identificador")
 	private int id;
 
 	@ApiModelProperty(value = "Nome")
@@ -20,6 +20,9 @@ public class ProfileTO {
 	@ApiModelProperty(value = "Sobrenome")
 	@NotBlank(message = "Lastname is mandatory")
 	private String lastName;
+
+	@ApiModelProperty(value = "Foto de perfil")
+	private String photo;
 
 	@ApiModelProperty(value = "País")
 	private String country;
