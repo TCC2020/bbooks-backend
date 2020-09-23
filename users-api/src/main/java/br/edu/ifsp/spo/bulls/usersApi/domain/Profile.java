@@ -38,6 +38,9 @@ public class Profile {
 	@ApiModelProperty(value = "Estado")
 	private String state;
 
+	@ApiModelProperty(value = "Foto de perfil")
+	private String photo;
+
 	@ApiModelProperty(value = "Data Nascimento")
 	private String birthDate;
 	
