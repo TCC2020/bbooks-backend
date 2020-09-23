@@ -31,15 +31,15 @@
         </appender>
 
         <logger name="org.springframework" level="INFO"/>
-        <logger name="com.mkyong" level="DEBUG"/>
+        <logger name="br.edu.ifsp.spo.bulls.usersApi" level="DEBUG"/>
         <root level="ERROR">
             <appender-ref ref="FILE-ROLLING"/>
         </root>
         <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE-ROLLING"/>
         </root>
         <root level="WARN">
-            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE-ROLLING"/>
         </root>
     </springProfile>
 
