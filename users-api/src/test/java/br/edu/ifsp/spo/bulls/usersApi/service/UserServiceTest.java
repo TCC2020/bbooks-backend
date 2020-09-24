@@ -38,7 +38,7 @@ public class UserServiceTest {
         UserTO user1 = service.save(user);
 
         // Testando campos obrigatorios
-        assertEquals(user.getUserName(), user1.getUserName());
+        assertEquals(user.getUserName().toLowerCase(), user1.getUserName());
         assertEquals(user.getEmail(), user1.getEmail());
         assertEquals(user.getPassword(), user1.getPassword());
     }
@@ -67,7 +67,7 @@ public class UserServiceTest {
         UserTO userUpEmail = new UserTO("testeSEmail123", "testeS12@teste", "senhate", "nome", "sobrenome");
 
         ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> service.save(userUpEmail));
-        assertEquals("Email ja esta sendo usado", e.getMessage());
+        assertEquals("Email ja esta sendo usado testeS12@teste", e.getMessage());
     }
 
     @Test
@@ -78,7 +78,7 @@ public class UserServiceTest {
         UserTO userUpEmail = new UserTO("testeSEmail", "testeS2@teste", "senhate", "nome", "sobrenome");
 
         ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> service.save(userUpEmail));
-        assertEquals("UserName ja esta sendo usado", e.getMessage());
+        assertEquals("UserName ja esta sendo usado testesemail", e.getMessage());
     }
 
     @Test
@@ -124,14 +124,14 @@ public class UserServiceTest {
 
     @Test
     void testUpdate() throws Exception {
-        UserTO userUp = new UserTO("testeUp", "testeUp1@teste", "senhate", "nome", "sobrenome");
+        UserTO userUp = new UserTO("testeUppppp", "testeUp1@teste", "senhate", "nome", "sobrenome");
 
         UserTO u = service.save(userUp);
 
-        u.setEmail("testUp2@teste");
+        u.setEmail("testUp2@testeeeee");
         UserTO userUpdated = service.update(u);
 
-        assertEquals("testUp2@teste", userUpdated.getEmail());
+        assertEquals("testUp2@testeeeee", userUpdated.getEmail());
     }
 
     @Test

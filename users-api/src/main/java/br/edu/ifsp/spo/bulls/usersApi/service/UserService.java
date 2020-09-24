@@ -37,6 +37,8 @@ public class UserService{
 	public UserTO save( UserTO userTO) throws Exception {
         
 		User user = beanUtil.toUser(userTO);
+		user.setUserName(user.getUserName().toLowerCase());
+
 		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
 		
 		validationUserNameIsUnique(user);
@@ -65,19 +67,19 @@ public class UserService{
 	
 	private void validationUserNameIsUnique(User entity) throws Exception {
 		if (rep.existsByUserName(entity.getUserName())) 
-			throw new ResourceConflictException("UserName ja esta sendo usado");
+			throw new ResourceConflictException("UserName ja esta sendo usado "  + entity.getUserName());
 	}
 	
 	private void validationEmailIsUnique(User entity) throws Exception {
 		Optional<User> user = rep.findByEmail(entity.getEmail());
 		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
-			throw new ResourceConflictException("Email ja esta sendo usado");
+			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail());
 	}
 
 	private void validationEmailIsUnique(String email, User entity) throws Exception {
 		Optional<User> user = rep.findByEmail(email);
 		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
-			throw new ResourceConflictException("Email ja esta sendo usado");
+			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail());
 	}
 
 	public UserTO getById(UUID id) {

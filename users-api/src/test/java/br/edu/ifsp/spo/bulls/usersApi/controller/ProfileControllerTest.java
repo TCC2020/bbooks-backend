@@ -2,10 +2,8 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,9 +39,9 @@ public class ProfileControllerTest {
     void testUpdateProfile() throws Exception {
     	UserTO userTo = new UserTO("testeUpdateProfile", "testeUp@profileController", "senhate", "nome", "sobrenome");
 
-    	userService.save(userTo);
+    	String userName = userService.save(userTo).getUserName();
         
-        ProfileTO profile = service.getByUser(userTo.getUserName());
+        ProfileTO profile = service.getByUser(userName);
        
         profile.setState("RJ");
         profile.setCity("Rio de janeiro");
@@ -76,11 +74,9 @@ public class ProfileControllerTest {
         
     	UserTO userTo = new UserTO("testeDeleteController", "teste@profileDelete", "senhate", "nome", "sobrenome");
 
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)));
+    	String userName = userService.save(userTo).getUserName();
     
-        int id = service.getByUser(userTo.getUserName()).getId();
+        int id = service.getByUser(userName).getId();
         
         mockMvc.perform(delete("/profiles/" + id)
                 .contentType("application/json"))
@@ -101,12 +97,10 @@ public class ProfileControllerTest {
     void testeGetByIdProfile() throws Exception {
         
     	UserTO userTo = new UserTO("testeUpdateOk", "testeS@updateOk", "senhate", "nome", "sobrenome");
-    
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)));
 
-        int id = service.getByUser(userTo.getUserName()).getId();
+        String userName = userService.save(userTo).getUserName();
+
+        int id = service.getByUser(userName).getId();
        
         mockMvc.perform(get("/profiles/" + id)
                 .contentType("application/json"))
@@ -118,12 +112,9 @@ public class ProfileControllerTest {
 
         UserTO userTo = new UserTO("testGetByUser", "testeS@up", "senhate", "nome", "sobrenome");
 
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userTo)))
-                .andExpect(status().isOk());
+        String userName = userService.save(userTo).getUserName();
 
-        mockMvc.perform(get("/profiles/user/" + userTo.getUserName())
+        mockMvc.perform(get("/profiles/user/" + userName)
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
