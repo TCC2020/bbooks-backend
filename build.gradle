@@ -29,6 +29,7 @@ subprojects {
 	}
 	dependencies {
 		compileOnly 'org.projectlombok:lombok'
+		runtimeOnly 'com.h2database:h2'
 		annotationProcessor 'org.projectlombok:lombok'
 		compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 		compile group: 'org.json', name: 'json', version: '20090211'
