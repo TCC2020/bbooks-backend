@@ -1,0 +1,26 @@
+spring:
+  profiles: staging
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: $JDBC_DATABASE_URL:jdbc:postgresql
+    username: $JDBC_DATABASE_USERNAME
+    password: $JDBC_DATABASE_PASSWORD
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+  mail:
+    host: smtp.gmail.com
+    username: $EMAIL_USERNAME
+    password: $EMAIL_PASSWORD
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+        starttls:
+          enable: true

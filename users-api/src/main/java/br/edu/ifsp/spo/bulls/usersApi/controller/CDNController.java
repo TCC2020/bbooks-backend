@@ -20,8 +20,9 @@ public class CDNController {
     private final ObjectMapper mapper = new ObjectMapper();
 
     Storage storage = StorageOptions.getDefaultInstance().getService();
+
 //    Storage storage = StorageOptions.newBuilder()
-//            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("path")))
+//            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/home/feloureiro/Downloads/key.json")))
 //            .build()
 //            .getService();
 
