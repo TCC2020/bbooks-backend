@@ -8,6 +8,8 @@ import br.edu.ifsp.spo.bulls.usersApi.service.AuthService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ public class AuthController {
     @Autowired
     private AuthService service;
 
+    private Logger logger = LoggerFactory.getLogger(AuthController.class);
+
     @ApiOperation(value = "Fazer login na plataforma")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Login concluído, retorna o usuário"),
@@ -27,8 +31,15 @@ public class AuthController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção")
     })
     @PostMapping("/login")
-    public UserTO login(@RequestBody LoginTO loginTO){
-        return service.authLogin(loginTO);
+    public void login(@RequestBody LoginTO loginTO){
+        try{
+            service.authLogin(loginTO);
+        }catch (Exception ex){
+            logger.error("Error while login." +
+                    "Message: " + ex.getMessage() +
+                    "Cause: " + ex.getCause() +
+                    "Trace: " + ex.getStackTrace());
+        }
     }
 
     @ApiOperation(value = "Confirmar cadastro no sistema")
