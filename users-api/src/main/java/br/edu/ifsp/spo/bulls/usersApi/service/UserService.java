@@ -5,6 +5,7 @@ import java.util.HashSet;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
-
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
@@ -34,16 +34,16 @@ public class UserService{
 	@Autowired
 	private ProfileService profileService;
 	
-	public UserTO save( UserTO userTO) throws Exception {
+	public UserTO save(CadastroUserTO cadastroUserTO) throws Exception {
         
-		User user = beanUtil.toUser(userTO);
+		User user = beanUtil.toUser(cadastroUserTO);
 		user.setUserName(user.getUserName().toLowerCase());
 
-		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
+		Profile profile = new Profile (cadastroUserTO.getName(), cadastroUserTO.getLastName(), user);
 		
 		validationUserNameIsUnique(user);
 		validationEmailIsUnique(user);
-		validationPassword(userTO);
+		validationPassword(cadastroUserTO);
 		
 		User retorno = rep.save(user);
 		profileService.save(profile);
@@ -59,8 +59,8 @@ public class UserService{
 		return beanUtil.toUserTO(retorno);
 	}
 
-	private void validationPassword(UserTO userTO) {
-		if(userTO.getPassword().isEmpty()) 
+	private void validationPassword(CadastroUserTO entidade) {
+		if(entidade.getPassword().isEmpty())
 			throw new ResourceBadRequestException("Senha nao deve estar vazio");
 		
 	}
@@ -100,7 +100,7 @@ public class UserService{
 					
 	}
 
-	public UserTO update(UserTO entity) throws Exception {
+	public UserTO update(CadastroUserTO entity) throws Exception {
 		if(entity.getId() == null)
 			throw new ResourceNotFoundException("User not found");
 
@@ -142,28 +142,5 @@ public class UserService{
 		return beanUtil.toUserTO(rep.findByUserName(username));
 	}
 
-	public UserTO saveGoogle(UserTO userTO)  throws Exception  {
-		User user = beanUtil.toUser(userTO);
-		user.setToken(userTO.getToken());
-		user.setIdSocial(userTO.getIdSocial());
-		user.setVerified(userTO.getVerified());
-		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
-
-		validationUserNameIsUnique(user);
-		validationEmailIsUnique(user);
-		validationPassword(userTO);
-
-		User retorno = rep.save(user);
-		profileService.save(profile);
-
-		email.
-			getInstance()
-			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
-			.withTo(retorno.getEmail())
-			.withContent(" Bem Vindo " + retorno.getUserName())
-			.withSubject(EmailSubject.VERIFY_EMAIL.name())
-			.send();;
-		return beanUtil.toUserTO(retorno);
-	}
 }
 

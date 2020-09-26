@@ -12,10 +12,7 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
 import java.util.UUID;
 
 import java.util.Optional;
@@ -28,8 +25,6 @@ public class AuthService {
     private UserBeanUtil utils;
     @Autowired
     private EmailServiceImpl emailService;
-    @Autowired
-    private UserService userService;
     
     public UserTO authLogin(LoginTO loginTO){
         Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
@@ -43,11 +38,13 @@ public class AuthService {
                 return utils.toUserTO(optionalUser.get());
             }
             else {
-                throw new ResourceUnauthorizedException("Wrong password.");
+                //log de senha errada
+                throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
             }
         }
         else{
-            throw new ResourceNotFoundException("User doesn't exist.");
+            //log de usuario não existe
+            throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
         }
     }
 
@@ -77,11 +74,11 @@ public class AuthService {
                 return utils.toUserTO(optionalUser.get());
             }
             else {
-                throw new ResourceUnauthorizedException("Wrong password.");
+                throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
             }
         }
         else{
-            throw new ResourceNotFoundException("User doesn't exist.");
+            throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
         }
 	}
 
@@ -96,12 +93,4 @@ public class AuthService {
         return  utils.toUserTO(repository.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("User not found.")));
     }
 
-    public UserTO saveGoogle(UserTO userTO) throws Exception {
-        Optional<User> u = repository.findByIdSocial( userTO.getIdSocial());
-        if(u.isPresent()){
-            return utils.toUserTO(u.get());
-        }else{
-            return  this.userService.saveGoogle(userTO);
-        }
-    }
 }
