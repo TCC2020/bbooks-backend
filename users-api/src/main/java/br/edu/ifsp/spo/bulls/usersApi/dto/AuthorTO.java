@@ -1,17 +1,19 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
-import lombok.Data;
 
-import javax.persistence.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Data
+@ApiModel(value = "Objeto de trânsito: Autor ")
 public class AuthorTO {
 
+    @ApiModelProperty(value = "Identificador")
     private int id;
 
+    @ApiModelProperty(value = "Nome do autor")
     @NotBlank(message = "Name is mandatory")
     private String name;
 

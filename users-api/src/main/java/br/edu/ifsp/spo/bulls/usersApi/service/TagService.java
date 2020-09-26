@@ -24,8 +24,6 @@ public class TagService {
     private UserBooksRepository userBooksRepository;
     @Autowired
     private ProfileRepository profileRepository;
-    @Autowired
-    private UserBooksService userBooksService;
 
     public Tag save(Tag tag) {
         return repository.save(tag);
@@ -33,19 +31,19 @@ public class TagService {
 
     public List<Tag> getByProfile(int profileId) {
 
-        Optional<Profile> profile = profileRepository.findById(profileId);
-        return repository.findByProfile(profile.get());
+        Profile profile = profileRepository.findById(profileId).orElseThrow( () -> new ResourceNotFoundException("Profile não encontrado"));
+        return repository.findByProfile(profile);
     }
 
     public Tag tagBook(Long tagId, Long userBookId) {
         Tag tag = repository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException("Tag not found."));
-        tag.getBooks().add(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException("Tag not found.")));
+        tag.getBooks().add(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException("UserBook not found.")));
         return repository.save(tag);
     }
 
     public HttpStatus untagBook(Long tagId, Long userBookId) {
         Tag tag = repository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException("Tag not found."));
-        tag.getBooks().remove(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException("Tag not found.")));
+        tag.getBooks().remove(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException("UserBook not found.")));
         repository.save(tag);
         return HttpStatus.ACCEPTED;
     }

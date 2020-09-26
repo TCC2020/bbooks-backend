@@ -4,91 +4,72 @@ import java.util.Objects;
 import java.util.UUID;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
+@ApiModel(value = "Objeto de trânsito: Usuario ")
 public class UserTO {
-	
+	@ApiModelProperty(value = "Identificador")
 	private UUID id;
+
+	@ApiModelProperty(value = "Nome de usuário")
 	@NotBlank(message = "UserName is mandatory")
     private String userName;
-	
+
+	@ApiModelProperty(value = "Email")
 	@NotBlank(message = "Email is mandatory")
 	@Email(message = "Email format is invalid")
     private String email;
-	
-	@NotBlank(message = "Password is mandatory")
-    private String password;
-	
+
+	@ApiModelProperty(value = "Token de login")
     private String token;
 
-    private String idToken;
-
+	@ApiModelProperty(value = "Token de login com o google")
     private String idSocial;
-    
+
+	@ApiModelProperty(value = "Indica se o usuário tem o cadastro confirmado")
     private Boolean verified;
 
-    private Long profileId;
+	@ApiModelProperty(value = "Usuario dono da estante virtual")
+    private ProfileTO profile;
 
-    private Profile profile;
-    
-    @NotBlank(message = "Nome é obrigatório")
-    private String name;
-    
-    @NotBlank(message = "Sobrenome é obrigatório")
-    private String lastName;
-    
     
 	@Override
 	public boolean equals(Object obj) {
 		UserTO other = (UserTO) obj;
-		return Objects.equals(email, other.email) && Objects.equals(password, other.password)
+		return Objects.equals(email, other.email)
 				&& Objects.equals(token, other.token) && Objects.equals(userName, other.userName)
 				&& Objects.equals(verified, other.verified);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, password, token, userName, verified);
+		return Objects.hash(email, token, userName, verified);
 	}
 
-
-    
 	public UserTO() {}
 
-	public UserTO(String userName,String email,String password, String token, Boolean verified) {
+	public UserTO(String userName,String email, String token, Boolean verified) {
 		super();
 		this.userName = userName;
 		this.email = email;
-		this.password = password;
 		this.token = token;
 		this.verified = verified;
 	}
 	
-	public UserTO(String userName,String email,String password, Boolean verified) {
+	public UserTO(String userName,String email, Boolean verified) {
 		super();
 		this.userName = userName;
 		this.email = email;
-		this.password = password;
 		this.verified = verified;
 	}
 
-	public UserTO(String userName,String email,String password) {
+	public UserTO(String userName,String email) {
 		super();
 		this.userName = userName;
 		this.email = email;
-		this.password = password;
-	}
-
-	public UserTO(String userName,String email,String password,String name, String lastName) {
-		super();
-		this.userName = userName;
-		this.email = email;
-		this.password = password;
-		this.name = name;
-		this.lastName = lastName;
 	}
     
 }

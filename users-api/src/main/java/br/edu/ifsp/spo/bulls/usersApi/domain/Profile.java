@@ -8,30 +8,41 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @Entity
+@ApiModel(value = "Objeto de domínio: Usuarios ")
 @Table(name = "profiles")
 public class Profile {
 
 	@Id
+	@ApiModelProperty(value = "Identificador")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	@NotBlank(message = "Name is mandatory")
+	@ApiModelProperty(value = "Nome do usuário")
 	private String name;
 	
 	@NotBlank(message = "lastName is mandatory")
+	@ApiModelProperty(value = "Sobrenome do usuário")
 	private String lastName;
-	
+
+	@ApiModelProperty(value = "País")
 	private String country;
+	@ApiModelProperty(value = "Cidade")
 	private String city;
+	@ApiModelProperty(value = "Estado")
 	private String state;
 
+	@ApiModelProperty(value = "Data Nascimento")
 	private String birthDate;
 	
 	@OneToOne
+	@ApiModelProperty(value = "Cadastro de login do perfil")
 	private User user;
 
 

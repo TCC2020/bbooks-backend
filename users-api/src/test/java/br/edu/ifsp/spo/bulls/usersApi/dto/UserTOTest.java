@@ -16,20 +16,18 @@ public class UserTOTest {
 		
 		userTo.setUserName("testeSet");
 		userTo.setEmail("teste");
-		userTo.setPassword("teste");
 		userTo.setToken("12");
 		
 		assertEquals("testeSet", userTo.getUserName());
 		assertEquals("teste", userTo.getEmail());
-		assertEquals("teste", userTo.getPassword());
 		assertEquals("12", userTo.getToken());
 		
 	}
 	
 	@Test
 	void testEquals() {
-		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123", false);
-		UserTO userTo2 = new UserTO("teste", "teste@teste", "senhateste", "123", false);
+		UserTO userTo = new UserTO("teste", "teste@teste", "123", false);
+		UserTO userTo2 = new UserTO("teste", "teste@teste", "123", false);
 		
 		boolean resultado = userTo.equals(userTo2);
 		
@@ -38,8 +36,8 @@ public class UserTOTest {
 
 	@Test
 	void testNotEquals() {
-		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123", false);
-		UserTO userTo2 = new UserTO("teste123", "teste@teste123", "senhateste", "123", true);
+		UserTO userTo = new UserTO("teste", "teste@teste",  "123", false);
+		UserTO userTo2 = new UserTO("teste123", "teste@teste123",  "123", true);
 		
 		boolean resultado = userTo.equals(userTo2);
 		
@@ -48,8 +46,8 @@ public class UserTOTest {
 
 	@Test
 	void testHashCode() {
-		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", "123", false);
-		UserTO userTo2 = new UserTO("teste", "teste@teste", "senhateste", "123", false);
+		UserTO userTo = new UserTO("teste", "teste@teste", "123", false);
+		UserTO userTo2 = new UserTO("teste", "teste@teste", "123", false);
 		
 		
 		assertEquals(userTo.hashCode(), userTo2.hashCode());
@@ -59,6 +57,6 @@ public class UserTOTest {
 	void testToString() {
 		
 //		UserTO userTo = new UserTO("teste", "teste@teste", "senhateste", true);
-//		assertEquals("UserTO(id=null, userName=teste, email=teste@teste, password=senhateste, token=null, idToken=null, idSocial=null, verified=true, name=null, lastName=null)", userTo.toString());
+//		assertEquals("UserTO(id=null, userName=teste, email=teste@teste, token=null, idToken=null, idSocial=null, verified=true)", userTo.toString());
 	}
 }

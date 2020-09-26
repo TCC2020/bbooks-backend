@@ -2,7 +2,6 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
 
-import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileRegisterTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
@@ -79,21 +78,6 @@ public class ProfileService {
 		}).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
 
 		return beanUtil.toProfileTO(retorno);
-	}
-	public ProfileTO updateByProfileRegisterTO(ProfileRegisterTO profileRegisterTO) throws Exception {
-		ProfileTO profileTO = this.getById(profileRegisterTO.getId());
-		profileTO.setBirthDate(profileRegisterTO.getBirthDate());
-		profileTO.setCountry(profileRegisterTO.getCountry());
-		profileTO.setCity(profileRegisterTO.getCity());
-		profileTO.setState(profileRegisterTO.getState());
-		return  this.update(profileTO);
-	}
-
-	private void enviarEmail(Profile entity) {
-		String texto = "Ola, " + entity.getName() + " " + entity.getLastName() + 
-				"! Confirme seu email aqui: http://localhost:4200/confirm";
-		
-		email.sendEmailTo(entity.getUser().getEmail(), "BBooks - Confirme seu email", texto);
 	}
 
 	public HashSet<ProfileTO> getAll() {
