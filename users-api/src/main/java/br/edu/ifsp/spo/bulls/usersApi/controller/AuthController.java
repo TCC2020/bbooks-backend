@@ -31,15 +31,9 @@ public class AuthController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção")
     })
     @PostMapping("/login")
-    public void login(@RequestBody LoginTO loginTO){
-        try{
-            service.authLogin(loginTO);
-        }catch (Exception ex){
-            logger.error("Error while login." +
-                    "Message: " + ex.getMessage() +
-                    "Cause: " + ex.getCause() +
-                    "Trace: " + ex.getStackTrace());
-        }
+    public UserTO login(@RequestBody LoginTO loginTO){
+        return service.authLogin(loginTO);
+
     }
 
     @ApiOperation(value = "Confirmar cadastro no sistema")
