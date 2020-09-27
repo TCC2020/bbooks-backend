@@ -9,6 +9,8 @@ import java.util.UUID;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserBeanUtil {
+	private Logger logger = LoggerFactory.getLogger(UserBeanUtil.class);
+
 	@Autowired
 	private UserRepository repository;
 
@@ -32,13 +36,10 @@ public class UserBeanUtil {
 			BeanUtils.copyProperties(userTO, user);
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error("Error while converting UserTO to User: " +  e);
 		}
 
 		return user;
-	}
-
-	public User toUser(UUID id) {
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 	}
 
 	public User toUser(CadastroUserTO cadastroUserTO) {
@@ -48,6 +49,7 @@ public class UserBeanUtil {
 			BeanUtils.copyProperties(cadastroUserTO, user);
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error("Error while converting CadastroUserTO to User: " +  e);
 		}
 
 		return user;
@@ -60,6 +62,7 @@ public class UserBeanUtil {
 			BeanUtils.copyProperties(user, userTO);
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error("Error while converting User to UserTO: " +  e);
 		}
 		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
 		return userTO;
@@ -72,22 +75,9 @@ public class UserBeanUtil {
 			BeanUtils.copyProperties(user, userTO);
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error("Error while converting UserTO to CadastroUserTO: " +  e);
 		}
 		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(this.toUser(user))));
-		return userTO;
-	}
-
-	public UserTO toUserTO(CadastroUserTO cadastroUserTO) {
-		UserTO userTO = new UserTO();
-
-		try{
-			BeanUtils.copyProperties(cadastroUserTO, userTO);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		userTO.setProfile(profileBeanUtil.toProfileTO(
-				profileRepository.findByUser(
-						this.toUser(cadastroUserTO))));
 		return userTO;
 	}
 
