@@ -39,8 +39,9 @@ public class UserController {
 	})
 	@PostMapping(consumes="application/json")
 	public UserTO create(@RequestBody @Valid CadastroUserTO userTO) throws ResourceBadRequestException, Exception  {
-		
-		return service.save(userTO);
+		UserTO user = service.save(userTO);
+		logger.info("Novo cadastro no sistema" + user);
+		return user;
 	}
 
 	@ApiOperation(value = "Retorna informações de todos os usuários")
@@ -87,7 +88,7 @@ public class UserController {
 	})
 	@PutMapping(value = "/{id}", consumes="application/json")
 	public UserTO update(@RequestBody CadastroUserTO userTO, @PathVariable UUID id) throws Exception {
-		
+		logger.info("Alterando usuário " + userTO);
 		return service.update(userTO);
 	}
 
@@ -98,8 +99,11 @@ public class UserController {
 	})
 	@GetMapping("/info")
 	public UserTO getInfoByToken(@RequestHeader(value = "AUTHORIZATION") String token){
+		logger.info("Tentando requisição de usuário por token ");
 		token = StringUtils.removeStart(token, "Bearer").trim();
-		return beanUtil.toUserTO(service.getByToken(token));
+		UserTO userTO = beanUtil.toUserTO(service.getByToken(token));
+		logger.info("Usuário encontrado: " + userTO);
+		return userTO;
 	}
 
 	@ApiOperation(value = "Retorna informações de um usuário a partir do email")
