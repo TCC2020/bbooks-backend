@@ -45,14 +45,13 @@ public class AuthService {
             }
             else {
                 logger.warn("Tentativa de acesso com senha errada. Usuario: "
-                        + optionalUser.get().getId() + "  Hora: " + LocalDateTime.now());
-                //log de senha errada
+                        + optionalUser.get().getEmail());
                 throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
             }
         }
         else{
             logger.warn("Tentativa de acesso mas usuário não existe. Usuario: "
-                    + loginTO.getEmail() + "  Hora: " + LocalDateTime.now());
+                    + loginTO.getEmail());
             throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
         }
     }
@@ -84,13 +83,13 @@ public class AuthService {
             }
             else {
                 logger.warn("Tentativa de acesso com senha errada. Usuario: "
-                        + optionalUser.get().getId() + "  Hora: " + LocalDateTime.now());
+                        + optionalUser.get().getEmail());
                 throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
             }
         }
         else{
             logger.warn("Tentativa de acesso mas usuário não existe. Usuario: "
-                    + loginTO.getEmail() + "  Hora: " + LocalDateTime.now());
+                    + loginTO.getEmail());
             throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
         }
 	}

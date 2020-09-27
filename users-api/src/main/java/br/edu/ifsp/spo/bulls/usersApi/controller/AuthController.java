@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.RequestPassResetTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ResetPassTO;
@@ -32,8 +33,10 @@ public class AuthController {
     })
     @PostMapping("/login")
     public UserTO login(@RequestBody LoginTO loginTO){
-        return service.authLogin(loginTO);
-
+        logger.info("Tentando realizar login: " + loginTO.getEmail());
+        UserTO userTO = service.authLogin(loginTO);
+        logger.info("Login realizado com sucesso! " + loginTO.getEmail());
+        return userTO;
     }
 
     @ApiOperation(value = "Confirmar cadastro no sistema")
@@ -45,7 +48,10 @@ public class AuthController {
     })
     @PostMapping("/confirm")
     public UserTO confirm( @RequestBody LoginTO loginTO) throws Exception{
-        return service.verified(loginTO);
+        logger.info("Verificando usuário: " + loginTO.getEmail());
+        UserTO userTO = service.verified(loginTO);
+        logger.info("Usuario verificado com sucesso! " + loginTO.getEmail());
+        return userTO;
     }
 
     @ApiOperation(value = "Enviar email para trocar senha")
@@ -56,7 +62,9 @@ public class AuthController {
     })
     @PostMapping("/reset-pass")
     public HttpStatus sendResetPassEmail(@RequestBody RequestPassResetTO dto) {
+        logger.info("Requisitando link para trocar de senha" + dto.getEmail());
         service.sendResetPasswordEmail(dto.getEmail(), dto.getUrl());
+        logger.info("Link gerado e email enviado para " + dto.getEmail());
         return HttpStatus.OK;
     }
 
@@ -68,17 +76,23 @@ public class AuthController {
     })
     @PutMapping("/reset-pass")
     public UserTO resetPass(@RequestBody ResetPassTO dto) {
-        return service.resetPass(dto);
+        logger.info("Requisitando troca de senha");
+        UserTO userTO = service.resetPass(dto);
+        logger.info("Senha trocada para o usuario " + userTO.getId());
+        return userTO;
     }
 
-    @ApiOperation(value = "Trocar senha utilizando o token")
+    @ApiOperation(value = "Retorna o usuário pelo token, usado para trocar a senha")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Senha alterada, retorna o usuário"),
-            @ApiResponse(code = 404, message = "Usuario não encontrado"),
-            @ApiResponse(code = 500, message = "Foi gerada uma exceção")
+            @ApiResponse(code = 200, message = "Token encontrado, retorna o usuario"),
+            @ApiResponse(code = 404, message = "Usuario/Token não encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma excecao")
     })
     @GetMapping("/reset-pass/{token}")
     public UserTO getByToken(@PathVariable String token) {
-        return service.getByToken(token);
+        logger.info("Requisitando usuario pelo token");
+        UserTO userTO = service.getByToken(token);
+        logger.info("Usuario encontrado: " + userTO);
+        return userTO;
     }
 }
