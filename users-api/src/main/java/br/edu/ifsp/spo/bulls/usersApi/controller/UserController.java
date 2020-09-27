@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 import java.util.HashSet;
 import java.util.UUID;
 import javax.validation.Valid;
-
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -19,6 +18,7 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 
 @RestController
+@ControllerAdvice
 @RequestMapping(value = "/users", produces="application/json")
 @CrossOrigin(origins = "*")
 public class UserController {
@@ -62,9 +62,10 @@ public class UserController {
 	})
 	@GetMapping ("/{id}")
 	public UserTO getById(@PathVariable UUID id) {
-		
-		return service.getById(id);
-		
+		logger.info("Acessando dados do usuário: " + id);
+		UserTO userTO = service.getById(id);
+		logger.info("Usuario retornado: " + userTO.toString());
+		return userTO;
 	}
 
 	@ApiOperation(value = "Apaga um usuário do sistema")
@@ -74,6 +75,7 @@ public class UserController {
 	})
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable UUID id) {
+		logger.info("Deletando usuário: " + id);
 		service.delete(id);
 	}
 
@@ -107,6 +109,9 @@ public class UserController {
 	})
 	@GetMapping("/email/{email}")
 	public UserTO getByEmail(@PathVariable String email){
-		return service.getByEmail(email);
+		logger.info("Acessando dados do usuário: " + email);
+		UserTO userTO = service.getByEmail(email);
+		logger.info("Usuario retornado: " + userTO.toString());
+		return userTO;
 	}
 }
