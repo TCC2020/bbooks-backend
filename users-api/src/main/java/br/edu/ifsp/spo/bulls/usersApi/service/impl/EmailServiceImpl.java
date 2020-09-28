@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.usersApi.service.impl;
 
-import br.edu.ifsp.spo.bulls.usersApi.controller.LoggingController;
 import br.edu.ifsp.spo.bulls.usersApi.service.EmailContentBuilder;
 import br.edu.ifsp.spo.bulls.usersApi.service.EmailService;
 import org.slf4j.Logger;
