@@ -2,6 +2,8 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import java.util.HashSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
@@ -10,13 +12,15 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 @Component
 public class ProfileBeanUtil {
 
+	private Logger logger = LoggerFactory.getLogger(ProfileBeanUtil.class);
+
 	public Profile toProfile(ProfileTO profileTO) {
 		Profile profile = new Profile();
 		
 		try{
 			BeanUtils.copyProperties(profileTO, profile);
 		}catch(Exception e) {
-			
+			logger.error("Error while converting ProfileTO to Profile: " +  e);
 		}
 		
 		return profile;
@@ -28,7 +32,7 @@ public class ProfileBeanUtil {
 		try{
 			BeanUtils.copyProperties(profile, profileTO);
 		}catch(Exception e) {
-			
+			logger.error("Error while converting Profile to ProfileTO: " +  e);
 		}
 		
 		return profileTO;

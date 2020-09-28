@@ -1,12 +1,14 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import java.util.HashSet;
-
 import javax.validation.Valid;
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,8 @@ import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 @CrossOrigin(origins = "*")
 public class ProfileController {
 
+	private Logger logger = LoggerFactory.getLogger(ProfileController.class);
+
 	@Autowired
 	private ProfileService service;
 
@@ -34,9 +38,8 @@ public class ProfileController {
 	})
 	@PutMapping(value = "{id}", consumes="application/json")
 	public ProfileTO update(@RequestBody @Valid ProfileTO profileTO, @PathVariable int id) throws Exception {
-
+		logger.info("Requisicao para atualizar o cadastro de um profile " + profileTO);
 		profileTO.setId(id);
-
 		return service.update(profileTO);
 	}
 
@@ -47,6 +50,7 @@ public class ProfileController {
 	})
 	@DeleteMapping(value = "{id}")
 	public void delete(@PathVariable int id){
+		logger.info("Requisião solicitada para deletar um profile " + id);
 		service.delete(id);
 	}
 
@@ -57,7 +61,10 @@ public class ProfileController {
 	})
 	@GetMapping("{id}")
 	public ProfileTO get(@PathVariable int id) {
-		return service.getById(id);
+		logger.info("Requisitando informações de um profile: " + id);
+		ProfileTO profile = service.getById(id);
+		logger.info("Profile encontrado: " + profile);
+		return profile;
 	}
 
 	@ApiOperation(value = "Retorna o profile a partir o nome de usuário")
@@ -67,9 +74,10 @@ public class ProfileController {
 	})
 	@GetMapping(value = "/user/{userName}")
 	public ProfileTO getByUser(@PathVariable String userName) {
-		
-		return service.getByUser(userName);
-		
+		logger.info("Requisitando informações de um profile a partir do usuario: " + userName);
+		ProfileTO profile = service.getByUser(userName);
+		logger.info("Profile encontrado: " + profile);
+		return profile;
 	}
 
 	@ApiOperation(value = "Retorna informações de todos os profiles")
@@ -78,6 +86,9 @@ public class ProfileController {
 	})
 	@GetMapping
 	public HashSet<ProfileTO> getAll() {
-		return service.getAll();
+		logger.info("Requisitando todos os profiles do cadastro");
+		HashSet<ProfileTO> profiles = service.getAll();
+		logger.info("Profiles encontrados: " + profiles);
+		return profiles;
 	}
 }

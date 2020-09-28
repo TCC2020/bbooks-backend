@@ -5,6 +5,8 @@ import br.edu.ifsp.spo.bulls.usersApi.service.TagService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.List;
 @RequestMapping(value = "/tags", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
 public class TagController {
+
+    private Logger logger = LoggerFactory.getLogger(TagController.class);
+
     @Autowired
     private TagService service;
 
@@ -26,6 +31,7 @@ public class TagController {
     })
     @PostMapping
     public Tag save(@RequestBody Tag tag) {
+        logger.info("Cadastrando uma nova tag " + tag);
         return service.save(tag);
     }
 
@@ -36,7 +42,10 @@ public class TagController {
     })
     @GetMapping("/profile/{profileId}")
     public List<Tag> getByProfile(@PathVariable int profileId) {
-        return service.getByProfile(profileId);
+        logger.info("Requisitando tags do usuario " + profileId);
+        List<Tag> tags = service.getByProfile(profileId);
+        logger.info("Tags encontradas: " + tags);
+        return tags;
     }
 
     @ApiOperation(value = "Retorna as Tags de determinado livro")
@@ -45,7 +54,10 @@ public class TagController {
     })
     @GetMapping("/book/{idUserBook}")
     public List<Tag> getByBook(@PathVariable Long idUserBook) {
-        return service.getByIdBook(idUserBook);
+        logger.info("Requisitando tags do livro " + idUserBook);
+        List<Tag> tags = service.getByIdBook(idUserBook);
+        logger.info("Tags encontradas: " + tags);
+        return tags;
     }
 
     @ApiOperation(value = "Retorna uma tag pelo identificador dela")
@@ -55,7 +67,9 @@ public class TagController {
     })
     @GetMapping("/{idTag}")
     public Tag getById(@PathVariable Long idTag) {
-        return service.getbyId(idTag);
+        logger.info("Requisitando dados de uma tag " + idTag);
+        Tag tag = service.getbyId(idTag);
+        return tag;
     }
 
     @ApiOperation(value = "Alterar o cadastro de uma tag")
@@ -66,7 +80,10 @@ public class TagController {
     })
     @PutMapping("/{idTag}")
     public Tag update(@PathVariable Long idTag, @RequestBody Tag tag){
-        return service.update(idTag, tag);
+        logger.info("Requisicao para atualizar o cadastro de uma tag" + tag);
+        Tag tag1 = service.update(idTag, tag);
+        logger.info("Tag atualizada" + tag1);
+        return tag ;
     }
 
     @ApiOperation(value = "Adicionar tag a um livro")
@@ -76,6 +93,7 @@ public class TagController {
     })
     @PutMapping("/{tagId}/book/{userBookId}")
     public Tag putTagOnBook(@PathVariable Long tagId,@PathVariable Long userBookId) {
+        logger.info("Requisicao para inserir tag em um livro. Tag: " + tagId + " Livro: "+ userBookId);
         return service.tagBook(tagId, userBookId);
     }
 
@@ -86,6 +104,7 @@ public class TagController {
     })
     @DeleteMapping("/{tagId}/book/{userBookId}")
     public HttpStatus untag(@PathVariable Long tagId, @PathVariable Long userBookId) {
+        logger.info("Requisicao para retirar tag de um livro. Tag: " + tagId + " Livro: "+ userBookId);
         return service.untagBook(tagId, userBookId);
     }
 
@@ -96,6 +115,7 @@ public class TagController {
     })
     @DeleteMapping("/{tagId}")
     public void delete(@PathVariable Long tagId) {
+        logger.info("Requisião solicitada para deletar uma tag " + tagId);
         service.delete(tagId);
     }
 }

@@ -5,6 +5,8 @@ import br.edu.ifsp.spo.bulls.usersApi.service.BookService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
@@ -13,6 +15,8 @@ import java.util.HashSet;
 @RequestMapping(value = "/books", produces="application/json", consumes="application/json")
 @CrossOrigin(origins = "*")
 public class BookController {
+
+    private Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     BookService service;
@@ -26,6 +30,7 @@ public class BookController {
     })
     @PostMapping
     public BookTO save(@RequestBody BookTO bookTO){
+        logger.info("Cadastrando novo Livro " + bookTO);
         return service.save(bookTO);
     }
 
@@ -35,9 +40,11 @@ public class BookController {
     })
     @GetMapping
     public HashSet<BookTO> get(){
-        return service.getAll();
+        logger.info("Requisitando todos os livros do cadastro");
+        HashSet<BookTO> livros = service.getAll();
+        logger.info("Livros retornados: " + livros);
+        return livros;
     }
-
 
     @ApiOperation(value = "Buscar um livro")
     @ApiResponses(value = {
@@ -47,7 +54,10 @@ public class BookController {
     })
     @GetMapping("/{id}")
     public BookTO getOne(@PathVariable int id){
-        return service.getOne(id);
+        logger.info("Requisitando informações do livro com id: " + id);
+        BookTO livro = service.getOne(id);
+        logger.info("Livro encontrado: " + livro);
+        return livro;
     }
 
     @ApiOperation(value = "Deletar um livro")
@@ -58,6 +68,7 @@ public class BookController {
     })
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
+        logger.info("Requisião solicitada para deletar o livro " + id);
         service.delete(id);
     }
 
@@ -70,6 +81,7 @@ public class BookController {
     })
     @PutMapping("/{id}")
     public BookTO update(@PathVariable int id, @RequestBody BookTO bookTo){
+        logger.info("Requisicao para atualizar o cadastro do livro" + bookTo);
         return service.update(bookTo);
     }
 }

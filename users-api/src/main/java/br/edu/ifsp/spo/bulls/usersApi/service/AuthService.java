@@ -11,8 +11,12 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import java.util.Optional;
@@ -25,6 +29,8 @@ public class AuthService {
     private UserBeanUtil utils;
     @Autowired
     private EmailServiceImpl emailService;
+
+    private Logger logger = LoggerFactory.getLogger(AuthService.class);
     
     public UserTO authLogin(LoginTO loginTO){
         Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
@@ -38,12 +44,14 @@ public class AuthService {
                 return utils.toUserTO(optionalUser.get());
             }
             else {
-                //log de senha errada
+                logger.warn("Tentativa de acesso com senha errada. Usuario: "
+                        + optionalUser.get().getEmail());
                 throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
             }
         }
         else{
-            //log de usuario não existe
+            logger.warn("Tentativa de acesso mas usuário não existe. Usuario: "
+                    + loginTO.getEmail());
             throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
         }
     }
@@ -74,10 +82,14 @@ public class AuthService {
                 return utils.toUserTO(optionalUser.get());
             }
             else {
+                logger.warn("Tentativa de acesso com senha errada. Usuario: "
+                        + optionalUser.get().getEmail());
                 throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
             }
         }
         else{
+            logger.warn("Tentativa de acesso mas usuário não existe. Usuario: "
+                    + loginTO.getEmail());
             throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
         }
 	}
@@ -86,6 +98,7 @@ public class AuthService {
         User user = repository.findByToken(dto.getToken()).orElseThrow(() -> new ResourceConflictException("Password already changed"));
         user.setPassword(dto.getPassword());
         user.setToken(UUID.randomUUID().toString());
+        logger.info("Reset password sucess. User: " + user.getId());
         return utils.toUserTO(repository.save(user));
     }
 
