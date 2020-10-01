@@ -93,8 +93,14 @@ public class UserService{
 	}
 
 	public UserTO getForGoogle(String email) {
-		User user = rep.findByEmail(email).orElseGet( () -> new User());
-		return beanUtil.toUserTO(user);
+		Optional<User> user = rep.findByEmail(email);
+		User user1;
+		if(user.isPresent()){
+			return beanUtil.toUserTO(user.get());
+		}else{
+			return new UserTO();
+		}
+
 	}
 
 	public void delete(UUID id) {
