@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
@@ -46,6 +47,17 @@ public class ProfileService {
 		return beanUtil.toProfileTO(profile);
 	}
 
+	public ProfileTO getByToken(String token) {
+		User user = userService.getByToken(token);
+		Profile profile;
+
+		if(user != null) {
+			profile =  profileRep.findByUser(user);
+			return beanUtil.toProfileTO(profile);
+		}
+		return null;
+	}
+
 	public ProfileTO getById(int id) {
 		
 		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
@@ -86,4 +98,20 @@ public class ProfileService {
 		return beanUtil.toProfileTO(profile);
 	}
 
+	public Profile getDomainByToken(String token) {
+		User user = userService.getByToken(token);
+		Profile profile;
+
+		if(user != null) {
+			return  profileRep.findByUser(user);
+		}
+		return null;
+	}
+
+	public HttpStatus updateProfileImage(String url, String token) {
+		Profile profile = getDomainByToken(token);
+		profile.setProfileImage(url);
+		profileRep.save(profile);
+		return HttpStatus.CREATED;
+	}
 }

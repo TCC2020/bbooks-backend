@@ -126,6 +126,10 @@ public class UserService{
 	public User getByToken(String token){
 		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Autenticação não encontrada."));
 	}
+
+	public UserTO getDTOByToken(String token) {
+		return beanUtil.toUserTO(rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado")));
+	}
 	 
    	public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
         Optional<User> optionalUser = rep.findByToken(token);
