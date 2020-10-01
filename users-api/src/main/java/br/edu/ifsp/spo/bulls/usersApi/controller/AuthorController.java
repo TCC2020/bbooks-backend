@@ -5,6 +5,8 @@ import br.edu.ifsp.spo.bulls.usersApi.service.AuthorService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,8 @@ import java.util.List;
 @RequestMapping(value ="/authors", produces="application/json")
 @CrossOrigin(origins = "*")
 public class AuthorController {
+
+    private Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
     @Autowired
     AuthorService service;
@@ -26,6 +30,7 @@ public class AuthorController {
     })
     @PostMapping(consumes="application/json")
     public AuthorTO save(@RequestBody AuthorTO author){
+        logger.info("Cadastrando novo autor " + author);
         return service.save(author);
     }
 
@@ -35,7 +40,10 @@ public class AuthorController {
     })
     @GetMapping
     public List<AuthorTO> getAll(){
-        return service.getAll();
+        logger.info("Requisitando todos os autores do cadastro");
+        List<AuthorTO> authors = service.getAll();
+        logger.info("Autores retornados: " + authors);
+        return authors;
     }
 
     @ApiOperation(value = "Retorna um profile a partir do identificador")
@@ -45,7 +53,10 @@ public class AuthorController {
     })
     @GetMapping("/{id}")
     public AuthorTO getOne(@PathVariable int id){
-        return service.getOne(id);
+        logger.info("Requisitando informações de autor com id: " + id);
+        AuthorTO author = service.getOne(id);
+        logger.info("Autor encontrado: " + author);
+        return author;
     }
 
     @ApiOperation(value = "Alterar um autor")
@@ -56,6 +67,7 @@ public class AuthorController {
     })
     @PutMapping(value = "/{id}", consumes="application/json")
     public AuthorTO update(@RequestBody AuthorTO author, @PathVariable int id){
+        logger.info("Requisicao para atualizar o cadastro do autor " + author);
         return service.update(author, id);
     }
 

@@ -3,12 +3,13 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 import java.util.HashSet;
 import java.util.UUID;
 import javax.validation.Valid;
-
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
@@ -17,9 +18,13 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 
 @RestController
+@ControllerAdvice
 @RequestMapping(value = "/users", produces="application/json")
 @CrossOrigin(origins = "*")
 public class UserController {
+
+	private Logger logger = LoggerFactory.getLogger(UserController.class);
+
 	@Autowired
 	private UserService service;
 
@@ -34,8 +39,9 @@ public class UserController {
 	})
 	@PostMapping(consumes="application/json")
 	public UserTO create(@RequestBody @Valid CadastroUserTO userTO) throws ResourceBadRequestException, Exception  {
-		
-		return service.save(userTO);
+		UserTO user = service.save(userTO);
+		logger.info("Novo cadastro no sistema" + user);
+		return user;
 	}
 
 	@ApiOperation(value = "Retorna informações de todos os usuários")
@@ -44,7 +50,10 @@ public class UserController {
 	})
 	@GetMapping
 	public HashSet<UserTO> getAll(){
-		return service.getAll();
+		logger.info("Acessando dados de todos os usuários");
+		HashSet<UserTO> users = service.getAll();
+		logger.info("Usuarios retornados: " + users.toString());
+		return users ;
 	}
 
 	@ApiOperation(value = "Retorna informações de um usuário a partir do código identificador")
@@ -54,9 +63,10 @@ public class UserController {
 	})
 	@GetMapping ("/{id}")
 	public UserTO getById(@PathVariable UUID id) {
-		
-		return service.getById(id);
-		
+		logger.info("Acessando dados do usuário: " + id);
+		UserTO userTO = service.getById(id);
+		logger.info("Usuario retornado: " + userTO.toString());
+		return userTO;
 	}
 
 	@ApiOperation(value = "Apaga um usuário do sistema")
@@ -66,6 +76,7 @@ public class UserController {
 	})
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable UUID id) {
+		logger.info("Deletando usuário: " + id);
 		service.delete(id);
 	}
 
@@ -77,7 +88,7 @@ public class UserController {
 	})
 	@PutMapping(value = "/{id}", consumes="application/json")
 	public UserTO update(@RequestBody CadastroUserTO userTO, @PathVariable UUID id) throws Exception {
-		
+		logger.info("Alterando usuário " + userTO);
 		return service.update(userTO);
 	}
 
@@ -88,8 +99,11 @@ public class UserController {
 	})
 	@GetMapping("/info")
 	public UserTO getInfoByToken(@RequestHeader(value = "AUTHORIZATION") String token){
+		logger.info("Tentando requisição de usuário por token ");
 		token = StringUtils.removeStart(token, "Bearer").trim();
-		return beanUtil.toUserTO(service.getByToken(token));
+		UserTO userTO = beanUtil.toUserTO(service.getByToken(token));
+		logger.info("Usuário encontrado: " + userTO);
+		return userTO;
 	}
 
 	@ApiOperation(value = "Retorna informações de um usuário a partir do email")
@@ -99,6 +113,9 @@ public class UserController {
 	})
 	@GetMapping("/email/{email}")
 	public UserTO getByEmail(@PathVariable String email){
-		return service.getByEmail(email);
+		logger.info("Acessando dados do usuário: " + email);
+		UserTO userTO = service.getByEmail(email);
+		logger.info("Usuario retornado: " + userTO.toString());
+		return userTO;
 	}
 }

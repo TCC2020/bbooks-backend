@@ -65,6 +65,8 @@ project(':users-api') {
 		compile 'com.google.cloud:google-cloud-storage:1.113.1'
         compile 'io.springfox:springfox-swagger2:2.9.2'
         compile 'io.springfox:springfox-swagger-ui:2.9.2'
+		implementation 'com.logentries:logentries-appender:1.1.38'
+
     }
 	test {
 		useJUnitPlatform()

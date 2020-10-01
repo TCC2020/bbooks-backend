@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.BookController" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/BookController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="123" y="170"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.BookService" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/BookService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="478" y="168"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="br.edu.ifsp.spo.bulls.usersApi.bean.BookBeanUtil" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/bean/BookBeanUtil.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="606" y="429"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="4" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/BookRepository.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="795" y="175"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="5" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Book" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Book.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="942" y="433"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.BookTO" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/BookTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="114" y="432"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Author" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Author.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="611" y="687"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/AuthorTO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="894" y="796"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="br.edu.ifsp.spo.bulls.usersApi.bean.AuthorBeanUtil" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/bean/AuthorBeanUtil.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="146" y="641"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.AuthorController" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/AuthorController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="900" y="1134"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.AuthorService" project="users-api" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/AuthorService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="506" y="1133"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="12" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.AuthorRepository" 
+    project="users-api" file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/AuthorRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="97" y="992"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <dependency id="13">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <association id="14">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="15" name="service"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="17">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="18">    
+    <bendpoint x="140" y="864"/>    
+    <bendpoint x="502" y="864"/>    
+    <bendpoint x="781" y="861"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <association id="19">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="20" name="beanUtil"/>      
+      <multiplicity id="21" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="22">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="23" name="service"/>      
+      <multiplicity id="24" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="25">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <association id="26">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="27" name="authorService"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="29">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="30">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="31">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="32" name="authors"/>      
+      <multiplicity id="33" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="34">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="35" name="beanUtil"/>      
+      <multiplicity id="36" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="37">    
+    <bendpoint x="99" y="793"/>    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="38">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="39">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="40" name="authors"/>      
+      <multiplicity id="41" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="42">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="43">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="44" name="repository"/>      
+      <multiplicity id="45" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="46">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <association id="47">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="48" name="repository"/>      
+      <multiplicity id="49" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
