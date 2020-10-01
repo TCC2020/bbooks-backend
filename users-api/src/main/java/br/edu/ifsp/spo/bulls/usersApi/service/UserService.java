@@ -50,7 +50,7 @@ public class UserService{
 
 		email.
 			getInstance()
-			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
+			.withUrls("https://bbooks-front.herokuapp.com/confirm")
 			.withTo(retorno.getEmail())
 			.withContent(" Bem Vindo " + retorno.getUserName())
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
@@ -125,6 +125,10 @@ public class UserService{
 
 	public User getByToken(String token){
 		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Autenticação não encontrada."));
+	}
+
+	public UserTO getDTOByToken(String token) {
+		return beanUtil.toUserTO(rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado")));
 	}
 	 
    	public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {

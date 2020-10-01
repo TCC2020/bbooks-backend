@@ -53,13 +53,16 @@ subprojects {
 }
 project(':users-api') {
 	dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
-        implementation 'org.springframework.boot:spring-boot-starter-security'
-        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
+		implementation 'org.springframework.boot:spring-boot-starter-security'
+		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+		implementation 'org.springframework.boot:spring-boot-starter-mail'
+		testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
+		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
         implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
         implementation 'org.springframework.boot:spring-boot-starter-mail'
+		compile 'com.google.cloud:google-cloud-storage:1.113.1'
         compile 'io.springfox:springfox-swagger2:2.9.2'
         compile 'io.springfox:springfox-swagger-ui:2.9.2'
 		implementation 'com.logentries:logentries-appender:1.1.38'

@@ -45,6 +45,8 @@ public class Profile {
 	@ApiModelProperty(value = "Cadastro de login do perfil")
 	private User user;
 
+	@ApiModelProperty(value = "URL da imagem de perfil")
+	private String profileImage;
 
 	public Profile() {
 		
