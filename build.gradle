@@ -36,6 +36,7 @@ subprojects {
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {
 			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 		}
+		implementation 'org.postgresql:postgresql'
 	}
 	repositories {
 		mavenCentral()
@@ -51,10 +52,14 @@ project(':users-api') {
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
+		implementation 'org.springframework.boot:spring-boot-starter-security'
 		testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
 		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+		implementation 'org.springframework.boot:spring-boot-starter-mail'
 	}
 	test {
 		useJUnitPlatform()
+		systemProperty 'spring.profiles.active', 'test'
 	}
 }
