@@ -111,14 +111,13 @@ public class UserService{
 					
 	}
 
-	public UserTO update(CadastroUserTO entity) throws Exception {
+	public UserTO update(UserTO entity) throws Exception {
 		if(entity.getId() == null)
 			throw new ResourceNotFoundException("User not found");
 
 		User user = beanUtil.toUser(entity);
 
 		validationEmailIsUnique(entity.getEmail(), user);
-		validationPassword(entity);
 		
 		return beanUtil.toUserTO(rep.findById(user.getId()).map( user1 -> {
 			user1.setEmail(user.getEmail());

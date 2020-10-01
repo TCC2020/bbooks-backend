@@ -166,13 +166,11 @@ public class UserControllerTest {
     	UserTO res = service.save(user);
 
         // Alterando o usuario
-		CadastroUserTO alterar = userBeanUtil.toCadastroTO(res);
-		alterar.setEmail("testeUP@teste");
-		alterar.setPassword(user.getPassword());
+		res.setEmail("testeUP@teste");
 
         mockMvc.perform(put("/users/" + res.getId())
         		.contentType("application/json")
-        		.content(objectMapper.writeValueAsString(alterar)))
+        		.content(objectMapper.writeValueAsString(res)))
                 .andExpect(status().isOk());
     }
     
@@ -180,10 +178,9 @@ public class UserControllerTest {
     void testUpdateUserNotFound() throws JsonProcessingException, Exception {
         
     	// Criando o usuario
-		CadastroUserTO user = new CadastroUserTO();
+		UserTO user = new UserTO();
     	user.setUserName("testeUPNotFound");
     	user.setEmail("teste@testeUPFound");
-    	user.setPassword("1234567");
 
         mockMvc.perform(put("/users/" + UUID.randomUUID())
         		.contentType("application/json")

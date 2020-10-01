@@ -93,7 +93,7 @@ public class UserController {
 			@ApiResponse(code = 409, message = "Conflito ao cadastrar o usuário. O email ou nome de usuário já está sendo utilizado")
 	})
 	@PutMapping(value = "/{id}", consumes="application/json")
-	public UserTO update(@RequestBody CadastroUserTO userTO, @PathVariable UUID id) throws Exception {
+	public UserTO update(@RequestBody UserTO userTO, @PathVariable UUID id) throws Exception {
 		logger.info("Alterando usuário " + userTO);
 		return service.update(userTO);
 	}
@@ -124,7 +124,6 @@ public class UserController {
 		logger.info("Usuario retornado: " + userTO.toString());
 		return userTO;
 	}
-
 
 	@ApiOperation(value = "Retorna informações de um usuário para realizar login com google")
 	@ApiResponses(value = {
