@@ -124,4 +124,18 @@ public class UserController {
 		logger.info("Usuario retornado: " + userTO.toString());
 		return userTO;
 	}
+
+
+	@ApiOperation(value = "Retorna informações de um usuário para realizar login com google")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna o usuário"),
+			@ApiResponse(code = 404, message = "Email não encontrado")
+	})
+	@GetMapping("/google/{email}")
+	public UserTO getForGoogle(@PathVariable String email){
+		logger.info("Acessando dados do usuário: " + email);
+		UserTO userTO = service.getForGoogle(email);
+		logger.info("Usuario retornado: " + userTO.toString());
+		return userTO;
+	}
 }
