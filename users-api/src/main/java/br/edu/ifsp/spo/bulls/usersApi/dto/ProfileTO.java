@@ -33,6 +33,9 @@ public class ProfileTO {
 	@ApiModelProperty(value = "Data Nascimento")
 	private String birthDate;
 
+	@ApiModelProperty(value = "URL da imagem de perfil")
+	private String profileImage;
+
 
 	public ProfileTO(int id, String name,
 			 String lastName, String country, String city, String state,

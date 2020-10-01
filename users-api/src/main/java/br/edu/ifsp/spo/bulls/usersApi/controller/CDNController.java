@@ -9,6 +9,7 @@ import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class CDNController {
     Storage storage = StorageOptions.getDefaultInstance().getService();
 
 //    Storage storage = StorageOptions.newBuilder()
-//            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/home/feloureiro/Downloads/key.json")))
+//            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("C:/Users/AndreNascimentodeFre/Downloads/key.json")))
 //            .build()
 //            .getService();
 
@@ -53,7 +54,7 @@ public class CDNController {
                     file.getBytes(), // the file
                     Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ) // Set file permission
             );
-            return this.handleUpload(objectType, blobInfo.getMediaLink(), token); // Return file url
+            return this.handleUpload(objectType, blobInfo.getMediaLink(), StringUtils.removeStart(token, "Bearer").trim()); // Return file url
         }catch(IllegalStateException e){
             throw new RuntimeException(e);
         }

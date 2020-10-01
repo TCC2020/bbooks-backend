@@ -80,6 +80,7 @@ public class ProfileController {
 		return profile;
 	}
 
+
 	@ApiOperation(value = "Retorna informações de todos os profiles")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Retorna uma lista de profiles")

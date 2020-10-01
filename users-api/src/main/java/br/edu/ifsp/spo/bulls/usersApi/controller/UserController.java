@@ -43,6 +43,12 @@ public class UserController {
 		logger.info("Novo cadastro no sistema" + user);
 		return user;
 	}
+	@GetMapping ("/username/{username}")
+	public UserTO getByUserName(@PathVariable String username) {
+
+		return service.getByUserName(username);
+
+	}
 
 	@ApiOperation(value = "Retorna informações de todos os usuários")
 	@ApiResponses(value = {
