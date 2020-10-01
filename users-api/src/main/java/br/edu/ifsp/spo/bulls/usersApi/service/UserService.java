@@ -92,6 +92,17 @@ public class UserService{
 		return beanUtil.toUserTO(user);
 	}
 
+	public UserTO getForGoogle(String email) {
+		Optional<User> user = rep.findByEmail(email);
+		User user1;
+		if(user.isPresent()){
+			return beanUtil.toUserTO(user.get());
+		}else{
+			return new UserTO();
+		}
+
+	}
+
 	public void delete(UUID id) {
 			
 		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
