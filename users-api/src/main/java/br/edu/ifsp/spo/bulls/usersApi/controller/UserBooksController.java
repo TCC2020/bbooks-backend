@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/bookcases", produces="application/json", consumes="application/json")
+@RequestMapping(value = "/bookcases", produces="application/json")
 @CrossOrigin(origins = "*")
 public class UserBooksController {
 
@@ -24,7 +24,7 @@ public class UserBooksController {
 
     @ApiOperation(value = "Adicionar um livro na estante do usuário")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 200, message = "Livro adicionado"),
     })
     @PostMapping
     public UserBooksTO post(@RequestBody UserBooksTO dto) {

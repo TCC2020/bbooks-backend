@@ -15,7 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/tags", produces="application/json", consumes="application/json")
+@RequestMapping(value = "/tags", produces="application/json")
 @CrossOrigin(origins = "*")
 public class TagController {
 
