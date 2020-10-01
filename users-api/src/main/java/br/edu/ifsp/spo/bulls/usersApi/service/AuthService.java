@@ -56,6 +56,27 @@ public class AuthService {
         }
     }
 
+    public UserTO authLoginToken(LoginTO loginTO){
+        Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
+
+        if(optionalUser.isPresent()){
+                if(optionalUser.get().getToken().equals(loginTO.getToken())){
+                    optionalUser.get().setToken(UUID.randomUUID().toString());
+                    repository.save(optionalUser.get());
+                }else{
+                    logger.warn("Tentativa de acesso com token inexistente. Usuario: "
+                            + loginTO.getEmail());
+                    throw new ResourceNotFoundException("Aconteceu um erro.");
+                }
+                return utils.toUserTO(optionalUser.get());
+        }
+        else{
+            logger.warn("Tentativa de acesso mas usuário não existe. Usuario: "
+                    + loginTO.getEmail());
+            throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
+        }
+    }
+
     public void sendResetPasswordEmail(String email, String url) {
         User user = repository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found."));
 

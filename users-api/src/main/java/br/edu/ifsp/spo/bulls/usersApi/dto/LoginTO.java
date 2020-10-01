@@ -16,6 +16,9 @@ public class LoginTO {
     @ApiModelProperty(value = "Senha")
     private String password;
 
+    @ApiModelProperty(value = "Token")
+    private String token;
+
     public LoginTO(String userName, String email, String password) {
         this.userName = userName;
         this.email = email;

@@ -38,6 +38,7 @@ public class UserService{
         
 		User user = beanUtil.toUser(cadastroUserTO);
 		user.setUserName(user.getUserName().toLowerCase());
+		user.setToken(UUID.randomUUID().toString());
 
 		Profile profile = new Profile (cadastroUserTO.getName(), cadastroUserTO.getLastName(), cadastroUserTO.getProfileImage(), user);
 		validationUserNameIsUnique(user);

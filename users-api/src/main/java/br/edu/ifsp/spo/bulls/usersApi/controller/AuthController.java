@@ -39,6 +39,21 @@ public class AuthController {
         return userTO;
     }
 
+    @ApiOperation(value = "Fazer login na plataforma via token")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Login concluído, retorna o usuário"),
+            @ApiResponse(code = 401, message = "Não autorizado, token incorreto"),
+            @ApiResponse(code = 404, message = "Usuário não encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção")
+    })
+    @PostMapping("/login/token")
+    public UserTO loginToken(@RequestBody LoginTO loginTO){
+        logger.info("Tentando realizar login: " + loginTO.getEmail());
+        UserTO userTO = service.authLoginToken(loginTO);
+        logger.info("Login realizado com sucesso! " + loginTO.getEmail());
+        return userTO;
+    }
+
     @ApiOperation(value = "Confirmar cadastro no sistema")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Login concluído e usuário confirmado, retorna o usuário"),
