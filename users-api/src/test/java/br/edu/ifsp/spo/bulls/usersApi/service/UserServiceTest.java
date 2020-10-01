@@ -200,10 +200,9 @@ public class UserServiceTest {
     @Test
     void testFindByToken() throws ResourceBadRequestException, Exception {
         CadastroUserTO user = new CadastroUserTO("testeDel", "testeDel@teste", "senhate", "nome", "sobrenome");
-        user.setToken("123");
-        service.save(user);
+        UserTO userTO = service.save(user);
 
-        Optional<org.springframework.security.core.userdetails.User> resposta = service.findByToken(user.getToken());
+        Optional<org.springframework.security.core.userdetails.User> resposta = service.findByToken(userTO.getToken());
 
         assertTrue(resposta.isPresent());
     }
