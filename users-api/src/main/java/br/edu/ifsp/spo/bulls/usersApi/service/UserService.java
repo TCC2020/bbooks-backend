@@ -39,8 +39,7 @@ public class UserService{
 		User user = beanUtil.toUser(cadastroUserTO);
 		user.setUserName(user.getUserName().toLowerCase());
 
-		Profile profile = new Profile (cadastroUserTO.getName(), cadastroUserTO.getLastName(), user);
-		
+		Profile profile = new Profile (cadastroUserTO.getName(), cadastroUserTO.getLastName(), cadastroUserTO.getProfileImage(), user);
 		validationUserNameIsUnique(user);
 		validationEmailIsUnique(user);
 		validationPassword(cadastroUserTO);

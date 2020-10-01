@@ -77,7 +77,6 @@ public class UserBeanUtil {
 			e.printStackTrace();
 			logger.error("Error while converting UserTO to CadastroUserTO: " +  e);
 		}
-		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(this.toUser(user))));
 		return userTO;
 	}
 

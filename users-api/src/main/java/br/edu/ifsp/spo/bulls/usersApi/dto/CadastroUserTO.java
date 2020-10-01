@@ -38,14 +38,16 @@ public class CadastroUserTO {
     @ApiModelProperty(value = "Indica se o usuário tem o cadastro confirmado")
     private Boolean verified;
 
-    @ApiModelProperty(value = "Usuario relacionado aos dados de login")
-    private ProfileTO profile;
+    @ApiModelProperty(value = "Indica se o usuário tem o cadastro confirmado")
+    private String profileImage;
 
     @NotBlank(message = "Nome é obrigatório")
     private String name;
 
     @NotBlank(message = "Sobrenome é obrigatório")
     private String lastName;
+
+
 
 
     @Override

@@ -83,11 +83,13 @@ public class Profile {
 
 
 	public Profile(@NotBlank(message = "Name is mandatory") String name,
-			@NotBlank(message = "lastName is mandatory") String lastName, User user) {
+			@NotBlank(message = "lastName is mandatory") String lastName,
+			String profileImage, User user) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
 		this.user = user;
+		this.profileImage = profileImage;
 	}
 	
 }
