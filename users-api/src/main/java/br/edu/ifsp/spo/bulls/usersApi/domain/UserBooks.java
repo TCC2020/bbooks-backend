@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class UserBooks {
     @ApiModelProperty(value = "Número identificador do livro da Api do google")
     private String idBook;
 
+    @ApiModelProperty(value = "Qauntidade de páginas do livro da Api do google")
+    private int page;
+
     @ApiModelProperty(value = "Status do livro")
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -36,6 +40,9 @@ public class UserBooks {
     @ApiModelProperty(value = "Usuario dono da estante virtual")
     @OneToOne
     private Profile profile;
+
+    @OneToMany
+    private List<ReadingTracking> trackings = new ArrayList<>();
 
     public enum Status {
         QUERO_LER("Quero ler"),

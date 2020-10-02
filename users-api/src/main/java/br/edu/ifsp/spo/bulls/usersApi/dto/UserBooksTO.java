@@ -22,6 +22,8 @@ public class UserBooksTO {
     private String isbn13;
     @ApiModelProperty(value = "Número identificador do livro da Api do google")
     private String idBook;
+    @ApiModelProperty(value = "Qauntidade de páginas do livro da Api do google")
+    private int page;
     @ApiModelProperty(value = "Lista de tags que o livro possui")
     private List<Tag> tags;
     @ApiModelProperty(value = "Status do livro")

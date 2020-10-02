@@ -77,10 +77,9 @@ public class ReadingTrackingController {
             @ApiResponse(code = 200, message = "Acompanhamento deletado")
     })
     @DeleteMapping("/trackingID")
-    public ReadingTracking delete(@PathVariable UUID trackingID){
+    public void delete(@PathVariable UUID trackingID){
         logger.info("Deletando o acompanhamento: " + trackingID);
-        ReadingTracking acompanhamento = service.delete(trackingID);
-        logger.info("Acompanhamento deletado: " + acompanhamento.toString());
-        return acompanhamento ;
+        service.delete(trackingID);
+        logger.info("Acompanhamento deletado: " + trackingID);
     }
 }

@@ -17,10 +17,11 @@ public class ReadingTracking {
     @Id
     @ApiModelProperty(value = "Identificador")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    @Column(name = "id", updatable = false, unique = true)
     private UUID id;
 
     @ApiModelProperty(value = "Página em que o usuário parou a leitura")
+    @Column(nullable = false)
     private int numPag;
 
     @ApiModelProperty(value = "Comentário")
