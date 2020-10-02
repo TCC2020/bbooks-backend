@@ -121,8 +121,8 @@ public class UserServiceTest {
 
     @Test
     void testFailUpdateUserNotFound() throws Exception {
-        CadastroUserTO userUp = new CadastroUserTO("testeUpUser", "testeUp2@teste", "senhate");
-        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.update(userBeanUtil.toUserTO(userUp)));
+        UserTO userUp = new UserTO("testeUpUser", "testeUp2@teste");
+        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.update(userUp));
         assertEquals("User not found", exception.getMessage());
     }
 
@@ -138,7 +138,7 @@ public class UserServiceTest {
         Set<UserTO> us = service.getAll();
 
         assertThrows(ResourceConflictException.class, () -> service.update(userUp));
-    }
+   }
 
     @Test
     void testFailUpdateEmailMandatory() throws Exception {

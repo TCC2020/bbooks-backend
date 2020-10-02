@@ -154,24 +154,25 @@ public class UserControllerTest {
     
     @Test
     void testUpdate() throws JsonProcessingException, Exception {
-        
-    	// Criando o usuario
+
+		// Criando o usuario
 		CadastroUserTO user = new CadastroUserTO();
-    	user.setUserName("testeU");
-    	user.setEmail("teste@test");
-    	user.setPassword("1234567");
-    	user.setName("nome");
-    	user.setLastName("sobrenome");
+		user.setUserName("testeU");
+		user.setEmail("teste@test");
+		user.setPassword("1234567");
+		user.setName("nome");
+		user.setLastName("sobrenome");
 
-    	UserTO res = service.save(user);
+		UserTO res = service.save(user);
 
-        // Alterando o usuario
+		// Alterando o usuario
 		res.setEmail("testeUP@teste");
+		//alterar.setPassword(user.getPassword());
 
-        mockMvc.perform(put("/users/" + res.getId())
-        		.contentType("application/json")
-        		.content(objectMapper.writeValueAsString(res)))
-                .andExpect(status().isOk());
+		mockMvc.perform(put("/users/" + res.getId())
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(res)))
+				.andExpect(status().isOk());
     }
     
     @Test

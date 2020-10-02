@@ -76,7 +76,7 @@ public class UserService{
 			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail());
 	}
 
-	private void validationEmailIsUnique(String email, User entity) throws Exception {
+	private void validationEmailIsUnique(String email, UserTO entity) throws Exception {
 		Optional<User> user = rep.findByEmail(email);
 		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
 			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail());
@@ -115,16 +115,13 @@ public class UserService{
 		if(entity.getId() == null)
 			throw new ResourceNotFoundException("User not found");
 
-		User user = beanUtil.toUser(entity);
+		validationEmailIsUnique(entity.getEmail(), entity);
 
-		validationEmailIsUnique(entity.getEmail(), user);
-		
-		return beanUtil.toUserTO(rep.findById(user.getId()).map( user1 -> {
-			user1.setEmail(user.getEmail());
-			user1.setUserName(user.getUserName());
-			return rep.save(user);
+		return beanUtil.toUserTO(rep.findById(entity.getId()).map( user1 -> {
+			user1.setEmail(entity.getEmail());
+			user1.setUserName(entity.getUserName());
+			return rep.save(user1);
 		}).orElseThrow( () -> new ResourceNotFoundException("User not found")));
-		
 	}
 
 	public HashSet<UserTO> getAll() {
