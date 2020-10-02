@@ -41,7 +41,7 @@ public class ReadingTrackingController {
             @ApiResponse(code = 200, message = "Retorna um acompanhamento")
     })
     @GetMapping("/{readingTracking}")
-    public ReadingTracking getOne(@PathVariable Long readingTracking){
+    public ReadingTracking getOne(@PathVariable UUID readingTracking){
         logger.info("Acessando dados de um acompanhamento");
         ReadingTracking acompanhamento = service.get(readingTracking);
         logger.info("Acompanhamento retornado: " + acompanhamento.toString());
