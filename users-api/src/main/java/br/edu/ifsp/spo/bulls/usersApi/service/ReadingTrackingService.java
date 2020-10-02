@@ -47,11 +47,16 @@ public class ReadingTrackingService {
     }
 
     private float calcularPercentual(ReadingTracking readingTracking) {
+        int paginasTotais;
+        if(readingTracking.getUserBook().getBook() != null){
+            paginasTotais = readingTracking.getUserBook().getBook().getNumberPage();
+        }else{
+            paginasTotais = readingTracking.getUserBook().getPage();
+        }
+
         float dividendo =  readingTracking.getNumPag() * 100;
-        System.out.println(dividendo);
-        System.out.println(readingTracking.toString());
-        System.out.println(readingTracking.getUserBook().getPage());
-        return  dividendo / readingTracking.getUserBook().getPage();
+
+        return  dividendo / paginasTotais;
     }
 
     public ReadingTracking update(ReadingTracking readingTracking, UUID trackingID) {

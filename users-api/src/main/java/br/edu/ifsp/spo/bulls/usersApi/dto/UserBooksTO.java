@@ -1,12 +1,12 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.awt.print.Book;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;

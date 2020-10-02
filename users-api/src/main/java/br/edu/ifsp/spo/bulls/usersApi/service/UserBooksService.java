@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
@@ -9,6 +10,7 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +30,20 @@ public class UserBooksService {
     private TagService tagService;
 
     @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
     private ProfileRepository profileRepository;
 
     public UserBooksTO save(UserBooksTO dto) {
+        Book book = null;
+        if(dto.getBook()!= null){
+            book = bookRepository.findById(dto.getBook().getId()).get();
+            dto.setBook(book);
+        }
+
         UserBooks userBooks = repository.save(util.toDomain(dto));
+
         for(Tag t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }

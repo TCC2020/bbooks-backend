@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Entity
 @ApiModel(value = "Objeto de transito: ACOMPANHAMENTO_LEITURA ")
 public class ReadingTrackingTO {
 
