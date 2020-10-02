@@ -107,23 +107,21 @@ public class UserServiceTest {
 
     @Test
     void testUpdate() throws Exception {
-        CadastroUserTO userUp = new CadastroUserTO("testeUppppp", "testeUp1@teste", "senhate", "nome", "sobrenome");
+        CadastroUserTO userUp = new CadastroUserTO("testeUppppp", "r@r", "senhate", "nome", "sobrenome");
 
         UserTO u = service.save(userUp);
 
-        CadastroUserTO cadastroUserTO = userBeanUtil.toCadastroTO(u);
-        cadastroUserTO.setEmail("testUp2@testeeeee");
-        cadastroUserTO.setPassword(userUp.getPassword());
+        u.setUserName("testeupUsernamefaf");
 
 
-        UserTO userUpdated = service.update(cadastroUserTO);
+        UserTO userUpdated = service.update(u);
 
-        assertEquals("testUp2@testeeeee", userUpdated.getEmail());
+        assertEquals("r@r", userUpdated.getEmail());
     }
 
     @Test
     void testFailUpdateUserNotFound() throws Exception {
-        CadastroUserTO userUp = new CadastroUserTO("testeUpUser", "testeUp2@teste", "senhate");
+        UserTO userUp = new UserTO("testeUpUser", "testeUp2@teste");
         Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.update(userUp));
         assertEquals("User not found", exception.getMessage());
     }
@@ -139,30 +137,17 @@ public class UserServiceTest {
         userUp.setEmail("testeUp4@teste");
         Set<UserTO> us = service.getAll();
 
-        assertThrows(ResourceConflictException.class, () -> service.update(userBeanUtil.toCadastroTO(userUp)));
-    }
+        assertThrows(ResourceConflictException.class, () -> service.update(userUp));
+   }
 
     @Test
     void testFailUpdateEmailMandatory() throws Exception {
         CadastroUserTO userUp = new CadastroUserTO("testeUpEmailMandatory", "testeUp5@teste", "senhate", "nome", "sobrenome");
         UserTO u = service.save(userUp);
 
-        CadastroUserTO cadastroUserTO = userBeanUtil.toCadastroTO(u);
-        cadastroUserTO.setEmail("");
-        cadastroUserTO.setPassword(userUp.getPassword());
+        u.setEmail("");
 
-        assertThrows(TransactionSystemException.class, () -> service.update(cadastroUserTO));
-    }
-
-    @Test
-    void testFailUpdatePasswordMandatory() throws Exception {
-        CadastroUserTO userUp = new CadastroUserTO("testeUpPasswordMandatory", "testeUp6@teste", "senhate", "nome", "sobrenome");
-        UserTO u = service.save(userUp);
-
-        CadastroUserTO alterado = userBeanUtil.toCadastroTO(u);
-
-        alterado.setPassword("");
-        assertThrows(ResourceBadRequestException.class, () -> service.update(alterado));
+        assertThrows(TransactionSystemException.class, () -> service.update(u));
     }
 
     @Test

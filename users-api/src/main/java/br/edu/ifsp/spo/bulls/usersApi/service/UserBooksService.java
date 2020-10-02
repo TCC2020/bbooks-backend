@@ -11,6 +11,8 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
+import ch.qos.logback.core.CoreConstants;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +33,13 @@ public class UserBooksService {
     private ProfileRepository profileRepository;
 
     public UserBooksTO save(UserBooksTO dto) {
+        System.out.println(dto.toString());
         UserBooks userBooks = repository.save(util.toDomain(dto));
+        System.out.println(userBooks.toString());
         for(Tag t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }
+        System.out.println(userBooks.toString());
         return util.toDto(userBooks);
     }
 

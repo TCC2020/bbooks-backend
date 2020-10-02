@@ -154,36 +154,34 @@ public class UserControllerTest {
     
     @Test
     void testUpdate() throws JsonProcessingException, Exception {
-        
-    	// Criando o usuario
+
+		// Criando o usuario
 		CadastroUserTO user = new CadastroUserTO();
-    	user.setUserName("testeU");
-    	user.setEmail("teste@test");
-    	user.setPassword("1234567");
-    	user.setName("nome");
-    	user.setLastName("sobrenome");
+		user.setUserName("testeU");
+		user.setEmail("teste@test");
+		user.setPassword("1234567");
+		user.setName("nome");
+		user.setLastName("sobrenome");
 
-    	UserTO res = service.save(user);
+		UserTO res = service.save(user);
 
-        // Alterando o usuario
-		CadastroUserTO alterar = userBeanUtil.toCadastroTO(res);
-		alterar.setEmail("testeUP@teste");
-		alterar.setPassword(user.getPassword());
+		// Alterando o usuario
+		res.setEmail("testeUP@teste");
+		//alterar.setPassword(user.getPassword());
 
-        mockMvc.perform(put("/users/" + res.getId())
-        		.contentType("application/json")
-        		.content(objectMapper.writeValueAsString(alterar)))
-                .andExpect(status().isOk());
+		mockMvc.perform(put("/users/" + res.getId())
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(res)))
+				.andExpect(status().isOk());
     }
     
     @Test
     void testUpdateUserNotFound() throws JsonProcessingException, Exception {
         
     	// Criando o usuario
-		CadastroUserTO user = new CadastroUserTO();
+		UserTO user = new UserTO();
     	user.setUserName("testeUPNotFound");
     	user.setEmail("teste@testeUPFound");
-    	user.setPassword("1234567");
 
         mockMvc.perform(put("/users/" + UUID.randomUUID())
         		.contentType("application/json")

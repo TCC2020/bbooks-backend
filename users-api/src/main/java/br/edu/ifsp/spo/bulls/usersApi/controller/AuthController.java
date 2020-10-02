@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/auth", produces="application/json", consumes="application/json")
+@RequestMapping(value = "/auth", produces="application/json")
 @CrossOrigin(origins = "*")
 public class AuthController {
     @Autowired

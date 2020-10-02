@@ -16,10 +16,6 @@ import java.util.List;
 public class UserBooksTO {
     @ApiModelProperty(value = "Identificador")
     private Long id;
-    @ApiModelProperty(value = "Número ISBN10 do livro")
-    private String isbn10;
-    @ApiModelProperty(value = "Número ISBN13 do livro")
-    private String isbn13;
     @ApiModelProperty(value = "Número identificador do livro da Api do google")
     private String idBook;
     @ApiModelProperty(value = "Lista de tags que o livro possui")
