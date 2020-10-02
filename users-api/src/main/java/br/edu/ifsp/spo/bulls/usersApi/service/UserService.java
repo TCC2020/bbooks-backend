@@ -78,8 +78,8 @@ public class UserService{
 
 	private void validationEmailIsUnique(String email, UserTO entity) throws Exception {
 		Optional<User> user = rep.findByEmail(email);
-		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
-			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail());
+		if ((user.isPresent()) && (!user.get().getId().equals(entity.getId())) )
+			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail() + user.get().getEmail() + user.get().getUserName());
 	}
 
 	public UserTO getById(UUID id) {

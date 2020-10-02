@@ -107,7 +107,7 @@ public class UserServiceTest {
 
     @Test
     void testUpdate() throws Exception {
-        CadastroUserTO userUp = new CadastroUserTO("testeUppppp", "testeUp1@teste", "senhate", "nome", "sobrenome");
+        CadastroUserTO userUp = new CadastroUserTO("testeUppppp", "r@r", "senhate", "nome", "sobrenome");
 
         UserTO u = service.save(userUp);
 
@@ -116,7 +116,7 @@ public class UserServiceTest {
 
         UserTO userUpdated = service.update(u);
 
-        assertEquals("testUp2@testeeeee", userUpdated.getEmail());
+        assertEquals("r@r", userUpdated.getEmail());
     }
 
     @Test
