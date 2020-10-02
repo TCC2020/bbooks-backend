@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.usersApi.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,7 +16,7 @@ public class ReadingTracking {
     @Id
     @ApiModelProperty(value = "Identificador")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, unique = true)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
     private UUID id;
 
     @ApiModelProperty(value = "Página em que o usuário parou a leitura")
