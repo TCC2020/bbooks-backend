@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.ReadingTrackingService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -28,7 +27,7 @@ public class ReadingTrackingController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna uma lista de acompanhamentos")
     })
-    @GetMapping("/{userBook}")
+    @GetMapping("/book/{userBook}")
     public HashSet<ReadingTracking> getAllByBook(@PathVariable Long userBook){
         logger.info("Acessando dados de todos os acompanhamento do userBook: " + userBook);
         HashSet<ReadingTracking> acompanhamntos = service.getAllByBook(userBook);
@@ -64,7 +63,7 @@ public class ReadingTrackingController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Acompanhamento atualizado")
     })
-    @PutMapping("/trackingID")
+    @PutMapping("/{trackingID}")
     public ReadingTracking put(@RequestBody ReadingTracking readingTracking, @PathVariable UUID trackingID){
         logger.info("Alterando um acompanhamento: " + readingTracking);
         ReadingTracking acompanhamento = service.update(readingTracking, trackingID);
@@ -76,7 +75,7 @@ public class ReadingTrackingController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Acompanhamento deletado")
     })
-    @DeleteMapping("/trackingID")
+    @DeleteMapping("/{trackingID}")
     public void delete(@PathVariable UUID trackingID){
         logger.info("Deletando o acompanhamento: " + trackingID);
         service.delete(trackingID);

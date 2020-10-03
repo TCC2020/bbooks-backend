@@ -13,6 +13,8 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
+import ch.qos.logback.core.CoreConstants;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +49,7 @@ public class UserBooksService {
         for(Tag t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }
+        System.out.println(userBooks.toString());
         return util.toDto(userBooks);
     }
 
