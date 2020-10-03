@@ -25,7 +25,8 @@ public class ReadingTrackingController {
 
     @ApiOperation(value = "Retorna todos acompanhamentos de um livro")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna uma lista de acompanhamentos")
+            @ApiResponse(code = 200, message = "Retorna uma lista de acompanhamentos"),
+            @ApiResponse(code = 404, message = "O livro do usuário não existe em sua estante")
     })
     @GetMapping("/book/{userBook}")
     public HashSet<ReadingTrackingTO> getAllByBook(@PathVariable Long userBook){
@@ -37,7 +38,8 @@ public class ReadingTrackingController {
 
     @ApiOperation(value = "Retorna todos acompanhamentos de um livro")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna um acompanhamento")
+            @ApiResponse(code = 200, message = "Retorna um acompanhamento"),
+            @ApiResponse(code = 404, message = "Acompanhamento não encontrado")
     })
     @GetMapping("/{readingTracking}")
     public ReadingTrackingTO getOne(@PathVariable UUID readingTracking){
@@ -49,7 +51,9 @@ public class ReadingTrackingController {
 
     @ApiOperation(value = "Cadastra um acompanhamento de leitura")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Acompanhamento cadastrado")
+            @ApiResponse(code = 200, message = "Acompanhamento cadastrado"),
+            @ApiResponse(code = 404, message = "O livro do usuário não existe em sua estante"),
+            @ApiResponse(code = 409, message = "O livro indicado está com status lido")
     })
     @PostMapping()
     public ReadingTrackingTO post(@RequestBody ReadingTrackingTO readingTracking){
@@ -61,7 +65,8 @@ public class ReadingTrackingController {
 
     @ApiOperation(value = "Altera um acompanhemnto")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Acompanhamento atualizado")
+            @ApiResponse(code = 200, message = "Acompanhamento atualizado"),
+            @ApiResponse(code = 404, message = "Acompanhamento não encontrado")
     })
     @PutMapping("/{trackingID}")
     public ReadingTrackingTO put(@RequestBody ReadingTrackingTO readingTracking, @PathVariable UUID trackingID){
@@ -73,7 +78,8 @@ public class ReadingTrackingController {
 
     @ApiOperation(value = "Deleta um acompanhemnto")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Acompanhamento deletado")
+            @ApiResponse(code = 200, message = "Acompanhamento deletado"),
+            @ApiResponse(code = 404, message = "Acompanhamento não encontrado")
     })
     @DeleteMapping("/{trackingID}")
     public void delete(@PathVariable UUID trackingID){
