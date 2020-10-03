@@ -1,17 +1,17 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
+import br.edu.ifsp.spo.bulls.usersApi.bean.ReadingTrackingBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
+import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.UUID;
@@ -23,6 +23,9 @@ public class ReadingTrackingService {
     ReadingTrackingRepository repository;
 
     @Autowired
+    ReadingTrackingBeanUtil beanUtil;
+
+    @Autowired
     UserBooksRepository userBooksRepository;
 
     @Autowired
@@ -31,28 +34,29 @@ public class ReadingTrackingService {
     @Autowired
     UserBooksBeanUtil userBooksBeanUtil;
 
-    public HashSet<ReadingTracking> getAllByBook(Long userBook) {
-        return repository.findAllByUserBook(
+    public HashSet<ReadingTrackingTO> getAllByBook(Long userBook) {
+        return beanUtil.toDTO(repository.findAllByUserBook(
                 userBooksRepository.findById(userBook)
-                                    .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found")));
+                                    .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"))));
     }
 
-    public ReadingTracking get(UUID readingTracking) {
+    public ReadingTrackingTO get(UUID readingTracking) {
 
-        return repository.findById(readingTracking)
-                .orElseThrow( () -> new ResourceNotFoundException("Tracking not found"));
+        return beanUtil.toDTO(repository.findById(readingTracking)
+                .orElseThrow( () -> new ResourceNotFoundException("Tracking not found")));
     }
 
-    public ReadingTracking save(@Valid ReadingTracking readingTracking) {
-        UserBooks userBooks = userBooksRepository.findById(readingTracking.getUserBook().getId())
+    public ReadingTrackingTO save(@Valid ReadingTrackingTO readingTrackingTO) {
+        UserBooks userBooks = userBooksRepository.findById(readingTrackingTO.getUserBook().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"));
 
+        ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
         verificaStatusLivro(userBooks);
 
         readingTracking.setUserBook(userBooks);
         readingTracking.setPercentage(calcularPercentual(readingTracking));
 
-        return repository.save(readingTracking);
+        return beanUtil.toDTO(repository.save(readingTracking));
 
     }
 
@@ -87,23 +91,25 @@ public class ReadingTrackingService {
         }
     }
 
-    public ReadingTracking update(ReadingTracking readingTracking, UUID trackingID) {
-        ReadingTracking reading = repository.findById(readingTracking.getId())
+    public ReadingTrackingTO update(ReadingTrackingTO readingTrackingTO, UUID trackingID) {
+        ReadingTracking reading = repository.findById(readingTrackingTO.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("ReadingTracking not found"));
 
-        UserBooks userBooks = userBooksRepository.findById(readingTracking.getUserBook().getId())
+        UserBooks userBooks = userBooksRepository.findById(readingTrackingTO.getUserBook().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"));
+
+        ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
 
         readingTracking.setUserBook(userBooks);
         readingTracking.setPercentage(calcularPercentual(readingTracking));
 
-        return repository.findById(readingTracking.getId()).map( readingTracking1 -> {
+        return beanUtil.toDTO(repository.findById(readingTracking.getId()).map( readingTracking1 -> {
             readingTracking1.setId(readingTracking.getId());
             readingTracking1.setPercentage(readingTracking.getPercentage());
             readingTracking1.setComentario(readingTracking.getComentario());
             readingTracking1.setNumPag(readingTracking.getNumPag());
             return repository.save(readingTracking1);
-        }).orElseThrow( () -> new ResourceNotFoundException("ReadingTracking not found"));
+        }).orElseThrow( () -> new ResourceNotFoundException("ReadingTracking not found")));
 
     }
 

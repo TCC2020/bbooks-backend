@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
+import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.ReadingTrackingService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -28,9 +28,9 @@ public class ReadingTrackingController {
             @ApiResponse(code = 200, message = "Retorna uma lista de acompanhamentos")
     })
     @GetMapping("/book/{userBook}")
-    public HashSet<ReadingTracking> getAllByBook(@PathVariable Long userBook){
+    public HashSet<ReadingTrackingTO> getAllByBook(@PathVariable Long userBook){
         logger.info("Acessando dados de todos os acompanhamento do userBook: " + userBook);
-        HashSet<ReadingTracking> acompanhamntos = service.getAllByBook(userBook);
+        HashSet<ReadingTrackingTO> acompanhamntos = service.getAllByBook(userBook);
         logger.info("Acompanhamentos retornados: " + acompanhamntos.toString());
         return acompanhamntos ;
     }
@@ -40,9 +40,9 @@ public class ReadingTrackingController {
             @ApiResponse(code = 200, message = "Retorna um acompanhamento")
     })
     @GetMapping("/{readingTracking}")
-    public ReadingTracking getOne(@PathVariable UUID readingTracking){
+    public ReadingTrackingTO getOne(@PathVariable UUID readingTracking){
         logger.info("Acessando dados de um acompanhamento");
-        ReadingTracking acompanhamento = service.get(readingTracking);
+        ReadingTrackingTO acompanhamento = service.get(readingTracking);
         logger.info("Acompanhamento retornado: " + acompanhamento.toString());
         return acompanhamento ;
     }
@@ -52,9 +52,9 @@ public class ReadingTrackingController {
             @ApiResponse(code = 200, message = "Acompanhamento cadastrado")
     })
     @PostMapping()
-    public ReadingTracking post(@RequestBody ReadingTracking readingTracking){
+    public ReadingTrackingTO post(@RequestBody ReadingTrackingTO readingTracking){
         logger.info("Cadastrando um novo acompanhamento: " + readingTracking);
-        ReadingTracking acompanhamento = service.save(readingTracking);
+        ReadingTrackingTO acompanhamento = service.save(readingTracking);
         logger.info("Acompanhamento cadastrado: " + acompanhamento.toString());
         return acompanhamento ;
     }
@@ -64,9 +64,9 @@ public class ReadingTrackingController {
             @ApiResponse(code = 200, message = "Acompanhamento atualizado")
     })
     @PutMapping("/{trackingID}")
-    public ReadingTracking put(@RequestBody ReadingTracking readingTracking, @PathVariable UUID trackingID){
+    public ReadingTrackingTO put(@RequestBody ReadingTrackingTO readingTracking, @PathVariable UUID trackingID){
         logger.info("Alterando um acompanhamento: " + readingTracking);
-        ReadingTracking acompanhamento = service.update(readingTracking, trackingID);
+        ReadingTrackingTO acompanhamento = service.update(readingTracking, trackingID);
         logger.info("Acompanhamento alterado: " + acompanhamento.toString());
         return acompanhamento ;
     }
