@@ -1,5 +1,5 @@
 spring:
-  profiles: staging
+  profiles: default
   datasource:
     driver-class-name: org.postgresql.Driver
     url: $JDBC_DATABASE_URL:jdbc:postgresql
