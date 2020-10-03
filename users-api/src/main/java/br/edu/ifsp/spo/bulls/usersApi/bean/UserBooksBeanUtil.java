@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
@@ -31,6 +32,18 @@ public class UserBooksBeanUtil {
             logger.error("Error while converting UserBooks to UserBooksTO: " +  e);
         }
         userBooksTO.setStatus(userBooks.getStatus());
+        return userBooksTO;
+    }
+
+    public UserBookUpdateStatusTO toDTOUpdate(UserBooks userBooks) {
+        UserBookUpdateStatusTO userBooksTO = new UserBookUpdateStatusTO();
+        try{
+            BeanUtils.copyProperties(userBooks, userBooksTO);
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error("Error while converting UserBooks to UserBooksTO: " +  e);
+        }
+        userBooksTO.setStatus(userBooks.getStatus().name());
         return userBooksTO;
     }
 
