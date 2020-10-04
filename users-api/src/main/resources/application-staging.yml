@@ -2,13 +2,14 @@ spring:
   profiles:
     active: "staging"
   datasource:
-    driver-class-name: org.postgresql.Driver
-    password: $JDBC_DATABASE_PASSWORD
+    platform: postgres
     url: $JDBC_DATABASE_URL
     username: $JDBC_DATABASE_USERNAME
+    password: $JDBC_DATABASE_PASSWORD
+    driverClassName: org.postgresql.Driver
   jpa:
     generate-ddl: true
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database: POSTGRESQL
     hibernate:
       ddl-auto: update
     properties:
