@@ -11,7 +11,7 @@ spring:
 #    database: postgresql
     databasePlatform: "org.hibernate.dialect.PostgreSQL9Dialect"
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         temp:
