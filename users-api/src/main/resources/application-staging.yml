@@ -10,7 +10,7 @@ spring:
     password: $JDBC_DATABASE_PASSWORD
   jpa:
     generate-ddl: true
-    databasePlatform: "org.hibernate.dialect.PostgreSQL9Dialect"
+    databasePlatform: org.hibernate.dialect.PostgreSQL9Dialect
     hibernate:
       ddl-auto: update
   mail:
