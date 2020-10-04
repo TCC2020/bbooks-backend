@@ -1,8 +1,6 @@
 server:
   port: 8080
 spring:
-  profiles:
-    active: staging
   datasource:
     driverClassName: org.postgresql.Driver
     url: $JDBC_DATABASE_URL
