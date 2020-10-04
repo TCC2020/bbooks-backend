@@ -71,6 +71,7 @@ public class ReadingTrackingService {
 
     private float calcularPercentual(ReadingTracking readingTracking) {
         int paginasTotais;
+        verificaPaginas(readingTracking);
         if(readingTracking.getUserBook().getBook() != null){
             paginasTotais = readingTracking.getUserBook().getBook().getNumberPage();
         }else{
@@ -79,6 +80,13 @@ public class ReadingTrackingService {
         float percentual = readingTracking.getNumPag() * 100F / paginasTotais;
         verificaPercentual(readingTracking.getUserBook(), percentual);
         return percentual ;
+    }
+
+    private void verificaPaginas(ReadingTracking readingTracking) {
+        if(readingTracking.getNumPag()>readingTracking.getUserBook().getPage() ||
+                readingTracking.getNumPag()>readingTracking.getUserBook().getBook().getNumberPage()){
+            throw new ResourceConflictException("Número de página maior que o total de páginas do livro");
+        }
     }
 
     private void verificaPercentual(UserBooks userBook, float percentual) {
