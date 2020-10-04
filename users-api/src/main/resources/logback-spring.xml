@@ -27,7 +27,6 @@
 
         <logger name="org.springframework" level="INFO"/>
         <logger name="br.edu.ifsp.spo.bulls.usersApi" level="INFO"/>
-        <logger name="org.hibernate" level="INFO"/>
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>

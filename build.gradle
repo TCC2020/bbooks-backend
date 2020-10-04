@@ -52,6 +52,9 @@ subprojects {
 	}
 }
 project(':users-api') {
+	bootRun {
+		environment('spring.profiles.active', 'dev')
+	}
 
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
