@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   profiles:
-    active: dev
+    active: "dev"
   datasource:
     driver-class-name: org.h2.Driver
     password: ''
