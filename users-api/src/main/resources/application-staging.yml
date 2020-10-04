@@ -3,9 +3,9 @@ spring:
     active: "staging"
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: $JDBC_DATABASE_URL:jdbc:postgresql
-    username: $JDBC_DATABASE_USERNAME
     password: $JDBC_DATABASE_PASSWORD
+    url: $JDBC_DATABASE_URL
+    username: $JDBC_DATABASE_USERNAME
   jpa:
     generate-ddl: true
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
