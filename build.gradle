@@ -52,7 +52,7 @@ subprojects {
 }
 project(':users-api') {
 	bootRun {
-		environment('spring.profiles.active', 'staging')
+		environment('spring.profiles.active', 'dev')
 	}
 
 	dependencies {
