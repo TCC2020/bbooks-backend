@@ -8,14 +8,9 @@ spring:
     password: $JDBC_DATABASE_PASSWORD
   jpa:
     generate-ddl: true
-#    database: postgresql
     databasePlatform: "org.hibernate.dialect.PostgreSQL9Dialect"
     hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        temp:
-          use_jdbc_metadata_defaults: false
+      ddl-auto: update
   mail:
     host: smtp.gmail.com
     username: $EMAIL_USERNAME
