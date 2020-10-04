@@ -1,8 +1,12 @@
 package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
+import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
+import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
+import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,13 +26,17 @@ public class ReadingTrackingBeanUtil {
     @Autowired
     UserBooksBeanUtil userBooksBeanUtil;
 
+    @Autowired
+    UserBooksRepository userBooksRepository;
+
 
     public ReadingTracking toDomain(ReadingTrackingTO readingTrackingTO) {
         ReadingTracking readingTracking = new ReadingTracking();
 
         try{
             BeanUtils.copyProperties(readingTrackingTO, readingTracking);
-            readingTracking.setUserBook(userBooksBeanUtil.toDomain(readingTrackingTO.getUserBook()));
+            UserBooks userBooks = userBooksRepository.findById(readingTrackingTO.getUserBookId()).get();
+            readingTracking.setUserBook(userBooks);
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting UserTO to User: " +  e);
@@ -41,7 +49,7 @@ public class ReadingTrackingBeanUtil {
 
         try{
             BeanUtils.copyProperties(readingTracking, readingTrackingTO);
-            readingTrackingTO.setUserBook(userBooksBeanUtil.toDto(readingTracking.getUserBook()));
+            readingTrackingTO.setUserBookId(readingTracking.getUserBook().getId());
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting UserTO to User: " +  e);

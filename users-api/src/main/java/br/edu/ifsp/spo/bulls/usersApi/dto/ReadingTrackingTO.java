@@ -33,7 +33,7 @@ public class ReadingTrackingTO {
         private LocalDateTime creationDate;
 
         @ApiModelProperty(value = "Cadastro do livro na estante do usuário relacionado ao acompmanhamento")
-        private UserBooksTO userBook;
+        private Long userBookId;
 
         @PrePersist
         public void prePersist() {

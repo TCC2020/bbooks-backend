@@ -47,12 +47,10 @@ public class ReadingTrackingService {
     }
 
     public ReadingTrackingTO save(@Valid ReadingTrackingTO readingTrackingTO) {
-        UserBooks userBooks = userBooksRepository.findById(readingTrackingTO.getUserBook().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"));
+        UserBooks userBooks = getUserBook(readingTrackingTO);
 
         ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
         verificaStatusLivro(userBooks);
-
         readingTracking.setUserBook(userBooks);
         readingTracking.setPercentage(calcularPercentual(readingTracking));
 
@@ -78,7 +76,7 @@ public class ReadingTrackingService {
         }else{
             paginasTotais = readingTracking.getUserBook().getPage();
         }
-        float percentual = readingTracking.getNumPag() * 100 / paginasTotais;
+        float percentual = readingTracking.getNumPag() * 100F / paginasTotais;
         verificaPercentual(readingTracking.getUserBook(), percentual);
         return percentual ;
     }
@@ -92,11 +90,9 @@ public class ReadingTrackingService {
     }
 
     public ReadingTrackingTO update(ReadingTrackingTO readingTrackingTO, UUID trackingID) {
-        ReadingTracking reading = repository.findById(readingTrackingTO.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("ReadingTracking not found"));
+        getReadingTracking(readingTrackingTO);
 
-        UserBooks userBooks = userBooksRepository.findById(readingTrackingTO.getUserBook().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"));
+        UserBooks userBooks = getUserBook(readingTrackingTO);
 
         ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
 
@@ -111,6 +107,16 @@ public class ReadingTrackingService {
             return repository.save(readingTracking1);
         }).orElseThrow( () -> new ResourceNotFoundException("ReadingTracking not found")));
 
+    }
+
+    private void getReadingTracking(ReadingTrackingTO readingTrackingTO) {
+        ReadingTracking reading = repository.findById(readingTrackingTO.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("ReadingTracking not found"));
+    }
+
+    private UserBooks getUserBook(ReadingTrackingTO readingTrackingTO) {
+        return userBooksRepository.findById(readingTrackingTO.getUserBookId())
+                .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"));
     }
 
     public void delete(UUID trackingID) {
