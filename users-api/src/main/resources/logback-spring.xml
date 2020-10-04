@@ -17,6 +17,23 @@
 
     </springProfile>
 
+    <springProfile name="dev">
+
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="br.edu.ifsp.spo.bulls.usersApi" level="INFO"/>
+        <logger name="org.hibernate" level="INFO"/>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+
+    </springProfile>
+
     <property name="patternString" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n%rEx"  />
     <appender name="LE"
               class="com.logentries.logback.LogentriesAppender">

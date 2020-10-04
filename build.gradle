@@ -74,6 +74,7 @@ project(':users-api') {
     }
 	test {
 		useJUnitPlatform()
+		environment('spring.profiles.active', 'test')
 		systemProperty 'spring.profiles.active', 'test'
 	}
 }
