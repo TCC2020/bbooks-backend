@@ -28,7 +28,7 @@ public class FriendsController {
             @ApiResponse(code = 404, message = "Usuário não encontrado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @PostMapping(value = "/add", consumes="application/json")
+    @PostMapping(value = "/request", consumes="application/json")
     public HttpStatus add(@RequestBody FriendTO friendTO, @RequestHeader(value = "AUTHORIZATION") String token) {
         return service.add(friendTO, token);
     }
@@ -36,5 +36,10 @@ public class FriendsController {
     @GetMapping(value = "/requests")
     public List<FriendRequestTO> add(@RequestHeader(value = "AUTHORIZATION") String token) {
         return service.getRequests(token);
+    }
+
+    @PutMapping(value = "/requests")
+    public List<FriendRequestTO> responseRequest(@RequestHeader(value = "AUTHORIZATION") String token) {
+        //return service.getRequests(token);
     }
 }
