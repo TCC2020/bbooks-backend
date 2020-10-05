@@ -100,7 +100,7 @@ public class ProfileService {
 	}
 
 	public HashSet<ProfileTO> getAll() {
-		
+
 		HashSet<Profile> profile =  profileRep.findAll();
 		return beanUtil.toProfileTO(profile);
 	}
@@ -113,6 +113,10 @@ public class ProfileService {
 			return  profileRep.findByUser(user);
 		}
 		return null;
+	}
+
+	public HashSet<ProfileTO> getAllById(Iterable<Integer> ids) {
+		return beanUtil.toProfileTO(profileRep.findAllById(ids));
 	}
 
 	public HttpStatus updateProfileImage(String url, String token) {

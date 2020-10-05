@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
 import br.edu.ifsp.spo.bulls.usersApi.dto.AcceptTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendRequestTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.FriendshipTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.FriendsService;
 import br.edu.ifsp.spo.bulls.usersApi.service.FriendshipService;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +33,11 @@ public class FriendsController {
     @PostMapping(value = "/requests", consumes="application/json")
     public HttpStatus add(@RequestBody FriendTO friendTO, @RequestHeader(value = "AUTHORIZATION") String token) {
         return service.add(friendTO, token);
+    }
+
+    @GetMapping
+    public FriendshipTO getFriends(@RequestHeader(value = "AUTHORIZATION") String token) {
+        return  service.getFriends(token);
     }
 
     @GetMapping(value = "/requests")

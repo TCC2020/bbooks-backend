@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface FriendshipRepository extends CrudRepository<Friendship, Long> {
-    @Query(value = "SELECT * FROM friendships WHERE PROFILE1 = :id OR PROFILE2 = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM friendships WHERE PROFILE1 = :id OR PROFILE2 = :id AND STATUS = 'added'", nativeQuery = true)
     HashSet<Friendship> findFriendships(@Param("id") int id);
 
     @Query(value = "SELECT * FROM friendships WHERE PROFILE1 = :id OR PROFILE2 = :id AND STATUS = 'pending'", nativeQuery = true)

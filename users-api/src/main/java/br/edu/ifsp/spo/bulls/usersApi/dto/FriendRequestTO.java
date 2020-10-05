@@ -15,5 +15,4 @@ public class FriendRequestTO {
     private Friendship.FriendshipStatus status;
     private LocalDateTime addDate;
     private ProfileTO profileTO;
-
 }
