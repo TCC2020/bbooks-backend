@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
+import br.edu.ifsp.spo.bulls.usersApi.dto.AcceptTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendRequestTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.FriendsService;
@@ -28,7 +29,7 @@ public class FriendsController {
             @ApiResponse(code = 404, message = "Usuário não encontrado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @PostMapping(value = "/request", consumes="application/json")
+    @PostMapping(value = "/requests", consumes="application/json")
     public HttpStatus add(@RequestBody FriendTO friendTO, @RequestHeader(value = "AUTHORIZATION") String token) {
         return service.add(friendTO, token);
     }
@@ -39,7 +40,12 @@ public class FriendsController {
     }
 
     @PutMapping(value = "/requests")
-    public List<FriendRequestTO> responseRequest(@RequestHeader(value = "AUTHORIZATION") String token) {
-        //return service.getRequests(token);
+    public HttpStatus responseRequest(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
+        return service.accept(token, dto.getId());
     }
+    @DeleteMapping(value = "/requests")
+    public HttpStatus reject(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
+        return service.reject(token, dto.getId());
+    }
+
 }
