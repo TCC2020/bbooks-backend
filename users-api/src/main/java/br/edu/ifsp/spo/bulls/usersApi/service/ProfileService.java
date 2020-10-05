@@ -65,6 +65,13 @@ public class ProfileService {
 		return beanUtil.toProfileTO(profile); 
 	}
 
+	public Profile getDomainById(int id) {
+
+		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+
+		return profile;
+	}
+
 	public void delete(int  id) {
 		
 		profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
