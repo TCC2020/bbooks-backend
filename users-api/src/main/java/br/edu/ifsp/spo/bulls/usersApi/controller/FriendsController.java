@@ -40,6 +40,11 @@ public class FriendsController {
         return  service.getFriends(token);
     }
 
+    @DeleteMapping
+    public HttpStatus deleteFriend(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
+        return  service.deleteFriend(token, dto);
+    }
+
     @GetMapping(value = "/requests")
     public List<FriendRequestTO> add(@RequestHeader(value = "AUTHORIZATION") String token) {
         return service.getRequests(token);

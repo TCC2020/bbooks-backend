@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 import br.edu.ifsp.spo.bulls.usersApi.bean.FriendsBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
+import br.edu.ifsp.spo.bulls.usersApi.dto.AcceptTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendRequestTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendshipTO;
@@ -86,5 +87,17 @@ public class FriendshipService {
         });
         friends.setFriends(profileService.getAllById(friendsIds));
         return friends;
+    }
+
+    public HttpStatus deleteFriend(String token, AcceptTO dto) {
+        Profile profile = profileService.getDomainByToken(token);
+        Friendship friendship = getById(dto.getId());
+        if(profile.getId() == friendship.getProfile1() || profile.getId() == friendship.getProfile2()) {
+            if(friendship.getStatus().equals(Friendship.FriendshipStatus.added)) {
+                repository.delete(friendship);
+                return HttpStatus.OK;
+            }
+        }
+        throw new ResourceConflictException("Conflito ao remover amigo");
     }
 }
