@@ -10,6 +10,7 @@ import br.edu.ifsp.spo.bulls.usersApi.service.FriendshipService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,30 +33,36 @@ public class FriendsController {
     })
     @PostMapping(value = "/requests", consumes="application/json")
     public HttpStatus add(@RequestBody FriendTO friendTO, @RequestHeader(value = "AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
         return service.add(friendTO, token);
     }
 
     @GetMapping
     public FriendshipTO getFriends(@RequestHeader(value = "AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
         return  service.getFriends(token);
     }
 
     @DeleteMapping
     public HttpStatus deleteFriend(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
         return  service.deleteFriend(token, dto);
     }
 
     @GetMapping(value = "/requests")
     public List<FriendRequestTO> add(@RequestHeader(value = "AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
         return service.getRequests(token);
     }
 
     @PutMapping(value = "/requests")
     public HttpStatus responseRequest(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
         return service.accept(token, dto.getId());
     }
     @DeleteMapping(value = "/requests")
     public HttpStatus reject(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
         return service.reject(token, dto.getId());
     }
 
