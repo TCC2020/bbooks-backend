@@ -116,7 +116,7 @@ public class ReadingTrackingService {
         return beanUtil.toDTO(repository.findById(readingTracking.getId()).map( readingTracking1 -> {
             System.out.println(readingTracking1);
             System.out.println(readingTracking);
-            if(readingTracking1.getPercentage() == 100.00F)
+            if(readingTracking1.getPercentage() == 100.00F && readingTracking1.getNumPag() != readingTracking.getNumPag())
                 mudaStatusLendo(readingTracking1.getUserBook());
 
             readingTracking1.setId(readingTracking.getId());
