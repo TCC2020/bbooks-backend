@@ -114,13 +114,27 @@ public class ReadingTrackingService {
         readingTracking.setPercentage(calcularPercentual(readingTracking));
 
         return beanUtil.toDTO(repository.findById(readingTracking.getId()).map( readingTracking1 -> {
+            System.out.println(readingTracking1);
+            System.out.println(readingTracking);
+            if(readingTracking1.getPercentage() == 100.00F)
+                mudaStatusLendo(readingTracking1.getUserBook());
+
             readingTracking1.setId(readingTracking.getId());
             readingTracking1.setPercentage(readingTracking.getPercentage());
             readingTracking1.setComentario(readingTracking.getComentario());
             readingTracking1.setNumPag(readingTracking.getNumPag());
+
+
+
             return repository.save(readingTracking1);
         }).orElseThrow( () -> new ResourceNotFoundException("ReadingTracking not found")));
 
+    }
+
+    private void mudaStatusLendo(UserBooks userBooks) {
+        UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(userBooks);
+        booK.setStatus(UserBooks.Status.LENDO.name());
+        userBooksService.updateStatus(booK);
     }
 
     private void getReadingTracking(ReadingTrackingTO readingTrackingTO) {
