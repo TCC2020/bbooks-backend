@@ -10,10 +10,13 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
+import net.bytebuddy.TypeCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,8 +37,8 @@ public class ReadingTrackingService {
     @Autowired
     UserBooksBeanUtil userBooksBeanUtil;
 
-    public HashSet<ReadingTrackingTO> getAllByBook(Long userBook) {
-        return beanUtil.toDTO(repository.findAllByUserBook(
+    public List<ReadingTrackingTO> getAllByBook(Long userBook) {
+        return beanUtil.toDTO(repository.findAllByUserBookOrderByCreationDate(
                 userBooksRepository.findById(userBook)
                                     .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"))));
     }
@@ -71,6 +74,7 @@ public class ReadingTrackingService {
 
     private float calcularPercentual(ReadingTracking readingTracking) {
         int paginasTotais;
+        verificaPaginas(readingTracking);
         if(readingTracking.getUserBook().getBook() != null){
             paginasTotais = readingTracking.getUserBook().getBook().getNumberPage();
         }else{
@@ -79,6 +83,16 @@ public class ReadingTrackingService {
         float percentual = readingTracking.getNumPag() * 100F / paginasTotais;
         verificaPercentual(readingTracking.getUserBook(), percentual);
         return percentual ;
+    }
+
+    private void verificaPaginas(ReadingTracking readingTracking) {
+        int page = readingTracking.getUserBook().getPage();
+        if(readingTracking.getUserBook().getBook() != null)
+            page = readingTracking.getUserBook().getBook().getNumberPage();
+
+        if(readingTracking.getNumPag()>page){
+            throw new ResourceConflictException("Número de página maior que o total de páginas do livro");
+        }
     }
 
     private void verificaPercentual(UserBooks userBook, float percentual) {

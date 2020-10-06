@@ -13,7 +13,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 
 @Component
@@ -58,8 +60,8 @@ public class ReadingTrackingBeanUtil {
     }
 
 
-    public HashSet<ReadingTrackingTO> toDTO(HashSet<ReadingTracking> readingTrackings){
-        HashSet<ReadingTrackingTO> readingTrackingTOS = new HashSet<ReadingTrackingTO>();
+    public List<ReadingTrackingTO> toDTO(List<ReadingTracking> readingTrackings){
+        List<ReadingTrackingTO> readingTrackingTOS = new ArrayList<>();
         for (ReadingTracking readingTracking: readingTrackings ) {
             readingTrackingTOS.add(toDTO(readingTracking));
         }

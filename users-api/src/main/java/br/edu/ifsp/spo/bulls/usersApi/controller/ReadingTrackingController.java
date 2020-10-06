@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,9 +30,9 @@ public class ReadingTrackingController {
             @ApiResponse(code = 404, message = "O livro do usuário não existe em sua estante")
     })
     @GetMapping("/book/{userBook}")
-    public HashSet<ReadingTrackingTO> getAllByBook(@PathVariable Long userBook){
+    public List<ReadingTrackingTO> getAllByBook(@PathVariable Long userBook){
         logger.info("Acessando dados de todos os acompanhamento do userBook: " + userBook);
-        HashSet<ReadingTrackingTO> acompanhamntos = service.getAllByBook(userBook);
+        List<ReadingTrackingTO> acompanhamntos = service.getAllByBook(userBook);
         logger.info("Acompanhamentos retornados: " + acompanhamntos.toString());
         return acompanhamntos ;
     }
