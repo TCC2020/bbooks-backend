@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Service
 public class AuthService {
     @Autowired
@@ -27,13 +30,15 @@ public class AuthService {
     @Autowired
     private EmailServiceImpl emailService;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
     
     public UserTO authLogin(LoginTO loginTO){
         Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
 
         if(optionalUser.isPresent()){
-            if(optionalUser.get().getPassword().equals(loginTO.getPassword())){
+            if(bCryptPasswordEncoder.matches(loginTO.getPassword(), optionalUser.get().getPassword())){
                 if(optionalUser.get().getToken() == null){
                     optionalUser.get().setToken(UUID.randomUUID().toString());
                     repository.save(optionalUser.get());
@@ -90,7 +95,7 @@ public class AuthService {
     	Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
 
         if(optionalUser.isPresent()){
-            if(optionalUser.get().getPassword().equals(loginTO.getPassword())){
+            if(bCryptPasswordEncoder.matches(loginTO.getPassword(), optionalUser.get().getPassword())){
                 if(optionalUser.get().getToken() == null) {
                 	optionalUser.get().setToken(UUID.randomUUID().toString());
                 }

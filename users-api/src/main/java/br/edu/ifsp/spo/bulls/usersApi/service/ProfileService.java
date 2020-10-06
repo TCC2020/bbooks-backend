@@ -65,6 +65,13 @@ public class ProfileService {
 		return beanUtil.toProfileTO(profile); 
 	}
 
+	public Profile getDomainById(int id) {
+
+		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+
+		return profile;
+	}
+
 	public void delete(int  id) {
 		
 		profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
@@ -93,7 +100,7 @@ public class ProfileService {
 	}
 
 	public HashSet<ProfileTO> getAll() {
-		
+
 		HashSet<Profile> profile =  profileRep.findAll();
 		return beanUtil.toProfileTO(profile);
 	}
@@ -106,6 +113,10 @@ public class ProfileService {
 			return  profileRep.findByUser(user);
 		}
 		return null;
+	}
+
+	public HashSet<ProfileTO> getAllById(Iterable<Integer> ids) {
+		return beanUtil.toProfileTO(profileRep.findAllById(ids));
 	}
 
 	public HttpStatus updateProfileImage(String url, String token) {
