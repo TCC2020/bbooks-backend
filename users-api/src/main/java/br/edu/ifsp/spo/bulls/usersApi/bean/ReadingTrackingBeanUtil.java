@@ -1,15 +1,21 @@
 package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
+import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
+import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
+import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 
 @Component
@@ -22,13 +28,17 @@ public class ReadingTrackingBeanUtil {
     @Autowired
     UserBooksBeanUtil userBooksBeanUtil;
 
+    @Autowired
+    UserBooksRepository userBooksRepository;
+
 
     public ReadingTracking toDomain(ReadingTrackingTO readingTrackingTO) {
         ReadingTracking readingTracking = new ReadingTracking();
 
         try{
             BeanUtils.copyProperties(readingTrackingTO, readingTracking);
-            readingTracking.setUserBook(userBooksBeanUtil.toDomain(readingTrackingTO.getUserBook()));
+            UserBooks userBooks = userBooksRepository.findById(readingTrackingTO.getUserBookId()).get();
+            readingTracking.setUserBook(userBooks);
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting UserTO to User: " +  e);
@@ -41,7 +51,7 @@ public class ReadingTrackingBeanUtil {
 
         try{
             BeanUtils.copyProperties(readingTracking, readingTrackingTO);
-            readingTrackingTO.setUserBook(userBooksBeanUtil.toDto(readingTracking.getUserBook()));
+            readingTrackingTO.setUserBookId(readingTracking.getUserBook().getId());
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting UserTO to User: " +  e);
@@ -50,8 +60,8 @@ public class ReadingTrackingBeanUtil {
     }
 
 
-    public HashSet<ReadingTrackingTO> toDTO(HashSet<ReadingTracking> readingTrackings){
-        HashSet<ReadingTrackingTO> readingTrackingTOS = new HashSet<ReadingTrackingTO>();
+    public List<ReadingTrackingTO> toDTO(List<ReadingTracking> readingTrackings){
+        List<ReadingTrackingTO> readingTrackingTOS = new ArrayList<>();
         for (ReadingTracking readingTracking: readingTrackings ) {
             readingTrackingTOS.add(toDTO(readingTracking));
         }
