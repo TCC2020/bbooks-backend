@@ -68,7 +68,7 @@ public class EmailServiceImpl implements EmailService {
         catch (MailException e) {
             e.printStackTrace();
             logger.error("Error while sending email to  "
-                    + to + "  Hora: " + LocalDateTime.now());
+                    + to + e);
             return false;
         }
     }
