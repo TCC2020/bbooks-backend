@@ -95,7 +95,7 @@ public class AuthService {
     	Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
 
         if(optionalUser.isPresent()){
-            if(optionalUser.get().getPassword().equals(loginTO.getPassword())){
+            if(bCryptPasswordEncoder.matches(loginTO.getPassword(), optionalUser.get().getPassword())){
                 if(optionalUser.get().getToken() == null) {
                 	optionalUser.get().setToken(UUID.randomUUID().toString());
                 }
