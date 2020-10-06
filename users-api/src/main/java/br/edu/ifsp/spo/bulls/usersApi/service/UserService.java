@@ -10,6 +10,7 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,10 +34,13 @@ public class UserService{
 	
 	@Autowired
 	private ProfileService profileService;
+
+	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 	
 	public UserTO save(CadastroUserTO cadastroUserTO) throws Exception {
         
 		User user = beanUtil.toUser(cadastroUserTO);
+		user.setPassword(bCryptPasswordEncoder.encode(cadastroUserTO.getPassword()));
 		user.setUserName(user.getUserName().toLowerCase());
 		user.setToken(UUID.randomUUID().toString());
 
