@@ -13,6 +13,7 @@ spring:
       ddl-auto: update
   mail:
     host: smtp.gmail.com
+    debug: true
     port: 587
     username: $EMAIL_USERNAME
     password: $EMAIL_PASSWORD
