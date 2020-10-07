@@ -37,6 +37,19 @@ public class ProfileBeanUtil {
 		
 		return profileTO;
 	}
+
+	public ProfileTO toProfileTO(Profile profile, String token) {
+		ProfileTO profileTO = new ProfileTO();
+
+		try{
+			BeanUtils.copyProperties(profile, profileTO);
+		}catch(Exception e) {
+			logger.error("Error while converting Profile to ProfileTO: " +  e);
+		}
+
+		return profileTO;
+	}
+
 	public HashSet<ProfileTO> toProfileTO(HashSet<Profile> profiles){
 		
 		HashSet<ProfileTO> profilesTO = new HashSet<ProfileTO>();
