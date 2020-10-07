@@ -119,7 +119,7 @@ public class AuthService {
 
     public UserTO resetPass(ResetPassTO dto) {
         User user = repository.findByToken(dto.getToken()).orElseThrow(() -> new ResourceConflictException("Password already changed"));
-        user.setPassword(dto.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         user.setToken(UUID.randomUUID().toString());
         logger.info("Reset password sucess. User: " + user.getId());
         return utils.toUserTO(repository.save(user));
