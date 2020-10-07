@@ -157,5 +157,9 @@ public class UserService{
 		return beanUtil.toUserTO(rep.findByUserName(username));
 	}
 
+	public User getByUsername(String username) {
+		return rep.findByUserName(username);
+	}
+
 }
 
