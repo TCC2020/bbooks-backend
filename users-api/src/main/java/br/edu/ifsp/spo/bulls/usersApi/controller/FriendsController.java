@@ -27,13 +27,13 @@ public class FriendsController {
     @GetMapping
     public FriendshipTO getFriends(@RequestHeader(value = "AUTHORIZATION") String token) {
         token = StringUtils.removeStart(token, "Bearer").trim();
-        return  service.getFriends(token);
+        return service.getFriends(token);
     }
 
     @DeleteMapping
     public HttpStatus deleteFriend(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
         token = StringUtils.removeStart(token, "Bearer").trim();
-        return  service.deleteFriend(token, dto);
+        return service.deleteFriend(token, dto);
     }
 
     @GetMapping("/{username}")
