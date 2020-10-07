@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.usersApi.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -15,6 +16,15 @@ import java.time.LocalDateTime;
 
 @Service
 public class EmailServiceImpl implements EmailService {
+
+    @Value("${spring.mail.username}")
+    private String name;
+
+    @Value("${spring.mail.password}")
+    private String pass;
+
+    @Value("${spring.mail.host}")
+    private String host;
 
     private JavaMailSender emailSender;
 
@@ -50,6 +60,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean sendEmailTo(String to, String subject, String text) {
+        System.out.println(this.name);
+        System.out.println(this.pass);
+        System.out.println(this.host);
         MimeMessagePreparator preparator = mimeMessage -> {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
             message.setTo(to);
