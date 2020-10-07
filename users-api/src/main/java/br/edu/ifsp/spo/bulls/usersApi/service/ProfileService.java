@@ -41,7 +41,7 @@ public class ProfileService {
 	
 	public ProfileTO getByUser(String username) {
 		
-		UserTO user = userService.getByUserName(username);
+		UserTO user = userService.getByUserName(username, null);
 		Profile profile =  profileRep.findByUser(userBeanUtil.toUser(user));
 		
 		return beanUtil.toProfileTO(profile);

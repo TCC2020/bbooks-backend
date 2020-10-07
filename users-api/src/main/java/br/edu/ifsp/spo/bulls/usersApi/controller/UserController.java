@@ -44,10 +44,9 @@ public class UserController {
 		return user;
 	}
 	@GetMapping ("/username/{username}")
-	public UserTO getByUserName(@PathVariable String username) {
-
-		return service.getByUserName(username);
-
+	public UserTO getByUserName(@PathVariable String username, @RequestHeader(value = "AUTHORIZATION") String token) {
+		token = StringUtils.removeStart(token, "Bearer").trim();
+		return service.getByUserName(username, token);
 	}
 
 	@ApiOperation(value = "Retorna informações de todos os usuários")
