@@ -12,5 +12,5 @@ import java.util.HashSet;
 @Data
 public class FriendshipTO {
     private int profileId;
-    private HashSet<ProfileTO> friends;
+    private HashSet<UserTO> friends;
 }
