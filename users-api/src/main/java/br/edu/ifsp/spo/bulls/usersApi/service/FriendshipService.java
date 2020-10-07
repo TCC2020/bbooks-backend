@@ -116,7 +116,7 @@ public class FriendshipService {
                 friendsIds.add(friendship.getProfile1());
         });
         HashSet<Profile> profiles = profileService.getAllDomainById(friendsIds);
-        friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile.getUser())).collect(Collectors.toSet()));
+        friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser())).collect(Collectors.toSet()));
         return friends;
     }
 }
