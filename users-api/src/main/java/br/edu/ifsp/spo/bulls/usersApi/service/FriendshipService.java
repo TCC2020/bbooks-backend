@@ -1,12 +1,10 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.bean.FriendsBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
-import br.edu.ifsp.spo.bulls.usersApi.dto.AcceptTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.FriendRequestTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.FriendTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.FriendshipTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.*;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.FriendshipRepository;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FriendshipService {
@@ -26,6 +25,8 @@ public class FriendshipService {
     private ProfileService profileService;
     @Autowired
     private FriendsBeanUtil util;
+    @Autowired
+    private UserBeanUtil userBeanUtil;
 
     public HttpStatus add(FriendTO friendTO, String token) {
         Profile from = profileService.getDomainByToken(token);
@@ -85,7 +86,8 @@ public class FriendshipService {
             else
                 friendsIds.add(friendship.getProfile1());
         });
-        friends.setFriends(profileService.getAllById(friendsIds));
+        HashSet<Profile> profiles = profileService.getAllDomainById(friendsIds);
+        friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile.getUser())).collect(Collectors.toSet()));
         return friends;
     }
 
@@ -99,5 +101,22 @@ public class FriendshipService {
             }
         }
         throw new ResourceConflictException("Conflito ao remover amigo");
+    }
+
+    public FriendshipTO getFriendsByUsername(String username) {
+        FriendshipTO friends = new FriendshipTO();
+        Profile profile = profileService.getByUsername(username);
+        friends.setProfileId(profile.getId());
+        HashSet<Friendship> friendships = repository.findFriendships(profile.getId());
+        HashSet<Integer> friendsIds = new HashSet<>();
+        friendships.parallelStream().forEach(friendship -> {
+            if(friendship.getProfile1() == profile.getId())
+                friendsIds.add(friendship.getProfile2());
+            else
+                friendsIds.add(friendship.getProfile1());
+        });
+        HashSet<Profile> profiles = profileService.getAllDomainById(friendsIds);
+        friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser())).collect(Collectors.toSet()));
+        return friends;
     }
 }

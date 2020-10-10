@@ -40,7 +40,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final WebSecurity webSecurity) {
         webSecurity.ignoring()
-                //.antMatchers("/other_api/**")
                 .antMatchers("/h2-console/**")
                 .antMatchers("/token/**")
                 .antMatchers("/auth/**");

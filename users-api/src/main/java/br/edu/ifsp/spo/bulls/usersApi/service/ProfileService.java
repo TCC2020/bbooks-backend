@@ -41,10 +41,14 @@ public class ProfileService {
 	
 	public ProfileTO getByUser(String username) {
 		
-		UserTO user = userService.getByUserName(username);
+		UserTO user = userService.getByUserName(username, null);
 		Profile profile =  profileRep.findByUser(userBeanUtil.toUser(user));
 		
 		return beanUtil.toProfileTO(profile);
+	}
+
+	public Profile getByUsername(String username) {
+		return profileRep.findByUser(userService.getByUsername(username));
 	}
 
 	public ProfileTO getByToken(String token) {
@@ -115,8 +119,8 @@ public class ProfileService {
 		return null;
 	}
 
-	public HashSet<ProfileTO> getAllById(Iterable<Integer> ids) {
-		return beanUtil.toProfileTO(profileRep.findAllById(ids));
+	public HashSet<Profile> getAllDomainById(Iterable<Integer> ids) {
+		return profileRep.findAllById(ids);
 	}
 
 	public HttpStatus updateProfileImage(String url, String token) {

@@ -19,9 +19,27 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/friends")
+@CrossOrigin(value = "*")
 public class FriendsController {
     @Autowired
     private FriendshipService service;
+
+    @GetMapping
+    public FriendshipTO getFriends(@RequestHeader(value = "AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
+        return service.getFriends(token);
+    }
+
+    @DeleteMapping
+    public HttpStatus deleteFriend(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
+        return service.deleteFriend(token, dto);
+    }
+
+    @GetMapping("/{username}")
+    public FriendshipTO getByUsername(@PathVariable String username) {
+        return service.getFriendsByUsername(username);
+    }
 
     @ApiOperation(value = "Adicionar usuário")
     @ApiResponses(value = {
@@ -35,18 +53,6 @@ public class FriendsController {
     public HttpStatus add(@RequestBody FriendTO friendTO, @RequestHeader(value = "AUTHORIZATION") String token) {
         token = StringUtils.removeStart(token, "Bearer").trim();
         return service.add(friendTO, token);
-    }
-
-    @GetMapping
-    public FriendshipTO getFriends(@RequestHeader(value = "AUTHORIZATION") String token) {
-        token = StringUtils.removeStart(token, "Bearer").trim();
-        return  service.getFriends(token);
-    }
-
-    @DeleteMapping
-    public HttpStatus deleteFriend(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
-        token = StringUtils.removeStart(token, "Bearer").trim();
-        return  service.deleteFriend(token, dto);
     }
 
     @GetMapping(value = "/requests")

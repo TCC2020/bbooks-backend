@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -36,6 +37,7 @@ public class ProfileTO {
 	@ApiModelProperty(value = "URL da imagem de perfil")
 	private String profileImage;
 
+	private Friendship.FriendshipStatus friendshipStatus;
 
 	public ProfileTO(int id, String name,
 			 String lastName, String country, String city, String state,

@@ -19,6 +19,7 @@ import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Service
 public class UserService{
@@ -153,8 +154,12 @@ public class UserService{
         return  Optional.empty();
     }
 
-	public UserTO getByUserName(String username) {
-		return beanUtil.toUserTO(rep.findByUserName(username));
+	public UserTO getByUserName(String username, @RequestHeader(value = "AUTHORIZATION") String token) {
+		return beanUtil.toUserTO(rep.findByUserName(username), token);
+	}
+
+	public User getByUsername(String username) {
+		return rep.findByUserName(username);
 	}
 
 }
