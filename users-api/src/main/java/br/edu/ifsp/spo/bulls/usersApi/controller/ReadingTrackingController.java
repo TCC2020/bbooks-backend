@@ -67,7 +67,7 @@ public class ReadingTrackingController {
     @ApiOperation(value = "Altera um acompanhemnto")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Acompanhamento atualizado"),
-            @ApiResponse(code = 404, message = "Acompanhamento não encontrado")
+            @ApiResponse(code = 404, message = "Acompanhamento/ UserBook não encontrado")
     })
     @PutMapping("/{trackingID}")
     public ReadingTrackingTO put(@RequestBody ReadingTrackingTO readingTracking, @PathVariable UUID trackingID){
