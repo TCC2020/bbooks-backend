@@ -21,7 +21,8 @@ public enum CodeException {
     TG001("Tag not found", "TG001"),
     TG002("Tag sent does not match ID", "TG002"),
     PF001("Profile not found", "PF001"),
-    UB001("UserBook not found", "UB001");
+    UB001("UserBook not found", "UB001"),
+    UB002("Invalid status", "UB002");
 
 
 
