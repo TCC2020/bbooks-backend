@@ -22,7 +22,10 @@ public enum CodeException {
     TG002("Tag sent does not match ID", "TG002"),
     PF001("Profile not found", "PF001"),
     UB001("UserBook not found", "UB001"),
-    UB002("Invalid status", "UB002");
+    UB002("Invalid status", "UB002"),
+    TK001("Invalid token", "TK001"),
+    FR001("Request not found", "FR001"),
+    FR002("Conflict while removing friend", "FR002");
 
 
 
