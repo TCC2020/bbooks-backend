@@ -41,7 +41,7 @@ public class ReadingTrackingServiceTest {
 
     @Test
     void shouldSave() throws Exception {
-        int idProfile = this.umProfile("testeSaveAcOk", "teste@testeSaveAcOk");
+        int idProfile = this.umProfile("testeSaveAcOkService", "teste@testeSaveAcOkService");
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 50);
 
         ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 30);
@@ -156,7 +156,7 @@ public class ReadingTrackingServiceTest {
 
     @Test
     void delete() throws Exception {
-        int idProfile = this.umProfile("testeDeleteAcOk", "teste@testeDeleteAcOk");
+        int idProfile = this.umProfile("testeDeleteAcOkService", "teste@testeDeleteAcOkService");
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.QUERO_LER, "1234teste", 50);
 
         ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 30);
