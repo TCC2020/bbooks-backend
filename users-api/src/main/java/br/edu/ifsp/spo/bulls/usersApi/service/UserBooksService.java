@@ -49,7 +49,6 @@ public class UserBooksService {
         for(Tag t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }
-        System.out.println(userBooks.toString());
         return util.toDto(userBooks);
     }
 
@@ -73,6 +72,12 @@ public class UserBooksService {
         bookCase.setProfileId(profileId);
         bookCase.setBooks(userBooks);
         return bookCase;
+    }
+
+    public UserBooksTO getById(Long bookId) {
+        UserBooks userBooks = repository.findById(bookId)
+                .orElseThrow( () -> new ResourceNotFoundException("UserBooks not found"));
+        return util.toDto(userBooks);
     }
 
     public UserBooksTO update(UserBooksTO dto) {
