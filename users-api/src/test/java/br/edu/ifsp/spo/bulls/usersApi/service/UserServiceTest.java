@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class UserServiceTest {
         CadastroUserTO userUpEmail = new CadastroUserTO("testeSEmail123", "testeS12@teste", "senhate", "nome", "sobrenome");
 
         ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> service.save(userUpEmail));
-        assertEquals("Email ja esta sendo usado testeS12@teste", e.getMessage());
+        assertEquals(CodeException.US002.getText() + ": " + userUp.getEmail(), e.getMessage());
     }
 
     @Test
@@ -63,7 +64,7 @@ public class UserServiceTest {
         CadastroUserTO userUpEmail = new CadastroUserTO("testeSEmail", "testeS2@teste", "senhate", "nome", "sobrenome");
 
         ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> service.save(userUpEmail));
-        assertEquals("UserName ja esta sendo usado testesemail", e.getMessage());
+        assertEquals(CodeException.US005.getText() + ": " + userUpEmail.getUserName().toLowerCase(), e.getMessage());
     }
 
     @Test
@@ -102,7 +103,7 @@ public class UserServiceTest {
     void testFailGetByIdUserNotFound() {
 
         Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.getById(UUID.randomUUID()));
-        assertEquals("User not found", exception.getMessage());
+        assertEquals(CodeException.US001.getText(), exception.getMessage());
     }
 
     @Test
@@ -123,7 +124,7 @@ public class UserServiceTest {
     void testFailUpdateUserNotFound() throws Exception {
         UserTO userUp = new UserTO("testeUpUser", "testeUp2@teste");
         Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.update(userUp));
-        assertEquals("User not found", exception.getMessage());
+        assertEquals(CodeException.US001.getText(), exception.getMessage());
     }
 
     @Test
@@ -162,14 +163,14 @@ public class UserServiceTest {
         Throwable exception = assertThrows(ResourceNotFoundException.class, () -> {
             service.getById(u.getId());
         });
-        assertEquals("User not found", exception.getMessage());
+        assertEquals(CodeException.US001.getText(), exception.getMessage());
     }
 
     @Test
     void testFailDeleteUserNotFound() {
 
         Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.delete(UUID.randomUUID()));
-        assertEquals("User not found", exception.getMessage());
+        assertEquals(CodeException.US001.getText(), exception.getMessage());
     }
 
     @Test

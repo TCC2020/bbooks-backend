@@ -8,6 +8,10 @@ public enum CodeException {
     AT002("Error, token not found", "AT002"),
     AT003("Password already changed", "AT003"),
     US001("User not found", "US001"),
+    US002("Email already used", "US002"),
+    US003("Password can't be null", "US003"),
+    US004("Token not found", "US004"),
+    US005("Username already used", "US005"),
     BK001("IBNB already exists", "BK001"),
     BK002("Book not found", "BK002"),
     BK003("Book should have at least 1 author", "BK003");

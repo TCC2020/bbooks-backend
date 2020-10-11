@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -66,34 +67,34 @@ public class UserService{
 
 	private void validationPassword(CadastroUserTO entidade) {
 		if(entidade.getPassword().isEmpty())
-			throw new ResourceBadRequestException("Senha nao deve estar vazio");
+			throw new ResourceBadRequestException(CodeException.US003.getText(), CodeException.US003);
 		
 	}
 	
 	private void validationUserNameIsUnique(User entity) throws Exception {
 		if (rep.existsByUserName(entity.getUserName())) 
-			throw new ResourceConflictException("UserName ja esta sendo usado "  + entity.getUserName());
+			throw new ResourceConflictException(CodeException.US005.getText() + ": " + entity.getUserName() , CodeException.US005);
 	}
 	
 	private void validationEmailIsUnique(User entity) throws Exception {
 		Optional<User> user = rep.findByEmail(entity.getEmail());
 		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
-			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail());
+			throw new ResourceConflictException(CodeException.US002.getText() + ": " + entity.getEmail() , CodeException.US002);
 	}
 
 	private void validationEmailIsUnique(String email, UserTO entity) throws Exception {
 		Optional<User> user = rep.findByEmail(email);
 		if ((user.isPresent()) && (!user.get().getId().equals(entity.getId())) )
-			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail() + user.get().getEmail() + user.get().getUserName());
+			throw new ResourceConflictException(CodeException.US002.getText() + ": " + entity.getEmail() , CodeException.US002);
 	}
 
 	public UserTO getById(UUID id) {
-		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 		return beanUtil.toUserTO(user);
 	}
 
 	public UserTO getByEmail(String email) {
-		User user = rep.findByEmail(email).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		User user = rep.findByEmail(email).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 		return beanUtil.toUserTO(user);
 	}
 
@@ -110,7 +111,7 @@ public class UserService{
 
 	public void delete(UUID id) {
 			
-		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 		profileService.deleteByUser(user);
 		rep.deleteById(id);
 					
@@ -118,7 +119,7 @@ public class UserService{
 
 	public UserTO update(UserTO entity) throws Exception {
 		if(entity.getId() == null)
-			throw new ResourceNotFoundException("User not found");
+			throw new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001);
 
 		validationEmailIsUnique(entity.getEmail(), entity);
 
@@ -126,7 +127,7 @@ public class UserService{
 			user1.setEmail(entity.getEmail());
 			user1.setUserName(entity.getUserName());
 			return rep.save(user1);
-		}).orElseThrow( () -> new ResourceNotFoundException("User not found")));
+		}).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
 	}
 
 	public HashSet<UserTO> getAll() {
@@ -136,11 +137,11 @@ public class UserService{
 	}
 
 	public User getByToken(String token){
-		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Autenticação não encontrada."));
+		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US004.getText(), CodeException.US004));
 	}
 
 	public UserTO getDTOByToken(String token) {
-		return beanUtil.toUserTO(rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado")));
+		return beanUtil.toUserTO(rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
 	}
 	 
    	public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
