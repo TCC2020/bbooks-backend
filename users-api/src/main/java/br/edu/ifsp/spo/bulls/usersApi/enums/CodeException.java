@@ -18,6 +18,9 @@ public enum CodeException {
     RT001("Reading Tracking not found", "RT001"),
     RT002("Page number greater than the total pages of the book", "RT002"),
     RT003("Book already completed", "RT002"),
+    TG001("Tag not found", "TG001"),
+    TG002("Tag sent does not match ID", "TG002"),
+    PF001("Profile not found", "PF001"),
     UB001("UserBook not found", "UB001");
 
 
