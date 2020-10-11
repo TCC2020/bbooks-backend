@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.*;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -80,7 +81,7 @@ public class ReadingTrackingServiceTest {
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.LIDO, "1234teste", 50);
 
         ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> this.umReadingTracking(userBookId, 30));
-        assertEquals("Livro já está concluído", e.getMessage());
+        assertEquals(CodeException.RT003.getText(), e.getMessage());
     }
 
     @Test
@@ -89,7 +90,7 @@ public class ReadingTrackingServiceTest {
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 50);
 
         ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> this.umReadingTracking(userBookId, 51));
-        assertEquals("Número de página maior que o total de páginas do livro", e.getMessage());
+        assertEquals(CodeException.RT002.getText(), e.getMessage());
     }
 
     @Test
@@ -114,7 +115,7 @@ public class ReadingTrackingServiceTest {
 
         ResourceNotFoundException e = assertThrows(ResourceNotFoundException.class,
                 () -> readingTrackingService.update(readingTrackingTO, readingTrackingTO.getId()));
-        assertEquals("ReadingTracking not found", e.getMessage());
+        assertEquals(CodeException.RT001.getText(), e.getMessage());
     }
 
     @Test
@@ -139,7 +140,7 @@ public class ReadingTrackingServiceTest {
     void getOneTrackingNotFound(){
         ResourceNotFoundException e = assertThrows(ResourceNotFoundException.class,
                 () -> readingTrackingService.get(UUID.randomUUID()));
-        assertEquals("Tracking not found", e.getMessage());
+        assertEquals(CodeException.RT001.getText(), e.getMessage());
     }
 
     @Test
@@ -165,14 +166,14 @@ public class ReadingTrackingServiceTest {
 
         ResourceNotFoundException e = assertThrows(ResourceNotFoundException.class,
                 () -> readingTrackingService.get(readingTrackingTO1.getId()));
-        assertEquals("Tracking not found", e.getMessage());
+        assertEquals(CodeException.RT001.getText(), e.getMessage());
     }
 
     @Test
     void deleteTrackingNotFound() {
         ResourceNotFoundException e = assertThrows(ResourceNotFoundException.class,
                 () -> readingTrackingService.delete(UUID.randomUUID()));
-        assertEquals("Tracking not found", e.getMessage());
+        assertEquals(CodeException.RT001.getText(), e.getMessage());
     }
 
     private Long umUserBook(int profileID, UserBooks.Status status, String idBook, int page){

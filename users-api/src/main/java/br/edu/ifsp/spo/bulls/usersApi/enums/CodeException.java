@@ -14,7 +14,11 @@ public enum CodeException {
     US005("Username already used", "US005"),
     BK001("IBNB already exists", "BK001"),
     BK002("Book not found", "BK002"),
-    BK003("Book should have at least 1 author", "BK003");
+    BK003("Book should have at least 1 author", "BK003"),
+    RT001("Reading Tracking not found", "RT001"),
+    RT002("Page number greater than the total pages of the book", "RT002"),
+    RT003("Book already completed", "RT002"),
+    UB001("UserBook not found", "UB001");
 
 
 
