@@ -8,6 +8,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
@@ -54,10 +55,10 @@ public class UserBooksService {
 
     public UserBooksTO updateStatus(UserBookUpdateStatusTO dto) {
         UserBooks userBooks = repository.findById(dto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado na estante"));
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         userBooks.setStatus(UserBooks.Status.getByString(dto.getStatus()));
         if(userBooks.getStatus() == null)
-            throw new ResourceConflictException("Status inválido");
+            throw new ResourceConflictException(CodeException.UB002.getText(), CodeException.UB002);
         return util.toDto(repository.save(userBooks));
     }
 
@@ -76,7 +77,7 @@ public class UserBooksService {
 
     public UserBooksTO getById(Long bookId) {
         UserBooks userBooks = repository.findById(bookId)
-                .orElseThrow( () -> new ResourceNotFoundException("UserBooks not found"));
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         return util.toDto(userBooks);
     }
 

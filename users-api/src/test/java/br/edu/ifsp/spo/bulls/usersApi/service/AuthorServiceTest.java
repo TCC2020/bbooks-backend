@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -33,10 +34,10 @@ public class AuthorServiceTest {
     void testAuthorExist(){
         service.save(new AuthorTO("testeSaveFailAuthor"));
 
-        Throwable exception = assertThrows(ResourceConflictException.class, ()-> {
+        ResourceConflictException exception = assertThrows(ResourceConflictException.class, ()-> {
             service.save(new AuthorTO("testeSaveFailAuthor"));}
         );
-        assertEquals("Autor ja existe", exception.getMessage());
+        assertEquals(CodeException.AU002.getText(), exception.getMessage());
     }
 
     @Test
@@ -51,10 +52,10 @@ public class AuthorServiceTest {
     @Test
     void testGetOneFail(){
 
-        Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, ()-> {
             service.getOne(new Random().nextInt());}
         );
-        assertEquals("Author not found", exception.getMessage());
+        assertEquals(CodeException.AU001.getText(), exception.getMessage());
     }
 
     @Test
@@ -72,19 +73,19 @@ public class AuthorServiceTest {
 
         service.delete(author.getId());
 
-        Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, ()-> {
             service.getOne(author.getId());}
         );
-        assertEquals("Author not found", exception.getMessage());
+        assertEquals(CodeException.AU001.getText(), exception.getMessage());
     }
 
     @Test
     void testDeleteAuthorNotFound(){
 
-        Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, ()-> {
             service.delete(new Random().nextInt());}
         );
-        assertEquals("Author not found", exception.getMessage());
+        assertEquals(CodeException.AU001.getText(), exception.getMessage());
     }
 
     @Test
@@ -107,10 +108,10 @@ public class AuthorServiceTest {
 
         author.setName("Livro1UpdateDataOk");
 
-        Throwable exception = assertThrows(ResourceConflictException.class, ()-> {
+        ResourceConflictException exception = assertThrows(ResourceConflictException.class, ()-> {
             service.update(author, author.getId());}
         );
-        assertEquals("Autor ja existe", exception.getMessage());
+        assertEquals(CodeException.AU002.getText(), exception.getMessage());
     }
 
     @Test

@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
 
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -64,21 +65,21 @@ public class ProfileService {
 
 	public ProfileTO getById(int id) {
 		
-		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 		
 		return beanUtil.toProfileTO(profile); 
 	}
 
 	public Profile getDomainById(int id) {
 
-		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 
 		return profile;
 	}
 
 	public void delete(int  id) {
 		
-		profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+		profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 		profileRep.deleteById(id);
 	}
 	
@@ -98,7 +99,7 @@ public class ProfileService {
 			profile.setLastName(entity.getLastName());
 			profile.setState(entity.getState());
 			return profileRep.save(profile);
-		}).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
+		}).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 
 		return beanUtil.toProfileTO(retorno);
 	}

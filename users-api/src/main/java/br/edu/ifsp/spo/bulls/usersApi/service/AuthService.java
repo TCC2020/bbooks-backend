@@ -5,12 +5,14 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ResetPassTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
+import com.google.rpc.Code;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +50,13 @@ public class AuthService {
             else {
                 logger.warn("Tentativa de acesso com senha errada. Usuario: "
                         + optionalUser.get().getEmail());
-                throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
+                throw new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001);
             }
         }
         else{
             logger.warn("Tentativa de acesso mas usuário não existe. Usuario: "
                     + loginTO.getEmail());
-            throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
+            throw new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001);
         }
     }
 
@@ -68,19 +70,19 @@ public class AuthService {
                 }else{
                     logger.warn("Tentativa de acesso com token inexistente. Usuario: "
                             + loginTO.getEmail());
-                    throw new ResourceNotFoundException("Aconteceu um erro.");
+                    throw new ResourceNotFoundException(CodeException.AT002.getText(), CodeException.AT002);
                 }
                 return utils.toUserTO(optionalUser.get());
         }
         else{
             logger.warn("Tentativa de acesso mas usuário não existe. Usuario: "
                     + loginTO.getEmail());
-            throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
+            throw new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001);
         }
     }
 
     public void sendResetPasswordEmail(String email, String url) {
-        User user = repository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found."));
+        User user = repository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 
         emailService.
                 getInstance()
@@ -107,18 +109,18 @@ public class AuthService {
             else {
                 logger.warn("Tentativa de acesso com senha errada. Usuario: "
                         + optionalUser.get().getEmail());
-                throw new ResourceUnauthorizedException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
+                throw new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001);
             }
         }
         else{
             logger.warn("Tentativa de acesso mas usuário não existe. Usuario: "
                     + loginTO.getEmail());
-            throw new ResourceNotFoundException("Aconteceu um erro. Senha errada e/ou usuário não existe.");
+            throw new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001);
         }
 	}
 
     public UserTO resetPass(ResetPassTO dto) {
-        User user = repository.findByToken(dto.getToken()).orElseThrow(() -> new ResourceConflictException("Password already changed"));
+        User user = repository.findByToken(dto.getToken()).orElseThrow(() -> new ResourceConflictException(CodeException.AT003.getText(), CodeException.AT003));
         user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         user.setToken(UUID.randomUUID().toString());
         logger.info("Reset password sucess. User: " + user.getId());
@@ -126,7 +128,7 @@ public class AuthService {
     }
 
     public UserTO getByToken(String token) {
-        return  utils.toUserTO(repository.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("User not found.")));
+        return  utils.toUserTO(repository.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
     }
 
 }
