@@ -37,7 +37,7 @@ public class ProfileTO {
 	@ApiModelProperty(value = "URL da imagem de perfil")
 	private String profileImage;
 
-	private Friendship.FriendshipStatus friendshipStatus;
+	private String friendshipStatus;
 
 	private String username;
 

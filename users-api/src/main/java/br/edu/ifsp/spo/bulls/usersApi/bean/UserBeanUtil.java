@@ -89,7 +89,17 @@ public class UserBeanUtil {
 		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
 		if(token != null) {
 			friendshipRepository.hasFriendship(profileService.getDomainByToken(token).getId(), userTO.getProfile().getId())
-					.ifPresent(friendship1 -> userTO.getProfile().setFriendshipStatus(friendship1.getStatus()));
+					.ifPresent(friendship1 -> {
+						if(friendship1.getStatus() == Friendship.FriendshipStatus.pending){
+							if(friendship1.getProfile1() == profileService.getDomainByToken(token).getId()) {
+								userTO.getProfile().setFriendshipStatus("sent");
+							}
+							else
+								userTO.getProfile().setFriendshipStatus("received");
+						}
+						else
+							userTO.getProfile().setFriendshipStatus("added");
+					});
 		}
 		return userTO;
 	}
