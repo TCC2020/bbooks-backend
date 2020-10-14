@@ -37,8 +37,8 @@ public class FriendsController {
     }
 
     @GetMapping("/{username}")
-    public FriendshipTO getByUsername(@PathVariable String username) {
-        return service.getFriendsByUsername(username);
+    public FriendshipTO getByUsername(@PathVariable String username, @RequestHeader("AUTHORIZATION") String token) {
+        return service.getFriendsByUsername(username, token);
     }
 
     @ApiOperation(value = "Adicionar usuário")

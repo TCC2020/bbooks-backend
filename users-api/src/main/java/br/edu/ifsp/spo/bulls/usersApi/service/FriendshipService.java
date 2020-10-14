@@ -103,7 +103,7 @@ public class FriendshipService {
         throw new ResourceConflictException("Conflito ao remover amigo");
     }
 
-    public FriendshipTO getFriendsByUsername(String username) {
+    public FriendshipTO getFriendsByUsername(String username, String token) {
         FriendshipTO friends = new FriendshipTO();
         Profile profile = profileService.getByUsername(username);
         friends.setProfileId(profile.getId());
@@ -116,7 +116,10 @@ public class FriendshipService {
                 friendsIds.add(friendship.getProfile1());
         });
         HashSet<Profile> profiles = profileService.getAllDomainById(friendsIds);
-        friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser())).collect(Collectors.toSet()));
+        if(token != null)
+            friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser(), token)).collect(Collectors.toSet()));
+        else
+            friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser())).collect(Collectors.toSet()));
         return friends;
     }
 }
