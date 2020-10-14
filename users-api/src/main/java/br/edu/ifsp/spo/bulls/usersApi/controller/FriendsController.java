@@ -62,6 +62,12 @@ public class FriendsController {
         return service.getRequests(token);
     }
 
+    @GetMapping(value = "/requests/{username}")
+    public Friendship getRequestsByUsername(@RequestHeader(value = "AUTHORIZATION") String token, @PathVariable String username) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
+        return service.getRequestByRequest(token, username);
+    }
+
     @PutMapping(value = "/requests")
     public HttpStatus responseRequest(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
         token = StringUtils.removeStart(token, "Bearer").trim();

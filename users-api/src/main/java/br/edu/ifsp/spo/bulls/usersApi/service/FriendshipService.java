@@ -94,7 +94,7 @@ public class FriendshipService {
 
         public HttpStatus deleteFriend(String token, int id) {
         Profile profile = profileService.getDomainByToken(token);
-        Friendship friendship = repository.hasFriendship(profile.getId(), id).orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
+        Friendship friendship = repository.hasFriendship(profile.getId(), id).orElseThrow(() -> new ResourceNotFoundException("Profile not found "));
         if(profile.getId() == friendship.getProfile1() || profile.getId() == friendship.getProfile2()) {
             if(friendship.getStatus().equals(Friendship.FriendshipStatus.added)) {
                 repository.delete(friendship);
@@ -122,5 +122,11 @@ public class FriendshipService {
         else
             friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser())).collect(Collectors.toSet()));
         return friends;
+    }
+
+    public Friendship getRequestByRequest(String token, String username) {
+        return repository
+                .hasFriendship(profileService.getDomainByToken(token).getId(), profileService.getByUsername(username).getId())
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 }
