@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.usersApi.bean.BookBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
@@ -48,13 +49,13 @@ public class BookService {
 
     private void verificaSeIsbnEstsCadastrado(BookTO entity) {
         if(repository.existsByIsbn10(entity.getIsbn10())){
-            throw new ResourceConflictException("ISBN cadastrado");
+            throw new ResourceConflictException(CodeException.BK001.getText(), CodeException.BK001);
         }
     }
 
     private void verificaSeTemAutores(BookTO entity) {
         if(entity.getAuthors() == null){
-            throw new ResourceBadRequestException("O livro deve ter pelo menos 1 autor");
+            throw new ResourceBadRequestException(CodeException.BK003.getText(), CodeException.BK003);
         }
     }
 
@@ -65,12 +66,12 @@ public class BookService {
     }
 
     public BookTO getOne(int id){
-        Book book = repository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Book not found"));
+        Book book = repository.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
         return beanUtil.toBookTO(book);
     }
 
     public void delete(int id){
-        repository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Book not found") );
+        repository.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002) );
         repository.deleteById(id);
     }
 
@@ -87,7 +88,7 @@ public class BookService {
             book.setPublisher(bookTo.getPublisher());
             book.setTitle(bookTo.getTitle());
             return repository.save(book);
-        }).orElseThrow( () -> new ResourceNotFoundException("Book not found"));
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
 
 
         return beanUtil.toBookTO(retorno);

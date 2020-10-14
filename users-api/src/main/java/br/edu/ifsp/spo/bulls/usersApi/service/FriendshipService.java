@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.dto.*;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.FriendshipRepository;
@@ -41,7 +42,7 @@ public class FriendshipService {
     }
 
     public Friendship getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Solicitação não encontrada"));
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.FR001.getText(), CodeException.FR001));
     }
 
     public List<FriendRequestTO> getRequests(String token) {
@@ -59,7 +60,7 @@ public class FriendshipService {
             repository.save(friendship);
             return HttpStatus.OK;
         }
-        throw new ResourceConflictException("Token inválido");
+        throw new ResourceConflictException(CodeException.TK001.getText(), CodeException.TK001);
     }
 
     public HttpStatus reject(String token, Long id) {
@@ -71,7 +72,7 @@ public class FriendshipService {
             repository.delete(friendship);
             return HttpStatus.OK;
         }
-        throw new ResourceConflictException("Token inválido");
+        throw new ResourceConflictException(CodeException.TK001.getText(), CodeException.TK001);
     }
 
     public FriendshipTO getFriends(String token) {
@@ -100,7 +101,7 @@ public class FriendshipService {
                 return HttpStatus.OK;
             }
         }
-        throw new ResourceConflictException("Conflito ao remover amigo");
+        throw new ResourceConflictException(CodeException.FR002.getText(), CodeException.FR002);
     }
 
     public FriendshipTO getFriendsByUsername(String username, String token) {

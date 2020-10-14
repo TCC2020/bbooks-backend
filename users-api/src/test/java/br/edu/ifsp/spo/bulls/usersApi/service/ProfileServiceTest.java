@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class ProfileServiceTest {
 	void testGetByIdProfileNotFound() throws Exception {
 		
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> service.getById(123456789));
-		assertEquals("Profile not found", e.getMessage());
+		assertEquals(CodeException.PF001.getText(), e.getMessage());
 	}
 	
 	@Test
@@ -75,7 +76,7 @@ public class ProfileServiceTest {
 		service.delete(profile.getId());
 		
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> {service.getById(profile.getId());});
-		assertEquals("Profile not found", e.getMessage());
+		assertEquals(CodeException.PF001.getText(), e.getMessage());
 		
 	}
 	
@@ -83,7 +84,7 @@ public class ProfileServiceTest {
 	void testDeleteProfileNotFound() throws ResourceBadRequestException, Exception {
 			
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> service.delete(12345678));
-		assertEquals("Profile not found", e.getMessage());
+		assertEquals(CodeException.PF001.getText(), e.getMessage());
 		
 	}
 
@@ -109,7 +110,7 @@ public class ProfileServiceTest {
 		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> service.update(profileBeanUtil.toProfileTO(profile)));
-		assertEquals("Profile not found", e.getMessage());
+		assertEquals(CodeException.PF001.getText(), e.getMessage());
 		
 	}
 

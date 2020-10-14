@@ -6,6 +6,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
@@ -40,13 +41,13 @@ public class ReadingTrackingService {
     public List<ReadingTrackingTO> getAllByBook(Long userBook) {
         return beanUtil.toDTO(repository.findAllByUserBookOrderByCreationDate(
                 userBooksRepository.findById(userBook)
-                                    .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"))));
+                                    .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001))));
     }
 
     public ReadingTrackingTO get(UUID readingTracking) {
 
         return beanUtil.toDTO(repository.findById(readingTracking)
-                .orElseThrow( () -> new ResourceNotFoundException("Tracking not found")));
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
     }
 
     public ReadingTrackingTO save(@Valid ReadingTrackingTO readingTrackingTO) {
@@ -69,7 +70,7 @@ public class ReadingTrackingService {
             userBooksService.updateStatus(booK);
         }
         if(userBooks.getStatus() == UserBooks.Status.LIDO){
-            throw new ResourceConflictException("Livro já está concluído");
+            throw new ResourceConflictException(CodeException.RT003.getText(), CodeException.RT003);
         }
     }
 
@@ -92,7 +93,7 @@ public class ReadingTrackingService {
             page = readingTracking.getUserBook().getBook().getNumberPage();
 
         if(readingTracking.getNumPag()>page){
-            throw new ResourceConflictException("Número de página maior que o total de páginas do livro");
+            throw new ResourceConflictException(CodeException.RT002.getText(), CodeException.RT002);
         }
     }
 
@@ -123,7 +124,7 @@ public class ReadingTrackingService {
             readingTracking1.setComentario(readingTracking.getComentario());
             readingTracking1.setNumPag(readingTracking.getNumPag());
             return repository.save(readingTracking1);
-        }).orElseThrow( () -> new ResourceNotFoundException("ReadingTracking not found")));
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
 
     }
 
@@ -135,17 +136,17 @@ public class ReadingTrackingService {
 
     private void getReadingTracking(ReadingTrackingTO readingTrackingTO) {
         ReadingTracking reading = repository.findById(readingTrackingTO.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("ReadingTracking not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }
 
     private UserBooks getUserBook(ReadingTrackingTO readingTrackingTO) {
         return userBooksRepository.findById(readingTrackingTO.getUserBookId())
-                .orElseThrow(() -> new ResourceNotFoundException("Userbooks not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
     }
 
     public void delete(UUID trackingID) {
         ReadingTracking tracking = repository.findById(trackingID)
-                .orElseThrow(() -> new ResourceNotFoundException("Tracking not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
 
         repository.delete(tracking);
     }
