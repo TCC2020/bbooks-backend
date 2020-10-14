@@ -92,9 +92,9 @@ public class FriendshipService {
         return friends;
     }
 
-    public HttpStatus deleteFriend(String token, AcceptTO dto) {
+        public HttpStatus deleteFriend(String token, int id) {
         Profile profile = profileService.getDomainByToken(token);
-        Friendship friendship = getById(dto.getId());
+        Friendship friendship = repository.hasFriendship(profile.getId(), id).orElseThrow(() -> new ResourceNotFoundException("Profile not found "));
         if(profile.getId() == friendship.getProfile1() || profile.getId() == friendship.getProfile2()) {
             if(friendship.getStatus().equals(Friendship.FriendshipStatus.added)) {
                 repository.delete(friendship);
@@ -104,7 +104,7 @@ public class FriendshipService {
         throw new ResourceConflictException(CodeException.FR002.getText(), CodeException.FR002);
     }
 
-    public FriendshipTO getFriendsByUsername(String username) {
+    public FriendshipTO getFriendsByUsername(String username, String token) {
         FriendshipTO friends = new FriendshipTO();
         Profile profile = profileService.getByUsername(username);
         friends.setProfileId(profile.getId());
@@ -117,7 +117,16 @@ public class FriendshipService {
                 friendsIds.add(friendship.getProfile1());
         });
         HashSet<Profile> profiles = profileService.getAllDomainById(friendsIds);
-        friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser())).collect(Collectors.toSet()));
+        if(token != null)
+            friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser(), token)).collect(Collectors.toSet()));
+        else
+            friends.setFriends((HashSet)profiles.parallelStream().map(profile1 -> userBeanUtil.toUserTO(profile1.getUser())).collect(Collectors.toSet()));
         return friends;
+    }
+
+    public Friendship getRequestByRequest(String token, String username) {
+        return repository
+                .hasFriendship(profileService.getDomainByToken(token).getId(), profileService.getByUsername(username).getId())
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 }

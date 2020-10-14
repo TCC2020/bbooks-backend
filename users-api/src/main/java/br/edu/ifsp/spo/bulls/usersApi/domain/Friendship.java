@@ -25,6 +25,8 @@ public class Friendship {
 
     public enum FriendshipStatus {
         pending("PENDING"),
+        sent("SENT"),
+        received("RECEIVED"),
         added("ADDED");
 
         private final String text;

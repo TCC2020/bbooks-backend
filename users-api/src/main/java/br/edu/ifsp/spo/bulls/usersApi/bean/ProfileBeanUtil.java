@@ -31,6 +31,7 @@ public class ProfileBeanUtil {
 		
 		try{
 			BeanUtils.copyProperties(profile, profileTO);
+			profileTO.setUsername(profile.getUser().getUserName());
 		}catch(Exception e) {
 			logger.error("Error while converting Profile to ProfileTO: " +  e);
 		}
