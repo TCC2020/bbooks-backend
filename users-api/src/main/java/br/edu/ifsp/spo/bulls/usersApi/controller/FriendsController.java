@@ -30,10 +30,10 @@ public class FriendsController {
         return service.getFriends(token);
     }
 
-    @DeleteMapping
-    public HttpStatus deleteFriend(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
+    @DeleteMapping("/{id}")
+    public HttpStatus deleteFriend(@PathVariable int id, @RequestHeader(value = "AUTHORIZATION") String token) {
         token = StringUtils.removeStart(token, "Bearer").trim();
-        return service.deleteFriend(token, dto);
+        return service.deleteFriend(token, id);
     }
 
     @GetMapping("/{username}")

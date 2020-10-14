@@ -92,9 +92,9 @@ public class FriendshipService {
         return friends;
     }
 
-    public HttpStatus deleteFriend(String token, AcceptTO dto) {
+        public HttpStatus deleteFriend(String token, int id) {
         Profile profile = profileService.getDomainByToken(token);
-        Friendship friendship = getById(dto.getId());
+        Friendship friendship = repository.hasFriendship(profile.getId(), id).orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
         if(profile.getId() == friendship.getProfile1() || profile.getId() == friendship.getProfile2()) {
             if(friendship.getStatus().equals(Friendship.FriendshipStatus.added)) {
                 repository.delete(friendship);
