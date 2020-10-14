@@ -39,6 +39,8 @@ public class ProfileTO {
 
 	private Friendship.FriendshipStatus friendshipStatus;
 
+	private String username;
+
 	public ProfileTO(int id, String name,
 			 String lastName, String country, String city, String state,
 			 @NotBlank(message = "Birthdate is mandatory") String birthDate) {
