@@ -38,6 +38,7 @@ public class FriendsController {
 
     @GetMapping("/{username}")
     public FriendshipTO getByUsername(@PathVariable String username, @RequestHeader("AUTHORIZATION") String token) {
+        token = StringUtils.removeStart(token, "Bearer").trim();
         return service.getFriendsByUsername(username, token);
     }
 
