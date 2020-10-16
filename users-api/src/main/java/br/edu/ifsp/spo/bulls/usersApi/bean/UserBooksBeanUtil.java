@@ -28,7 +28,6 @@ public class UserBooksBeanUtil {
         try{
             BeanUtils.copyProperties(userBooks, userBooksTO);
         }catch(Exception e) {
-            e.printStackTrace();
             logger.error("Error while converting UserBooks to UserBooksTO: " +  e);
         }
         userBooksTO.setStatus(userBooks.getStatus());
@@ -40,7 +39,6 @@ public class UserBooksBeanUtil {
         try{
             BeanUtils.copyProperties(userBooks, userBooksTO);
         }catch(Exception e) {
-            e.printStackTrace();
             logger.error("Error while converting UserBooks to UserBooksTO: " +  e);
         }
         userBooksTO.setStatus(userBooks.getStatus().name());
@@ -52,7 +50,6 @@ public class UserBooksBeanUtil {
         try{
             BeanUtils.copyProperties(dto, userBooks);
         }catch(Exception e) {
-            e.printStackTrace();
             logger.error("Error while converting UserBooksTO to UserBooks: " +  e);
         }
         userBooks.setStatus(dto.getStatus());

@@ -39,8 +39,6 @@ public class AuthorBeanUtil {
 
     public AuthorTO toAuthorTo(Author author) {
         AuthorTO authorTO = new AuthorTO();
-        System.out.println(author);
-        System.out.println(authorTO);
         try{
             BeanUtils.copyProperties(author, authorTO);
         }catch(Exception e) {

@@ -44,7 +44,6 @@ public class UserBeanUtil {
 		try{
 			BeanUtils.copyProperties(userTO, user);
 		}catch(Exception e) {
-			e.printStackTrace();
 			logger.error("Error while converting UserTO to User: " +  e);
 		}
 
@@ -57,7 +56,6 @@ public class UserBeanUtil {
 		try{
 			BeanUtils.copyProperties(cadastroUserTO, user);
 		}catch(Exception e) {
-			e.printStackTrace();
 			logger.error("Error while converting CadastroUserTO to User: " +  e);
 		}
 
@@ -70,7 +68,6 @@ public class UserBeanUtil {
 		try{
 			BeanUtils.copyProperties(user, userTO);
 		}catch(Exception e) {
-			e.printStackTrace();
 			logger.error("Error while converting User to UserTO: " +  e);
 		}
 		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
@@ -83,7 +80,6 @@ public class UserBeanUtil {
 		try{
 			BeanUtils.copyProperties(user, userTO);
 		}catch(Exception e) {
-			e.printStackTrace();
 			logger.error("Error while converting User to UserTO: " +  e);
 		}
 		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
@@ -110,7 +106,6 @@ public class UserBeanUtil {
 		try{
 			BeanUtils.copyProperties(user, userTO);
 		}catch(Exception e) {
-			e.printStackTrace();
 			logger.error("Error while converting User to UserTO: " +  e);
 		}
 		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(this.toUser(user))));
@@ -123,7 +118,6 @@ public class UserBeanUtil {
 		try{
 			BeanUtils.copyProperties(user, userTO);
 		}catch(Exception e) {
-			e.printStackTrace();
 			logger.error("Error while converting UserTO to CadastroUserTO: " +  e);
 		}
 		return userTO;

@@ -40,7 +40,6 @@ public class ReadingTrackingBeanUtil {
             UserBooks userBooks = userBooksRepository.findById(readingTrackingTO.getUserBookId()).get();
             readingTracking.setUserBook(userBooks);
         }catch(Exception e) {
-            e.printStackTrace();
             logger.error("Error while converting UserTO to User: " +  e);
         }
         return readingTracking;
@@ -53,7 +52,6 @@ public class ReadingTrackingBeanUtil {
             BeanUtils.copyProperties(readingTracking, readingTrackingTO);
             readingTrackingTO.setUserBookId(readingTracking.getUserBook().getId());
         }catch(Exception e) {
-            e.printStackTrace();
             logger.error("Error while converting UserTO to User: " +  e);
         }
         return readingTrackingTO;

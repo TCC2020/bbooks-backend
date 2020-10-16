@@ -29,7 +29,7 @@ public class UserService{
 	private UserRepository rep;
 	
 	@Autowired
-	EmailServiceImpl email;
+	EmailService email;
 	
 	@Autowired
 	private UserBeanUtil beanUtil;

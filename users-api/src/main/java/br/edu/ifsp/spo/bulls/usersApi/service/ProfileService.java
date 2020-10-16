@@ -26,9 +26,6 @@ public class ProfileService {
 	private UserService userService;
 	
 	@Autowired
-	EmailServiceImpl email;
-	
-	@Autowired
 	private ProfileBeanUtil beanUtil;
 	
 	@Autowired
