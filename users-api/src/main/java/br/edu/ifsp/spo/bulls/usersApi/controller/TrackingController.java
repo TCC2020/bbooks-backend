@@ -25,7 +25,7 @@ public class TrackingController {
     @Autowired
     TrackingService service;
 
-    @ApiOperation(value = "Retorna grupo acompanhamentos de um livro")
+    @ApiOperation(value = "Retorna um grupo acompanhamentos de um livro")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna um grupo de acompanhamentos"),
             @ApiResponse(code = 404, message = "O livro do usuário não existe em sua estante")

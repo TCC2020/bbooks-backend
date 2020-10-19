@@ -34,7 +34,7 @@ public class TrackingBeanUtil {
             trackingTO.setUserBookId(tracking.getUserBook().getId());
         }catch(Exception e) {
             e.printStackTrace();
-            logger.error("Error while converting UserTO to User: " +  e);
+            logger.error("Error while converting Tracking to TrackingTO: " +  e);
         }
         return trackingTO;
     }
@@ -48,7 +48,7 @@ public class TrackingBeanUtil {
             tracking.setUserBook(userBooks);
         }catch(Exception e) {
             e.printStackTrace();
-            logger.error("Error while converting UserTO to User: " +  e);
+            logger.error("Error while converting TrackingTO to Tracking: " +  e);
         }
         return tracking;
     }

@@ -38,7 +38,7 @@ public class ReadingTrackingBeanUtil {
         try{
             BeanUtils.copyProperties(readingTrackingTO, readingTracking);
         }catch(Exception e) {
-            logger.error("Error while converting UserTO to User: " +  e);
+            logger.error("Error while converting TrackingTO to Tracking: " +  e);
         }
         return readingTracking;
     }
@@ -49,7 +49,7 @@ public class ReadingTrackingBeanUtil {
         try{
             BeanUtils.copyProperties(readingTracking, readingTrackingTO);
         }catch(Exception e) {
-            logger.error("Error while converting UserTO to User: " +  e);
+            logger.error("Error while converting Tracking to TrackingTO: " +  e);
         }
         return readingTrackingTO;
     }

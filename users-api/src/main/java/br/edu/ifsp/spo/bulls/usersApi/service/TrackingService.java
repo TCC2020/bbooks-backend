@@ -42,7 +42,6 @@ public class TrackingService {
         Tracking tracking = beanUtil.toDomain(trackingTO);
         tracking.setUserBook(userBooks);
         ReadingTracking readingTracking = new ReadingTracking();
-        readingTracking.setNumPag(0);
         tracking.addOnReadingTrackings(readingTracking);
         return beanUtil.toDTO(repository.save(tracking));
     }
