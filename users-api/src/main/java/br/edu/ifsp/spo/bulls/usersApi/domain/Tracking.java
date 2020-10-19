@@ -45,4 +45,9 @@ public class Tracking {
     public void prePersist() {
         creationDate = LocalDateTime.now();
     }
+
+
+    public void addOnReadingTrackings(ReadingTracking readingTracking){
+        this.trackings.add(readingTracking);
+    }
 }

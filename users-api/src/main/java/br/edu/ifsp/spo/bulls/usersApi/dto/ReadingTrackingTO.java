@@ -32,9 +32,6 @@ public class ReadingTrackingTO {
         @ApiModelProperty(value = "Data do acompanhamento")
         private LocalDateTime creationDate;
 
-        @ApiModelProperty(value = "Cadastro do livro na estante do usuário relacionado ao acompmanhamento")
-        private Long userBookId;
-
         @PrePersist
         public void prePersist() {
             creationDate = LocalDateTime.now();

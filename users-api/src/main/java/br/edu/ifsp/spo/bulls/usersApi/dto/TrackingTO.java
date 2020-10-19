@@ -24,6 +24,9 @@ public class TrackingTO {
     @ApiModelProperty(value = "Data do inicio acompanhamento")
     private LocalDateTime creationDate;
 
+    @ApiModelProperty(value = "Comentário")
+    private String comentario;
+
     @ApiModelProperty(value = "Cadastro do livro na estante do usuário relacionado ao acompmanhamento")
     private Long userBookId;
 

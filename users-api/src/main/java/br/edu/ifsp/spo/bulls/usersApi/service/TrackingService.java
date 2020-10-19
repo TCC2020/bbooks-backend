@@ -1,16 +1,13 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
-import br.edu.ifsp.spo.bulls.usersApi.bean.ReadingTrackingBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.bean.TrackingBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
-import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.TrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
-import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,9 @@ public class TrackingService {
         UserBooks userBooks = getUserBook(trackingTO);
         Tracking tracking = beanUtil.toDomain(trackingTO);
         tracking.setUserBook(userBooks);
+        ReadingTracking readingTracking = new ReadingTracking();
+        readingTracking.setNumPag(0);
+        tracking.addOnReadingTrackings(readingTracking);
         return beanUtil.toDTO(repository.save(tracking));
     }
 
