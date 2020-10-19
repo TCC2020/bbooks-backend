@@ -26,19 +26,6 @@ public class ReadingTrackingController {
 
     @ApiOperation(value = "Retorna todos acompanhamentos de um livro")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna uma lista de acompanhamentos"),
-            @ApiResponse(code = 404, message = "O livro do usuário não existe em sua estante")
-    })
-    @GetMapping("/book/{userBook}")
-    public List<ReadingTrackingTO> getAllByBook(@PathVariable Long userBook){
-        logger.info("Acessando dados de todos os acompanhamento do userBook: " + userBook);
-        List<ReadingTrackingTO> acompanhamntos = service.getAllByBook(userBook);
-        logger.info("Acompanhamentos retornados: " + acompanhamntos.toString());
-        return acompanhamntos ;
-    }
-
-    @ApiOperation(value = "Retorna todos acompanhamentos de um livro")
-    @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna um acompanhamento"),
             @ApiResponse(code = 404, message = "Acompanhamento não encontrado")
     })

@@ -38,11 +38,6 @@ public class ReadingTrackingService {
     @Autowired
     UserBooksBeanUtil userBooksBeanUtil;
 
-    public List<ReadingTrackingTO> getAllByBook(Long userBook) {
-        return beanUtil.toDTO(repository.findAllByUserBookOrderByCreationDate(
-                userBooksRepository.findById(userBook)
-                                    .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001))));
-    }
 
     public ReadingTrackingTO get(UUID readingTracking) {
 
@@ -51,12 +46,9 @@ public class ReadingTrackingService {
     }
 
     public ReadingTrackingTO save(@Valid ReadingTrackingTO readingTrackingTO) {
-        UserBooks userBooks = getUserBook(readingTrackingTO);
 
         ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
 
-        verificaStatusLivro(userBooks);
-        readingTracking.setUserBook(userBooks);
         readingTracking.setPercentage(calcularPercentual(readingTracking));
 
         return beanUtil.toDTO(repository.save(readingTracking));
@@ -75,26 +67,26 @@ public class ReadingTrackingService {
     }
 
     private float calcularPercentual(ReadingTracking readingTracking) {
-        int paginasTotais;
+        int paginasTotais = 2;
         verificaPaginas(readingTracking);
-        if(readingTracking.getUserBook().getBook() != null){
-            paginasTotais = readingTracking.getUserBook().getBook().getNumberPage();
-        }else{
-            paginasTotais = readingTracking.getUserBook().getPage();
-        }
+//        if(readingTracking.getUserBook().getBook() != null){
+//            paginasTotais = readingTracking.getUserBook().getBook().getNumberPage();
+//        }else{
+//            paginasTotais = readingTracking.getUserBook().getPage();
+//        }
         float percentual = readingTracking.getNumPag() * 100F / paginasTotais;
-        verificaPercentual(readingTracking.getUserBook(), percentual);
+//        verificaPercentual(readingTracking.getUserBook(), percentual);
         return percentual ;
     }
 
     private void verificaPaginas(ReadingTracking readingTracking) {
-        int page = readingTracking.getUserBook().getPage();
-        if(readingTracking.getUserBook().getBook() != null)
-            page = readingTracking.getUserBook().getBook().getNumberPage();
-
-        if(readingTracking.getNumPag()>page){
-            throw new ResourceConflictException(CodeException.RT002.getText(), CodeException.RT002);
-        }
+//        int page = readingTracking.getUserBook().getPage();
+//        if(readingTracking.getUserBook().getBook() != null)
+//            page = readingTracking.getUserBook().getBook().getNumberPage();
+//
+//        if(readingTracking.getNumPag()>page){
+//            throw new ResourceConflictException(CodeException.RT002.getText(), CodeException.RT002);
+//        }
     }
 
     private void verificaPercentual(UserBooks userBook, float percentual) {
@@ -108,16 +100,13 @@ public class ReadingTrackingService {
     public ReadingTrackingTO update(ReadingTrackingTO readingTrackingTO, UUID trackingID) {
         getReadingTracking(readingTrackingTO);
 
-        UserBooks userBooks = getUserBook(readingTrackingTO);
-
         ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
 
-        readingTracking.setUserBook(userBooks);
         readingTracking.setPercentage(calcularPercentual(readingTracking));
 
         return beanUtil.toDTO(repository.findById(readingTracking.getId()).map( readingTracking1 -> {
             if(readingTracking1.getPercentage() == 100.00F && readingTracking1.getNumPag() != readingTracking.getNumPag())
-                mudaStatusLendo(readingTracking1.getUserBook());
+                //mudaStatusLendo(readingTracking1.getUserBook());
 
             readingTracking1.setId(readingTracking.getId());
             readingTracking1.setPercentage(readingTracking.getPercentage());
@@ -139,10 +128,10 @@ public class ReadingTrackingService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }
 
-    private UserBooks getUserBook(ReadingTrackingTO readingTrackingTO) {
-        return userBooksRepository.findById(readingTrackingTO.getUserBookId())
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
-    }
+//    private UserBooks getUserBook(ReadingTrackingTO readingTrackingTO) {
+//        return userBooksRepository.findById(readingTrackingTO.getUserBookId())
+//                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+//    }
 
     public void delete(UUID trackingID) {
         ReadingTracking tracking = repository.findById(trackingID)

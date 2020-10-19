@@ -45,7 +45,7 @@ public class ReadingTrackingServiceTest {
         int idProfile = this.umProfile("testeSaveAcOkService", "teste@testeSaveAcOkService");
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 50);
 
-        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 30);
+        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking( 30);
 
         assertEquals(60.0, readingTrackingTO1.getPercentage());
     }
@@ -55,7 +55,7 @@ public class ReadingTrackingServiceTest {
         int idProfile = this.umProfile("testeSaveAcOkTrocaSatatus", "teste@testeSaveAcOkTrocaSatatus");
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.QUERO_LER, "1234teste", 50);
 
-        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 30);
+        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking( 30);
         UserBooks.Status status = userBooksService.getById(userBookId).getStatus();
 
         assertEquals(60.0, readingTrackingTO1.getPercentage());
@@ -68,7 +68,7 @@ public class ReadingTrackingServiceTest {
         BookTO book = this.umBook("wejwqoie","livro teste", 50);
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.QUERO_LER, book);
 
-        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 50);
+        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking( 50);
         UserBooks.Status status = userBooksService.getById(userBookId).getStatus();
 
         assertEquals(100.0F, readingTrackingTO1.getPercentage());
@@ -80,7 +80,7 @@ public class ReadingTrackingServiceTest {
         int idProfile = this.umProfile("testeSaveAcOkStatusLido", "teste@testeSaveAcOkStatusLido");
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.LIDO, "1234teste", 50);
 
-        ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> this.umReadingTracking(userBookId, 30));
+        ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> this.umReadingTracking(30));
         assertEquals(CodeException.RT003.getText(), e.getMessage());
     }
 
@@ -89,21 +89,19 @@ public class ReadingTrackingServiceTest {
         int idProfile = this.umProfile("testeSaveAcOkPagina", "teste@testeSaveAcOkPagina");
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 50);
 
-        ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> this.umReadingTracking(userBookId, 51));
+        ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> this.umReadingTracking( 51));
         assertEquals(CodeException.RT002.getText(), e.getMessage());
     }
 
     @Test
     void update() throws Exception {
         int idProfile = this.umProfile("testeUpdateACOk", "teste@testeUpdateACOk");
-        long userBookId = this.umUserBook(idProfile, UserBooks.Status.QUERO_LER, "1234teste", 50);
 
-        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 30);
+        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(30);
         readingTrackingTO1.setNumPag(35);
         readingTrackingTO1 = readingTrackingService.update(readingTrackingTO1, readingTrackingTO1.getId());
 
 
-        assertEquals(userBookId, readingTrackingTO1.getUserBookId());
         assertEquals(35, readingTrackingTO1.getNumPag());
         assertEquals(70.00F, readingTrackingTO1.getPercentage());
     }
@@ -123,14 +121,13 @@ public class ReadingTrackingServiceTest {
         int idProfile = this.umProfile("testeUpdateACMudaLendo", "teste@testeUpdateACMudaLendo");
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.QUERO_LER, "1234teste", 50);
 
-        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 50);
+        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking( 50);
 
         readingTrackingTO1.setNumPag(35);
         readingTrackingTO1 = readingTrackingService.update(readingTrackingTO1, readingTrackingTO1.getId());
 
         UserBooks.Status status = userBooksService.getById(userBookId).getStatus();
 
-        assertEquals(userBookId, readingTrackingTO1.getUserBookId());
         assertEquals(35, readingTrackingTO1.getNumPag());
         assertEquals(70.00F, readingTrackingTO1.getPercentage());
         assertEquals(UserBooks.Status.LENDO, status);
@@ -146,11 +143,9 @@ public class ReadingTrackingServiceTest {
     @Test
     void getOneTrackingOk() throws Exception {
         int idProfile = this.umProfile("testeAcOkGetOne", "teste@testeAcOkGetOne");
-        long userBookId = this.umUserBook(idProfile, UserBooks.Status.QUERO_LER, "1234teste", 30);
 
-        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 30);
+        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(30);
 
-        assertEquals(userBookId, readingTrackingTO1.getUserBookId());
         assertEquals(30, readingTrackingTO1.getNumPag());
         assertEquals(100.00F, readingTrackingTO1.getPercentage());
     }
@@ -160,7 +155,7 @@ public class ReadingTrackingServiceTest {
         int idProfile = this.umProfile("testeDeleteAcOkService", "teste@testeDeleteAcOkService");
         long userBookId = this.umUserBook(idProfile, UserBooks.Status.QUERO_LER, "1234teste", 50);
 
-        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking(userBookId, 30);
+        ReadingTrackingTO readingTrackingTO1 = this.umReadingTracking( 30);
 
         readingTrackingService.delete(readingTrackingTO1.getId());
 
@@ -199,9 +194,8 @@ public class ReadingTrackingServiceTest {
         return userBooksTO1.getId();
     }
 
-    private ReadingTrackingTO umReadingTracking(long userBookId, int numberPage) {
+    private ReadingTrackingTO umReadingTracking( int numberPage) {
         ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-        readingTrackingTO.setUserBookId(userBookId);
         readingTrackingTO.setNumPag(numberPage);
         return readingTrackingService.save(readingTrackingTO);
     }

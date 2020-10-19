@@ -105,10 +105,8 @@ public class ReadingTrackingControllerTest {
     @Test
     void testPostReadingTracking() throws Exception {
         int idProfile = this.umProfile("testeSaveAcOk", "teste@testeSaveAcOk");
-        long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 30);
 
         ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-        readingTrackingTO.setUserBookId(userBookId);
         readingTrackingTO.setNumPag(20);
 
         mockMvc.perform(post("/tracking")
@@ -120,10 +118,8 @@ public class ReadingTrackingControllerTest {
     @Test
     void testPostReadingTrackingConflitStatusLido() throws Exception {
         int idProfile = this.umProfile("testeSaveAcConflit", "teste@testeSaveAcConflit");
-        long userBookId = this.umUserBook(idProfile, UserBooks.Status.LIDO, "1234teste", 30);
 
         ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-        readingTrackingTO.setUserBookId(userBookId);
         readingTrackingTO.setNumPag(20);
 
         mockMvc.perform(post("/tracking")
@@ -135,7 +131,6 @@ public class ReadingTrackingControllerTest {
     @Test
     void testPostReadingTracking404UserBooksNotFound() throws Exception {
         ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-        readingTrackingTO.setUserBookId(4L);
         readingTrackingTO.setNumPag(20);
 
         mockMvc.perform(post("/tracking")
@@ -171,7 +166,6 @@ public class ReadingTrackingControllerTest {
 
     private ReadingTrackingTO umReadingTracking(long userBookId, int numberPage) {
         ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-        readingTrackingTO.setUserBookId(userBookId);
         readingTrackingTO.setNumPag(numberPage);
         return readingTrackingService.save(readingTrackingTO);
     }
