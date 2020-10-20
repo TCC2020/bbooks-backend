@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Tracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.TrackingTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TrackingRepository;
@@ -47,6 +48,7 @@ public class TrackingService {
         Tracking tracking = beanUtil.toDomain(trackingTO);
         tracking.setUserBook(userBooks);
         this.verifingTrackings(trackingTO.getUserBookId());
+        this.verificaStatusLivro(tracking.getUserBook());
 
         return beanUtil.toDTO(repository.save(tracking));
     }
@@ -61,13 +63,6 @@ public class TrackingService {
             tracking1.setComentario(trackingTO.getComentario());
             return repository.save(tracking1);
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
-    }
-
-    public void addReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking response) {
-        repository.findById(readingTrackingTO.getTrackingUpId()).map( tracking1 -> {
-            //tracking1.getTrackings().add(response);
-            return repository.save(tracking1);
-        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }
 
     private UserBooks getUserBook(TrackingTO trackingTO) {
@@ -98,4 +93,20 @@ public class TrackingService {
     protected Tracking getOne(UUID trackinkId){
         return repository.findById(trackinkId).orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }
+
+    private void verificaStatusLivro(UserBooks userBooks) {
+        if(userBooks.getStatus() == UserBooks.Status.QUERO_LER){
+            updateUserBooksStatus(userBooks, UserBooks.Status.LENDO);
+        }
+        if(userBooks.getStatus() == UserBooks.Status.LIDO){
+            updateUserBooksStatus(userBooks, UserBooks.Status.RELENDO);
+        }
+    }
+
+    private void updateUserBooksStatus(UserBooks userBooks, UserBooks.Status status) {
+        UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(userBooks);
+        booK.setStatus(status.name());
+        userBooksService.updateStatus(booK);
+    }
+
 }

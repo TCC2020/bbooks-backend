@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
+import br.edu.ifsp.spo.bulls.usersApi.repository.TrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
 import org.slf4j.Logger;
@@ -26,10 +27,7 @@ public class ReadingTrackingBeanUtil {
     ReadingTrackingRepository repository;
 
     @Autowired
-    UserBooksBeanUtil userBooksBeanUtil;
-
-    @Autowired
-    UserBooksRepository userBooksRepository;
+    TrackingRepository trackingRepository;
 
 
     public ReadingTracking toDomain(ReadingTrackingTO readingTrackingTO) {
@@ -37,6 +35,7 @@ public class ReadingTrackingBeanUtil {
 
         try{
             BeanUtils.copyProperties(readingTrackingTO, readingTracking);
+            readingTracking.setTrackingGroup(trackingRepository.findById(readingTrackingTO.getTrackingUpId()).get());
         }catch(Exception e) {
             logger.error("Error while converting TrackingTO to Tracking: " +  e);
         }
@@ -48,6 +47,7 @@ public class ReadingTrackingBeanUtil {
 
         try{
             BeanUtils.copyProperties(readingTracking, readingTrackingTO);
+            readingTrackingTO.setTrackingUpId(readingTracking.getTrackingGroup().getId());
         }catch(Exception e) {
             logger.error("Error while converting Tracking to TrackingTO: " +  e);
         }

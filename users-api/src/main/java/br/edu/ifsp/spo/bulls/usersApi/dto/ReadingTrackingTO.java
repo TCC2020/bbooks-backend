@@ -30,9 +30,6 @@ public class ReadingTrackingTO {
         @ApiModelProperty(value = "Data do acompanhamento")
         private LocalDateTime creationDate;
 
-        @ApiModelProperty(value = "Cadastro do livro na estante do usuário relacionado ao acompanhamento")
-        private Long userBookId;
-
         @ApiModelProperty(value = "Grupo de acompanhamentos que esse registro pertence")
         private UUID trackingUpId;
 
