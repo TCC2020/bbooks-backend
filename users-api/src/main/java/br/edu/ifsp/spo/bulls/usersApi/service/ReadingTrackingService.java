@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 import br.edu.ifsp.spo.bulls.usersApi.bean.ReadingTrackingBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Tracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
@@ -42,7 +43,7 @@ public class ReadingTrackingService {
     UserBooksBeanUtil userBooksBeanUtil;
 
     @Autowired
-    TrackingRepository trackingRepository;
+    TrackingService trackingService;
 
     public ReadingTrackingTO get(UUID readingTracking) {
 
@@ -53,14 +54,31 @@ public class ReadingTrackingService {
     public ReadingTrackingTO save(@Valid ReadingTrackingTO readingTrackingTO) {
 
         ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
-
         UserBooks userBooks = this.getUserBook(readingTrackingTO.getUserBookId());
-
         this.verificaStatusLivro(userBooks);
-
         readingTracking.setPercentage(calcularPercentual(readingTracking, userBooks, readingTrackingTO.getTrackingUpId() ));
-        return beanUtil.toDTO(repository.save(readingTracking));
 
+        return beanUtil.toDTO(saveReadingTracking(readingTrackingTO, readingTracking));
+    }
+
+    public ReadingTrackingTO update(ReadingTrackingTO readingTrackingTO, UUID trackingID) {
+        getReadingTracking(readingTrackingTO, trackingID);
+
+        ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
+
+        return beanUtil.toDTO(repository.findById(readingTracking.getId()).map( readingTracking1 -> {
+            readingTracking1.setId(readingTracking.getId());
+            readingTracking1.setComentario(readingTracking.getComentario());
+            return repository.save(readingTracking1);
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
+
+    }
+
+    public void delete(UUID trackingID) {
+        ReadingTracking tracking = repository.findById(trackingID)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+
+        repository.delete(tracking);
     }
 
     private void verificaStatusLivro(UserBooks userBooks) {
@@ -88,8 +106,28 @@ public class ReadingTrackingService {
         return percentual ;
     }
 
+    private UserBooks getUserBook(Long userBookId) {
+        return userBooksRepository.findById(userBookId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+    }
+
+    private void getReadingTracking(ReadingTrackingTO readingTrackingTO, UUID readingTrackingID) {
+        if(!readingTrackingID.equals(readingTrackingTO.getId())){
+            throw new ResourceConflictException(CodeException.RT004.getText(), CodeException.RT001);
+        }
+        ReadingTracking reading = repository.findById(readingTrackingTO.getId())
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+    }
+
+    private ReadingTracking saveReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking readingTracking) {
+        ReadingTracking response =repository.save(readingTracking);
+
+        trackingService.addReadingTracking(readingTrackingTO, response);
+        return response;
+    }
+
     private int getPaginasAnteriores(UUID trackinkUpID) {
-        List<ReadingTracking> lista = trackingRepository.getOne(trackinkUpID).getTrackings();
+        List<ReadingTracking> lista = trackingService.getOne(trackinkUpID).getTrackings();
         return lista.size() > 0? lista.get(lista.size()-1).getNumPag() : 0;
     }
 
@@ -106,38 +144,5 @@ public class ReadingTrackingService {
             booK.setStatus(UserBooks.Status.LIDO.name());
             userBooksService.updateStatus(booK);
         }
-    }
-
-    public ReadingTrackingTO update(ReadingTrackingTO readingTrackingTO, UUID trackingID) {
-        getReadingTracking(readingTrackingTO, trackingID);
-
-        ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
-
-        return beanUtil.toDTO(repository.findById(readingTracking.getId()).map( readingTracking1 -> {
-            readingTracking1.setId(readingTracking.getId());
-            readingTracking1.setComentario(readingTracking.getComentario());
-            return repository.save(readingTracking1);
-        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
-
-    }
-
-    private void getReadingTracking(ReadingTrackingTO readingTrackingTO, UUID readingTrackingID) {
-        if(!readingTrackingID.equals(readingTrackingTO.getId())){
-            throw new ResourceConflictException(CodeException.RT004.getText(), CodeException.RT001);
-        }
-        ReadingTracking reading = repository.findById(readingTrackingTO.getId())
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
-    }
-
-    private UserBooks getUserBook(Long userBookId) {
-        return userBooksRepository.findById(userBookId)
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
-    }
-
-    public void delete(UUID trackingID) {
-        ReadingTracking tracking = repository.findById(trackingID)
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
-
-        repository.delete(tracking);
     }
 }

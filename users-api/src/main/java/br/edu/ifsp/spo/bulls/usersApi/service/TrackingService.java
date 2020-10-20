@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
+import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.TrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TrackingService {
@@ -41,13 +43,22 @@ public class TrackingService {
         UserBooks userBooks = getUserBook(trackingTO);
         Tracking tracking = beanUtil.toDomain(trackingTO);
         tracking.setUserBook(userBooks);
-        ReadingTracking readingTracking = new ReadingTracking();
-        tracking.addOnReadingTrackings(readingTracking);
         return beanUtil.toDTO(repository.save(tracking));
     }
 
     private UserBooks getUserBook(TrackingTO trackingTO) {
         return userBooksRepository.findById(trackingTO.getUserBookId())
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+    }
+
+    public void addReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking response) {
+        repository.findById(readingTrackingTO.getTrackingUpId()).map( tracking1 -> {
+            tracking1.getTrackings().add(response);
+            return repository.save(tracking1);
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+    }
+
+    public Tracking getOne(UUID trackinkUpID){
+        return repository.findById(trackinkUpID).orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }
 }
