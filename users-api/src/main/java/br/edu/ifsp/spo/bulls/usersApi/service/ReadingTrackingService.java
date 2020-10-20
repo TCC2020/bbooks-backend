@@ -47,119 +47,119 @@ public class ReadingTrackingService {
     @Autowired
     TrackingService trackingService;
 
-    public ReadingTrackingTO get(UUID readingTracking) {
-
-        return beanUtil.toDTO(repository.findById(readingTracking)
-                .orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
-    }
-
-    public ReadingTrackingTO save(@Valid ReadingTrackingTO readingTrackingTO) {
-
-        ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
-        UserBooks userBooks = this.getUserBook(readingTrackingTO.getUserBookId());
-        this.verificaStatusLivro(userBooks);
-        readingTracking.setPercentage(calcularPercentual(readingTracking, userBooks, readingTrackingTO.getTrackingUpId() ));
-
-        return beanUtil.toDTO(saveReadingTracking(readingTrackingTO, readingTracking));
-    }
-
-    public ReadingTrackingTO update(ReadingTrackingTO readingTrackingTO, UUID trackingID) {
-        getReadingTracking(readingTrackingTO, trackingID);
-
-        ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
-
-        return beanUtil.toDTO(repository.findById(readingTracking.getId()).map( readingTracking1 -> {
-            readingTracking1.setId(readingTracking.getId());
-            readingTracking1.setComentario(readingTracking.getComentario());
-            return repository.save(readingTracking1);
-        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
-
-    }
-
-
-    public void delete(UUID readingTrackingID, UUID trackingID) {
-        ReadingTracking readingTracking = repository.findById(readingTrackingID)
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
-
-        if(readingTracking.getPercentage() == 100.0){
-            this.updateFinishedDate(trackingID, null);
-            this.updateUserBooksStatus(trackingService.getOne(trackingID).getUserBook(), UserBooks.Status.LENDO);
-        }
-
-        repository.delete(readingTracking);
-    }
-
-    private void verificaStatusLivro(UserBooks userBooks) {
-        if(userBooks.getStatus() == UserBooks.Status.QUERO_LER){
-            updateUserBooksStatus(userBooks, UserBooks.Status.LENDO);
-        }
-        if(userBooks.getStatus() == UserBooks.Status.LIDO){
-            updateUserBooksStatus(userBooks, UserBooks.Status.RELENDO);
-        }
-    }
-
-
-
-    private float calcularPercentual(ReadingTracking readingTracking, UserBooks userBooks, UUID trackinkUpID) {
-        int paginasTotais = userBooks.getPage() != 0 ? userBooks.getPage(): userBooks.getBook().getNumberPage();
-
-        verificaPaginas( readingTracking.getNumPag(), paginasTotais, getPaginasAnteriores(trackinkUpID));
-
-        float percentual = readingTracking.getNumPag() * 100F / paginasTotais;
-
-        verificaPercentual(trackinkUpID, percentual);
-
-        return percentual ;
-    }
-
-    private UserBooks getUserBook(Long userBookId) {
-        return userBooksRepository.findById(userBookId)
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
-    }
-
-    private void getReadingTracking(ReadingTrackingTO readingTrackingTO, UUID readingTrackingID) {
-        if(!readingTrackingID.equals(readingTrackingTO.getId()))
-            throw new ResourceConflictException(CodeException.RT004.getText(), CodeException.RT001);
-    }
-
-    private ReadingTracking saveReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking readingTracking) {
-        ReadingTracking response =repository.save(readingTracking);
-
-        trackingService.addReadingTracking(readingTrackingTO, response);
-        return response;
-    }
-
-    private int getPaginasAnteriores(UUID trackinkUpID) {
-        List<ReadingTracking> lista = trackingService.getOne(trackinkUpID).getTrackings();
-        return lista.size() > 0? lista.get(lista.size()-1).getNumPag() : 0;
-    }
-
-    private void verificaPaginas(int paginasLidas, int paginasTotais, int ultimasPaginasLidas) {
-        if(paginasLidas < ultimasPaginasLidas)
-            throw new ResourceConflictException(CodeException.RT005.getText(), CodeException.RT005);
-        else if(paginasLidas>paginasTotais)
-            throw new ResourceConflictException(CodeException.RT002.getText(), CodeException.RT002);
-    }
-
-    private void verificaPercentual(UUID trackinkUpID, float percentual) {
-        if(percentual == 100.00F){
-            Tracking tracking = trackingService.getOne(trackinkUpID);
-            UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(tracking.getUserBook());
-            booK.setStatus(UserBooks.Status.LIDO.name());
-            userBooksService.updateStatus(booK);
-            updateFinishedDate(trackinkUpID, LocalDateTime.now());
-        }
-    }
-
-    private void updateFinishedDate(UUID trackingId, LocalDateTime dateTime) {
-        Tracking tracking = trackingService.getOne(trackingId);
-        tracking.setFinishedDate(dateTime);
-        trackingService.update(tracking);
-    }
-
-    private void updateUserBooksStatus(UserBooks userBooks, UserBooks.Status status) {
-        UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(userBooks);
-        booK.setStatus(status.name());
-        userBooksService.updateStatus(booK);
-    }
+//    public ReadingTrackingTO get(UUID readingTracking) {
+//
+//        return beanUtil.toDTO(repository.findById(readingTracking)
+//                .orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
+//    }
+//
+//    public ReadingTrackingTO save(@Valid ReadingTrackingTO readingTrackingTO) {
+//
+//        ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
+//        UserBooks userBooks = this.getUserBook(readingTrackingTO.getUserBookId());
+//        this.verificaStatusLivro(userBooks);
+//        readingTracking.setPercentage(calcularPercentual(readingTracking, userBooks, readingTrackingTO.getTrackingUpId() ));
+//
+//        return beanUtil.toDTO(saveReadingTracking(readingTrackingTO, readingTracking));
+//    }
+//
+//    public ReadingTrackingTO update(ReadingTrackingTO readingTrackingTO, UUID trackingID) {
+//        getReadingTracking(readingTrackingTO, trackingID);
+//
+//        ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
+//
+//        return beanUtil.toDTO(repository.findById(readingTracking.getId()).map( readingTracking1 -> {
+//            readingTracking1.setId(readingTracking.getId());
+//            readingTracking1.setComentario(readingTracking.getComentario());
+//            return repository.save(readingTracking1);
+//        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
+//
+//    }
+//
+//
+//    public void delete(UUID readingTrackingID, UUID trackingID) {
+//        ReadingTracking readingTracking = repository.findById(readingTrackingID)
+//                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+//
+//        if(readingTracking.getPercentage() == 100.0){
+//            this.updateFinishedDate(trackingID, null);
+//            this.updateUserBooksStatus(trackingService.getOne(trackingID).getUserBook(), UserBooks.Status.LENDO);
+//        }
+//
+//        repository.delete(readingTracking);
+//    }
+//
+//    private void verificaStatusLivro(UserBooks userBooks) {
+//        if(userBooks.getStatus() == UserBooks.Status.QUERO_LER){
+//            updateUserBooksStatus(userBooks, UserBooks.Status.LENDO);
+//        }
+//        if(userBooks.getStatus() == UserBooks.Status.LIDO){
+//            updateUserBooksStatus(userBooks, UserBooks.Status.RELENDO);
+//        }
+//    }
+//
+//
+//
+//    private float calcularPercentual(ReadingTracking readingTracking, UserBooks userBooks, UUID trackinkUpID) {
+//        int paginasTotais = userBooks.getPage() != 0 ? userBooks.getPage(): userBooks.getBook().getNumberPage();
+//
+//        verificaPaginas( readingTracking.getNumPag(), paginasTotais, getPaginasAnteriores(trackinkUpID));
+//
+//        float percentual = readingTracking.getNumPag() * 100F / paginasTotais;
+//
+//        verificaPercentual(trackinkUpID, percentual);
+//
+//        return percentual ;
+//    }
+//
+//    private UserBooks getUserBook(Long userBookId) {
+//        return userBooksRepository.findById(userBookId)
+//                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+//    }
+//
+//    private void getReadingTracking(ReadingTrackingTO readingTrackingTO, UUID readingTrackingID) {
+//        if(!readingTrackingID.equals(readingTrackingTO.getId()))
+//            throw new ResourceConflictException(CodeException.RT004.getText(), CodeException.RT001);
+//    }
+//
+//    private ReadingTracking saveReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking readingTracking) {
+//        ReadingTracking response =repository.save(readingTracking);
+//
+//        trackingService.addReadingTracking(readingTrackingTO, response);
+//        return response;
+//    }
+//
+//    private int getPaginasAnteriores(UUID trackinkUpID) {
+//        List<ReadingTracking> lista = trackingService.getOne(trackinkUpID).getTrackings();
+//        return lista.size() > 0? lista.get(lista.size()-1).getNumPag() : 0;
+//    }
+//
+//    private void verificaPaginas(int paginasLidas, int paginasTotais, int ultimasPaginasLidas) {
+//        if(paginasLidas < ultimasPaginasLidas)
+//            throw new ResourceConflictException(CodeException.RT005.getText(), CodeException.RT005);
+//        else if(paginasLidas>paginasTotais)
+//            throw new ResourceConflictException(CodeException.RT002.getText(), CodeException.RT002);
+//    }
+//
+//    private void verificaPercentual(UUID trackinkUpID, float percentual) {
+//        if(percentual == 100.00F){
+//            Tracking tracking = trackingService.getOne(trackinkUpID);
+//            UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(tracking.getUserBook());
+//            booK.setStatus(UserBooks.Status.LIDO.name());
+//            userBooksService.updateStatus(booK);
+//            updateFinishedDate(trackinkUpID, LocalDateTime.now());
+//        }
+//    }
+//
+//    private void updateFinishedDate(UUID trackingId, LocalDateTime dateTime) {
+//        Tracking tracking = trackingService.getOne(trackingId);
+//        tracking.setFinishedDate(dateTime);
+//        trackingService.update(tracking);
+//    }
+//
+//    private void updateUserBooksStatus(UserBooks userBooks, UserBooks.Status status) {
+//        UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(userBooks);
+//        booK.setStatus(status.name());
+//        userBooksService.updateStatus(booK);
+//    }
 }

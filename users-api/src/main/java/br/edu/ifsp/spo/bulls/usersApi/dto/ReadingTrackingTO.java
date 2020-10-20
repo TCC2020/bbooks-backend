@@ -15,8 +15,6 @@ public class ReadingTrackingTO {
 
         @Id
         @ApiModelProperty(value = "Identificador")
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        @Column(name = "id", updatable = false, unique = true)
         private UUID id;
 
         @ApiModelProperty(value = "Página em que o usuário parou a leitura")

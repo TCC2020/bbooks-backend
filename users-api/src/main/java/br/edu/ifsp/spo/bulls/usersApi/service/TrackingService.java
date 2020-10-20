@@ -65,7 +65,7 @@ public class TrackingService {
 
     public void addReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking response) {
         repository.findById(readingTrackingTO.getTrackingUpId()).map( tracking1 -> {
-            tracking1.getTrackings().add(response);
+            //tracking1.getTrackings().add(response);
             return repository.save(tracking1);
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }

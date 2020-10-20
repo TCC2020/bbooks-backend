@@ -32,6 +32,9 @@ public class ReadingTracking {
     @ApiModelProperty(value = "Data do acompanhamento")
     private LocalDateTime creationDate;
 
+    @ManyToOne
+    private Tracking trackingGroup;
+
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();

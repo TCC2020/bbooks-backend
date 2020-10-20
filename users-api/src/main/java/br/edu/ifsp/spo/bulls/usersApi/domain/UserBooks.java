@@ -42,7 +42,7 @@ public class UserBooks {
     private Profile profile;
 
     @OneToMany
-    private List<ReadingTracking> trackings = new ArrayList<>();
+    private List<Tracking> trackings = new ArrayList<>();
 
     public enum Status {
         QUERO_LER("Quero ler"),

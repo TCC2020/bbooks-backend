@@ -34,13 +34,6 @@ public class Tracking {
     @ManyToOne
     private UserBooks userBook;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<ReadingTracking> trackings = new ArrayList<>();
-
-
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();
