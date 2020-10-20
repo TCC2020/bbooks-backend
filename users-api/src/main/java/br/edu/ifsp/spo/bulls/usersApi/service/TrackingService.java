@@ -46,11 +46,9 @@ public class TrackingService {
         UserBooks userBooks = getUserBook(trackingTO);
         Tracking tracking = beanUtil.toDomain(trackingTO);
         tracking.setUserBook(userBooks);
-        return beanUtil.toDTO(repository.save(tracking));
-    }
+        this.verifingTrackings(trackingTO.getUserBookId());
 
-    public Tracking getOne(UUID trackinkId){
-        return repository.findById(trackinkId).orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+        return beanUtil.toDTO(repository.save(tracking));
     }
 
     public void deleteById(UUID trackingId){
@@ -65,15 +63,6 @@ public class TrackingService {
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
     }
 
-    protected Tracking update(Tracking readingTracking) {
-        return repository.findById(readingTracking.getId()).map( readingTracking1 -> {
-            readingTracking1.setComentario(readingTracking.getComentario());
-            readingTracking1.setCreationDate(readingTracking.getFinishedDate());
-            return repository.save(readingTracking1);
-        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
-
-    }
-
     public void addReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking response) {
         repository.findById(readingTrackingTO.getTrackingUpId()).map( tracking1 -> {
             tracking1.getTrackings().add(response);
@@ -84,5 +73,29 @@ public class TrackingService {
     private UserBooks getUserBook(TrackingTO trackingTO) {
         return userBooksRepository.findById(trackingTO.getUserBookId())
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+    }
+
+    private void verifingTrackings(Long userBookId){
+        List<Tracking> trackingsBooks = repository.findAllByUserBookOrderByCreationDate(
+                userBooksRepository.findById(userBookId)
+                        .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
+
+        if(trackingsBooks.stream().filter( t -> t.getFinishedDate() == null).count() > 0){
+            throw new ResourceNotFoundException(CodeException.TA001.getText(), CodeException.TA001);
+        }
+
+    }
+
+    protected Tracking update(Tracking readingTracking) {
+        return repository.findById(readingTracking.getId()).map( readingTracking1 -> {
+            readingTracking1.setComentario(readingTracking.getComentario());
+            readingTracking1.setCreationDate(readingTracking.getFinishedDate());
+            return repository.save(readingTracking1);
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+
+    }
+
+    protected Tracking getOne(UUID trackinkId){
+        return repository.findById(trackinkId).orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }
 }
