@@ -59,7 +59,6 @@ public class ReadingTrackingService {
         this.verificaStatusLivro(userBooks);
 
         readingTracking.setPercentage(calcularPercentual(readingTracking, userBooks, readingTrackingTO.getTrackingUpId() ));
-
         return beanUtil.toDTO(repository.save(readingTracking));
 
     }
@@ -91,7 +90,7 @@ public class ReadingTrackingService {
 
     private int getPaginasAnteriores(UUID trackinkUpID) {
         List<ReadingTracking> lista = trackingRepository.getOne(trackinkUpID).getTrackings();
-        return lista.size() > 0? lista.get(lista.size()).getNumPag() : 0;
+        return lista.size() > 0? lista.get(lista.size()-1).getNumPag() : 0;
     }
 
     private void verificaPaginas(int paginasLidas, int paginasTotais, int ultimasPaginasLidas) {
@@ -123,7 +122,7 @@ public class ReadingTrackingService {
     }
 
     private void getReadingTracking(ReadingTrackingTO readingTrackingTO, UUID readingTrackingID) {
-        if(readingTrackingID != readingTrackingTO.getId()){
+        if(!readingTrackingID.equals(readingTrackingTO.getId())){
             throw new ResourceConflictException(CodeException.RT004.getText(), CodeException.RT001);
         }
         ReadingTracking reading = repository.findById(readingTrackingTO.getId())
