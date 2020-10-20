@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/tracking-group", produces="application/json")
@@ -50,5 +51,25 @@ public class TrackingController {
         TrackingTO grupoAcompanhamento = service.save(trackingTo);
         logger.info("Acompanhamento cadastrado: " + grupoAcompanhamento.toString());
         return grupoAcompanhamento ;
+    }
+
+    @ApiOperation(value = "Deletar um grupo de acompanhamentos")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Grupo de acompanhamento deletado")
+    })
+    @PostMapping("/trackingId")
+    public void delete(@PathVariable UUID trackingId){
+        service.deleteById(trackingId);
+    }
+
+    @ApiOperation(value = "Alterar um grupo de acompanhamentos")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Grupo de acompanhamento alterado"),
+            @ApiResponse(code = 404, message = "Grupo de acompanhamento não existe"),
+            @ApiResponse(code = 409, message = "O livro indicado está com status lido")
+    })
+    @PutMapping("/trackingId")
+    public void delete(@PathVariable UUID trackingId, @RequestBody TrackingTO tracking){
+        service.update(trackingId, tracking);
     }
 }

@@ -25,6 +25,9 @@ public class TrackingService {
     UserBooksRepository userBooksRepository;
 
     @Autowired
+    UserBooksService userBooksService;
+
+    @Autowired
     UserBooksBeanUtil userBooksBeanUtil;
 
     @Autowired
@@ -46,9 +49,29 @@ public class TrackingService {
         return beanUtil.toDTO(repository.save(tracking));
     }
 
-    private UserBooks getUserBook(TrackingTO trackingTO) {
-        return userBooksRepository.findById(trackingTO.getUserBookId())
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+    public Tracking getOne(UUID trackinkId){
+        return repository.findById(trackinkId).orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+    }
+
+    public void deleteById(UUID trackingId){
+        repository.deleteById(trackingId);
+    }
+
+    public TrackingTO update(UUID trackingId, TrackingTO trackingTO){
+
+        return beanUtil.toDTO(repository.findById(trackingId).map( tracking1 -> {
+            tracking1.setComentario(trackingTO.getComentario());
+            return repository.save(tracking1);
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)));
+    }
+
+    protected Tracking update(Tracking readingTracking) {
+        return repository.findById(readingTracking.getId()).map( readingTracking1 -> {
+            readingTracking1.setComentario(readingTracking.getComentario());
+            readingTracking1.setCreationDate(readingTracking.getFinishedDate());
+            return repository.save(readingTracking1);
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+
     }
 
     public void addReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking response) {
@@ -58,7 +81,8 @@ public class TrackingService {
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }
 
-    public Tracking getOne(UUID trackinkUpID){
-        return repository.findById(trackinkUpID).orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+    private UserBooks getUserBook(TrackingTO trackingTO) {
+        return userBooksRepository.findById(trackingTO.getUserBookId())
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
     }
 }

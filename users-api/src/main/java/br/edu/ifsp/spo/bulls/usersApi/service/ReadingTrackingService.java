@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -74,6 +75,7 @@ public class ReadingTrackingService {
 
     }
 
+
     public void delete(UUID trackingID) {
         ReadingTracking tracking = repository.findById(trackingID)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
@@ -101,7 +103,7 @@ public class ReadingTrackingService {
 
         float percentual = readingTracking.getNumPag() * 100F / paginasTotais;
 
-        verificaPercentual(userBooks, percentual);
+        verificaPercentual(trackinkUpID, percentual);
 
         return percentual ;
     }
@@ -112,11 +114,8 @@ public class ReadingTrackingService {
     }
 
     private void getReadingTracking(ReadingTrackingTO readingTrackingTO, UUID readingTrackingID) {
-        if(!readingTrackingID.equals(readingTrackingTO.getId())){
+        if(!readingTrackingID.equals(readingTrackingTO.getId()))
             throw new ResourceConflictException(CodeException.RT004.getText(), CodeException.RT001);
-        }
-        ReadingTracking reading = repository.findById(readingTrackingTO.getId())
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
     }
 
     private ReadingTracking saveReadingTracking(@Valid ReadingTrackingTO readingTrackingTO, ReadingTracking readingTracking) {
@@ -138,11 +137,14 @@ public class ReadingTrackingService {
             throw new ResourceConflictException(CodeException.RT002.getText(), CodeException.RT002);
     }
 
-    private void verificaPercentual(UserBooks userBook, float percentual) {
+    private void verificaPercentual(UUID trackinkID, float percentual) {
         if(percentual == 100.00F){
-            UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(userBook);
+            Tracking tracking = trackingService.getOne(trackinkID);
+            UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(tracking.getUserBook());
             booK.setStatus(UserBooks.Status.LIDO.name());
             userBooksService.updateStatus(booK);
+            tracking.setFinishedDate(LocalDateTime.now());
+            trackingService.update(tracking);
         }
     }
 }

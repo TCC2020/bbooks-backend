@@ -46,8 +46,4 @@ public class Tracking {
         creationDate = LocalDateTime.now();
     }
 
-
-    public void addOnReadingTrackings(ReadingTracking readingTracking){
-        this.trackings.add(readingTracking);
-    }
 }
