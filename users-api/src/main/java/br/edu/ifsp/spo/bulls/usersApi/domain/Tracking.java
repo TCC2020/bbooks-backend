@@ -34,6 +34,13 @@ public class Tracking {
     @ManyToOne
     private UserBooks userBook;
 
+    @ApiModelProperty(value = "Lista de atualizações")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ReadingTracking> readingTrackings = new ArrayList<>();
+
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();

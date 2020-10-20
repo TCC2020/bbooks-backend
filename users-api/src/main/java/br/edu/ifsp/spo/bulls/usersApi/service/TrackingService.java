@@ -35,6 +35,9 @@ public class TrackingService {
     TrackingRepository repository;
 
     @Autowired
+    ReadingTrackingService readingTrackingService;
+
+    @Autowired
     TrackingBeanUtil beanUtil;
 
     public List<TrackingTO> getAllByBook(Long userBook) {
@@ -54,7 +57,18 @@ public class TrackingService {
     }
 
     public void deleteById(UUID trackingId){
+        Tracking tracking = repository.findById(trackingId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
+
+        deleteChildrens(trackingId);
+
         repository.deleteById(trackingId);
+    }
+
+    private void deleteChildrens(UUID trackingId) {
+        for(ReadingTracking readingTracking : readingTrackingService.getByTrackingGroup(trackingId)){
+            readingTrackingService.delete(readingTracking.getId());
+        }
     }
 
     public TrackingTO update(UUID trackingId, TrackingTO trackingTO){

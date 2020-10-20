@@ -21,7 +21,7 @@ public class TrackingBeanUtil {
     private Logger logger = LoggerFactory.getLogger(ReadingTrackingBeanUtil.class);
 
     @Autowired
-    private TrackingRepository trackingRepository;
+    private ReadingTrackingBeanUtil readingTrackingBeanUtil;
 
     @Autowired
     private UserBooksRepository userBooksRepository;
@@ -32,6 +32,7 @@ public class TrackingBeanUtil {
         try{
             BeanUtils.copyProperties(tracking, trackingTO);
             trackingTO.setUserBookId(tracking.getUserBook().getId());
+            trackingTO.setTrackings(readingTrackingBeanUtil.toDTO(tracking.getReadingTrackings()));
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting Tracking to TrackingTO: " +  e);
@@ -46,6 +47,7 @@ public class TrackingBeanUtil {
             BeanUtils.copyProperties(trackingTO, tracking);
             UserBooks userBooks = userBooksRepository.findById(trackingTO.getUserBookId()).get();
             tracking.setUserBook(userBooks);
+            tracking.setReadingTrackings(readingTrackingBeanUtil.toDomain(trackingTO.getTrackings()));
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting TrackingTO to Tracking: " +  e);
@@ -59,6 +61,14 @@ public class TrackingBeanUtil {
             trackingTO.add(toDTO(tracking));
         }
         return trackingTO;
+    }
+
+    public List<Tracking> toDomain(List<TrackingTO> trackingsTO){
+        List<Tracking> tracking = new ArrayList<>();
+        for (TrackingTO trackingTO: trackingsTO ) {
+            tracking.add(toDomain(trackingTO));
+        }
+        return tracking;
     }
 
 }

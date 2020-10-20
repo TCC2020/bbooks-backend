@@ -62,4 +62,12 @@ public class ReadingTrackingBeanUtil {
         }
         return readingTrackingTOS;
     }
+
+    public List<ReadingTracking> toDomain(List<ReadingTrackingTO> readingTrackingsTo){
+        List<ReadingTracking> readingTracking = new ArrayList<>();
+        for (ReadingTrackingTO readingTrackingTo: readingTrackingsTo ) {
+            readingTracking.add(toDomain(readingTrackingTo));
+        }
+        return readingTracking;
+    }
 }

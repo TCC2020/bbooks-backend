@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @Entity
 @ApiModel(value = "Objeto de domínio: ACOMPANHAMENTO_LEITURA ")
-@Table(name = "tracking")
+@Table(name = "reading_tracking")
 public class ReadingTracking {
 
     @Id

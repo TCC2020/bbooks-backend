@@ -53,8 +53,9 @@ public class TrackingController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Grupo de acompanhamento deletado")
     })
-    @PostMapping("/trackingId")
+    @DeleteMapping("/{trackingId}")
     public void delete(@PathVariable UUID trackingId){
+        System.out.println(trackingId);
         service.deleteById(trackingId);
     }
 
@@ -64,8 +65,8 @@ public class TrackingController {
             @ApiResponse(code = 404, message = "Grupo de acompanhamento não existe"),
             @ApiResponse(code = 409, message = "O livro indicado está com status lido")
     })
-    @PutMapping("/trackingId")
-    public void delete(@PathVariable UUID trackingId, @RequestBody TrackingTO tracking){
+    @PutMapping("/{trackingId}")
+    public void update(@PathVariable UUID trackingId, @RequestBody TrackingTO tracking){
         service.update(trackingId, tracking);
     }
 }

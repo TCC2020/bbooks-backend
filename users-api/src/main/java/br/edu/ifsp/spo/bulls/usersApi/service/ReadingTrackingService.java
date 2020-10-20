@@ -36,6 +36,11 @@ public class ReadingTrackingService {
     @Autowired
     TrackingService trackingService;
 
+
+    public List<ReadingTracking> getByTrackingGroup(UUID trackingGroup){
+        return repository.findByTrackingGroup(trackingService.getOne(trackingGroup));
+    }
+
     public ReadingTrackingTO get(UUID readingTracking) {
 
         return beanUtil.toDTO(repository.findById(readingTracking)
