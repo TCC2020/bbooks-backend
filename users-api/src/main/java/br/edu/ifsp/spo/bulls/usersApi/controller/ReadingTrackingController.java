@@ -70,9 +70,9 @@ public class ReadingTrackingController {
             @ApiResponse(code = 404, message = "Acompanhamento não encontrado")
     })
     @DeleteMapping("/{trackingID}")
-    public void delete(@PathVariable UUID trackingID){
+    public void delete(@PathVariable UUID trackingID, @RequestBody ReadingTrackingTO readingTrackingTO ){
         logger.info("Deletando o acompanhamento: " + trackingID);
-        service.delete(trackingID);
+        service.delete(trackingID, readingTrackingTO.getTrackingUpId());
         logger.info("Acompanhamento deletado: " + trackingID);
     }
 }
