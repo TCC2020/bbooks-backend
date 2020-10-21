@@ -9,9 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,19 +20,6 @@ public class ReadingTrackingController {
 
     @Autowired
     ReadingTrackingService service;
-
-    @ApiOperation(value = "Retorna todos acompanhamentos de um livro")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna uma lista de acompanhamentos"),
-            @ApiResponse(code = 404, message = "O livro do usuário não existe em sua estante")
-    })
-    @GetMapping("/book/{userBook}")
-    public List<ReadingTrackingTO> getAllByBook(@PathVariable Long userBook){
-        logger.info("Acessando dados de todos os acompanhamento do userBook: " + userBook);
-        List<ReadingTrackingTO> acompanhamntos = service.getAllByBook(userBook);
-        logger.info("Acompanhamentos retornados: " + acompanhamntos.toString());
-        return acompanhamntos ;
-    }
 
     @ApiOperation(value = "Retorna todos acompanhamentos de um livro")
     @ApiResponses(value = {

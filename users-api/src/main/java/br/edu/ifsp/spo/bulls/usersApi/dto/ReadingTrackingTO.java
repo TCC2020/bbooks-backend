@@ -15,8 +15,6 @@ public class ReadingTrackingTO {
 
         @Id
         @ApiModelProperty(value = "Identificador")
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        @Column(name = "id", updatable = false, unique = true)
         private UUID id;
 
         @ApiModelProperty(value = "Página em que o usuário parou a leitura")
@@ -32,8 +30,8 @@ public class ReadingTrackingTO {
         @ApiModelProperty(value = "Data do acompanhamento")
         private LocalDateTime creationDate;
 
-        @ApiModelProperty(value = "Cadastro do livro na estante do usuário relacionado ao acompmanhamento")
-        private Long userBookId;
+        @ApiModelProperty(value = "Grupo de acompanhamentos que esse registro pertence")
+        private UUID trackingUpId;
 
         @PrePersist
         public void prePersist() {
