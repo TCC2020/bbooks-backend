@@ -72,7 +72,7 @@ public class TrackingService {
 
     private void deleteChildrens(UUID trackingId) {
         for(ReadingTracking readingTracking : readingTrackingService.getByTrackingGroup(trackingId)){
-            readingTrackingService.delete(readingTracking.getId());
+            readingTrackingService.deleteChild(readingTracking.getId());
         }
     }
 

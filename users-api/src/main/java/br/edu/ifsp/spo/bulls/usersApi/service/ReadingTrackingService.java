@@ -84,6 +84,10 @@ public class ReadingTrackingService {
         repository.delete(readingTracking);
     }
 
+    protected void deleteChild(UUID readingTrackingID) {
+        repository.deleteById(readingTrackingID);
+    }
+
     private float calcularPercentual(ReadingTracking readingTracking) {
         int paginasTotais = readingTracking.getTrackingGroup().getUserBook().getPage() != 0
                 ? readingTracking.getTrackingGroup().getUserBook().getPage()
