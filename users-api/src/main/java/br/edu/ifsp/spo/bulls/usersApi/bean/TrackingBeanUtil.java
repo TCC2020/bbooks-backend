@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.TrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
+import br.edu.ifsp.spo.bulls.usersApi.service.ReadingTrackingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +25,9 @@ public class TrackingBeanUtil {
     private ReadingTrackingBeanUtil readingTrackingBeanUtil;
 
     @Autowired
+    private ReadingTrackingService readingTrackingService;
+
+    @Autowired
     private UserBooksRepository userBooksRepository;
 
     public TrackingTO toDTO(Tracking tracking) {
@@ -32,7 +36,13 @@ public class TrackingBeanUtil {
         try{
             BeanUtils.copyProperties(tracking, trackingTO);
             trackingTO.setUserBookId(tracking.getUserBook().getId());
-            trackingTO.setTrackings(readingTrackingBeanUtil.toDTO(tracking.getReadingTrackings()));
+            System.out.println(trackingTO.getTrackings());
+
+            List<ReadingTrackingTO> lista = readingTrackingBeanUtil.toDTO(readingTrackingService.getByTrackingGroup(trackingTO.getId()));
+            trackingTO.setTrackings(lista);
+
+            System.out.println("Retornado:" + lista);
+            System.out.println(trackingTO.getTrackings());
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting Tracking to TrackingTO: " +  e);
@@ -47,7 +57,6 @@ public class TrackingBeanUtil {
             BeanUtils.copyProperties(trackingTO, tracking);
             UserBooks userBooks = userBooksRepository.findById(trackingTO.getUserBookId()).get();
             tracking.setUserBook(userBooks);
-            tracking.setReadingTrackings(readingTrackingBeanUtil.toDomain(trackingTO.getTrackings()));
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting TrackingTO to Tracking: " +  e);

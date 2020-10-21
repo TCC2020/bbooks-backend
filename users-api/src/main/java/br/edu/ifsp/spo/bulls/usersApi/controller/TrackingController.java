@@ -35,6 +35,19 @@ public class TrackingController {
         return acompanhamntos ;
     }
 
+    @ApiOperation(value = "Retorna um grupo acompanhamentos")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna um grupo de acompanhamentos"),
+            @ApiResponse(code = 404, message = "Este grupo de acompanhamentos não existe")
+    })
+    @GetMapping("/{trackingGroupId}")
+    public TrackingTO getOne(@PathVariable UUID trackingGroupId){
+        logger.info("Acessando um grupo de acompanhamento: " + trackingGroupId);
+        TrackingTO grupo = service.findById(trackingGroupId);
+        logger.info("Grupo de acompanhamento retornado: " + grupo.toString());
+        return grupo ;
+    }
+
     @ApiOperation(value = "Cadastra um grupo de acompanhamento de leitura")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Grupo de acompanhamento cadastrado"),

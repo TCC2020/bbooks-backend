@@ -56,6 +56,11 @@ public class TrackingService {
         return beanUtil.toDTO(repository.save(tracking));
     }
 
+    public TrackingTO findById(UUID trackingId){
+        return beanUtil.toDTO(repository.findById(trackingId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002)));
+    }
+
     public void deleteById(UUID trackingId){
         Tracking tracking = repository.findById(trackingId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
@@ -105,7 +110,7 @@ public class TrackingService {
     }
 
     protected Tracking getOne(UUID trackinkId){
-        return repository.findById(trackinkId).orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+        return repository.findById(trackinkId).orElseThrow(() -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
     }
 
     private void verificaStatusLivro(UserBooks userBooks) {
