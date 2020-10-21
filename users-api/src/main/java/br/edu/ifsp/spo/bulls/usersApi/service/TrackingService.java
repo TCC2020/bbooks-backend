@@ -89,7 +89,7 @@ public class TrackingService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
     }
 
-    private void verifingTrackings(Long userBookId){
+    protected void verifingTrackings(Long userBookId){
         List<Tracking> trackingsBooks = repository.findAllByUserBookOrderByCreationDate(
                 userBooksRepository.findById(userBookId)
                         .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));

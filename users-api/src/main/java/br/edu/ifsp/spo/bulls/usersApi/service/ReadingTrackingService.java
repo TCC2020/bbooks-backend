@@ -48,6 +48,8 @@ public class ReadingTrackingService {
     }
 
     public ReadingTrackingTO save(@Valid ReadingTrackingTO readingTrackingTO) {
+        if(readingTrackingTO.getNumPag() == 0 )
+            throw new ResourceConflictException(CodeException.RT006.getText(), CodeException.RT006);
 
         ReadingTracking readingTracking = beanUtil.toDomain(readingTrackingTO);
 
@@ -69,22 +71,18 @@ public class ReadingTrackingService {
 
     }
 
-
     public void delete(UUID readingTrackingID) {
         ReadingTracking readingTracking = repository.findById(readingTrackingID)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
 
         if(readingTracking.getPercentage() == 100.0){
+            trackingService.verifingTrackings(readingTracking.getTrackingGroup().getUserBook().getId());
             this.updateFinishedDate(readingTracking.getTrackingGroup(), null);
             this.updateUserBooksStatus(readingTracking.getTrackingGroup().getUserBook(), UserBooks.Status.LENDO);
         }
 
         repository.delete(readingTracking);
     }
-
-
-
-
 
     private float calcularPercentual(ReadingTracking readingTracking) {
         int paginasTotais = readingTracking.getTrackingGroup().getUserBook().getPage() != 0
@@ -99,8 +97,6 @@ public class ReadingTrackingService {
 
         return percentual ;
     }
-
-
 
     private void getReadingTracking(ReadingTrackingTO readingTrackingTO, UUID readingTrackingID) {
         if(!readingTrackingID.equals(readingTrackingTO.getId()))

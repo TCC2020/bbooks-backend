@@ -20,6 +20,7 @@ public enum CodeException {
     RT003("RT003: Book already completed", "RT002"),
     RT004("RT004: Conflit IDs", "RTO04"),
     RT005("RT005: Page smaller than last tracking", "RT005"),
+    RT006("RT006: Page can´t be zero", "RT006"),
     TA001("TA001: Last tracking is not finished yeat", "TA001"),
     TA002("TA002: TrackingGroup not found", "TA002"),
     TG001("TG001: Tag not found", "TG001"),
