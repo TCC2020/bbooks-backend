@@ -56,6 +56,8 @@ public class UserBooksController {
         return service.update(dto);
     }
 
+
+    // VERIFICAR SE PODE EXCLUIR
     @ApiOperation(value = "Inserir status em um livro na estante virtual")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Status do livro alterado"),

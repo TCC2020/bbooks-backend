@@ -53,15 +53,10 @@ public class UserBooksBeanUtil {
             logger.error("Error while converting UserBooksTO to UserBooks: " +  e);
         }
         userBooks.setStatus(dto.getStatus());
-        userBooks.setProfile(getProfile(dto));
         return userBooks;
     }
 
-    private Profile getProfile(UserBooksTO dto) {
-        return profileRep.findById(dto.getProfileId()).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
-    }
-
-    Set<UserBooksTO> toDtoSet(Set<UserBooks> userBooks) {
+    public Set<UserBooksTO> toDtoSet(Set<UserBooks> userBooks) {
         return userBooks.parallelStream().map(this::toDto).collect(Collectors.toSet());
     }
 

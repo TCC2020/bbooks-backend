@@ -5,7 +5,11 @@ import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,8 +22,9 @@ public class UserBooksTO {
     @ApiModelProperty(value = "Qauntidade de páginas do livro da Api do google")
     private int page;
     @ApiModelProperty(value = "Lista de tags que o livro possui")
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
     @ApiModelProperty(value = "Status do livro")
+    @Enumerated(EnumType.STRING)
     private Status status;
     @ApiModelProperty(value = "Data que o livro foi adicionado na estante")
     private LocalDateTime addDate;

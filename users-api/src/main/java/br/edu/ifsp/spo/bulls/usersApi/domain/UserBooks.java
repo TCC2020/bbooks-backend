@@ -44,10 +44,6 @@ public class UserBooks {
     @OneToMany
     private List<Tracking> trackings = new ArrayList<>();
 
-    @ApiModelProperty(value = "Lista de tags")
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private List<Tag> tags;
-
     @PrePersist
     public void prePersist() {
         addDate = LocalDateTime.now();

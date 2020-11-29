@@ -1,11 +1,11 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
-import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
+import br.edu.ifsp.spo.bulls.usersApi.domain.*;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,9 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -43,23 +40,20 @@ public class UserBooksControllerTest {
     @MockBean
     private UserBooksService mockUserBooksService;
 
-    private BookCaseTO bookCaseTO;
-
-    private UserBooksTO userBooksTO;
+    private BookCaseTO bookCaseTO = new BookCaseTO();
+    private UserBooksTO userBooksTO = new UserBooksTO();
+    private UserBooks userBooks;
 
     @BeforeEach
     void setUp() {
         userBooksTO.setId(1L);
-        List<Author> authors = new ArrayList<Author>();
-        authors.add( new Author("nome"));
         userBooksTO.setProfileId(1);
-        userBooksTO.setIdBook("32");
-        userBooksTO.setTags( new ArrayList<Tag>());
+        userBooksTO.setIdBookGoogle("32");
 
-        List<UserBooksTO> userBooksList = new ArrayList<>();
+        Set<UserBooksTO> userBooksList = new HashSet<UserBooksTO>();
         userBooksList.add(userBooksTO);
         bookCaseTO.setProfileId(1);
-        bookCaseTO.setBooks(new Book());
+        bookCaseTO.setBooks(userBooksList);
 
     }
 
@@ -76,7 +70,7 @@ public class UserBooksControllerTest {
     @Test
     void getAllByProfile() throws Exception {
 
-        Mockito.when(mockUserBooksService.getByProfileId(1)).thenReturn((BookCaseTO) userBooksTOList);
+        Mockito.when(mockUserBooksService.getByProfileId(1)).thenReturn(bookCaseTO);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/bookcases/profile/1")
                 .contentType("application/json"))
@@ -84,14 +78,39 @@ public class UserBooksControllerTest {
     }
 
     @Test
-    void putUserBook() {
+    void putUserBook() throws Exception {
+
+        UserBooksTO userBooksTO1 = userBooksTO;
+        userBooksTO1.setStatus(Status.EMPRESTADO);
+        Mockito.when(mockUserBooksService.update(userBooksTO)).thenReturn(userBooksTO1);
+
+        mockMvc.perform(put("/bookcases")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(userBooksTO)))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void putStatus() {
+    void putStatus() throws Exception {
+
+        UserBookUpdateStatusTO updateStatusTO = new UserBookUpdateStatusTO();
+        updateStatusTO.setId(1L);
+        updateStatusTO.setStatus("lendo");
+
+        Mockito.when(mockUserBooksService.updateStatus(updateStatusTO)).thenReturn(userBooksTO);
+
+        mockMvc.perform(put("/bookcases/status")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(userBooksTO)))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void deleteById() {
+    void deleteById() throws Exception {
+        Mockito.doNothing().when(mockUserBooksService).deleteById(userBooksTO.getId());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/bookcases/1")
+                .contentType("application/json"))
+                .andExpect(status().isOk());
     }
 }

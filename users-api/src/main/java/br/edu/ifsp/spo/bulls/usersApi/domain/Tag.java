@@ -23,5 +23,9 @@ public class Tag {
     @ApiModelProperty(value = "Cor que representa esta TAG")
     private String color;
 
+    @ApiModelProperty(value = "Lista de userBooks")
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<UserBooks> books;
+
 
 }
