@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.usersApi.domain;
+package br.edu.ifsp.spo.bulls.usersApi.enums;
 
 public enum CDNEnum {
     profile_image("PROFILE_IMAGE");

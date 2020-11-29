@@ -45,12 +45,18 @@ public class UserBooksService {
             dto.setBook(book);
         }
 
+        findProfile(dto);
+
         UserBooks userBooks = repository.save(util.toDomain(dto));
 
         for(Tag t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }
         return util.toDto(userBooks);
+    }
+
+    public void findProfile(UserBooksTO dto) {
+        profileRepository.findById(dto.getProfileId()).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
     }
 
     public UserBooksTO updateStatus(UserBookUpdateStatusTO dto) {

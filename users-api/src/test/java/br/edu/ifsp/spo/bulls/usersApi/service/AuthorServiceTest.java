@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
-import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
@@ -25,26 +24,26 @@ public class AuthorServiceTest {
 
     @Test
     void testSave(){
-        AuthorTO author = service.save(new AuthorTO("testeSave1Author"));
+        Author author = service.save(new Author("testeSave1Author"));
 
         assertNotNull(author);
     }
 
     @Test
     void testAuthorExist(){
-        service.save(new AuthorTO("testeSaveFailAuthor"));
+        service.save(new Author("testeSaveFailAuthor"));
 
         ResourceConflictException exception = assertThrows(ResourceConflictException.class, ()-> {
-            service.save(new AuthorTO("testeSaveFailAuthor"));}
+            service.save(new Author("testeSaveFailAuthor"));}
         );
         assertEquals(CodeException.AU002.getText(), exception.getMessage());
     }
 
     @Test
     void testGetOne(){
-        AuthorTO author = service.save(new AuthorTO("testeGetOne"));
+        Author author = service.save(new Author("testeGetOne"));
 
-        AuthorTO result = service.getOne(author.getId());
+        Author result = service.getOne(author.getId());
 
         assertEquals(author, result);
     }
@@ -60,16 +59,16 @@ public class AuthorServiceTest {
 
     @Test
     void testGetAll(){
-        service.save(new AuthorTO("testGetAll"));
+        service.save(new Author("testGetAll"));
 
-        List<AuthorTO> authors = service.getAll();
+        List<Author> authors = service.getAll();
 
         assertNotNull(authors);
     }
 
     @Test
     void testDelete(){
-        AuthorTO author = service.save(new AuthorTO("testeDeleteOk"));
+        Author author = service.save(new Author("testeDeleteOk"));
 
         service.delete(author.getId());
 
@@ -91,10 +90,10 @@ public class AuthorServiceTest {
     @Test
     void testUpdate(){
 
-        AuthorTO author = service.save(new AuthorTO("testeSave1AuthorAAA"));
+        Author author = service.save(new Author("testeSave1AuthorAAA"));
         author.setName("Livro1UpdateData");
 
-        AuthorTO result = service.update(author, author.getId());
+        Author result = service.update(author, author.getId());
 
         assertEquals(author.getName(), result.getName());
 
@@ -103,8 +102,8 @@ public class AuthorServiceTest {
     @Test
     void testUpdateAuthorExist(){
 
-        service.save(new AuthorTO("Livro1UpdateDataOk"));
-        AuthorTO author = service.save(new AuthorTO("testeUpdateOk"));
+        service.save(new Author("Livro1UpdateDataOk"));
+        Author author = service.save(new Author("testeUpdateOk"));
 
         author.setName("Livro1UpdateDataOk");
 
@@ -124,9 +123,9 @@ public class AuthorServiceTest {
     @Test
     void testGetByName(){
         String nome = "testGetByName";
-        service.save(new AuthorTO(nome));
+        service.save(new Author(nome));
 
-        AuthorTO author = service.getByName(nome);
+        Author author = service.getByName(nome);
 
         assertNotNull(author);
     }

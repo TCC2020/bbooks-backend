@@ -1,11 +1,9 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.CDNEnum;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CDNEnum;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
-import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 

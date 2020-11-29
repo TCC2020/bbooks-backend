@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.AuthorService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

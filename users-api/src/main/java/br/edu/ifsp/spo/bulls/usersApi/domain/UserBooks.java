@@ -1,13 +1,12 @@
 package br.edu.ifsp.spo.bulls.usersApi.domain;
 
+import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Data
@@ -21,7 +20,7 @@ public class UserBooks {
     private Long id;
 
     @ApiModelProperty(value = "Número identificador do livro da Api do google")
-    private String idBook;
+    private String idBookGoogle;
 
     @ApiModelProperty(value = "Qauntidade de páginas do livro da Api do google")
     private int page;
@@ -41,35 +40,13 @@ public class UserBooks {
     @OneToOne
     private Profile profile;
 
+    @ApiModelProperty(value = "Acompanhamentos")
     @OneToMany
     private List<Tracking> trackings = new ArrayList<>();
 
-    public enum Status {
-        QUERO_LER("Quero ler"),
-        LENDO("Lendo"),
-        LIDO("Lido"),
-        EMPRESTADO("Emprestado"),
-        RELENDO("Relendo"),
-        INTERROMPIDO("INTERROMPIDO");
-
-        private final String text;
-        Status(final String text) {
-            this.text = text;
-        }
-
-        @Override
-        public String toString() {
-            return text;
-        }
-
-        public static Status getByString(String value) {
-            for(Status status : Status.values()){
-                if(status.text.equalsIgnoreCase(value))
-                    return status;
-            }
-            return null;
-        }
-    }
+    @ApiModelProperty(value = "Lista de tags")
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<Tag> tags;
 
     @PrePersist
     public void prePersist() {
