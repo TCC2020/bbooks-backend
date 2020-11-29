@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
+import br.edu.ifsp.spo.bulls.usersApi.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +19,7 @@ public class UserBooksBeanUtil {
     private Logger logger = LoggerFactory.getLogger(UserBooksBeanUtil.class);
 
     @Autowired
-    private ProfileRepository profileRep;
+    private TagService tagService;
 
     public UserBooksTO toDto(UserBooks userBooks) {
         UserBooksTO userBooksTO = new UserBooksTO();
@@ -29,7 +30,8 @@ public class UserBooksBeanUtil {
         }
         userBooksTO.setStatus(userBooks.getStatus());
         userBooksTO.setProfileId(userBooks.getProfile().getId());
-
+        userBooksTO.setTags(tagService.getByIdBook(userBooks.getId()));
+        userBooksTO.setIdBook(userBooks.getBook() != null? userBooks.getBook().getId(): 0);
         return userBooksTO;
     }
 
