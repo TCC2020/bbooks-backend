@@ -27,5 +27,9 @@ public class Tag {
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<UserBooks> books;
 
-
+    public Tag(Long id, String name, Profile profile) {
+        this.id = id;
+        this.name = name;
+        this.profile = profile;
+    }
 }

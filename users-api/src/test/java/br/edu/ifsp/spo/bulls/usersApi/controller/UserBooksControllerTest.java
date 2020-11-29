@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,6 +44,7 @@ public class UserBooksControllerTest {
     private BookCaseTO bookCaseTO = new BookCaseTO();
     private UserBooksTO userBooksTO = new UserBooksTO();
     private UserBooks userBooks;
+    private Set<UserBooksTO> userBooksList = new HashSet<UserBooksTO>();
 
     @BeforeEach
     void setUp() {

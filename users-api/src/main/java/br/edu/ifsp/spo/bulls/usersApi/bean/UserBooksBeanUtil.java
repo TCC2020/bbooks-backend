@@ -1,19 +1,16 @@
 package br.edu.ifsp.spo.bulls.usersApi.bean;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class UserBooksBeanUtil {
@@ -31,6 +28,8 @@ public class UserBooksBeanUtil {
             logger.error("Error while converting UserBooks to UserBooksTO: " +  e);
         }
         userBooksTO.setStatus(userBooks.getStatus());
+        userBooksTO.setProfileId(userBooks.getProfile().getId());
+
         return userBooksTO;
     }
 
@@ -57,7 +56,12 @@ public class UserBooksBeanUtil {
     }
 
     public Set<UserBooksTO> toDtoSet(Set<UserBooks> userBooks) {
-        return userBooks.parallelStream().map(this::toDto).collect(Collectors.toSet());
+        Set<UserBooksTO> userBooksTOSet = new HashSet<UserBooksTO>();
+
+        for (UserBooks book: userBooks ) {
+            userBooksTOSet.add(this.toDto(book));
+        }
+        return userBooksTOSet;
     }
 
 }

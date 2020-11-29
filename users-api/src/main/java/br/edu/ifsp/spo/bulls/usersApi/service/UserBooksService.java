@@ -15,13 +15,8 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
-import ch.qos.logback.core.CoreConstants;
-import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.jws.soap.SOAPBinding;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,17 +40,20 @@ public class UserBooksService {
         userBooks = repository.save(userBooks);
 
         saveTags(dto, userBooks);
+
         return util.toDto(userBooks);
     }
 
     // VERIFICAR SE PODE EXCLUIR
     public UserBooksTO updateStatus(UserBookUpdateStatusTO dto) {
-        UserBooks userBooks = repository.findById(dto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+        UserBooks userBooks = repository.findById(dto.getId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         userBooks.setStatus(Status.getByString(dto.getStatus()));
         if(userBooks.getStatus() == null)
             throw new ResourceConflictException(CodeException.UB002.getText(), CodeException.UB002);
-        return util.toDto(repository.save(userBooks));
+
+        UserBooks userBooks1 = repository.save(userBooks);
+        System.out.println(userBooks1.toString());
+        return util.toDto(userBooks1);
     }
 
     public void deleteById(Long id){
@@ -66,8 +64,11 @@ public class UserBooksService {
         BookCaseTO bookCase = new BookCaseTO();
         Optional<Profile> profile = profileRepository.findById(profileId);
         Set<UserBooks> userBooks = repository.findByProfile(profile.get());
+
         bookCase.setProfileId(profileId);
-        bookCase.setBooks(util.toDtoSet(userBooks));
+
+        Set<UserBooksTO> userBooksTO = util.toDtoSet(userBooks);
+        bookCase.setBooks(userBooksTO);
         return bookCase;
     }
 
@@ -78,8 +79,6 @@ public class UserBooksService {
     }
 
     public UserBooksTO update(UserBooksTO dto) {
-
-        System.out.println(dto.toString());
         if(dto.getStatus() == null)
             throw new ResourceConflictException(CodeException.UB002.getText(), CodeException.UB002);
 
@@ -95,12 +94,13 @@ public class UserBooksService {
         if(dto.getIdBook() != 0){
             userBooks.setBook(getBook(dto));
         }
-        userBooks.setProfile(getProfile(dto));
+        Profile profile = getProfile(dto);
+        userBooks.setProfile(profile);
         return userBooks;
     }
 
     public Book getBook(UserBooksTO dto) {
-        return bookRepository.findById(dto.getIdBook()).get();
+        return bookRepository.findById(dto.getIdBook()).orElseThrow( () -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
     }
 
     public Profile getProfile(UserBooksTO dto) {
@@ -108,11 +108,8 @@ public class UserBooksService {
     }
 
     private void saveTags(UserBooksTO dto, UserBooks userBooks) {
-        System.out.println(dto.toString());
-        if (!dto.getTags().isEmpty()){
-            for(Tag t : dto.getTags()){
-                tagService.tagBook(t.getId(), userBooks.getId());
-            }
+        for(Tag t : dto.getTags()){
+            tagService.tagBook(t.getId(), userBooks.getId());
         }
     }
 }
