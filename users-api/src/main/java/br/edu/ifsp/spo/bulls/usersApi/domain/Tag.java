@@ -32,4 +32,8 @@ public class Tag {
         this.name = name;
         this.profile = profile;
     }
+
+    public Tag() {
+
+    }
 }
