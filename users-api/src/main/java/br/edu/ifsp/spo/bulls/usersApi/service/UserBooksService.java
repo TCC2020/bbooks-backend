@@ -17,6 +17,8 @@ import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -82,11 +84,12 @@ public class UserBooksService {
         if(dto.getStatus() == null)
             throw new ResourceConflictException(CodeException.UB002.getText(), CodeException.UB002);
 
-        return util.toDto(repository.findById(dto.getId()).map( userBooks -> {
-            userBooks.setStatus(dto.getStatus());
-            userBooks.setPage(dto.getPage());
-            return repository.save(userBooks);
-        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
+        List<Tag> tagsRemove = tagService.getByIdBook(dto.getId());
+        for(Tag tag: tagsRemove){
+            tagService.untagBook(tag.getId(),dto.getId());
+        }
+
+        return this.save(dto);
     }
 
     public UserBooks convertToUserBooks(UserBooksTO dto) {
