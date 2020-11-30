@@ -198,6 +198,7 @@ public class UserBooksServiceTest {
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
         Mockito.when(mockUserBooksRepository.save(userBookNovoStatus)).thenReturn(userBookNovoStatus);
         Mockito.when(mockTagService.getByIdBook(userBooksTO.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
 
         UserBooksTO alterado =  userBookService.update(novoStatus);
         assertEquals(novoStatus, alterado);
