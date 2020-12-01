@@ -67,6 +67,10 @@ public class Book {
     @ApiModelProperty(value = "Descrição do livro")
     private String description;
 
+    //@Column(nullable = false)
+    //@NotBlank(message = "Description is mandatory")
+    @ApiModelProperty(value = "Link da imagem")
+    private String image;
     public Book() {
     }
 
@@ -77,7 +81,8 @@ public class Book {
                 @NotBlank(message = "Language is mandatory") String language,
                 @NotBlank(message = "Publisher is mandatory") String publisher,
                 @NotBlank(message = "Published Date is mandatory") int publishedDate,
-                @NotBlank(message = "Description is mandatory") String description) {
+                @NotBlank(message = "Description is mandatory") String description,
+                String image) {
         this.isbn10 = isbn10;
         this.title = title;
         this.authors = authors;
@@ -86,5 +91,6 @@ public class Book {
         this.publisher = publisher;
         this.publishedDate = publishedDate;
         this.description = description;
+        this.image = image;
     }
 }
