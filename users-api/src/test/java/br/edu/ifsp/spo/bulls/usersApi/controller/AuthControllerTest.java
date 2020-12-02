@@ -1,20 +1,34 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
+import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.*;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceUnauthorizedException;
+import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
+import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
+import br.edu.ifsp.spo.bulls.usersApi.service.AuthService;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.util.UUID;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -28,15 +42,55 @@ public class AuthControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private AuthService mockAuthService;
+    @MockBean
+    private ProfileRepository mockProfileRepository;
+
     @Autowired
-    private UserService userService;
+    UserBeanUtil userBeanUtil;
+
+    private CadastroUserTO cadastroUserTO;
+    private LoginTO loginTo;
+    private UserTO userTO = new UserTO();
+    private User user = new User();
+    private ProfileTO profileTO = new ProfileTO();
+    private Profile profile = new Profile();
+    private RequestPassResetTO requestPassResetTO = new RequestPassResetTO();
+    private ResetPassTO resetPassTO = new ResetPassTO();
+
+    @BeforeEach
+    void setUp() {
+        cadastroUserTO = new CadastroUserTO("testConfirm", "testeUp@confirm", "senhate", "nome", "sobrenome");
+        loginTo = new LoginTO(cadastroUserTO.getUserName(),cadastroUserTO.getEmail(), cadastroUserTO.getPassword() );
+
+        profileTO.setId(1);
+        profileTO.setUsername(cadastroUserTO.getUserName());
+
+        userTO.setUserName(cadastroUserTO.getUserName());
+        userTO.setEmail(cadastroUserTO.getEmail());
+        userTO.setId(UUID.randomUUID());
+        userTO.setProfile(profileTO);
+
+        user = userBeanUtil.toUser(userTO);
+        user.setPassword(cadastroUserTO.getPassword());
+
+        profile.setId(1);
+        profile.setUser(user);
+
+        requestPassResetTO.setEmail(cadastroUserTO.getEmail());
+        requestPassResetTO.setUrl("url");
+
+        resetPassTO.setPassword(cadastroUserTO.getPassword());
+        resetPassTO.setToken("token");
+
+
+    }
 
     @Test
-    void testLogin() throws Exception {
-        CadastroUserTO userTo = new CadastroUserTO("testexLogxin", "tesxteUp@login", "senhate", "nome", "sobrenome");
-        LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), userTo.getPassword() );
+    void should_login() throws Exception {
 
-        userService.save(userTo);
+        Mockito.when(mockAuthService.authLogin(loginTo)).thenReturn(userTO);
 
         mockMvc.perform(post("/auth/login")
                 .contentType("application/json")
@@ -45,11 +99,8 @@ public class AuthControllerTest {
     }
 
     @Test
-    void testLoginPasswordFail() throws Exception {
-        CadastroUserTO userTo = new CadastroUserTO("testeLogin", "testeUp@login", "senhate", "nome", "sobrenome");
-        LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), "123" );
-
-        userService.save(userTo);
+    void shouldnt_login_when_password_wrong() throws Exception {
+        Mockito.when(mockAuthService.authLogin(loginTo)).thenThrow(new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001));
 
         mockMvc.perform(post("/auth/login")
                 .contentType("application/json")
@@ -58,15 +109,96 @@ public class AuthControllerTest {
     }
 
     @Test
-    void testConfirm() throws Exception {
-        CadastroUserTO userTo = new CadastroUserTO("testConfirm", "testeUp@confirm", "senhate", "nome", "sobrenome");
-        LoginTO loginTo = new LoginTO(userTo.getUserName(),userTo.getEmail(), userTo.getPassword() );
+    void should_login_using_token() throws Exception {
 
-        userService.save(userTo);
+        Mockito.when(mockAuthService.authLoginToken(loginTo)).thenReturn(userTO);
+
+        mockMvc.perform(post("/auth/login/token")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(loginTo)))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    void shouldnt_login_using_token_when_token_not_valid() throws Exception {
+        Mockito.when(mockAuthService.authLoginToken(loginTo)).thenThrow(new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001));
+
+        mockMvc.perform(post("/auth/login/token")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(loginTo)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void should_confirm_user() throws Exception {
+
+        Mockito.when(mockAuthService.verified(loginTo)).thenReturn(userTO);
 
         mockMvc.perform(post("/auth/confirm")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(loginTo)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void should_send_reset_password_email() throws Exception {
+
+        Mockito.doNothing().when(mockAuthService).sendResetPasswordEmail(requestPassResetTO.getEmail(), requestPassResetTO.getUrl());
+
+        mockMvc.perform(post("/auth/reset-pass")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(requestPassResetTO)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldnt_send_reset_password_email_user_not_found() throws Exception{
+
+        Mockito.doThrow(new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)).when(mockAuthService).sendResetPasswordEmail(requestPassResetTO.getEmail(), requestPassResetTO.getUrl());
+
+        mockMvc.perform(post("/auth/reset-pass")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(requestPassResetTO)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void should_reset_password() throws Exception {
+        Mockito.when(mockAuthService.resetPass(resetPassTO)).thenReturn(userTO);
+
+        mockMvc.perform(put("/auth/reset-pass")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(resetPassTO)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldnt_reset_password_user_not_found() throws Exception {
+        Mockito.when(mockAuthService.resetPass(resetPassTO)).thenThrow(new ResourceConflictException(CodeException.US001.getText(), CodeException.US001));
+
+        mockMvc.perform(put("/auth/reset-pass")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(resetPassTO)))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    void should_get_by_token() throws Exception {
+        Mockito.when(mockAuthService.getByToken(resetPassTO.getToken())).thenReturn(userTO);
+
+        mockMvc.perform(get("/auth/reset-pass/" + resetPassTO.getToken())
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void should_get_by_token_when_user_not_found() throws Exception {
+
+        Mockito.when(mockAuthService.getByToken(resetPassTO.getToken())).thenThrow(new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
+
+        mockMvc.perform(get("/auth/reset-pass/" +resetPassTO.getToken())
+                .contentType("application/json"))
+                .andExpect(status().isNotFound());
     }
 }

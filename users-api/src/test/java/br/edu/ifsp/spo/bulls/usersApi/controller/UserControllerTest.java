@@ -155,7 +155,7 @@ public class UserControllerTest {
     @Test
     void testUpdate() throws JsonProcessingException, Exception {
 
-//		// Criando o usuario
+		// Criando o usuario
 //		CadastroUserTO user = new CadastroUserTO();
 //		user.setUserName("testeU");
 //		user.setEmail("teste@test");
@@ -191,8 +191,8 @@ public class UserControllerTest {
 
     @Test
     void testDelete() throws JsonProcessingException, Exception {
-//
-//    	// Criando o usuario
+        
+    	// Criando o usuario
 //		CadastroUserTO user = new CadastroUserTO();
 //    	user.setUserName("testeDelete");
 //    	user.setEmail("teste@testeDEL");
