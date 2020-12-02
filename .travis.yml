@@ -2,7 +2,7 @@ language: java
 jdk:
 - openjdk11
 deploy:
-  skip_cleanup: true
+  skip_cleanup: false
   provider: heroku
   api_key:
     secure: $HEROKU
