@@ -9,6 +9,7 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.TrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
+import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
@@ -114,15 +115,15 @@ public class TrackingService {
     }
 
     private void verificaStatusLivro(UserBooks userBooks) {
-        if(userBooks.getStatus() == UserBooks.Status.QUERO_LER){
-            updateUserBooksStatus(userBooks, UserBooks.Status.LENDO);
+        if(userBooks.getStatus() == Status.QUERO_LER){
+            updateUserBooksStatus(userBooks, Status.LENDO);
         }
-        if(userBooks.getStatus() == UserBooks.Status.LIDO){
-            updateUserBooksStatus(userBooks, UserBooks.Status.RELENDO);
+        if(userBooks.getStatus() == Status.LIDO){
+            updateUserBooksStatus(userBooks, Status.RELENDO);
         }
     }
 
-    private void updateUserBooksStatus(UserBooks userBooks, UserBooks.Status status) {
+    private void updateUserBooksStatus(UserBooks userBooks, Status status) {
         UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(userBooks);
         booK.setStatus(status.name());
         userBooksService.updateStatus(booK);

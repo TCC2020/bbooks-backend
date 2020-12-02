@@ -1,8 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
-import br.edu.ifsp.spo.bulls.usersApi.bean.AuthorBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
-import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
@@ -16,32 +14,27 @@ public class AuthorService {
     @Autowired
     AuthorRepository repository;
 
-    @Autowired
-    AuthorBeanUtil beanUtil;
 
-    public AuthorTO save (AuthorTO authorTo){
-        this.verifyIfAuthorExist(authorTo);
+    public Author save (Author author){
+        this.verifyIfAuthorExist(author);
 
-        Author author = beanUtil.toAuthor(authorTo);
         author.setName(author.getName().toLowerCase());
 
-        return beanUtil.toAuthorTo(repository.save(author));
+        return repository.save(author);
     }
 
-    public AuthorTO getOne (int id){
+    public Author getOne (int id){
         Author author = repository.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001));
-        return beanUtil.toAuthorTo(repository.save(author));
+        return repository.save(author);
     }
 
-    public AuthorTO getByName (String name){
+    public Author getByName (String name){
         Author author = repository.findByName(name.toLowerCase()).orElseThrow( () -> new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001));
-        return beanUtil.toAuthorTo(repository.save(author));
+        return repository.save(author);
     }
 
-    public List<AuthorTO> getAll(){
-        List<Author> authors = repository.findAll();
-
-        return beanUtil.toAuthorToList(authors);
+    public List<Author> getAll(){
+        return repository.findAll();
     }
 
     public void delete(int id){
@@ -54,28 +47,27 @@ public class AuthorService {
 
     }
 
-    public AuthorTO update(AuthorTO authorTO, int id){
+    public Author update(Author author, int id){
 
-        verifyIfAuthorExist(authorTO);
-        Author retorno = repository.findById(id).map(author -> {
-            author.setName(authorTO.getName());
-            return repository.save(author);
+        verifyIfAuthorExist(author);
+
+        return repository.findById(id).map(author1 -> {
+            author1.setName(author.getName());
+            return repository.save(author1);
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001));
-
-        return beanUtil.toAuthorTo(retorno);
     }
 
     public Author returnTheAuthorFromDb(Author author2){
 
         if(!repository.existsByName(author2.getName().toLowerCase())){
-            AuthorTO authorTO  = this.save(beanUtil.toAuthorTo(author2));
-            return beanUtil.toAuthor(authorTO);
+            Author author  = this.save(author2);
+            return author;
         }else{
             return repository.findByName(author2.getName().toLowerCase()).get();
         }
     }
 
-    public void verifyIfAuthorExist(AuthorTO author2){
+    public void verifyIfAuthorExist(Author author2){
 
         if(repository.existsByName(author2.getName().toLowerCase())){
             throw new ResourceConflictException(CodeException.AU002.getText(), CodeException.AU002);

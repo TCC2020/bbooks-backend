@@ -64,7 +64,6 @@ public class UserBeanUtil {
 
 	public UserTO toUserTO(User user) {
 		UserTO userTO = new UserTO();
-		
 		try{
 			BeanUtils.copyProperties(user, userTO);
 		}catch(Exception e) {

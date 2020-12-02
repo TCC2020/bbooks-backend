@@ -8,6 +8,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
+import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
@@ -78,7 +79,7 @@ public class ReadingTrackingService {
         if(readingTracking.getPercentage() == 100.0){
             trackingService.verifingTrackings(readingTracking.getTrackingGroup().getUserBook().getId());
             this.updateFinishedDate(readingTracking.getTrackingGroup(), null);
-            this.updateUserBooksStatus(readingTracking.getTrackingGroup().getUserBook(), UserBooks.Status.LENDO);
+            this.updateUserBooksStatus(readingTracking.getTrackingGroup().getUserBook(), Status.LENDO);
         }
 
         repository.delete(readingTracking);
@@ -123,7 +124,7 @@ public class ReadingTrackingService {
     private void verificaPercentual(Tracking trackingGroup, float percentual) {
         if(percentual == 100.00F){
             UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(trackingGroup.getUserBook());
-            booK.setStatus(UserBooks.Status.LIDO.name());
+            booK.setStatus(Status.LIDO.name());
             userBooksService.updateStatus(booK);
             updateFinishedDate(trackingGroup, LocalDateTime.now());
         }
@@ -134,7 +135,7 @@ public class ReadingTrackingService {
         trackingService.update(trackingGroup);
     }
 
-    private void updateUserBooksStatus(UserBooks userBooks, UserBooks.Status status) {
+    private void updateUserBooksStatus(UserBooks userBooks, Status status) {
         UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(userBooks);
         booK.setStatus(status.name());
         userBooksService.updateStatus(booK);

@@ -23,7 +23,17 @@ public class Tag {
     @ApiModelProperty(value = "Cor que representa esta TAG")
     private String color;
 
-    @ApiModelProperty(value = "Lista de livros que contém esta TAG")
+    @ApiModelProperty(value = "Lista de userBooks")
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<UserBooks> books;
+
+    public Tag(Long id, String name, Profile profile) {
+        this.id = id;
+        this.name = name;
+        this.profile = profile;
+    }
+
+    public Tag() {
+
+    }
 }

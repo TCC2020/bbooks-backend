@@ -2,22 +2,23 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.service.BookService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class BookControllerTest {
 
-    @Autowired
-    BookService service;
+    @MockBean
+    BookService mockBookService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,40 +36,52 @@ class BookControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private BookTO bookTO;
+    private BookTO bookTONoAuthors;
+    private HashSet<BookTO> bookTOList = new HashSet<BookTO>();
+    private List<Author> autores = new ArrayList<Author>();
+
+    @BeforeEach
+    void setUp() {
+        autores.add(new Author("autor 1"));
+        autores.add(new Author("autor 2"));
+        autores.add(new Author("autor 3"));
+
+        bookTO = new BookTO("1234653","lIVRO TESTE3", autores ,
+                10, "português", "editora",  2, "livro123456 ");
+        bookTO.setId(1);
+        bookTOList.add(bookTO);
+
+        bookTONoAuthors = new BookTO("1234653","lIVRO TESTE3", null ,
+                10, "português", "editora",  2, "livro123456 ");
+        bookTONoAuthors.setId(2);
+    }
+
     @Test
     void save() throws Exception {
 
-        BookTO book = new BookTO("1234653","lIVRO TESTE3", this.listaAutores() ,
-                10, "português", "editora",  2, "livro123456 ");
-
+        Mockito.when(mockBookService.save(bookTO)).thenReturn(bookTO);
         mockMvc.perform(post("/books")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(book)))
+                .content(objectMapper.writeValueAsString(bookTO)))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void saveFail() throws Exception {
+    void shouldnt_save_if_isbn_exists() throws Exception {
 
-        service.save(new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,
-                10, "português", "editora",  4, "livro123456 "));
-
-        BookTO book = new BookTO("1234596","lIVRO TESTE3", this.listaAutores() ,
-                10, "português", "editora",  4, "livro123456 ");
+        Mockito.when(mockBookService.save(bookTO)).thenThrow(new ResourceConflictException(CodeException.BK001.getText(), CodeException.BK001));
 
         mockMvc.perform(post("/books")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(book)))
+                .content(objectMapper.writeValueAsString(bookTO)))
                 .andExpect(status().isConflict());
     }
 
     @Test
-    void testGet() throws Exception {
-        BookTO book = new BookTO("12346234","lIVRO TESTE3", this.listaAutores() ,
-                10, "português", "editora",  7, "livro123456 ");
+    void should_return_list_of_books() throws Exception {
 
-        service.save(book);
-
+        Mockito.when(mockBookService.getAll()).thenReturn(bookTOList);
         mockMvc.perform(get("/books")
                 .contentType("application/json"))
                 .andExpect(status().isOk());
@@ -76,11 +89,10 @@ class BookControllerTest {
 
     @Test
     void getOne() throws Exception {
-        BookTO book = service.save(new BookTO("1245688","lIVRO TESTE3",
-                this.listaAutores() ,10, "português", "editora",
-                7, "livro123456 "));
 
-        mockMvc.perform(get("/books/"+book.getId())
+        Mockito.when(mockBookService.getOne(bookTO.getId())).thenReturn(bookTO);
+
+        mockMvc.perform(get("/books/"+bookTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
@@ -88,18 +100,18 @@ class BookControllerTest {
     @Test
     void getOneFail() throws Exception {
 
-        mockMvc.perform(get("/books/"+ new Random().nextInt())
+        Mockito.when(mockBookService.getOne(bookTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
+
+        mockMvc.perform(get("/books/"+ bookTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void testDelete() throws Exception {
-        BookTO book = service.save(new BookTO("1342345256","lIVRO TESTE3",
-                this.listaAutores() ,10, "português", "editora",
-               8, "livro123456 "));
 
-        mockMvc.perform(delete("/books/" + book.getId())
+        Mockito.doNothing().when(mockBookService).delete(bookTO.getId());
+        mockMvc.perform(delete("/books/" + bookTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
@@ -107,42 +119,41 @@ class BookControllerTest {
     @Test
     void testDeleteBookNotFound() throws Exception {
 
-        mockMvc.perform(delete("/books/" + new Random().nextInt())
+        Mockito.doThrow(new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002)).when(mockBookService).delete(bookTO.getId());
+
+        mockMvc.perform(delete("/books/" + bookTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void update() throws Exception {
-        BookTO book = service.save(new BookTO("2347904","lIVRO TESTE3",
-                this.listaAutores() ,10, "português", "editora",
-                2, "livro123456 "));
-        book.setTitle("Alterado");
+    void should_update() throws Exception {
+        Mockito.when(mockBookService.update(bookTO)).thenReturn(bookTO);
 
-        mockMvc.perform(put("/books/"+book.getId())
+        mockMvc.perform(put("/books/"+bookTO.getId())
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(book)))
+                .content(objectMapper.writeValueAsString(bookTO)))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void updateFail() throws Exception {
-        BookTO book = new BookTO("2347904","lIVRO TESTE3", this.listaAutores() ,
-                10, "português", "editora",  5, "livro123456 ");
+    void shouldnt_update_if_book_not_found() throws Exception {
+        Mockito.when(mockBookService.update(bookTO)).thenThrow(new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
 
-        mockMvc.perform(put("/books/"+book.getId())
+        mockMvc.perform(put("/books/"+bookTO.getId())
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(book)))
+                .content(objectMapper.writeValueAsString(bookTO)))
                 .andExpect(status().isNotFound());
     }
 
-    List<Author> listaAutores(){
-        List<Author> autores = new ArrayList<Author>();
+    @Test
+    void shouldnt_update_if_book_has_no_authors() throws Exception {
+        Mockito.when(mockBookService.update(bookTONoAuthors)).thenThrow(new ResourceBadRequestException(CodeException.BK003.getText(), CodeException.BK003));
 
-        autores.add(new Author("autor 1"));
-        autores.add(new Author("autor 2"));
-        autores.add(new Author("autor 3"));
-
-        return autores;
+        mockMvc.perform(put("/books/" + bookTONoAuthors.getId())
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(bookTONoAuthors)))
+                .andExpect(status().isBadRequest());
     }
+
 }

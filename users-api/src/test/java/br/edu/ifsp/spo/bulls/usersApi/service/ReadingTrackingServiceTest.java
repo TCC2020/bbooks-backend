@@ -6,6 +6,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.*;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
+import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -171,11 +172,11 @@ public class ReadingTrackingServiceTest {
         assertEquals(CodeException.RT001.getText(), e.getMessage());
     }
 
-    private Long umUserBook(int profileID, UserBooks.Status status, String idBook, int page){
+    private Long umUserBook(int profileID, Status status, String idBookGoogle, int page){
         UserBooksTO userBooksTO = new UserBooksTO();
         userBooksTO.setProfileId(profileID);
         userBooksTO.setStatus(status);
-        userBooksTO.setIdBook(idBook);
+        userBooksTO.setIdBookGoogle(idBookGoogle);
         userBooksTO.setPage(page);
         userBooksTO.setTags(new ArrayList<Tag>());
 
@@ -183,11 +184,11 @@ public class ReadingTrackingServiceTest {
         return userBooksTO1.getId();
     }
 
-    private Long umUserBook(int profileID, UserBooks.Status status, BookTO book){
+    private Long umUserBook(int profileID, Status status, BookTO book){
         UserBooksTO userBooksTO = new UserBooksTO();
         userBooksTO.setProfileId(profileID);
         userBooksTO.setStatus(status);
-        userBooksTO.setBook(bookBeanUtil.toBook(book));
+        userBooksTO.setIdBook(book.getId());
         userBooksTO.setTags(new ArrayList<Tag>());
 
         UserBooksTO userBooksTO1 = userBooksService.save(userBooksTO);
