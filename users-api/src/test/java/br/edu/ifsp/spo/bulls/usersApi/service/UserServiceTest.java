@@ -89,7 +89,6 @@ public class UserServiceTest {
 
     @Test
     void testGetById() throws ResourceBadRequestException, Exception {
-
 //        CadastroUserTO cadastroUserTO = new CadastroUserTO("testeGI", "testeGi@teste", "senhate", "nome", "sobrenome");
 //        UserTO user = service.save(cadastroUserTO);
 //        UserTO user1 = service.getById(user.getId());
