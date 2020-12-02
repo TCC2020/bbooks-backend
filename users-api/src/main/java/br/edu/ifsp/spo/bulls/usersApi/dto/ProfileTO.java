@@ -1,38 +1,49 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
-import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+
+import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
+@ApiModel(value = "Objeto de trânsito: Perfil usuário ")
 public class ProfileTO {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@ApiModelProperty(value = "Idedntificador")
 	private int id;
-	
+
+	@ApiModelProperty(value = "Nome")
 	@NotBlank(message = "Name is mandatory")
 	private String name;
-	
+
+	@ApiModelProperty(value = "Sobrenome")
 	@NotBlank(message = "Lastname is mandatory")
 	private String lastName;
-	
-	private String country;
-	private String city;
-	private String state;
-	
-	private String birthDate;
-	
-	@OneToOne
-	private User user;
 
-	public ProfileTO(int id, @NotBlank(message = "Nname is mandatory") String name,
-			@NotBlank(message = "Lastname is mandatory") String lastName, String country, String city, String state,
-			@NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+	@ApiModelProperty(value = "País")
+	private String country;
+
+	@ApiModelProperty(value = "Cidade")
+	private String city;
+
+	@ApiModelProperty(value = "Estado")
+	private String state;
+
+	@ApiModelProperty(value = "Data Nascimento")
+	private String birthDate;
+
+	@ApiModelProperty(value = "URL da imagem de perfil")
+	private String profileImage;
+
+	private String friendshipStatus;
+
+	private String username;
+
+	public ProfileTO(int id, String name,
+			 String lastName, String country, String city, String state,
+			 @NotBlank(message = "Birthdate is mandatory") String birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -41,12 +52,11 @@ public class ProfileTO {
 		this.city = city;
 		this.state = state;
 		this.birthDate = birthDate;
-		this.user = user;
 	}
 
-	public ProfileTO(@NotBlank(message = "Nname is mandatory") String name,
-			@NotBlank(message = "Lastname is mandatory") String lastName, String country, String city, String state,
-			@NotBlank(message = "Birthdate is mandatory") String birthDate, User user) {
+	public ProfileTO(String name,
+			 String lastName, String country, String city, String state,
+			@NotBlank(message = "Birthdate is mandatory") String birthDate) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
@@ -54,16 +64,14 @@ public class ProfileTO {
 		this.city = city;
 		this.state = state;
 		this.birthDate = birthDate;
-		this.user = user;
 	}
 	
-	public ProfileTO( String country, String city, String state, String birthDate, User user) {
+	public ProfileTO( String country, String city, String state, String birthDate) {
 		super();
 		this.country = country;
 		this.city = city;
 		this.state = state;
 		this.birthDate = birthDate;
-		this.user = user;
 	}
 
 	public ProfileTO() {

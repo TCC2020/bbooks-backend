@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 import br.edu.ifsp.spo.bulls.usersApi.bean.AuthorBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.AuthorRepository;
@@ -28,12 +29,12 @@ public class AuthorService {
     }
 
     public AuthorTO getOne (int id){
-        Author author = repository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Author not found"));
+        Author author = repository.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001));
         return beanUtil.toAuthorTo(repository.save(author));
     }
 
     public AuthorTO getByName (String name){
-        Author author = repository.findByName(name.toLowerCase()).orElseThrow( () -> new ResourceNotFoundException("Author not found"));
+        Author author = repository.findByName(name.toLowerCase()).orElseThrow( () -> new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001));
         return beanUtil.toAuthorTo(repository.save(author));
     }
 
@@ -48,7 +49,7 @@ public class AuthorService {
         if(repository.existsById(id)){
             repository.deleteById(id);
         }else{
-            throw new  ResourceNotFoundException("Author not found");
+            throw new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001);
         }
 
     }
@@ -59,7 +60,7 @@ public class AuthorService {
         Author retorno = repository.findById(id).map(author -> {
             author.setName(authorTO.getName());
             return repository.save(author);
-        }).orElseThrow( () -> new ResourceNotFoundException("Author not found"));
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001));
 
         return beanUtil.toAuthorTo(retorno);
     }
@@ -77,7 +78,7 @@ public class AuthorService {
     public void verifyIfAuthorExist(AuthorTO author2){
 
         if(repository.existsByName(author2.getName().toLowerCase())){
-            throw new ResourceConflictException("Autor ja existe");
+            throw new ResourceConflictException(CodeException.AU002.getText(), CodeException.AU002);
         }
     }
 }

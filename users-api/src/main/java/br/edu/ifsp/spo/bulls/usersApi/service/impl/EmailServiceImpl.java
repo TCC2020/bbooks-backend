@@ -2,6 +2,8 @@ package br.edu.ifsp.spo.bulls.usersApi.service.impl;
 
 import br.edu.ifsp.spo.bulls.usersApi.service.EmailContentBuilder;
 import br.edu.ifsp.spo.bulls.usersApi.service.EmailService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -9,10 +11,14 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.time.LocalDateTime;
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
     private JavaMailSender emailSender;
+
+    private Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     private EmailContentBuilder emailContentBuilder;
 
@@ -55,12 +61,14 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             this.emailSender.send(preparator);
-            System.out.println("Email has been sent to " + to);
+            logger.info("Email has been sent to  "
+                    + to + "  Hora: " + LocalDateTime.now());
             return true;
         }
         catch (MailException e) {
             e.printStackTrace();
-            System.out.println("Error while sending email to " + to);
+            logger.error("Error while sending email to  "
+                    + to + e);
             return false;
         }
     }

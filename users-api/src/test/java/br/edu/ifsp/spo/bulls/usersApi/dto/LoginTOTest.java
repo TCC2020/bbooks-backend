@@ -15,6 +15,6 @@ public class LoginTOTest {
     void setLoginTo(){
         LoginTO login = new LoginTO("nome", "teste@teste", "senha");
 
-        assertEquals("LoginTO(userName=nome, email=teste@teste, password=senha)", login.toString());
+        assertEquals("LoginTO(userName=nome, email=teste@teste, password=senha, token=null)", login.toString());
     }
 }

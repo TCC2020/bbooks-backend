@@ -1,10 +1,14 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import java.util.HashSet;
-
 import javax.validation.Valid;
 
-import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileRegisterTO;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,44 +22,74 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 
 @RestController
-@RequestMapping("/profiles")
+@RequestMapping(value = "/profiles", produces="application/json")
 @CrossOrigin(origins = "*")
 public class ProfileController {
 
+	private Logger logger = LoggerFactory.getLogger(ProfileController.class);
+
 	@Autowired
 	private ProfileService service;
-	
-	@PutMapping("{id}")
+
+	@ApiOperation(value = "Alterar o cadastro de um profile")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna o profile alterado"),
+			@ApiResponse(code = 404, message = "Profile não encontrado"),
+	})
+	@PutMapping(value = "{id}", consumes="application/json")
 	public ProfileTO update(@RequestBody @Valid ProfileTO profileTO, @PathVariable int id) throws Exception {
-
+		logger.info("Requisicao para atualizar o cadastro de um profile " + profileTO);
 		profileTO.setId(id);
-
 		return service.update(profileTO);
 	}
-	@PutMapping("/profileRegister")
-	public ProfileTO updateProfileRegister(@RequestBody @Valid ProfileRegisterTO profileRegisterTO) throws Exception {
-		return service.updateByProfileRegisterTO(profileRegisterTO);
-	}
-	
-	@DeleteMapping("{id}")
+
+	@ApiOperation(value = "Deleta o profile")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Profile deletado"),
+			@ApiResponse(code = 404, message = "Profile não encontrado"),
+	})
+	@DeleteMapping(value = "{id}")
 	public void delete(@PathVariable int id){
+		logger.info("Requisião solicitada para deletar um profile " + id);
 		service.delete(id);
 	}
-	
+
+	@ApiOperation(value = "Retorna um profile a partir do identificador")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna o profile"),
+			@ApiResponse(code = 404, message = "Profile não encontrado"),
+	})
 	@GetMapping("{id}")
 	public ProfileTO get(@PathVariable int id) {
-		return service.getById(id);
+		logger.info("Requisitando informações de um profile: " + id);
+		ProfileTO profile = service.getById(id);
+		logger.info("Profile encontrado: " + profile);
+		return profile;
 	}
-	
-	@GetMapping("/user/{userName}")
+
+	@ApiOperation(value = "Retorna o profile a partir o nome de usuário")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna o profile"),
+			@ApiResponse(code = 404, message = "Profile não encontrado"),
+	})
+	@GetMapping(value = "/user/{userName}")
 	public ProfileTO getByUser(@PathVariable String userName) {
-		
-		return service.getByUser(userName);
-		
+		logger.info("Requisitando informações de um profile a partir do usuario: " + userName);
+		ProfileTO profile = service.getByUser(userName);
+		logger.info("Profile encontrado: " + profile);
+		return profile;
 	}
-	
+
+
+	@ApiOperation(value = "Retorna informações de todos os profiles")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna uma lista de profiles")
+	})
 	@GetMapping
 	public HashSet<ProfileTO> getAll() {
-		return service.getAll();
+		logger.info("Requisitando todos os profiles do cadastro");
+		HashSet<ProfileTO> profiles = service.getAll();
+		logger.info("Profiles encontrados: " + profiles);
+		return profiles;
 	}
 }

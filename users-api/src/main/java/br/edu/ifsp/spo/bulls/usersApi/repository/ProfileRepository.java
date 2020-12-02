@@ -10,7 +10,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 @Repository
 public interface ProfileRepository extends CrudRepository<Profile, Integer>{
 
-	boolean existsByUser(User user);
 	HashSet<Profile> findAll();
 	Profile findByUser(User user);
+	HashSet<Profile> findAllById(Iterable<Integer> ids);
 }

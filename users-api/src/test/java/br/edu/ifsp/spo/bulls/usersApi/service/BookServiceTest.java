@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -52,10 +53,10 @@ public class BookServiceTest {
                 "livro");
 
 
-        Throwable exception = assertThrows(ResourceBadRequestException.class, ()-> {
+        ResourceBadRequestException exception = assertThrows(ResourceBadRequestException.class, ()-> {
             service.save(bookTO);}
         );
-        assertEquals("O livro deve ter pelo menos 1 autor", exception.getMessage());
+        assertEquals(CodeException.BK003.getText(), exception.getMessage());
 
     }
 
@@ -119,10 +120,10 @@ public class BookServiceTest {
 
         service.delete(result.getId());
 
-        Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, ()-> {
             service.getOne(result.getId());}
             );
-        assertEquals("Book not found", exception.getMessage());
+        assertEquals(CodeException.BK002.getText(), exception.getMessage());
     }
 
     @Test
@@ -131,7 +132,7 @@ public class BookServiceTest {
         Throwable exception = assertThrows(ResourceNotFoundException.class, ()-> {
             service.delete(new Random().nextInt());}
         );
-        assertEquals("Book not found", exception.getMessage());
+        assertEquals(CodeException.BK002.getText(), exception.getMessage());
     }
 
     @Test

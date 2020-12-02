@@ -1,12 +1,14 @@
 server:
   port: 8080
 spring:
-  profiles: test
+  profiles:
+    active: dev
   datasource:
     driver-class-name: org.h2.Driver
     password: ''
-    url: jdbc:h2:file:./api-users-test
+    url: jdbc:h2:file:./api-users-development
     username: sa
+    initialization-mode: always
   h2:
     console:
       enabled: true
@@ -16,5 +18,7 @@ spring:
         web-allow-others: true
   jpa:
     open-in-view: true
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update

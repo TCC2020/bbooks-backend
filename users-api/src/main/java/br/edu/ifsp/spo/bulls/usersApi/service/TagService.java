@@ -3,11 +3,13 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TagRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
+import com.google.rpc.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,6 @@ public class TagService {
     private UserBooksRepository userBooksRepository;
     @Autowired
     private ProfileRepository profileRepository;
-    @Autowired
-    private UserBooksService userBooksService;
 
     public Tag save(Tag tag) {
         return repository.save(tag);
@@ -33,44 +33,44 @@ public class TagService {
 
     public List<Tag> getByProfile(int profileId) {
 
-        Optional<Profile> profile = profileRepository.findById(profileId);
-        return repository.findByProfile(profile.get());
+        Profile profile = profileRepository.findById(profileId).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
+        return repository.findByProfile(profile);
     }
 
     public Tag tagBook(Long tagId, Long userBookId) {
-        Tag tag = repository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException("Tag not found."));
-        tag.getBooks().add(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException("Tag not found.")));
+        Tag tag = repository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
+        tag.getBooks().add(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
         return repository.save(tag);
     }
 
     public HttpStatus untagBook(Long tagId, Long userBookId) {
-        Tag tag = repository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException("Tag not found."));
-        tag.getBooks().remove(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException("Tag not found.")));
+        Tag tag = repository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
+        tag.getBooks().remove(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
         repository.save(tag);
         return HttpStatus.ACCEPTED;
     }
 
     public void delete(Long tagId){
-        Tag tag = repository.findById(tagId).orElseThrow( () -> new ResourceNotFoundException("Tag not found"));
+        Tag tag = repository.findById(tagId).orElseThrow( () -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         this.retiraTagDeLivros(tag);
         repository.delete(tag);
     }
 
     public Tag update(Long idTag, Tag tagBody){
         if(tagBody.getId() != idTag)
-            throw new ResourceBadRequestException("Tag enviada não corresponde ao ID");
+            throw new ResourceBadRequestException(CodeException.TG002.getText(), CodeException.TG002);
 
         Tag resultado = repository.findById(idTag).map( tag -> {
             tag.setName(tagBody.getName());
             tag.setColor(tagBody.getColor());
             return repository.save(tag);
-        }).orElseThrow( () -> new ResourceNotFoundException("Tag não existe"));
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
 
         return resultado;
     }
 
     public Tag getbyId(Long idTag) {
-        return repository.findById(idTag).orElseThrow(() -> new ResourceNotFoundException("Tag not found"));
+        return repository.findById(idTag).orElseThrow(() -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
     }
 
     public List<Tag> getByIdBook(Long idUserBook) {

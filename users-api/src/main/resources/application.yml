@@ -1,20 +1,25 @@
 server:
   port: 8080
 spring:
-  profiles: test
   datasource:
-    driver-class-name: org.h2.Driver
-    password: ''
-    url: jdbc:h2:file:./api-users-test;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        trace: true
-        web-allow-others: true
+    driverClassName: org.postgresql.Driver
+    url: $JDBC_DATABASE_URL
+    username: $JDBC_DATABASE_USERNAME
+    password: $JDBC_DATABASE_PASSWORD
   jpa:
-    open-in-view: true
+    generate-ddl: true
+    databasePlatform: org.hibernate.dialect.PostgreSQL9Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    debug: true
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

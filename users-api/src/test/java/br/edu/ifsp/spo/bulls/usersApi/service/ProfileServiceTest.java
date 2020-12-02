@@ -2,6 +2,9 @@ package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
+
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,6 @@ import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
@@ -61,7 +63,7 @@ public class ProfileServiceTest {
 	void testGetByIdProfileNotFound() throws Exception {
 		
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> service.getById(123456789));
-		assertEquals("Profile not found", e.getMessage());
+		assertEquals(CodeException.PF001.getText(), e.getMessage());
 	}
 	
 	@Test
@@ -74,7 +76,7 @@ public class ProfileServiceTest {
 		service.delete(profile.getId());
 		
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> {service.getById(profile.getId());});
-		assertEquals("Profile not found", e.getMessage());
+		assertEquals(CodeException.PF001.getText(), e.getMessage());
 		
 	}
 	
@@ -82,14 +84,14 @@ public class ProfileServiceTest {
 	void testDeleteProfileNotFound() throws ResourceBadRequestException, Exception {
 			
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> service.delete(12345678));
-		assertEquals("Profile not found", e.getMessage());
+		assertEquals(CodeException.PF001.getText(), e.getMessage());
 		
 	}
 
 	@Test
 	void testUpdate() throws ResourceBadRequestException, Exception {
 		
-		String userName = userService.save(new UserTO("testeUpdat", "testeS@updat", "senhate", "nome", "sobrenome")).getUserName();
+		String userName = userService.save(new CadastroUserTO("testeUpdat", "testeS@updat", "senhate", "nome", "sobrenome")).getUserName();
 		
 		ProfileTO profile = service.getByUser(userName);
 		
@@ -108,14 +110,14 @@ public class ProfileServiceTest {
 		Profile profile = new Profile("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998", user);
 		
 		Throwable e = assertThrows(ResourceNotFoundException.class, ()-> service.update(profileBeanUtil.toProfileTO(profile)));
-		assertEquals("Profile not found", e.getMessage());
+		assertEquals(CodeException.PF001.getText(), e.getMessage());
 		
 	}
 
 	@Test
 	void testGetAllProfiles() throws ResourceBadRequestException, Exception {
 		
-		userService.save(new UserTO("testeProfileGetAll", "testeS@getAll", "senhate", "nome", "sobrenome"));
+		userService.save(new CadastroUserTO("testeProfileGetAll", "testeS@getAll", "senhate", "nome", "sobrenome"));
 		HashSet<ProfileTO> allProfiles = service.getAll();
 		
 		assertFalse(allProfiles.isEmpty());

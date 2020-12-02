@@ -5,19 +5,22 @@ import java.util.HashSet;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.enums.EmailSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
-
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Service
 public class UserService{
@@ -26,31 +29,34 @@ public class UserService{
 	private UserRepository rep;
 	
 	@Autowired
-	EmailServiceImpl email;
+	EmailService email;
 	
 	@Autowired
 	private UserBeanUtil beanUtil;
 	
 	@Autowired
 	private ProfileService profileService;
-	
-	public UserTO save( UserTO userTO) throws Exception {
-        
-		User user = beanUtil.toUser(userTO);
-		user.setUserName(user.getUserName().toLowerCase());
 
-		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
-		
+	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+	
+	public UserTO save(CadastroUserTO cadastroUserTO) throws Exception {
+        
+		User user = beanUtil.toUser(cadastroUserTO);
+		user.setPassword(bCryptPasswordEncoder.encode(cadastroUserTO.getPassword()));
+		user.setUserName(user.getUserName().toLowerCase());
+		user.setToken(UUID.randomUUID().toString());
+
+		Profile profile = new Profile (cadastroUserTO.getName(), cadastroUserTO.getLastName(), cadastroUserTO.getProfileImage(), user);
 		validationUserNameIsUnique(user);
 		validationEmailIsUnique(user);
-		validationPassword(userTO);
+		validationPassword(cadastroUserTO);
 		
 		User retorno = rep.save(user);
 		profileService.save(profile);
 
 		email.
 			getInstance()
-			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
+			.withUrls("https://bbooks-front.herokuapp.com/confirm")
 			.withTo(retorno.getEmail())
 			.withContent(" Bem Vindo " + retorno.getUserName())
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
@@ -59,42 +65,53 @@ public class UserService{
 		return beanUtil.toUserTO(retorno);
 	}
 
-	private void validationPassword(UserTO userTO) {
-		if(userTO.getPassword().isEmpty()) 
-			throw new ResourceBadRequestException("Senha nao deve estar vazio");
+	private void validationPassword(CadastroUserTO entidade) {
+		if(entidade.getPassword().isEmpty())
+			throw new ResourceBadRequestException(CodeException.US003.getText(), CodeException.US003);
 		
 	}
 	
 	private void validationUserNameIsUnique(User entity) throws Exception {
 		if (rep.existsByUserName(entity.getUserName())) 
-			throw new ResourceConflictException("UserName ja esta sendo usado "  + entity.getUserName());
+			throw new ResourceConflictException(CodeException.US005.getText() + ": " + entity.getUserName() , CodeException.US005);
 	}
 	
 	private void validationEmailIsUnique(User entity) throws Exception {
 		Optional<User> user = rep.findByEmail(entity.getEmail());
 		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
-			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail());
+			throw new ResourceConflictException(CodeException.US002.getText() + ": " + entity.getEmail() , CodeException.US002);
 	}
 
-	private void validationEmailIsUnique(String email, User entity) throws Exception {
+	private void validationEmailIsUnique(String email, UserTO entity) throws Exception {
 		Optional<User> user = rep.findByEmail(email);
-		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
-			throw new ResourceConflictException("Email ja esta sendo usado " + entity.getEmail());
+		if ((user.isPresent()) && (!user.get().getId().equals(entity.getId())) )
+			throw new ResourceConflictException(CodeException.US002.getText() + ": " + entity.getEmail() , CodeException.US002);
 	}
 
 	public UserTO getById(UUID id) {
-		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 		return beanUtil.toUserTO(user);
 	}
 
 	public UserTO getByEmail(String email) {
-		User user = rep.findByEmail(email).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		User user = rep.findByEmail(email).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 		return beanUtil.toUserTO(user);
+	}
+
+	public UserTO getForGoogle(String email) {
+		Optional<User> user = rep.findByEmail(email);
+		User user1;
+		if(user.isPresent()){
+			return beanUtil.toUserTO(user.get());
+		}else{
+			return new UserTO();
+		}
+
 	}
 
 	public void delete(UUID id) {
 			
-		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException("User not found"));
+		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 		profileService.deleteByUser(user);
 		rep.deleteById(id);
 					
@@ -102,19 +119,15 @@ public class UserService{
 
 	public UserTO update(UserTO entity) throws Exception {
 		if(entity.getId() == null)
-			throw new ResourceNotFoundException("User not found");
+			throw new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001);
 
-		User user = beanUtil.toUser(entity);
+		validationEmailIsUnique(entity.getEmail(), entity);
 
-		validationEmailIsUnique(entity.getEmail(), user);
-		validationPassword(entity);
-		
-		return beanUtil.toUserTO(rep.findById(user.getId()).map( user1 -> {
-			user1.setEmail(user.getEmail());
-			user1.setUserName(user.getUserName());
-			return rep.save(user);
-		}).orElseThrow( () -> new ResourceNotFoundException("User not found")));
-		
+		return beanUtil.toUserTO(rep.findById(entity.getId()).map( user1 -> {
+			user1.setEmail(entity.getEmail());
+			user1.setUserName(entity.getUserName());
+			return rep.save(user1);
+		}).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
 	}
 
 	public HashSet<UserTO> getAll() {
@@ -124,7 +137,11 @@ public class UserService{
 	}
 
 	public User getByToken(String token){
-		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException("Autenticação não encontrada."));
+		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US004.getText(), CodeException.US004));
+	}
+
+	public UserTO getDTOByToken(String token) {
+		return beanUtil.toUserTO(rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
 	}
 	 
    	public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
@@ -138,32 +155,13 @@ public class UserService{
         return  Optional.empty();
     }
 
-	public UserTO getByUserName(String username) {
-		return beanUtil.toUserTO(rep.findByUserName(username));
+	public UserTO getByUserName(String username, @RequestHeader(value = "AUTHORIZATION") String token) {
+		return beanUtil.toUserTO(rep.findByUserName(username), token);
 	}
 
-	public UserTO saveGoogle(UserTO userTO)  throws Exception  {
-		User user = beanUtil.toUser(userTO);
-		user.setToken(userTO.getToken());
-		user.setIdSocial(userTO.getIdSocial());
-		user.setVerified(userTO.getVerified());
-		Profile profile = new Profile (userTO.getName(), userTO.getLastName(), user);
-
-		validationUserNameIsUnique(user);
-		validationEmailIsUnique(user);
-		validationPassword(userTO);
-
-		User retorno = rep.save(user);
-		profileService.save(profile);
-
-		email.
-			getInstance()
-			.withUrls("https://bbooks-ifsp.herokuapp.com/confirm")
-			.withTo(retorno.getEmail())
-			.withContent(" Bem Vindo " + retorno.getUserName())
-			.withSubject(EmailSubject.VERIFY_EMAIL.name())
-			.send();;
-		return beanUtil.toUserTO(retorno);
+	public User getByUsername(String username) {
+		return rep.findByUserName(username);
 	}
+
 }
 
