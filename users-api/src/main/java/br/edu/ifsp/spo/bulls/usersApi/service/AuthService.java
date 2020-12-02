@@ -101,7 +101,6 @@ public class AuthService {
                 if(optionalUser.get().getToken() == null) {
                 	optionalUser.get().setToken(UUID.randomUUID().toString());
                 }
-                  
                 optionalUser.get().setVerified(true);
                 repository.save(optionalUser.get());
                 return utils.toUserTO(optionalUser.get());
