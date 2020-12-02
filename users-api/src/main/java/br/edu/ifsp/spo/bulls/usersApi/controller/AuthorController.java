@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO;
+import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import br.edu.ifsp.spo.bulls.usersApi.service.AuthorService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -29,7 +29,7 @@ public class AuthorController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping(consumes="application/json")
-    public AuthorTO save(@RequestBody AuthorTO author){
+    public Author save(@RequestBody Author author){
         logger.info("Cadastrando novo autor " + author);
         return service.save(author);
     }
@@ -39,9 +39,9 @@ public class AuthorController {
             @ApiResponse(code = 200, message = "Retorna uma lista de autores")
     })
     @GetMapping
-    public List<AuthorTO> getAll(){
+    public List<Author> getAll(){
         logger.info("Requisitando todos os autores do cadastro");
-        List<AuthorTO> authors = service.getAll();
+        List<Author> authors = service.getAll();
         logger.info("Autores retornados: " + authors);
         return authors;
     }
@@ -52,9 +52,9 @@ public class AuthorController {
             @ApiResponse(code = 404, message = "Profile não encontrado"),
     })
     @GetMapping("/{id}")
-    public AuthorTO getOne(@PathVariable int id){
+    public Author getOne(@PathVariable int id){
         logger.info("Requisitando informações de autor com id: " + id);
-        AuthorTO author = service.getOne(id);
+        Author author = service.getOne(id);
         logger.info("Autor encontrado: " + author);
         return author;
     }
@@ -66,7 +66,7 @@ public class AuthorController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PutMapping(value = "/{id}", consumes="application/json")
-    public AuthorTO update(@RequestBody AuthorTO author, @PathVariable int id){
+    public Author update(@RequestBody Author author, @PathVariable int id){
         logger.info("Requisicao para atualizar o cadastro do autor " + author);
         return service.update(author, id);
     }
@@ -87,7 +87,7 @@ public class AuthorController {
             @ApiResponse(code = 404, message = "Profile não encontrado"),
     })
     @GetMapping("/name/{name}")
-    public AuthorTO getByName(@PathVariable String name){
+    public Author getByName(@PathVariable String name){
         return service.getByName(name);
     }
 

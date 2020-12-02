@@ -87,4 +87,14 @@ public class Book {
         this.publishedDate = publishedDate;
         this.description = description;
     }
+
+    public Book(@NotBlank(message = "ISBN10 is mandatory") String isbn10, @NotBlank(message = "Title is mandatory") String title, @NotNull(message = "NumberPage is mandatory") int numberPage, @NotBlank(message = "Language is mandatory") String language, @NotBlank(message = "Publisher is mandatory") String publisher, int publishedDate, @NotBlank(message = "Description is mandatory") String description) {
+        this.isbn10 = isbn10;
+        this.title = title;
+        this.numberPage = numberPage;
+        this.language = language;
+        this.publisher = publisher;
+        this.publishedDate = publishedDate;
+        this.description = description;
+    }
 }
