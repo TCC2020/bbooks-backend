@@ -64,11 +64,8 @@ public class AuthService {
         Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());
 
         if(optionalUser.isPresent()){
-            System.out.println(optionalUser.get().toString());
-            System.out.println(loginTO.toString());
                 if(optionalUser.get().getToken().equals(loginTO.getToken())){
                     optionalUser.get().setToken(UUID.randomUUID().toString());
-
                     repository.save(optionalUser.get());
                 }else{
                     logger.warn("Tentativa de acesso com token inexistente. Usuario: "
@@ -104,7 +101,6 @@ public class AuthService {
                 if(optionalUser.get().getToken() == null) {
                 	optionalUser.get().setToken(UUID.randomUUID().toString());
                 }
-                  
                 optionalUser.get().setVerified(true);
                 repository.save(optionalUser.get());
                 return utils.toUserTO(optionalUser.get());
