@@ -178,7 +178,7 @@ public class ReadingTrackingServiceTest {
         userBooksTO.setStatus(status);
         userBooksTO.setIdBookGoogle(idBookGoogle);
         userBooksTO.setPage(page);
-        userBooksTO.setTags(new ArrayList<Tag>());
+        userBooksTO.setTags(new ArrayList<TagTO>());
 
         UserBooksTO userBooksTO1 = userBooksService.save(userBooksTO);
         return userBooksTO1.getId();
@@ -189,7 +189,7 @@ public class ReadingTrackingServiceTest {
         userBooksTO.setProfileId(profileID);
         userBooksTO.setStatus(status);
         userBooksTO.setIdBook(book.getId());
-        userBooksTO.setTags(new ArrayList<Tag>());
+        userBooksTO.setTags(new ArrayList<TagTO>());
 
         UserBooksTO userBooksTO1 = userBooksService.save(userBooksTO);
         return userBooksTO1.getId();
