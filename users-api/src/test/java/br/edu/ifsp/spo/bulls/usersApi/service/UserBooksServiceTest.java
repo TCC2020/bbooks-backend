@@ -1,7 +1,9 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
+import br.edu.ifsp.spo.bulls.usersApi.bean.TagBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.*;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.TagTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
@@ -35,6 +37,8 @@ public class UserBooksServiceTest {
     ProfileRepository mockProfileRepository;
     @MockBean
     TagService mockTagService;
+    @MockBean
+    TagBeanUtil mockBean;
 
     @Autowired
     UserBooksService userBookService;
@@ -47,6 +51,7 @@ public class UserBooksServiceTest {
     private Profile profile = new Profile();
     private Set<UserBooks> userBooksList = new HashSet<UserBooks>();
     private Tag tag;
+    private TagTO tagTO;
     private Book book;
 
     @BeforeEach
@@ -54,7 +59,7 @@ public class UserBooksServiceTest {
         MockitoAnnotations.initMocks(this);
 
         // carregando tag
-        tag = new Tag(1L, "nome", profile);
+        tagTO = new TagTO(1L, "nome", profile);
 
         // carregando book
         book = new Book("1234489-", "lIVRO TESTE", 10, "português", "editora", 3, "livro");
@@ -65,14 +70,14 @@ public class UserBooksServiceTest {
         userBooksTOLivro.setProfileId(1);
         userBooksTOLivro.setIdBook(1);
         userBooksTOLivro.setStatus(Status.EMPRESTADO);
-        userBooksTOLivro.getTags().add(tag);
+        userBooksTOLivro.getTags().add(tagTO);
 
         // carregando o UserBooksTO
         userBooksTO.setId(1L);
         userBooksTO.setProfileId(1);
         userBooksTO.setIdBookGoogle("32");
         userBooksTO.setStatus(Status.EMPRESTADO);
-        userBooksTO.getTags().add(tag);
+        userBooksTO.getTags().add(tagTO);
 
         //carregando profile
         profile.setId(1);
@@ -106,7 +111,7 @@ public class UserBooksServiceTest {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
         Mockito.when(mockUserBooksRepository.save(userBooks)).thenReturn(userBooks);
         Mockito.when(mockTagService.tagBook(1l, userBooksTO.getId())).thenReturn(tag);
-        Mockito.when(mockTagService.getByIdBook(userBooksTO.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
 
         UserBooksTO userBooksTO1 = userBookService.save(userBooksTO);
 
@@ -135,7 +140,7 @@ public class UserBooksServiceTest {
         Mockito.when(mockUserBooksRepository.save(userBooksLivro)).thenReturn(userBooksLivro);
         Mockito.when(mockTagService.tagBook(1l, userBooksTOLivro.getId())).thenReturn(tag);
         Mockito.when(mockBookRepository.findById(userBooksTOLivro.getIdBook())).thenReturn(Optional.of(book));
-        Mockito.when(mockTagService.getByIdBook(userBooksTO.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
 
         UserBooksTO userBooksTO1 = userBookService.save(userBooksTOLivro);
 
@@ -148,7 +153,7 @@ public class UserBooksServiceTest {
 
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);
-        Mockito.when(mockTagService.getByIdBook(userBooksTO.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         BookCaseTO result = userBookService.getByProfileId(profile.getId());
 
         assertEquals(bookCaseTO, result);
@@ -158,7 +163,7 @@ public class UserBooksServiceTest {
     public void user_books_service_should_return_by_id(){
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
-        Mockito.when(mockTagService.getByIdBook(userBooksTO.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         UserBooksTO alterado =  userBookService.getById(userBooksTO.getId());
         assertEquals(userBooksTO, alterado);
     }
@@ -197,7 +202,7 @@ public class UserBooksServiceTest {
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
         Mockito.when(mockUserBooksRepository.save(userBookNovoStatus)).thenReturn(userBookNovoStatus);
-        Mockito.when(mockTagService.getByIdBook(userBooksTO.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
 
         UserBooksTO alterado =  userBookService.update(novoStatus);
@@ -233,7 +238,7 @@ public class UserBooksServiceTest {
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
         Mockito.when(mockUserBooksRepository.save(userBookNovoStatus)).thenReturn(userBookNovoStatus);
-        Mockito.when(mockTagService.getByIdBook(userBooksTO.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
 
         UserBooksTO alterado =  userBookService.updateStatus(updateStatus);
         assertEquals(novoStatus, alterado);
