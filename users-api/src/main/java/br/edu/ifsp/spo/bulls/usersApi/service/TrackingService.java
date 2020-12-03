@@ -41,9 +41,11 @@ public class TrackingService {
     TrackingBeanUtil beanUtil;
 
     public List<TrackingTO> getAllByBook(Long userBook) {
-        return beanUtil.toDTO(repository.findAllByUserBookOrderByCreationDate(
+        List<TrackingTO> trackingTOS = beanUtil.toDTO(repository.findAllByUserBookOrderByCreationDate(
                 userBooksRepository.findById(userBook)
                         .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001))));
+        trackingTOS.forEach(trackingTO -> trackingTO.setVelocidadeLeitura(calcularVelocidadeLeitura(trackingTO)));
+        return trackingTOS;
     }
 
     public TrackingTO save(@Valid TrackingTO trackingTO) {
@@ -57,8 +59,10 @@ public class TrackingService {
     }
 
     public TrackingTO findById(UUID trackingId){
-        return beanUtil.toDTO(repository.findById(trackingId)
+        TrackingTO trackingTO = beanUtil.toDTO(repository.findById(trackingId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002)));
+        trackingTO.setVelocidadeLeitura(calcularVelocidadeLeitura(trackingTO));
+        return trackingTO;
     }
 
     public void deleteById(UUID trackingId){
@@ -126,6 +130,28 @@ public class TrackingService {
         UserBookUpdateStatusTO booK = userBooksBeanUtil.toDTOUpdate(userBooks);
         booK.setStatus(status.name());
         userBooksService.updateStatus(booK);
+    }
+
+    private Double calcularVelocidadeLeitura(TrackingTO tracking) {
+        int qtdeDias = 1;
+        double qtdePaginasLidas = 0;
+        double velocidade = 0;
+
+        if(tracking.getTrackings().size() == 1) {
+            qtdePaginasLidas = tracking.getTrackings().get(0).getNumPag();
+        } else {
+
+            for (int i = 1; i < tracking.getTrackings().size(); i++) {
+                if (!tracking.getTrackings().get(i).getCreationDate().toLocalDate().equals(tracking.getTrackings().get(i - 1).getCreationDate().toLocalDate())) {
+                    qtdeDias++;
+                }
+                qtdePaginasLidas = tracking.getTrackings().get(i).getNumPag();
+            }
+        }
+
+        velocidade = qtdePaginasLidas/qtdeDias;
+
+        return velocidade;
     }
 
 }
