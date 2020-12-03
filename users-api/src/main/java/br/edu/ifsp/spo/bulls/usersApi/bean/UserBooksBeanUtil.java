@@ -1,19 +1,17 @@
 package br.edu.ifsp.spo.bulls.usersApi.bean;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
+import br.edu.ifsp.spo.bulls.usersApi.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class UserBooksBeanUtil {
@@ -21,7 +19,7 @@ public class UserBooksBeanUtil {
     private Logger logger = LoggerFactory.getLogger(UserBooksBeanUtil.class);
 
     @Autowired
-    private ProfileRepository profileRep;
+    private TagService tagService;
 
     public UserBooksTO toDto(UserBooks userBooks) {
         UserBooksTO userBooksTO = new UserBooksTO();
@@ -31,6 +29,9 @@ public class UserBooksBeanUtil {
             logger.error("Error while converting UserBooks to UserBooksTO: " +  e);
         }
         userBooksTO.setStatus(userBooks.getStatus());
+        userBooksTO.setProfileId(userBooks.getProfile().getId());
+        userBooksTO.setTags(tagService.getByIdBook(userBooks.getId()));
+        userBooksTO.setIdBook(userBooks.getBook() != null? userBooks.getBook().getId(): 0);
         return userBooksTO;
     }
 
@@ -53,12 +54,16 @@ public class UserBooksBeanUtil {
             logger.error("Error while converting UserBooksTO to UserBooks: " +  e);
         }
         userBooks.setStatus(dto.getStatus());
-        Profile profile = profileRep.findById(dto.getProfileId()).orElseThrow( () -> new ResourceNotFoundException("Profile not found"));
-        userBooks.setProfile(profile);
         return userBooks;
     }
 
-    Set<UserBooksTO> toDtoSet(Set<UserBooks> userBooks) {
-        return userBooks.parallelStream().map(this::toDto).collect(Collectors.toSet());
+    public Set<UserBooksTO> toDtoSet(Set<UserBooks> userBooks) {
+        Set<UserBooksTO> userBooksTOSet = new HashSet<UserBooksTO>();
+
+        for (UserBooks book: userBooks ) {
+            userBooksTOSet.add(this.toDto(book));
+        }
+        return userBooksTOSet;
     }
+
 }

@@ -23,3 +23,5 @@ spring:
           auth: true
           starttls:
             enable: true
+heroku:
+  enforceHttps: true

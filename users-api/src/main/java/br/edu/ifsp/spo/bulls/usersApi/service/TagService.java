@@ -52,7 +52,6 @@ public class TagService {
 
     public void delete(Long tagId){
         Tag tag = repository.findById(tagId).orElseThrow( () -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
-        this.retiraTagDeLivros(tag);
         repository.delete(tag);
     }
 
@@ -60,13 +59,12 @@ public class TagService {
         if(tagBody.getId() != idTag)
             throw new ResourceBadRequestException(CodeException.TG002.getText(), CodeException.TG002);
 
-        Tag resultado = repository.findById(idTag).map( tag -> {
+        return repository.findById(idTag).map( tag -> {
             tag.setName(tagBody.getName());
             tag.setColor(tagBody.getColor());
             return repository.save(tag);
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
 
-        return resultado;
     }
 
     public Tag getbyId(Long idTag) {
@@ -84,11 +82,5 @@ public class TagService {
         }
         return tags;
     }
-
-    private void retiraTagDeLivros(Tag tag){
-        for(UserBooks userBook : tag.getBooks()){
-            this.untagBook(tag.getId(), userBook.getId() );
-        }
-    };
 }
 

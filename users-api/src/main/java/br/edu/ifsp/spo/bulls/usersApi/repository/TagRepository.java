@@ -16,4 +16,5 @@ public interface TagRepository extends CrudRepository <Tag, Long> {
     List<Tag> findByProfile(Profile profile);
 
     List<Tag> findAll();
+
 }

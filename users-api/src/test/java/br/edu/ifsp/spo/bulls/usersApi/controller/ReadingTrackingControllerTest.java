@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 import br.edu.ifsp.spo.bulls.usersApi.service.ReadingTrackingService;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
@@ -177,11 +178,11 @@ public class ReadingTrackingControllerTest {
         return profileService.getByUser(userTO.getUserName()).getId();
     }
 
-    private Long umUserBook(int profileID, UserBooks.Status status, String idBook, int page){
+    private Long umUserBook(int profileID, Status status, String idBookGoogle, int page){
         UserBooksTO userBooksTO = new UserBooksTO();
         userBooksTO.setProfileId(profileID);
         userBooksTO.setStatus(status);
-        userBooksTO.setIdBook(idBook);
+        userBooksTO.setIdBookGoogle(idBookGoogle);
         userBooksTO.setPage(page);
         userBooksTO.setTags(new ArrayList<Tag>());
         return userBooksService.save(userBooksTO).getId();
