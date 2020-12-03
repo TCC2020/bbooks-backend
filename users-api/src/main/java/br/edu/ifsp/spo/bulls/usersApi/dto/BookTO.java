@@ -77,4 +77,26 @@ public class BookTO {
         this.publishedDate = publishedDate;
         this.description = description;
     }
+
+    public BookTO(
+        int id,
+        String isbn10,
+        String title,
+        int numberPage,
+        String language,
+        String publisher,
+        int publishedDate,
+        String description,
+        String image
+    ) {
+        this.id = id;
+        this.isbn10 = isbn10;
+        this.title = title;
+        this.numberPage = numberPage;
+        this.language = language;
+        this.publisher = publisher;
+        this.publishedDate = publishedDate;
+        this.description = description;
+        this.image = image;
+    }
 }

@@ -49,7 +49,7 @@ public class BookBeanUtilTest {
         author.add(new Author("Autor1"));
 
         Book book = new Book( "1234", "lIVRO TESTE2", author, 10,
-                "português", "editora", 1, "livro");
+                "português", "editora", 1, "livro", " teste");
 
         BookTO bookTo = beanUtil.toBookTO(book);
 
@@ -72,7 +72,7 @@ public class BookBeanUtilTest {
 
         Book book = new Book( "123455665", "lIVRO TESTE",author,
                 10, "português",
-                "editora", 1, "livro");
+                "editora", 1, "livro", "teste");
 
         HashSet<Book> listBooks = new HashSet<Book>();
         listBooks.add(book);

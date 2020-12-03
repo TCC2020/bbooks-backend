@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 
@@ -84,4 +85,13 @@ public class BookController {
         logger.info("Requisicao para atualizar o cadastro do livro" + bookTo);
         return service.update(bookTo);
     }
+
+    @GetMapping("/search")
+    public Page<BookTO> search(@RequestParam String search, @RequestParam Integer page, @RequestParam Integer size){
+        logger.info("Requisitando lista de  livros com titulo ou isbn: " + search);
+        Page<BookTO> livros = service.search(search, page, size);
+        logger.info("Livros encontrados: " + livros);
+        return livros;
+    }
+
 }

@@ -10,6 +10,9 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -92,5 +95,14 @@ public class BookService {
 
 
         return beanUtil.toBookTO(retorno);
+    }
+
+    public Page<BookTO> search(String search, Integer page, Integer size){
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "id");
+        return repository.search(search.toLowerCase(), pageRequest);
     }
 }
