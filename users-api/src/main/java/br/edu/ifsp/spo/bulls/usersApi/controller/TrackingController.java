@@ -68,7 +68,6 @@ public class TrackingController {
     })
     @DeleteMapping("/{trackingId}")
     public void delete(@PathVariable UUID trackingId){
-        System.out.println(trackingId);
         service.deleteById(trackingId);
     }
 

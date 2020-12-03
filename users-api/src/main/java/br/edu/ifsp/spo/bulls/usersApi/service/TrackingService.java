@@ -10,6 +10,8 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.TrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
@@ -96,7 +98,7 @@ public class TrackingService {
                         .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
 
         if(trackingsBooks.stream().filter( t -> t.getFinishedDate() == null).count() > 0){
-            throw new ResourceNotFoundException(CodeException.TA001.getText(), CodeException.TA001);
+            throw new ResourceConflictException(CodeException.TA001.getText(), CodeException.TA001);
         }
 
     }
@@ -106,7 +108,7 @@ public class TrackingService {
             readingTracking1.setComentario(readingTracking.getComentario());
             readingTracking1.setCreationDate(readingTracking.getFinishedDate());
             return repository.save(readingTracking1);
-        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
 
     }
 

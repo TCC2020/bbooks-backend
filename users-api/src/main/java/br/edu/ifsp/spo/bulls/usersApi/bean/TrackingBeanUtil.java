@@ -36,13 +36,8 @@ public class TrackingBeanUtil {
         try{
             BeanUtils.copyProperties(tracking, trackingTO);
             trackingTO.setUserBookId(tracking.getUserBook().getId());
-            System.out.println(trackingTO.getTrackings());
-
             List<ReadingTrackingTO> lista = readingTrackingBeanUtil.toDTO(readingTrackingService.getByTrackingGroup(trackingTO.getId()));
             trackingTO.setTrackings(lista);
-
-            System.out.println("Retornado:" + lista);
-            System.out.println(trackingTO.getTrackings());
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting Tracking to TrackingTO: " +  e);
