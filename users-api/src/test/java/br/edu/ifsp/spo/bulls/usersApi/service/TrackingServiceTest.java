@@ -117,7 +117,7 @@ public class TrackingServiceTest {
     }
 
     @Test
-    void should_get_all_trackings_by_userbook() {
+    void should_get_all_trackings_by_userbook_id() {
         Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksQueroLer)).thenReturn(trackingList);
         Mockito.when(mockUserBooksRepository.findById(userBooksQueroLer.getId())).thenReturn(Optional.ofNullable(userBooksQueroLer));
         List<TrackingTO> resultado = trackingService.getAllByBook(userBooksQueroLer.getId());
@@ -132,7 +132,7 @@ public class TrackingServiceTest {
     }
 
     @Test
-    void should_get_one_tracking_by_id() {
+    void should_get_one_tracking_group_by_id() {
         Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
         TrackingTO resultado = trackingService.findById(trackingTO.getId());
         assertEquals(trackingTO, resultado);
@@ -145,7 +145,7 @@ public class TrackingServiceTest {
     }
 
     @Test
-    void should_save_tracking_userbooks_quero_ler() {
+    void should_save_tracking_userbooks_status_quero_ler() {
         Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
         Mockito.when(mockUserBooksRepository.findById(trackingTO.getUserBookId())).thenReturn(Optional.ofNullable(userBooksQueroLer));
         Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksQueroLer)).thenReturn(trackingList);
@@ -156,7 +156,7 @@ public class TrackingServiceTest {
     }
 
     @Test
-    void should_save_tracking_userbooks_lido() {
+    void should_save_tracking_userbooks_status_lido() {
         Mockito.when(mockTrackingRepository.save(trackingLido)).thenReturn(trackingLido);
         Mockito.when(mockUserBooksRepository.findById(trackingTOLido.getUserBookId())).thenReturn(Optional.ofNullable(userBooksLido));
         Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksLido)).thenReturn(trackingList);
@@ -197,7 +197,7 @@ public class TrackingServiceTest {
     }
 
     @Test
-    void should_update_tracking_DTO() {
+    void should_update_tracking_return_DTO() {
         Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
         Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
         TrackingTO resultado = trackingService.update(trackingTO.getId(), trackingTO);
