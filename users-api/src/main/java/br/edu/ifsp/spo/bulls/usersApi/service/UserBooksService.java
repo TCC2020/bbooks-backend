@@ -6,6 +6,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.TagTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
@@ -111,7 +112,7 @@ public class UserBooksService {
     }
 
     private void saveTags(UserBooksTO dto, UserBooks userBooks) {
-        for(Tag t : dto.getTags()){
+        for(TagTO t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }
     }

@@ -20,6 +20,8 @@ public class UserBooksBeanUtil {
 
     @Autowired
     private TagService tagService;
+    @Autowired
+    private TagBeanUtil tagBeanUtil;
 
     public UserBooksTO toDto(UserBooks userBooks) {
         UserBooksTO userBooksTO = new UserBooksTO();
@@ -30,7 +32,7 @@ public class UserBooksBeanUtil {
         }
         userBooksTO.setStatus(userBooks.getStatus());
         userBooksTO.setProfileId(userBooks.getProfile().getId());
-        userBooksTO.setTags(tagService.getByIdBook(userBooks.getId()));
+        userBooksTO.setTags(tagBeanUtil.toDtoList(tagService.getByIdBook(userBooks.getId())));
         userBooksTO.setIdBook(userBooks.getBook() != null? userBooks.getBook().getId(): 0);
         return userBooksTO;
     }

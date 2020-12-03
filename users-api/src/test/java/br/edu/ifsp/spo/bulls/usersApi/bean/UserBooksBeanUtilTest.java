@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.TagTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
@@ -34,6 +35,9 @@ public class UserBooksBeanUtilTest {
     @MockBean
     TagService mockTagService;
 
+    @MockBean
+    TagBeanUtil mockBean;
+
     private UserBooks userBooks = new UserBooks();
     private UserBooksTO userBooksTO = new UserBooksTO();
     private UserBooks userBooks2 = new UserBooks();
@@ -44,6 +48,7 @@ public class UserBooksBeanUtilTest {
     private Profile profile2 = new Profile();
 
     private Tag tag;
+    private TagTO tagTO;
     private Book book;
 
     @BeforeEach
@@ -51,7 +56,7 @@ public class UserBooksBeanUtilTest {
         MockitoAnnotations.initMocks(this);
 
         // carregando tag
-        tag = new Tag(1L, "nome", profile);
+        tagTO = new TagTO(1L, "nome", profile);
 
         // carregando book
         book = new Book("1234489-", "lIVRO TESTE", 10, "português", "editora", 3, "livro");
@@ -62,14 +67,14 @@ public class UserBooksBeanUtilTest {
         userBooksTO.setProfileId(1);
         userBooksTO.setIdBookGoogle("32");
         userBooksTO.setStatus(Status.EMPRESTADO);
-        userBooksTO.getTags().add(tag);
+        userBooksTO.getTags().add(tagTO);
 
         // carregando o UserBooksTO2
         userBooksTO2.setId(2L);
         userBooksTO2.setProfileId(2);
         userBooksTO2.setIdBookGoogle("32");
         userBooksTO2.setStatus(Status.EMPRESTADO);
-        userBooksTO2.getTags().add(tag);
+        userBooksTO2.getTags().add(tagTO);
 
         //carregando profile
         profile.setId(1);
@@ -96,7 +101,7 @@ public class UserBooksBeanUtilTest {
 
     @Test
     void toDto() {
-        Mockito.when(mockTagService.getByIdBook(userBooks.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooks.getId()))).thenReturn(userBooksTO.getTags());
 
         UserBooksTO userBooksTO1 = beanUtil.toDto(userBooks);
 
@@ -133,8 +138,8 @@ public class UserBooksBeanUtilTest {
         userBooksList.add(userBooks);
         userBooksList.add(userBooks2);
 
-        Mockito.when(mockTagService.getByIdBook(userBooks.getId())).thenReturn(userBooksTO.getTags());
-        Mockito.when(mockTagService.getByIdBook(userBooks2.getId())).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooks.getId()))).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooks2.getId()))).thenReturn(userBooksTO.getTags());
 
         Set<UserBooksTO> userBooksListTO1 = beanUtil.toDtoSet(userBooksList);
 
