@@ -23,7 +23,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,6 @@ public class TrackingServiceTest {
     @MockBean
     ReadingTrackingService mockBeadingTrackingService;
 
-
     @Autowired
     TrackingBeanUtil beanUtil;
 
@@ -70,6 +68,7 @@ public class TrackingServiceTest {
     private List<TrackingTO> trackingTOList = new ArrayList<>();
     private List<Tracking> trackingList = new ArrayList<>();
     private List<Tracking> trackingListOpen = new ArrayList<>();
+    private List<ReadingTracking> trackingsFilho = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -112,6 +111,9 @@ public class TrackingServiceTest {
 
         trackingList.add(trackingQueroLer);
         trackingList.add(trackingLido);
+
+
+        trackingsFilho.add(new ReadingTracking());
     }
 
     @Test
@@ -181,21 +183,44 @@ public class TrackingServiceTest {
 
     @Test
     void should_delete_tracking() {
+        Mockito.when(mockTrackingRepository.findById(trackingQueroLer.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
+        Mockito.doNothing().when(mockTrackingRepository).deleteById(trackingTO.getId());
+        Mockito.when(mockBeadingTrackingService.getByTrackingGroup(trackingTO.getId())).thenReturn(trackingsFilho);
+
+        trackingService.deleteById(trackingTO.getId());
     }
 
     @Test
     void shouldnt_delete_tracking_when_tracking_not_found() {
         Mockito.doThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002)).when(mockTrackingRepository).deleteById(trackingTO.getId());
-        assertThrows(ResourceNotFoundException.class, () -> trackingService.update(trackingTO.getId(), trackingTO));
+        assertThrows(ResourceNotFoundException.class, () -> trackingService.deleteById(trackingTO.getId()));
+    }
+
+    @Test
+    void should_update_tracking_DTO() {
+        Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
+        Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
+        TrackingTO resultado = trackingService.update(trackingTO.getId(), trackingTO);
+        assertEquals(trackingTO, resultado);
+    }
+
+    @Test
+    void shouldnt_update_tracking_when_tracking_not_found_DTO() {
+        Mockito.when(mockTrackingRepository.findById(trackingQueroLer.getId())).thenThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
+        assertThrows(ResourceNotFoundException.class, () -> trackingService.update(trackingQueroLer));
     }
 
     @Test
     void should_update_tracking() {
+        Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
+        Mockito.when(mockTrackingRepository.findById(trackingQueroLer.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
+        Tracking resultado = trackingService.update(trackingQueroLer);
+        assertEquals(trackingQueroLer, resultado);
     }
 
     @Test
     void shouldnt_update_tracking_when_tracking_not_found() {
-        Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
-        assertThrows(ResourceNotFoundException.class, () -> trackingService.update(trackingTO.getId(), trackingTO));
+        Mockito.when(mockTrackingRepository.findById(trackingQueroLer.getId())).thenThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
+        assertThrows(ResourceNotFoundException.class, () -> trackingService.update(trackingQueroLer));
     }
 }

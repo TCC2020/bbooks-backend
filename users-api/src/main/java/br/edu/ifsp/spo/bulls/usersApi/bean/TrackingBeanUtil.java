@@ -67,12 +67,4 @@ public class TrackingBeanUtil {
         return trackingTO;
     }
 
-    public List<Tracking> toDomain(List<TrackingTO> trackingsTO){
-        List<Tracking> tracking = new ArrayList<>();
-        for (TrackingTO trackingTO: trackingsTO ) {
-            tracking.add(toDomain(trackingTO));
-        }
-        return tracking;
-    }
-
 }

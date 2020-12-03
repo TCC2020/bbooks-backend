@@ -104,6 +104,7 @@ public class TrackingService {
     }
 
     protected Tracking update(Tracking readingTracking) {
+        System.out.print(readingTracking.toString());
         return repository.findById(readingTracking.getId()).map( readingTracking1 -> {
             readingTracking1.setComentario(readingTracking.getComentario());
             readingTracking1.setCreationDate(readingTracking.getFinishedDate());
