@@ -23,7 +23,7 @@ public class FriendsBeanUtil {
         FriendRequestTO request = new FriendRequestTO();
         request.setId(friendship.getId());
         request.setAddDate(friendship.getAddDate());
-        request.setStatus(friendship.getStatus());
+        request.setStatus(friendship.getProfile1() == of ? Friendship.FriendshipStatus.sent : Friendship.FriendshipStatus.received);
         request.setProfileTO(profileService.getById(friendship.getProfile1() == of ? friendship.getProfile2() : friendship.getProfile1()));
         return request;
     }
