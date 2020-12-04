@@ -12,7 +12,10 @@ import java.util.*;
 @Data
 @Entity
 @ApiModel(value = "Objeto de domínio: Livro")
-@Table(name = "books")
+@Table(name = "books", indexes = { 
+		@Index(name = "IDX_BOOK_TITLE", columnList = "title"), 
+		@Index(name = "IDX_BOOK_CATEGORY", columnList = "category"),
+		@Index(name = "IDX_BOOK_PUBLISHER", columnList = "publisher") })
 public class Book {
 
     @Id
