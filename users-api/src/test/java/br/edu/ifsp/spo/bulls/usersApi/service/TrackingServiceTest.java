@@ -118,11 +118,11 @@ public class TrackingServiceTest {
 
     @Test
     void should_get_all_trackings_by_userbook_id() {
-//        Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksQueroLer)).thenReturn(trackingList);
-//        Mockito.when(mockUserBooksRepository.findById(userBooksQueroLer.getId())).thenReturn(Optional.ofNullable(userBooksQueroLer));
-//        List<TrackingTO> resultado = trackingService.getAllByBook(userBooksQueroLer.getId());
-//
-//        assertEquals(trackingTOList, resultado);
+        Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksQueroLer)).thenReturn(trackingList);
+        Mockito.when(mockUserBooksRepository.findById(userBooksQueroLer.getId())).thenReturn(Optional.ofNullable(userBooksQueroLer));
+        List<TrackingTO> resultado = trackingService.getAllByBook(userBooksQueroLer.getId());
+
+        assertEquals(trackingTOList, resultado);
     }
 
     @Test
@@ -133,9 +133,9 @@ public class TrackingServiceTest {
 
     @Test
     void should_get_one_tracking_group_by_id() {
-//        Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
-//        TrackingTO resultado = trackingService.findById(trackingTO.getId());
-//        assertEquals(trackingTO, resultado);
+        Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
+        TrackingTO resultado = trackingService.findById(trackingTO.getId());
+        assertEquals(trackingTO, resultado);
     }
 
     @Test
@@ -146,24 +146,24 @@ public class TrackingServiceTest {
 
     @Test
     void should_save_tracking_userbooks_status_quero_ler() {
-//        Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
-//        Mockito.when(mockUserBooksRepository.findById(trackingTO.getUserBookId())).thenReturn(Optional.ofNullable(userBooksQueroLer));
-//        Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksQueroLer)).thenReturn(trackingList);
-//        Mockito.when(mockUserBooksService.updateStatus(userBooksBeanUtil.toDTOUpdate(userBooksQueroLer))).thenReturn(userBooksQueroLerTO);
-//
-//        TrackingTO resultado = trackingService.save(trackingTO);
-//        assertEquals(trackingTO, resultado);
+        Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
+        Mockito.when(mockUserBooksRepository.findById(trackingTO.getUserBookId())).thenReturn(Optional.ofNullable(userBooksQueroLer));
+        Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksQueroLer)).thenReturn(trackingList);
+        Mockito.when(mockUserBooksService.updateStatus(userBooksBeanUtil.toDTOUpdate(userBooksQueroLer))).thenReturn(userBooksQueroLerTO);
+
+        TrackingTO resultado = trackingService.save(trackingTO);
+        assertEquals(trackingTO, resultado);
     }
 
     @Test
     void should_save_tracking_userbooks_status_lido() {
-//        Mockito.when(mockTrackingRepository.save(trackingLido)).thenReturn(trackingLido);
-//        Mockito.when(mockUserBooksRepository.findById(trackingTOLido.getUserBookId())).thenReturn(Optional.ofNullable(userBooksLido));
-//        Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksLido)).thenReturn(trackingList);
-//        Mockito.when(mockUserBooksService.updateStatus(userBooksBeanUtil.toDTOUpdate(userBooksLido))).thenReturn(userBooksLidoTO);
-//
-//        TrackingTO resultado = trackingService.save(trackingTOLido);
-//        assertEquals(trackingTOLido, resultado);
+        Mockito.when(mockTrackingRepository.save(trackingLido)).thenReturn(trackingLido);
+        Mockito.when(mockUserBooksRepository.findById(trackingTOLido.getUserBookId())).thenReturn(Optional.ofNullable(userBooksLido));
+        Mockito.when(mockTrackingRepository.findAllByUserBookOrderByCreationDate(userBooksLido)).thenReturn(trackingList);
+        Mockito.when(mockUserBooksService.updateStatus(userBooksBeanUtil.toDTOUpdate(userBooksLido))).thenReturn(userBooksLidoTO);
+
+        TrackingTO resultado = trackingService.save(trackingTOLido);
+        assertEquals(trackingTOLido, resultado);
     }
 
     @Test
@@ -198,10 +198,10 @@ public class TrackingServiceTest {
 
     @Test
     void should_update_tracking_return_DTO() {
-//        Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
-//        Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
-//        TrackingTO resultado = trackingService.update(trackingTO.getId(), trackingTO);
-//        assertEquals(trackingTO, resultado);
+        Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
+        Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
+        TrackingTO resultado = trackingService.update(trackingTO.getId(), trackingTO);
+        assertEquals(trackingTO, resultado);
     }
 
     @Test
