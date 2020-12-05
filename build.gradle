@@ -76,16 +76,40 @@ project(':users-api') {
     }
 
 	apply plugin: 'jacoco'
-	jacocoTestReport {
-		reports {
-			xml.enabled = true
-		}
-	}
-	check.dependsOn jacocoTestReport
+
 
 	test {
 		useJUnitPlatform()
 		environment('spring.profiles.active', 'test')
 		systemProperty 'spring.profiles.active', 'test'
 	}
+	test.finalizedBy jacocoTestReport
+	check.dependsOn jacocoTestCoverageVerification
+
+
+	jacocoTestCoverageVerification {
+		violationRules {
+			rule {
+				element = 'CLASS'
+				limit {
+					counter = 'METHOD'
+					value = 'COVEREDRATIO'
+					minimum = 0.5
+				}
+				excludes = [
+						'br.edu.ifsp.spo.bulls.usersApi.domain.*',
+						'br.edu.ifsp.spo.bulls.usersApi.dto.*',
+						'br.edu.ifsp.spo.bulls.usersApi.repository.*',
+						'br.edu.ifsp.spo.bulls.usersApi.security.*',
+						'br.edu.ifsp.spo.bulls.usersApi.exception.*',
+						'br.edu.ifsp.spo.bulls.usersApi.enums.*'
+				]
+			}
+		}
+	}
+
+
+
+
+
 }
