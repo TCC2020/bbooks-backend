@@ -1,9 +1,8 @@
 language: java
 sudo: required
 before_install:
-  - curl -sL http://bit.ly/jpm4j >jpm4j.jar
-  - sudo java -jar jpm4j.jar -g init
-  - sudo jpm install com.codacy:codacy-coverage-reporter:assembly
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
@@ -11,7 +10,7 @@ cache:
     - "$HOME/.gradle/caches/"
     - "$HOME/.gradle/wrapper/"
 after_success:
-  - codacy-coverage-reporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml  --p
+  - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco/jacoco.xml
 jdk:
 - openjdk11
 deploy:
