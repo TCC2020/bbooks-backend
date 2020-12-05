@@ -51,6 +51,7 @@ subprojects {
 			mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR2'
 		}
 	}
+
 }
 project(':users-api') {
 	bootRun {
@@ -74,7 +75,6 @@ project(':users-api') {
         compile 'io.springfox:springfox-swagger-ui:2.9.2'
 		compile'io.github.createam-labs:spring-boot-starter-heroku:1.1'
 		implementation 'com.logentries:logentries-appender:1.1.38'
-//		codacy 'com.codacy:codacy-coverage-reporter:latest.release'
     }
 
 	apply plugin: 'jacoco'
@@ -90,7 +90,6 @@ project(':users-api') {
 
 	jacocoTestReport {
 		reports {
-			csv.enabled false
 			html.destination file("${buildDir}/jacocoHtml")
 			xml.enabled true
 		}
@@ -117,21 +116,7 @@ project(':users-api') {
 		}
 	}
 
-	configurations { codacy }
-	repositories {
 
-	}
-	task sendCoverageToCodacy(type: JavaExec, dependsOn: jacocoTestReport) {
-		main = "com.codacy.CodacyCoverageReporter"
-		classpath = configurations.codacy
-		args = [
-				"report",
-				"-l",
-				"Java",
-				"-r",
-				"${buildDir}/users-api/build/reports/jacoco/test/jacocoTestReport.xml"
-		]
-	}
 
 
 
