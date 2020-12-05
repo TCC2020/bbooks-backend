@@ -10,6 +10,8 @@ before_install:
 
 after_success:
   - java -jar codacy-coverage-reporter-assembly.jar report -l Java -r users-api/build/reports/jacoco/test/jacocoTestReport.xml
+  script: bash scripts/codeQuality.sh
+  -
 deploy:
   skip_cleanup: false
   provider: heroku
