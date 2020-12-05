@@ -82,8 +82,8 @@ project(':users-api') {
 		useJUnitPlatform()
 		environment('spring.profiles.active', 'test')
 		systemProperty 'spring.profiles.active', 'test'
+		finalizedBy jacocoTestReport
 	}
-	test.finalizedBy jacocoTestReport
 	check.dependsOn jacocoTestCoverageVerification
 
 
@@ -94,7 +94,7 @@ project(':users-api') {
 				limit {
 					counter = 'METHOD'
 					value = 'COVEREDRATIO'
-					minimum = 0.5
+					minimum = 0.0
 				}
 				excludes = [
 						'br.edu.ifsp.spo.bulls.usersApi.domain.*',
