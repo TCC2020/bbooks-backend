@@ -87,6 +87,16 @@ project(':users-api') {
 	check.dependsOn jacocoTestCoverageVerification
 
 
+
+	jacocoTestReport {
+		reports {
+			csv.enabled false
+			html.destination file("${buildDir}/jacocoHtml")
+			xml.enabled true
+			//xml.destination file("${buildDir}/jacoco")
+		}
+	}
+
 	jacocoTestCoverageVerification {
 		violationRules {
 			rule {
