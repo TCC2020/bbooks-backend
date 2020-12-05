@@ -74,6 +74,15 @@ project(':users-api') {
 		implementation 'com.logentries:logentries-appender:1.1.38'
 
     }
+
+	apply plugin: 'jacoco'
+	jacocoTestReport {
+		reports {
+			xml.enabled = true
+		}
+	}
+	check.dependsOn jacocoTestReport
+
 	test {
 		useJUnitPlatform()
 		environment('spring.profiles.active', 'test')
