@@ -26,7 +26,6 @@ subprojects {
 		compileOnly {
 			extendsFrom annotationProcessor
 		}
-		codacy
 	}
 	dependencies {
 		compileOnly 'org.projectlombok:lombok'
@@ -41,7 +40,6 @@ subprojects {
 
 		compile('io.springfox:springfox-swagger2:2.9.2')
 		compile('io.springfox:springfox-swagger-ui:2.9.2')
-		codacy 'com.github.codacy:codacy-coverage-reporter:-SNAPSHOT'
 	}
 	repositories {
 		mavenCentral()
@@ -118,6 +116,13 @@ project(':users-api') {
 		}
 	}
 
+	configurations { codacy }
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		codacy 'com.codacy:codacy-coverage-reporter:latest.release'
+	}
 	task sendCoverageToCodacy(type: JavaExec, dependsOn: jacocoTestReport) {
 		main = "com.codacy.CodacyCoverageReporter"
 		classpath = configurations.codacy
