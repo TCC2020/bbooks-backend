@@ -3,7 +3,7 @@ npm install
 npm run coverage-to-codacy
 grade=$(curl -s -X GET https://api.codacy.com/2.0/project \
   -H 'Accept: application/json' \
-  -H 'project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}' | jq -r '.commit.commit.grade')
+  -H 'project_token: &CODACY_PROJECT_TOKEN' | jq -r '.commit.commit.grade')
 echo $grade
 if [[ "$grade" == "A" ]]
   then
