@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import java.util.UUID;
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {

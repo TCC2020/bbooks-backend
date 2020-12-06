@@ -35,10 +35,8 @@ public class ProfileService {
 	}
 	
 	public ProfileTO getByUser(String username) {
-		
 		UserTO user = userService.getByUserName(username, null);
 		Profile profile =  profileRep.findByUser(userBeanUtil.toUser(user));
-		
 		return beanUtil.toProfileTO(profile);
 	}
 
@@ -58,9 +56,7 @@ public class ProfileService {
 	}
 
 	public ProfileTO getById(int id) {
-		
 		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
-		
 		return beanUtil.toProfileTO(profile); 
 	}
 
@@ -69,18 +65,17 @@ public class ProfileService {
 	}
 
 	public void delete(int  id) {
-		
-		profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
+		profileRep.findById(id)
+				.orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 		profileRep.deleteById(id);
 	}
 	
-	public void deleteByUser(User  user) {
-		
+	public void deleteByUser(User  user){
 		Profile profile = profileRep.findByUser(user);
 		profileRep.deleteById(profile.getId());
 	}
 
-	public ProfileTO update(ProfileTO entity) throws Exception {
+	public ProfileTO update(ProfileTO entity){
 		
 		Profile retorno = profileRep.findById(entity.getId()).map( profile -> {
 			profile.setBirthDate(entity.getBirthDate());
@@ -96,15 +91,12 @@ public class ProfileService {
 	}
 
 	public HashSet<ProfileTO> getAll() {
-
 		HashSet<Profile> profile =  profileRep.findAll();
 		return beanUtil.toProfileTO(profile);
 	}
 
 	public Profile getDomainByToken(String token) {
 		User user = userService.getByToken(token);
-		Profile profile;
-
 		if(user != null) {
 			return  profileRep.findByUser(user);
 		}
