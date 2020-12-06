@@ -58,6 +58,7 @@ project(':users-api') {
 		environment('spring.profiles.active', 'dev')
 	}
 
+	apply plugin: 'jacoco'
 
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -77,22 +78,45 @@ project(':users-api') {
 		implementation 'com.logentries:logentries-appender:1.1.38'
     }
 
-	apply plugin: 'jacoco'
-
-
 	test {
 		useJUnitPlatform()
 		environment('spring.profiles.active', 'test')
 		systemProperty 'spring.profiles.active', 'test'
 		finalizedBy jacocoTestReport
+
+		jacoco {
+			excludes = [ '**br/edu/ifsp/spo/bulls/usersApi/domain**',
+						 '**br/edu/ifsp/spo/bulls/usersApi/dto**',
+						 '**br/edu/ifsp/spo/bulls/usersApi/repository**',
+						 '**br/edu/ifsp/spo/bulls/usersApi/security**',
+						 '**br/edu/ifsp/spo/bulls/usersApi/exception**',
+						 '**br/edu/ifsp/spo/bulls/usersApi/enums**'  ]
+		}
+
+
 	}
+
 	check.dependsOn jacocoTestCoverageVerification
 
 	jacocoTestReport {
 		reports {
+			html.enabled = true
 			html.destination file("${buildDir}/jacocoHtml")
 			xml.enabled true
 		}
+
+		afterEvaluate {
+
+			getClassDirectories().setFrom(files(classDirectories.files.collect {
+				fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/usersApi/domain**',
+											  '**br/edu/ifsp/spo/bulls/usersApi/dto**',
+											  '**br/edu/ifsp/spo/bulls/usersApi/repository**',
+											  '**br/edu/ifsp/spo/bulls/usersApi/security**',
+											  '**br/edu/ifsp/spo/bulls/usersApi/exception**',
+											  '**br/edu/ifsp/spo/bulls/usersApi/enums**' ])
+			}))
+		}
+
 	}
 
 	jacocoTestCoverageVerification {
@@ -105,20 +129,14 @@ project(':users-api') {
 					minimum = 0.0
 				}
 				excludes = [
-						'br.edu.ifsp.spo.bulls.usersApi.domain.*',
-						'br.edu.ifsp.spo.bulls.usersApi.dto.*',
-						'br.edu.ifsp.spo.bulls.usersApi.repository.*',
-						'br.edu.ifsp.spo.bulls.usersApi.security.*',
-						'br.edu.ifsp.spo.bulls.usersApi.exception.*',
-						'br.edu.ifsp.spo.bulls.usersApi.enums.*'
+						'**br/edu/ifsp/spo/bulls/usersApi/domain**',
+						'**br/edu/ifsp/spo/bulls/usersApi/dto**',
+						'**br/edu/ifsp/spo/bulls/usersApi/repository**',
+						'**br/edu/ifsp/spo/bulls/usersApi/security**',
+						'**br/edu/ifsp/spo/bulls/usersApi/exception**',
+						'**br/edu/ifsp/spo/bulls/usersApi/enums**'
 				]
 			}
 		}
 	}
-
-
-
-
-
-
 }
