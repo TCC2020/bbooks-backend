@@ -1,10 +1,8 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -26,7 +26,7 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
     protected UserDetails retrieveUser(String userName, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
         Object token = usernamePasswordAuthenticationToken.getCredentials();
 
-        String output = null;
+        String output;
         if(null == token)
             output = "There isn't any token! Please generates your token and try again!";
         else if(null != token && token.equals(""))

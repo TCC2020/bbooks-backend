@@ -1,16 +1,10 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.*;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,10 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import java.util.*;
+
+import java.util.HashSet;
+import java.util.Set;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -41,8 +40,7 @@ public class UserBooksControllerTest {
 
     private BookCaseTO bookCaseTO = new BookCaseTO();
     private UserBooksTO userBooksTO = new UserBooksTO();
-    private UserBooks userBooks;
-    private Set<UserBooksTO> userBooksList = new HashSet<UserBooksTO>();
+    private Set<UserBooksTO> userBooksList = new HashSet<>();
 
     @BeforeEach
     void setUp() {
@@ -50,7 +48,7 @@ public class UserBooksControllerTest {
         userBooksTO.setProfileId(1);
         userBooksTO.setIdBookGoogle("32");
 
-        Set<UserBooksTO> userBooksList = new HashSet<UserBooksTO>();
+        Set<UserBooksTO> userBooksList = new HashSet<>();
         userBooksList.add(userBooksTO);
         bookCaseTO.setProfileId(1);
         bookCaseTO.setBooks(userBooksList);
@@ -72,7 +70,7 @@ public class UserBooksControllerTest {
 
         Mockito.when(mockUserBooksService.getByProfileId(1)).thenReturn(bookCaseTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/bookcases/profile/1")
+        mockMvc.perform(get("/bookcases/profile/1")
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
@@ -109,7 +107,7 @@ public class UserBooksControllerTest {
     void deleteById() throws Exception {
         Mockito.doNothing().when(mockUserBooksService).deleteById(userBooksTO.getId());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/bookcases/" + userBooksTO.getId())
+        mockMvc.perform(delete("/bookcases/" + userBooksTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }

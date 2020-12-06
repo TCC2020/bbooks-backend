@@ -5,7 +5,6 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.AcceptTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendRequestTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.FriendshipTO;
-import br.edu.ifsp.spo.bulls.usersApi.service.FriendsService;
 import br.edu.ifsp.spo.bulls.usersApi.service.FriendshipService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

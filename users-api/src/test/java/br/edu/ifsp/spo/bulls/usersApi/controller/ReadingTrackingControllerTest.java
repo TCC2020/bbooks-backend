@@ -1,8 +1,5 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
-import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.*;
 import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
@@ -57,7 +54,7 @@ public class ReadingTrackingControllerTest {
     }
 
     @Test
-    void testDeleteNotFound() throws JsonProcessingException, Exception {
+    void testDeleteNotFound() throws Exception {
         mockMvc.perform(delete("/tracking/" + UUID.randomUUID())
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
@@ -181,7 +178,7 @@ public class ReadingTrackingControllerTest {
         userBooksTO.setStatus(status);
         userBooksTO.setIdBookGoogle(idBookGoogle);
         userBooksTO.setPage(page);
-        userBooksTO.setTags(new ArrayList<TagTO>());
+        userBooksTO.setTags(new ArrayList<>());
         return userBooksService.save(userBooksTO).getId();
     }
 }

@@ -2,12 +2,9 @@ package br.edu.ifsp.spo.bulls.usersApi.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Entity

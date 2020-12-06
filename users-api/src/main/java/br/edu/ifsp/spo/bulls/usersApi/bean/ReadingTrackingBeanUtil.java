@@ -1,21 +1,15 @@
 package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
-import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TrackingRepository;
-import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
-import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 

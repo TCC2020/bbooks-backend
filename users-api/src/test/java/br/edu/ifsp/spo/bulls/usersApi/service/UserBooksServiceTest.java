@@ -49,8 +49,8 @@ public class UserBooksServiceTest {
     private UserBooksTO userBooksTOLivro = new UserBooksTO();
     private BookCaseTO bookCaseTO = new BookCaseTO();
     private Profile profile = new Profile();
-    private Set<UserBooks> userBooksList = new HashSet<UserBooks>();
-    private Set<UserBooks> userBooksListDiferente = new HashSet<UserBooks>();
+    private Set<UserBooks> userBooksList = new HashSet<>();
+    private Set<UserBooks> userBooksListDiferente = new HashSet<>();
     private Tag tag;
     private TagTO tagTO;
     private Book book;
@@ -98,7 +98,7 @@ public class UserBooksServiceTest {
         userBooksLivro.setStatus(Status.EMPRESTADO);
 
         //Carregando o BookCaseTO
-        Set<UserBooksTO> userBooksListTO = new HashSet<UserBooksTO>();
+        Set<UserBooksTO> userBooksListTO = new HashSet<>();
         userBooksListTO.add(userBooksTO);
         bookCaseTO.setProfileId(1);
         bookCaseTO.setBooks(userBooksListTO);
@@ -116,7 +116,7 @@ public class UserBooksServiceTest {
     public void user_books_service_should_save() {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
         Mockito.when(mockUserBooksRepository.save(userBooks)).thenReturn(userBooks);
-        Mockito.when(mockTagService.tagBook(1l, userBooksTO.getId())).thenReturn(tag);
+        Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
         Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksListDiferente);
         UserBooksTO userBooksTO1 = userBookService.save(userBooksTO);
@@ -136,7 +136,7 @@ public class UserBooksServiceTest {
     @Test
     public void user_books_service_shouldnt_save_if_userbooks_already_in_bookcase() {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
-        Mockito.when(mockTagService.tagBook(1l, userBooksTO.getId())).thenReturn(tag);
+        Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
         Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
 
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);

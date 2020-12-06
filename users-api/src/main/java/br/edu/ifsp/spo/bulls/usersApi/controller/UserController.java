@@ -38,7 +38,7 @@ public class UserController {
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
 	@PostMapping(consumes="application/json")
-	public UserTO create(@RequestBody @Valid CadastroUserTO userTO) throws ResourceBadRequestException, Exception  {
+	public UserTO create(@RequestBody @Valid CadastroUserTO userTO) throws Exception  {
 		UserTO user = service.save(userTO);
 		logger.info("Novo cadastro no sistema" + user);
 		return user;

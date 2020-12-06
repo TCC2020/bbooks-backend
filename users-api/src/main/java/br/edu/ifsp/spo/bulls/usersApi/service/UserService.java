@@ -1,4 +1,3 @@
-
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
-import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;

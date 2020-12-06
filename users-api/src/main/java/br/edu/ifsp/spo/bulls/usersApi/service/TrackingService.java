@@ -5,7 +5,6 @@ import br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
-import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.TrackingTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
@@ -15,7 +14,6 @@ import br.edu.ifsp.spo.bulls.usersApi.repository.TrackingRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -136,7 +134,7 @@ public class TrackingService {
     private Double calcularVelocidadeLeitura(TrackingTO tracking) {
         int qtdeDias = 1;
         double qtdePaginasLidas = 0;
-        double velocidade = 0;
+        double velocidade;
 
         if(tracking.getTrackings().size() == 1) {
             qtdePaginasLidas = tracking.getTrackings().get(0).getNumPag();

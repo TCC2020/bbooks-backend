@@ -53,14 +53,14 @@ public class TagServiceTest {
         tag.setColor("IS821");
         tag.setProfile(profile);
         tag.setName("tag1");
-        tag.setBooks(new ArrayList<UserBooks>());
+        tag.setBooks(new ArrayList<>());
 
         Tag tagOtherUserBook = new Tag();
         tagOtherUserBook.setId(23L);
         tagOtherUserBook.setColor("IS821");
         tagOtherUserBook.setProfile(profile);
         tagOtherUserBook.setName("tag1");
-        tagOtherUserBook.setBooks(new ArrayList<UserBooks>());
+        tagOtherUserBook.setBooks(new ArrayList<>());
 
         tagsList.add(tag);
         tagsList.add(tagOtherUserBook);

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +22,7 @@ public class BookBeanUtilTest {
 
     @Test
     void testToBook(){
-        List<Author>  author = new ArrayList<Author>( );
+        List<Author>  author = new ArrayList<>( );
         author.add(new Author("Autor1"));
 
         BookTO bookTo = new BookTO( "123","lIVRO TESTE3", author, 10,
@@ -45,7 +44,7 @@ public class BookBeanUtilTest {
 
     @Test
     void testToBookTO(){
-        List<Author>  author = new ArrayList<Author>( );
+        List<Author>  author = new ArrayList<>( );
         author.add(new Author("Autor1"));
 
         Book book = new Book( "1234", "lIVRO TESTE2", author, 10,
@@ -67,14 +66,14 @@ public class BookBeanUtilTest {
 
     @Test
     void testToBookTOList(){
-        List<Author>  author = new ArrayList<Author>( );
+        List<Author>  author = new ArrayList<>( );
         author.add(new Author("Autor1"));
 
         Book book = new Book( "123455665", "lIVRO TESTE",author,
                 10, "português",
                 "editora", 1, "livro", "teste");
 
-        HashSet<Book> listBooks = new HashSet<Book>();
+        HashSet<Book> listBooks = new HashSet<>();
         listBooks.add(book);
 
         HashSet<BookTO> bookToList = beanUtil.toBookTO(listBooks);

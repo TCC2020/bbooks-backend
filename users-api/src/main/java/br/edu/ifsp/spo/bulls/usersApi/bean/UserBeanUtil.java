@@ -3,11 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
-
 import java.util.HashSet;
-import java.util.UUID;
-
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.FriendshipRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
@@ -123,7 +119,7 @@ public class UserBeanUtil {
 	}
 
 	public HashSet<UserTO> toUserTO(HashSet<User> users){
-		HashSet<UserTO> usersTO = new HashSet<UserTO>();
+		HashSet<UserTO> usersTO = new HashSet<>();
 	    for (User user: users ) {
 	        usersTO.add(toUserTO(user));
 	     }

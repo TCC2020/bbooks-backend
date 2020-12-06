@@ -1,26 +1,13 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.HashSet;
-
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.TransactionSystemException;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
-
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -34,7 +21,7 @@ public class UserServiceTest {
 
 
     @Test
-    void testSave() throws ResourceBadRequestException, Exception {
+    void testSave() throws  Exception {
 
 //        CadastroUserTO user = new CadastroUserTO("testeS", "testeS@teste12", "senhate", "nome", "sobrenome");
 //
@@ -88,7 +75,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testGetById() throws ResourceBadRequestException, Exception {
+    void testGetById() throws  Exception {
 //        CadastroUserTO cadastroUserTO = new CadastroUserTO("testeGI", "testeGi@teste", "senhate", "nome", "sobrenome");
 //        UserTO user = service.save(cadastroUserTO);
 //        UserTO user1 = service.getById(user.getId());
@@ -151,7 +138,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testDelete() throws ResourceBadRequestException, Exception {
+    void testDelete() throws Exception {
         CadastroUserTO user = new CadastroUserTO("testeDel1", "testeDel1@teste", "senhate", "nome", "sobrenome");
 //
 //        UserTO u = service.save(user);
@@ -173,7 +160,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testGetAll() throws ResourceBadRequestException, Exception {
+    void testGetAll() throws Exception {
 //        CadastroUserTO user = new CadastroUserTO("testeGA", "testeGA@teste", "senhate", "nome", "sobrenome");
 //        service.save(user);
 //
@@ -183,7 +170,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testFindByToken() throws ResourceBadRequestException, Exception {
+    void testFindByToken() throws Exception {
 //        CadastroUserTO user = new CadastroUserTO("testeDel", "testeDel@teste", "senhate", "nome", "sobrenome");
 //        UserTO userTO = service.save(user);
 //
@@ -193,7 +180,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testFailFindByToken() throws ResourceBadRequestException, Exception {
+    void testFailFindByToken() throws Exception {
 
 //        Optional<org.springframework.security.core.userdetails.User> resposta = service.findByToken("erro");
 //

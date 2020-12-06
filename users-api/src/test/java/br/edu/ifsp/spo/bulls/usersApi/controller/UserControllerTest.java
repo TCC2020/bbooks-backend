@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
-
 import java.util.UUID;
 
 
@@ -85,7 +83,7 @@ public class UserControllerTest {
     }
     
     @Test
-    void testSaveEmailVazio() throws JsonProcessingException, Exception {
+    void testSaveEmailVazio() throws  Exception {
         
     	// Criando o usuario
 		CadastroUserTO user = new CadastroUserTO();
@@ -100,7 +98,7 @@ public class UserControllerTest {
     }
     
     @Test
-    void testSavePasswordVazio() throws JsonProcessingException, Exception {
+    void testSavePasswordVazio() throws Exception {
         
     	// Criando o usu�rio
 		CadastroUserTO user = new CadastroUserTO();
@@ -153,7 +151,7 @@ public class UserControllerTest {
     }
     
     @Test
-    void testUpdate() throws JsonProcessingException, Exception {
+    void testUpdate() throws  Exception {
 
 		// Criando o usuario
 //		CadastroUserTO user = new CadastroUserTO();
@@ -176,7 +174,7 @@ public class UserControllerTest {
     }
     
     @Test
-    void testUpdateUserNotFound() throws JsonProcessingException, Exception {
+    void testUpdateUserNotFound() throws  Exception {
         
     	// Criando o usuario
 		UserTO user = new UserTO();
@@ -190,7 +188,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void testDelete() throws JsonProcessingException, Exception {
+    void testDelete() throws Exception {
         
     	// Criando o usuario
 //		CadastroUserTO user = new CadastroUserTO();
@@ -210,7 +208,7 @@ public class UserControllerTest {
     }
     
     @Test
-    void testDeleteUserNotFound() throws JsonProcessingException, Exception {
+    void testDeleteUserNotFound() throws  Exception {
 
         // Apagando o usuario
         mockMvc.perform(delete("/users/" + UUID.randomUUID())

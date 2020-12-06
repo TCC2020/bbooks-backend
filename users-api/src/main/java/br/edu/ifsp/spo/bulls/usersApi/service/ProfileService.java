@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
 import java.util.HashSet;
-
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
-import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
 
 @Service
 public class ProfileService {
@@ -32,8 +30,7 @@ public class ProfileService {
 	private UserBeanUtil userBeanUtil;
 	
 	
-	public Profile save(Profile entity) throws Exception {
-		
+	public Profile save(Profile entity){
 		return profileRep.save(entity);
 	}
 	
@@ -68,10 +65,7 @@ public class ProfileService {
 	}
 
 	public Profile getDomainById(int id) {
-
-		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
-
-		return profile;
+		return profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 	}
 
 	public void delete(int  id) {

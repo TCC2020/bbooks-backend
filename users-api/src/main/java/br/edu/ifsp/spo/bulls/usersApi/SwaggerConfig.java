@@ -11,6 +11,8 @@ import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import javax.xml.ws.Response;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,21 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    private List<ResponseMessage> responseMessages = new ArrayList<ResponseMessage>() {{
+        add(new ResponseMessageBuilder()
+                .code(500)
+                .message("500 message")
+                .responseModel(new ModelRef("Error"))
+                .build());
+        add(new ResponseMessageBuilder()
+                .code(404)
+                .message("Not Found")
+                .build());
+        add(new ResponseMessageBuilder()
+                .code(200)
+                .message("OK")
+                .build());
+    }};
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -34,85 +51,31 @@ public class SwaggerConfig {
 
     private List<ResponseMessage> responseMessageForGET()
     {
-        return new ArrayList<ResponseMessage>() {{
-            add(new ResponseMessageBuilder()
-                    .code(500)
-                    .message("500 message")
-                    .responseModel(new ModelRef("Error"))
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(404)
-                    .message("Not Found")
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(200)
-                    .message("OK")
-                    .build());
-        }};
+        return responseMessages;
     }
 
     private List<ResponseMessage> responseMessageForPUT()
     {
-        return new ArrayList<ResponseMessage>() {{
-            add(new ResponseMessageBuilder()
-                    .code(500)
-                    .message("500 message")
-                    .responseModel(new ModelRef("Error"))
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(404)
-                    .message("Not Found")
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(404)
-                    .message("Conflict")
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(200)
-                    .message("OK")
-                    .build());
-        }};
+        responseMessages.add(new ResponseMessageBuilder()
+                .code(409)
+                .message("Conflict")
+                .build());
+
+        return responseMessages;
     }
 
     private List<ResponseMessage> responseMessageForDELETE()
     {
-        return new ArrayList<ResponseMessage>() {{
-            add(new ResponseMessageBuilder()
-                    .code(500)
-                    .message("500 message")
-                    .responseModel(new ModelRef("Error"))
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(404)
-                    .message("Not Found")
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(200)
-                    .message("OK")
-                    .build());
-        }};
+        return responseMessages;
     }
 
     private List<ResponseMessage> responseMessageForPOST()
     {
-        return new ArrayList<ResponseMessage>() {{
-            add(new ResponseMessageBuilder()
-                    .code(500)
-                    .message("500 message")
-                    .responseModel(new ModelRef("Error"))
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(404)
-                    .message("Not Found")
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(404)
-                    .message("Conflict")
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(200)
-                    .message("OK")
-                    .build());
-        }};
+        responseMessages.add(new ResponseMessageBuilder()
+                .code(409)
+                .message("Conflict")
+                .build());
+
+        return responseMessages;
     }
 }

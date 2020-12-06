@@ -2,9 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Book;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
-import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.TagTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
@@ -19,10 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -43,23 +39,18 @@ public class UserBooksBeanUtilTest {
     private UserBooks userBooks2 = new UserBooks();
     private UserBooksTO userBooksTO2 = new UserBooksTO();
     private UserBookUpdateStatusTO userBookUpdateStatusTO = new UserBookUpdateStatusTO();
-    private BookCaseTO bookCaseTO = new BookCaseTO();
     private Profile profile = new Profile();
     private Profile profile2 = new Profile();
-
-    private Tag tag;
-    private TagTO tagTO;
-    private Book book;
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.initMocks(this);
 
         // carregando tag
-        tagTO = new TagTO(1L, "nome", profile);
+        TagTO tagTO = new TagTO(1L, "nome", profile);
 
         // carregando book
-        book = new Book("1234489-", "lIVRO TESTE", 10, "português", "editora", 3, "livro");
+        Book book = new Book("1234489-", "lIVRO TESTE", 10, "português", "editora", 3, "livro");
         book.setId(1);
 
         // carregando o UserBooksTO
@@ -129,8 +120,8 @@ public class UserBooksBeanUtilTest {
 
     @Test
     void toDtoSet() {
-        Set<UserBooksTO> userBooksListTO = new HashSet<UserBooksTO>();
-        Set<UserBooks> userBooksList = new HashSet<UserBooks>();
+        Set<UserBooksTO> userBooksListTO = new HashSet<>();
+        Set<UserBooks> userBooksList = new HashSet<>();
 
         userBooksListTO.add(userBooksTO);
         userBooksListTO.add(userBooksTO2);

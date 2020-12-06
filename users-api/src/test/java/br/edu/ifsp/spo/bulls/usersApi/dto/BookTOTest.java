@@ -2,11 +2,8 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import br.edu.ifsp.spo.bulls.usersApi.domain.Author;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BookTOTest {
@@ -45,7 +42,7 @@ class BookTOTest {
 
 
     List<Author> listaAutores(){
-        List<Author> autores = new ArrayList<Author>();
+        List<Author> autores = new ArrayList<>();
 
         autores.add(new Author("autor 1"));
         autores.add(new Author("autor 2"));

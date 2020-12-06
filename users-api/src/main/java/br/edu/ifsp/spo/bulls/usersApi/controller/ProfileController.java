@@ -2,8 +2,6 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 
 import java.util.HashSet;
 import javax.validation.Valid;
-
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

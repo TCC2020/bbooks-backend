@@ -47,24 +47,6 @@ public class CadastroUserTO {
     @NotBlank(message = "Sobrenome é obrigatório")
     private String lastName;
 
-
-
-
-    @Override
-    public boolean equals(Object obj) {
-        CadastroUserTO other = (CadastroUserTO) obj;
-        return Objects.equals(email, other.email) && Objects.equals(password, other.password)
-                && Objects.equals(token, other.token) && Objects.equals(userName, other.userName)
-                && Objects.equals(verified, other.verified);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, password, token, userName, verified);
-    }
-
-
-
     public CadastroUserTO() {}
 
     public CadastroUserTO(String userName,String email,String password, String token, Boolean verified) {

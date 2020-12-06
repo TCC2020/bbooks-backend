@@ -36,7 +36,7 @@ public class BookService {
         verificaSeIsbnEstsCadastrado(entity);
         verificaSeTemAutores(entity);
 
-        List<Author> author = new ArrayList<Author>();
+        List<Author> author = new ArrayList<>();
 
         for(int i = 0; i<entity.getAuthors().size(); i++){
             author.add(authorService.returnTheAuthorFromDb(entity.getAuthors().get(i)));

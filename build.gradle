@@ -83,40 +83,25 @@ project(':users-api') {
 		environment('spring.profiles.active', 'test')
 		systemProperty 'spring.profiles.active', 'test'
 		finalizedBy jacocoTestReport
-
-		jacoco {
-			excludes = [ '**br/edu/ifsp/spo/bulls/usersApi/domain**',
-						 '**br/edu/ifsp/spo/bulls/usersApi/dto**',
-						 '**br/edu/ifsp/spo/bulls/usersApi/repository**',
-						 '**br/edu/ifsp/spo/bulls/usersApi/security**',
-						 '**br/edu/ifsp/spo/bulls/usersApi/exception**',
-						 '**br/edu/ifsp/spo/bulls/usersApi/enums**'  ]
-		}
-
-
 	}
 
 	check.dependsOn jacocoTestCoverageVerification
 
 	jacocoTestReport {
+		getClassDirectories().setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/usersApi/domain**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/dto**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/repository**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/security**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/exception**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/enums**' ])
+		}))
 		reports {
 			html.enabled = true
 			html.destination file("${buildDir}/jacocoHtml")
-			xml.enabled true
+			xml.enabled = true
+			xml.setDestination(file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
 		}
-
-		afterEvaluate {
-
-			getClassDirectories().setFrom(files(classDirectories.files.collect {
-				fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/usersApi/domain**',
-											  '**br/edu/ifsp/spo/bulls/usersApi/dto**',
-											  '**br/edu/ifsp/spo/bulls/usersApi/repository**',
-											  '**br/edu/ifsp/spo/bulls/usersApi/security**',
-											  '**br/edu/ifsp/spo/bulls/usersApi/exception**',
-											  '**br/edu/ifsp/spo/bulls/usersApi/enums**' ])
-			}))
-		}
-
 	}
 
 	jacocoTestCoverageVerification {

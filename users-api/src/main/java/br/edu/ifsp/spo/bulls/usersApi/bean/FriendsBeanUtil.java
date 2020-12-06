@@ -5,8 +5,6 @@ import br.edu.ifsp.spo.bulls.usersApi.dto.FriendRequestTO;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
