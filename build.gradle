@@ -44,17 +44,21 @@ subprojects {
 	repositories {
 		mavenCentral()
 		maven { url 'https://repo.spring.io/milestone' }
+		jcenter()
 	}
 	dependencyManagement {
 		imports {
 			mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR2'
 		}
 	}
+
 }
 project(':users-api') {
 	bootRun {
 		environment('spring.profiles.active', 'dev')
 	}
+
+	apply plugin: 'jacoco'
 
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -72,11 +76,52 @@ project(':users-api') {
         compile 'io.springfox:springfox-swagger-ui:2.9.2'
 		compile'io.github.createam-labs:spring-boot-starter-heroku:1.1'
 		implementation 'com.logentries:logentries-appender:1.1.38'
-
     }
+
 	test {
 		useJUnitPlatform()
 		environment('spring.profiles.active', 'test')
 		systemProperty 'spring.profiles.active', 'test'
+		finalizedBy jacocoTestReport
+	}
+
+	check.dependsOn jacocoTestCoverageVerification
+
+	jacocoTestReport {
+		getClassDirectories().setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/usersApi/domain**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/dto**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/repository**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/security**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/exception**',
+										 '**br/edu/ifsp/spo/bulls/usersApi/enums**' ])
+		}))
+		reports {
+			html.enabled = true
+			html.destination file("${buildDir}/jacocoHtml")
+			xml.enabled = true
+			xml.setDestination(file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
+		}
+	}
+
+	jacocoTestCoverageVerification {
+		violationRules {
+			rule {
+				element = 'CLASS'
+				limit {
+					counter = 'METHOD'
+					value = 'COVEREDRATIO'
+					minimum = 0.0
+				}
+				excludes = [
+						'**br/edu/ifsp/spo/bulls/usersApi/domain**',
+						'**br/edu/ifsp/spo/bulls/usersApi/dto**',
+						'**br/edu/ifsp/spo/bulls/usersApi/repository**',
+						'**br/edu/ifsp/spo/bulls/usersApi/security**',
+						'**br/edu/ifsp/spo/bulls/usersApi/exception**',
+						'**br/edu/ifsp/spo/bulls/usersApi/enums**'
+				]
+			}
+		}
 	}
 }

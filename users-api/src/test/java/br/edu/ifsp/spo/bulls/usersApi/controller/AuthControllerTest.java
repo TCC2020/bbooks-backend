@@ -3,35 +3,26 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.User;
+import br.edu.ifsp.spo.bulls.usersApi.dto.ResetPassTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.*;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceUnauthorizedException;
-import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
-import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.AuthService;
-import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.UUID;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AuthControllerTest {
@@ -44,16 +35,12 @@ public class AuthControllerTest {
 
     @MockBean
     private AuthService mockAuthService;
-    @MockBean
-    private ProfileRepository mockProfileRepository;
 
     @Autowired
-    UserBeanUtil userBeanUtil;
+    private UserBeanUtil userBeanUtil;
 
-    private CadastroUserTO cadastroUserTO;
     private LoginTO loginTo;
     private UserTO userTO = new UserTO();
-    private User user = new User();
     private ProfileTO profileTO = new ProfileTO();
     private Profile profile = new Profile();
     private RequestPassResetTO requestPassResetTO = new RequestPassResetTO();
@@ -61,7 +48,7 @@ public class AuthControllerTest {
 
     @BeforeEach
     void setUp() {
-        cadastroUserTO = new CadastroUserTO("testConfirm", "testeUp@confirm", "senhate", "nome", "sobrenome");
+        CadastroUserTO cadastroUserTO = new CadastroUserTO("testConfirm", "testeUp@confirm", "senhate", "nome", "sobrenome");
         loginTo = new LoginTO(cadastroUserTO.getUserName(),cadastroUserTO.getEmail(), cadastroUserTO.getPassword() );
 
         profileTO.setId(1);
@@ -72,7 +59,7 @@ public class AuthControllerTest {
         userTO.setId(UUID.randomUUID());
         userTO.setProfile(profileTO);
 
-        user = userBeanUtil.toUser(userTO);
+        User user = userBeanUtil.toUser(userTO);
         user.setPassword(cadastroUserTO.getPassword());
 
         profile.setId(1);

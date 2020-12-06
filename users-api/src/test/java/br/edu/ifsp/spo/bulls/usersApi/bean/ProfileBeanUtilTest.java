@@ -1,9 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.HashSet;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

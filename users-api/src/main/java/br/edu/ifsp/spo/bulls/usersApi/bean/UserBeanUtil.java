@@ -3,11 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
 import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
-
 import java.util.HashSet;
-import java.util.UUID;
-
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.FriendshipRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
@@ -22,9 +18,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserBeanUtil {
 	private Logger logger = LoggerFactory.getLogger(UserBeanUtil.class);
-
-	@Autowired
-	private UserRepository repository;
 
 	@Autowired
 	private ProfileBeanUtil profileBeanUtil;
@@ -99,36 +92,12 @@ public class UserBeanUtil {
 		return userTO;
 	}
 
-	public UserTO toUserTO(CadastroUserTO user) {
-		UserTO userTO = new UserTO();
-
-		try{
-			BeanUtils.copyProperties(user, userTO);
-		}catch(Exception e) {
-			logger.error("Error while converting User to UserTO: " +  e);
-		}
-		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(this.toUser(user))));
-		return userTO;
-	}
-
-	public CadastroUserTO toCadastroTO(UserTO user) {
-		CadastroUserTO userTO = new CadastroUserTO();
-
-		try{
-			BeanUtils.copyProperties(user, userTO);
-		}catch(Exception e) {
-			logger.error("Error while converting UserTO to CadastroUserTO: " +  e);
-		}
-		return userTO;
-	}
-
 	public HashSet<UserTO> toUserTO(HashSet<User> users){
-		HashSet<UserTO> usersTO = new HashSet<UserTO>();
+		HashSet<UserTO> usersTO = new HashSet<>();
+
 	    for (User user: users ) {
 	        usersTO.add(toUserTO(user));
 	     }
 		return usersTO;
 	}
-
-
 }

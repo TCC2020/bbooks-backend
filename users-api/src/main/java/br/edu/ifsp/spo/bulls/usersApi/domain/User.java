@@ -72,20 +72,4 @@ public class User implements Serializable {
 	public User() {
 		
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-
-		User other = (User) obj;
-		
-		return Objects.equals(creationDate, other.creationDate) && Objects.equals(email, other.email)
-				&& Objects.equals(password, other.password) && Objects.equals(token, other.token)
-				&& Objects.equals(userName, other.userName) && Objects.equals(verified, other.verified);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(creationDate, email, password, token, userName);
-	}
-
 }

@@ -12,16 +12,13 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl;
-import com.google.rpc.Code;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 import java.util.Optional;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class AuthService {

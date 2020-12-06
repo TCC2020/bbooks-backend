@@ -1,8 +1,6 @@
 package br.edu.ifsp.spo.bulls.usersApi.dto;
 
 import javax.validation.constraints.NotBlank;
-
-import br.edu.ifsp.spo.bulls.usersApi.domain.Friendship;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

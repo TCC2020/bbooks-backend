@@ -39,8 +39,8 @@ public class EmailServiceTest {
 
         assertEquals(to, emailService.getTo());
         assertEquals(EmailSubject.VERIFY_EMAIL.name(), emailService.getSubject());
-        assertEquals(true, emailService.getContent().contains(content));
-        assertEquals(true, emailService.getContent().contains(url));
+        assertTrue( emailService.getContent().contains(content));
+        assertTrue( emailService.getContent().contains(url));
     }
 
     @Test

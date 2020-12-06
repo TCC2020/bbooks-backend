@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.usersApi;
 
-import br.edu.ifsp.spo.bulls.usersApi.controller.UserController;
 import br.edu.ifsp.spo.bulls.usersApi.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

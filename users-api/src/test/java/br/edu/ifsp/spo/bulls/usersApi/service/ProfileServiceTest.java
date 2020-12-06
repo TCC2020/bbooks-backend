@@ -1,21 +1,10 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.HashSet;
-
-import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
-import br.edu.ifsp.spo.bulls.usersApi.domain.User;
-import br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
-import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository;
 
 @ExtendWith(SpringExtension.class)

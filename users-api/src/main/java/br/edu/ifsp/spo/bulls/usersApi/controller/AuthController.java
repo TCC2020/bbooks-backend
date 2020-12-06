@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.User;
 import br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.RequestPassResetTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.ResetPassTO;
@@ -22,7 +21,7 @@ public class AuthController {
     @Autowired
     private AuthService service;
 
-    private Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @ApiOperation(value = "Fazer login na plataforma")
     @ApiResponses( value = {

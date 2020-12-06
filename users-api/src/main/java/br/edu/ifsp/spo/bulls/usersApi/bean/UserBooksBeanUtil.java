@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
-import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +59,7 @@ public class UserBooksBeanUtil {
     }
 
     public Set<UserBooksTO> toDtoSet(Set<UserBooks> userBooks) {
-        Set<UserBooksTO> userBooksTOSet = new HashSet<UserBooksTO>();
+        Set<UserBooksTO> userBooksTOSet = new HashSet<>();
 
         for (UserBooks book: userBooks ) {
             userBooksTOSet.add(this.toDto(book));

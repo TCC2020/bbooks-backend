@@ -27,7 +27,7 @@ public class BookBeanUtil {
 
     public HashSet<BookTO> toBookTO(HashSet<Book> books) {
 
-        HashSet<BookTO> booksTO = new HashSet<BookTO>();
+        HashSet<BookTO> booksTO = new HashSet<>();
 
         for (Book book: books ) {
             booksTO.add(this.toBookTO(book));

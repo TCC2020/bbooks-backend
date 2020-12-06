@@ -60,8 +60,7 @@ public class AuthorService {
     public Author returnTheAuthorFromDb(Author author2){
 
         if(!repository.existsByName(author2.getName().toLowerCase())){
-            Author author  = this.save(author2);
-            return author;
+            return this.save(author2);
         }else{
             return repository.findByName(author2.getName().toLowerCase()).get();
         }

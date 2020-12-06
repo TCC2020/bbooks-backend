@@ -1,28 +1,21 @@
 package br.edu.ifsp.spo.bulls.usersApi.controller;
 
-import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
-import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
-import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.*;
 import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 import br.edu.ifsp.spo.bulls.usersApi.service.ReadingTrackingService;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService;
 import br.edu.ifsp.spo.bulls.usersApi.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ReadingTrackingControllerTest {
@@ -57,7 +50,7 @@ public class ReadingTrackingControllerTest {
     }
 
     @Test
-    void testDeleteNotFound() throws JsonProcessingException, Exception {
+    void testDeleteNotFound() throws Exception {
         mockMvc.perform(delete("/tracking/" + UUID.randomUUID())
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
@@ -181,7 +174,7 @@ public class ReadingTrackingControllerTest {
         userBooksTO.setStatus(status);
         userBooksTO.setIdBookGoogle(idBookGoogle);
         userBooksTO.setPage(page);
-        userBooksTO.setTags(new ArrayList<TagTO>());
+        userBooksTO.setTags(new ArrayList<>());
         return userBooksService.save(userBooksTO).getId();
     }
 }

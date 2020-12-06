@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @RestController
@@ -69,6 +67,7 @@ public class TagController {
     public Tag getById(@PathVariable Long idTag) {
         logger.info("Requisitando dados de uma tag " + idTag);
         Tag tag = service.getbyId(idTag);
+        logger.info("Tag retornada " + tag);
         return tag;
     }
 

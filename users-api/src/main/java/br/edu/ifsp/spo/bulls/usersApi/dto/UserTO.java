@@ -35,20 +35,6 @@ public class UserTO {
 	@ApiModelProperty(value = "Usuario dono da estante virtual")
     private ProfileTO profile;
 
-    
-	@Override
-	public boolean equals(Object obj) {
-		UserTO other = (UserTO) obj;
-		return Objects.equals(email, other.email)
-				&& Objects.equals(token, other.token) && Objects.equals(userName, other.userName)
-				&& Objects.equals(verified, other.verified);
-	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(email, token, userName, verified);
-	}
-
 	public UserTO() {}
 
 	public UserTO(String userName,String email, String token, Boolean verified) {

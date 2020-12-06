@@ -9,14 +9,11 @@ import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.TagRepository;
 import br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository;
-import com.google.rpc.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TagService {
@@ -56,7 +53,7 @@ public class TagService {
     }
 
     public Tag update(Long idTag, Tag tagBody){
-        if(tagBody.getId() != idTag)
+        if(!tagBody.getId().equals(idTag))
             throw new ResourceBadRequestException(CodeException.TG002.getText(), CodeException.TG002);
 
         return repository.findById(idTag).map( tag -> {
@@ -76,7 +73,7 @@ public class TagService {
 
         for(Tag tag: repository.findAll()) {
             for(UserBooks b: tag.getBooks()){
-                if(b.getId() == idUserBook)
+                if(b.getId().equals(idUserBook))
                     tags.add(tag);
             }
         }

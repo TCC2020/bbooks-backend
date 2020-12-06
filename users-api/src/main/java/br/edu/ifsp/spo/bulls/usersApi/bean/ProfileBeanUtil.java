@@ -53,7 +53,7 @@ public class ProfileBeanUtil {
 
 	public HashSet<ProfileTO> toProfileTO(HashSet<Profile> profiles){
 		
-		HashSet<ProfileTO> profilesTO = new HashSet<ProfileTO>();
+		HashSet<ProfileTO> profilesTO = new HashSet<>();
 
 	    for (Profile profile: profiles ) {
 	        profilesTO.add(toProfileTO(profile));
