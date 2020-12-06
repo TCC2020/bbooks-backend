@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.HashSet;
 import java.util.Set;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -35,7 +34,6 @@ public class UserBooksControllerTest {
 
     private BookCaseTO bookCaseTO = new BookCaseTO();
     private UserBooksTO userBooksTO = new UserBooksTO();
-    private Set<UserBooksTO> userBooksList = new HashSet<>();
 
     @BeforeEach
     void setUp() {
@@ -65,7 +63,7 @@ public class UserBooksControllerTest {
 
         Mockito.when(mockUserBooksService.getByProfileId(1)).thenReturn(bookCaseTO);
 
-        mockMvc.perform(get("/bookcases/profile/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/bookcases/profile/1")
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
@@ -77,7 +75,7 @@ public class UserBooksControllerTest {
         userBooksTO1.setStatus(Status.EMPRESTADO);
         Mockito.when(mockUserBooksService.update(userBooksTO)).thenReturn(userBooksTO1);
 
-        mockMvc.perform(put("/bookcases")
+        mockMvc.perform(MockMvcRequestBuilders.put("/bookcases")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userBooksTO)))
                 .andExpect(status().isOk());
@@ -92,7 +90,7 @@ public class UserBooksControllerTest {
 
         Mockito.when(mockUserBooksService.updateStatus(updateStatusTO)).thenReturn(userBooksTO);
 
-        mockMvc.perform(put("/bookcases/status")
+        mockMvc.perform(MockMvcRequestBuilders.put("/bookcases/status")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userBooksTO)))
                 .andExpect(status().isOk());
@@ -102,7 +100,7 @@ public class UserBooksControllerTest {
     void deleteById() throws Exception {
         Mockito.doNothing().when(mockUserBooksService).deleteById(userBooksTO.getId());
 
-        mockMvc.perform(delete("/bookcases/" + userBooksTO.getId())
+        mockMvc.perform(MockMvcRequestBuilders.delete("/bookcases/" + userBooksTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
