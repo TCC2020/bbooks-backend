@@ -1,185 +1,190 @@
 package br.edu.ifsp.spo.bulls.usersApi.service;
 
+import br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil;
+import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceBadRequestException;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class UserServiceTest {
 
-//    @Autowired
-//    private UserService service;
-//
-//    @Autowired
-//    private UserBeanUtil userBeanUtil;
+    @Autowired
+    private UserService service;
+
+    @Autowired
+    private UserBeanUtil userBeanUtil;
 
 
-//    @Test
-//    void testSave() throws  Exception {
+    @Test
+    void testSave() throws  Exception {
+
+//        CadastroUserTO user = new CadastroUserTO("testeS", "testeS@teste12", "senhate", "nome", "sobrenome");
 //
-////        CadastroUserTO user = new CadastroUserTO("testeS", "testeS@teste12", "senhate", "nome", "sobrenome");
-////
-////        UserTO user1 = service.save(user);
-////
-////        // Testando campos obrigatorios
-////        assertEquals(user.getUserName().toLowerCase(), user1.getUserName());
-////        assertEquals(user.getEmail(), user1.getEmail());
-//    }
+//        UserTO user1 = service.save(user);
 //
-//    @Test
-//    void testFailSaveEmail() throws Exception {
-////        CadastroUserTO userUp = new CadastroUserTO("testeSEmail1234", "testeS12@teste", "senhate", "nome", "sobrenome");
-////        service.save(userUp);
-////
-////        CadastroUserTO userUpEmail = new CadastroUserTO("testeSEmail123", "testeS12@teste", "senhate", "nome", "sobrenome");
-////
-////        ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> service.save(userUpEmail));
-////        assertEquals(CodeException.US002.getText() + ": " + userUp.getEmail(), e.getMessage());
-//    }
+//        // Testando campos obrigatorios
+//        assertEquals(user.getUserName().toLowerCase(), user1.getUserName());
+//        assertEquals(user.getEmail(), user1.getEmail());
+    }
+
+    @Test
+    void testFailSaveEmail() throws Exception {
+//        CadastroUserTO userUp = new CadastroUserTO("testeSEmail1234", "testeS12@teste", "senhate", "nome", "sobrenome");
+//        service.save(userUp);
 //
-//    @Test
-//    void testFailSaveUserName() throws Exception {
-////        CadastroUserTO userUp = new CadastroUserTO("testeSEmail", "testeS1@teste", "senhate", "nome", "sobrenome");
-////        service.save(userUp);
-////
-////        CadastroUserTO userUpEmail = new CadastroUserTO("testeSEmail", "testeS2@teste", "senhate", "nome", "sobrenome");
-////
-////        ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> service.save(userUpEmail));
-////        assertEquals(CodeException.US005.getText() + ": " + userUpEmail.getUserName().toLowerCase(), e.getMessage());
-//    }
+//        CadastroUserTO userUpEmail = new CadastroUserTO("testeSEmail123", "testeS12@teste", "senhate", "nome", "sobrenome");
 //
-//    @Test
-//    void testFailSaveEmailMandatory() throws Exception {
-////        CadastroUserTO userUp = new CadastroUserTO();
-////        userUp.setPassword("senhateste");
-////        userUp.setUserName("testeSPasswordMandatory");
-////
-////        assertThrows(TransactionSystemException.class, () -> service.save(userUp));
-//    }
+//        ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> service.save(userUpEmail));
+//        assertEquals(CodeException.US002.getText() + ": " + userUp.getEmail(), e.getMessage());
+    }
+
+    @Test
+    void testFailSaveUserName() throws Exception {
+//        CadastroUserTO userUp = new CadastroUserTO("testeSEmail", "testeS1@teste", "senhate", "nome", "sobrenome");
+//        service.save(userUp);
 //
-//    @Test
-//    void testFailSavePasswordMandatory() throws Exception {
-////
-////        CadastroUserTO userUp = new CadastroUserTO();
-////        userUp.setEmail("testeS6@teste");
-////        userUp.setUserName("testeSPasswordMandatory");
-////        userUp.setPassword("");
-////
-////        assertThrows(ResourceBadRequestException.class, () -> service.save(userUp));
-//    }
+//        CadastroUserTO userUpEmail = new CadastroUserTO("testeSEmail", "testeS2@teste", "senhate", "nome", "sobrenome");
 //
-//    @Test
-//    void testGetById() throws  Exception {
-////        CadastroUserTO cadastroUserTO = new CadastroUserTO("testeGI", "testeGi@teste", "senhate", "nome", "sobrenome");
-////        UserTO user = service.save(cadastroUserTO);
-////        UserTO user1 = service.getById(user.getId());
-////
-////        // Testando se campos obrigatorios foram gravados corretamente
-////        assertEquals(user.getUserName(), user1.getUserName());
-////        assertEquals(user.getEmail(), user1.getEmail());
-//    }
+//        ResourceConflictException e = assertThrows(ResourceConflictException.class, () -> service.save(userUpEmail));
+//        assertEquals(CodeException.US005.getText() + ": " + userUpEmail.getUserName().toLowerCase(), e.getMessage());
+    }
+
+    @Test
+    void testFailSaveEmailMandatory() throws Exception {
+//        CadastroUserTO userUp = new CadastroUserTO();
+//        userUp.setPassword("senhateste");
+//        userUp.setUserName("testeSPasswordMandatory");
 //
-//    @Test
-//    void testFailGetByIdUserNotFound() {
-////
-////        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.getById(UUID.randomUUID()));
-////        assertEquals(CodeException.US001.getText(), exception.getMessage());
-//    }
+//        assertThrows(TransactionSystemException.class, () -> service.save(userUp));
+    }
+
+    @Test
+    void testFailSavePasswordMandatory() throws Exception {
 //
-//    @Test
-//    void testUpdate() throws Exception {
-////        CadastroUserTO userUp = new CadastroUserTO("testeUppppp", "r@r", "senhate", "nome", "sobrenome");
-////
-////        UserTO u = service.save(userUp);
-////
-////        u.setUserName("testeupUsernamefaf");
-////
-////
-////        UserTO userUpdated = service.update(u);
-////
-////        assertEquals("r@r", userUpdated.getEmail());
-//    }
+//        CadastroUserTO userUp = new CadastroUserTO();
+//        userUp.setEmail("testeS6@teste");
+//        userUp.setUserName("testeSPasswordMandatory");
+//        userUp.setPassword("");
 //
-//    @Test
-//    void testFailUpdateUserNotFound() throws Exception {
-////        UserTO userUp = new UserTO("testeUpUser", "testeUp2@teste");
-////        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.update(userUp));
-////        assertEquals(CodeException.US001.getText(), exception.getMessage());
-//    }
+//        assertThrows(ResourceBadRequestException.class, () -> service.save(userUp));
+    }
+
+    @Test
+    void testGetById() throws  Exception {
+//        CadastroUserTO cadastroUserTO = new CadastroUserTO("testeGI", "testeGi@teste", "senhate", "nome", "sobrenome");
+//        UserTO user = service.save(cadastroUserTO);
+//        UserTO user1 = service.getById(user.getId());
 //
-//    @Test
-//    void testFailUpdateEmail() throws Exception {
-////        UserTO userUp = service.save(new CadastroUserTO("testeUpEmail", "testeUp3@teste", "senhate", "nome", "sobrenome"));
-////
-////
-////        CadastroUserTO userUpEmail = new CadastroUserTO("testeUpEmail2", "testeUp4@teste", "senhate", "nome", "sobrenome");
-////        service.save(userUpEmail);
-////
-////        userUp.setEmail("testeUp4@teste");
-////        Set<UserTO> us = service.getAll();
-////
-////        assertThrows(ResourceConflictException.class, () -> service.update(userUp));
-//   }
+//        // Testando se campos obrigatorios foram gravados corretamente
+//        assertEquals(user.getUserName(), user1.getUserName());
+//        assertEquals(user.getEmail(), user1.getEmail());
+    }
+
+    @Test
+    void testFailGetByIdUserNotFound() {
 //
-//    @Test
-//    void testFailUpdateEmailMandatory() throws Exception {
-////        CadastroUserTO userUp = new CadastroUserTO("testeUpEmailMandatory", "testeUp5@teste", "senhate", "nome", "sobrenome");
-////        UserTO u = service.save(userUp);
-////
-////        u.setEmail("");
-////
-////        assertThrows(TransactionSystemException.class, () -> service.update(u));
-//    }
+//        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.getById(UUID.randomUUID()));
+//        assertEquals(CodeException.US001.getText(), exception.getMessage());
+    }
+
+    @Test
+    void testUpdate() throws Exception {
+//        CadastroUserTO userUp = new CadastroUserTO("testeUppppp", "r@r", "senhate", "nome", "sobrenome");
 //
-//    @Test
-//    void testDelete() throws Exception {
-//        CadastroUserTO user = new CadastroUserTO("testeDel1", "testeDel1@teste", "senhate", "nome", "sobrenome");
-////
-////        UserTO u = service.save(user);
-////        service.delete(u.getId());
-////
-////        // Se realmente apagou o "getById" nao ira achar
-////
-////        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> {
-////            service.getById(u.getId());
-////        });
-////        assertEquals(CodeException.US001.getText(), exception.getMessage());
-//    }
+//        UserTO u = service.save(userUp);
 //
-//    @Test
-//    void testFailDeleteUserNotFound() {
+//        u.setUserName("testeupUsernamefaf");
 //
-////        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.delete(UUID.randomUUID()));
-////        assertEquals(CodeException.US001.getText(), exception.getMessage());
-//    }
 //
-//    @Test
-//    void testGetAll() throws Exception {
-////        CadastroUserTO user = new CadastroUserTO("testeGA", "testeGA@teste", "senhate", "nome", "sobrenome");
-////        service.save(user);
-////
-////        HashSet<UserTO> listaUser = service.getAll();
-////
-////        assertFalse(listaUser.isEmpty());
-//    }
+//        UserTO userUpdated = service.update(u);
 //
-//    @Test
-//    void testFindByToken() throws Exception {
-////        CadastroUserTO user = new CadastroUserTO("testeDel", "testeDel@teste", "senhate", "nome", "sobrenome");
-////        UserTO userTO = service.save(user);
-////
-////        Optional<org.springframework.security.core.userdetails.User> resposta = service.findByToken(userTO.getToken());
-////
-////        assertTrue(resposta.isPresent());
-//    }
+//        assertEquals("r@r", userUpdated.getEmail());
+    }
+
+    @Test
+    void testFailUpdateUserNotFound() throws Exception {
+//        UserTO userUp = new UserTO("testeUpUser", "testeUp2@teste");
+//        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.update(userUp));
+//        assertEquals(CodeException.US001.getText(), exception.getMessage());
+    }
+
+    @Test
+    void testFailUpdateEmail() throws Exception {
+//        UserTO userUp = service.save(new CadastroUserTO("testeUpEmail", "testeUp3@teste", "senhate", "nome", "sobrenome"));
 //
-//    @Test
-//    void testFailFindByToken() throws Exception {
 //
-////        Optional<org.springframework.security.core.userdetails.User> resposta = service.findByToken("erro");
-////
-////        assertFalse(resposta.isPresent());
-//    }
+//        CadastroUserTO userUpEmail = new CadastroUserTO("testeUpEmail2", "testeUp4@teste", "senhate", "nome", "sobrenome");
+//        service.save(userUpEmail);
+//
+//        userUp.setEmail("testeUp4@teste");
+//        Set<UserTO> us = service.getAll();
+//
+//        assertThrows(ResourceConflictException.class, () -> service.update(userUp));
+   }
+
+    @Test
+    void testFailUpdateEmailMandatory() throws Exception {
+//        CadastroUserTO userUp = new CadastroUserTO("testeUpEmailMandatory", "testeUp5@teste", "senhate", "nome", "sobrenome");
+//        UserTO u = service.save(userUp);
+//
+//        u.setEmail("");
+//
+//        assertThrows(TransactionSystemException.class, () -> service.update(u));
+    }
+
+    @Test
+    void testDelete() throws Exception {
+        CadastroUserTO user = new CadastroUserTO("testeDel1", "testeDel1@teste", "senhate", "nome", "sobrenome");
+//
+//        UserTO u = service.save(user);
+//        service.delete(u.getId());
+//
+//        // Se realmente apagou o "getById" nao ira achar
+//
+//        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> {
+//            service.getById(u.getId());
+//        });
+//        assertEquals(CodeException.US001.getText(), exception.getMessage());
+    }
+
+    @Test
+    void testFailDeleteUserNotFound() {
+
+//        Throwable exception = assertThrows(ResourceNotFoundException.class, () -> service.delete(UUID.randomUUID()));
+//        assertEquals(CodeException.US001.getText(), exception.getMessage());
+    }
+
+    @Test
+    void testGetAll() throws Exception {
+//        CadastroUserTO user = new CadastroUserTO("testeGA", "testeGA@teste", "senhate", "nome", "sobrenome");
+//        service.save(user);
+//
+//        HashSet<UserTO> listaUser = service.getAll();
+//
+//        assertFalse(listaUser.isEmpty());
+    }
+
+    @Test
+    void testFindByToken() throws Exception {
+//        CadastroUserTO user = new CadastroUserTO("testeDel", "testeDel@teste", "senhate", "nome", "sobrenome");
+//        UserTO userTO = service.save(user);
+//
+//        Optional<org.springframework.security.core.userdetails.User> resposta = service.findByToken(userTO.getToken());
+//
+//        assertTrue(resposta.isPresent());
+    }
+
+    @Test
+    void testFailFindByToken() throws Exception {
+
+//        Optional<org.springframework.security.core.userdetails.User> resposta = service.findByToken("erro");
+//
+//        assertFalse(resposta.isPresent());
+    }
 
 }

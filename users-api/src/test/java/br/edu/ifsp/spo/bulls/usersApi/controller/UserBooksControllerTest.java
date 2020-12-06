@@ -35,6 +35,7 @@ public class UserBooksControllerTest {
 
     private BookCaseTO bookCaseTO = new BookCaseTO();
     private UserBooksTO userBooksTO = new UserBooksTO();
+    private Set<UserBooksTO> userBooksList = new HashSet<>();
 
     @BeforeEach
     void setUp() {
