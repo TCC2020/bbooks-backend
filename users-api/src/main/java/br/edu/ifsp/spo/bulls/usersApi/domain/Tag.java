@@ -9,7 +9,8 @@ import java.util.List;
 @Data
 @Entity
 @ApiModel(value = "Objeto de domínio: TAG")
-@Table(name = "tag")
+@Table(name = "tag", indexes = {
+		@Index(name = "IDX_TAG_NAME", columnList = "name") })
 public class Tag {
     @Id
     @ApiModelProperty(value = "Identificador")

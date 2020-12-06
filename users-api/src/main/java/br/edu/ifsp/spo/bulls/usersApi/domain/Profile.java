@@ -12,7 +12,9 @@ import java.util.List;
 @Data
 @Entity
 @ApiModel(value = "Objeto de domínio: Usuarios ")
-@Table(name = "profiles")
+@Table(name = "profiles", indexes = {
+		@Index(name = "IDX_PROFILE_NAME", columnList = "name"), 
+		@Index(name = "IDX_PROFILE_LASTNAME", columnList = "lastName") })
 public class Profile {
 
 	@Id

@@ -6,6 +6,7 @@ import br.edu.ifsp.spo.bulls.usersApi.domain.Profile;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.TagTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
@@ -39,6 +40,7 @@ public class UserBooksService {
 
     public UserBooksTO save(UserBooksTO dto) {
         UserBooks userBooks = convertToUserBooks(dto);
+        verifyIfUserbookIsAlreadyOnDatabase(userBooks);
         userBooks = repository.save(userBooks);
 
         saveTags(dto, userBooks);
@@ -46,7 +48,16 @@ public class UserBooksService {
         return util.toDto(userBooks);
     }
 
-    // VERIFICAR SE PODE EXCLUIR
+    private void verifyIfUserbookIsAlreadyOnDatabase(UserBooks userBooks) {
+        Set<UserBooks> userBooksList = repository.findByProfile(userBooks.getProfile());
+
+        for(UserBooks userBooks1 : userBooksList){
+            if (userBooks1.getBook() == userBooks.getBook() || userBooks1.getIdBookGoogle() == userBooks.getIdBookGoogle()){
+                throw new ResourceConflictException(CodeException.UB003.getText(), CodeException.UB003);
+            }
+        }
+    }
+
     public UserBooksTO updateStatus(UserBookUpdateStatusTO dto) {
         UserBooks userBooks = repository.findById(dto.getId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         userBooks.setStatus(Status.getByString(dto.getStatus()));
@@ -111,7 +122,7 @@ public class UserBooksService {
     }
 
     private void saveTags(UserBooksTO dto, UserBooks userBooks) {
-        for(Tag t : dto.getTags()){
+        for(TagTO t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }
     }

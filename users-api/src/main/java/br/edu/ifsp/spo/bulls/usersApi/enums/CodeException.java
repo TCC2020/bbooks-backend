@@ -28,6 +28,7 @@ public enum CodeException {
     PF001("PF001: Profile not found", "PF001"),
     UB001("UB001: UserBook not found", "UB001"),
     UB002("UB002: Invalid status", "UB002"),
+    UB003("UB003: Userbook already in bookcase", "UB003"),
     TK001("TK001: Invalid token", "TK001"),
     FR001("FR001: Request not found", "FR001"),
     FR002("FR002: Conflict while removing friend", "FR002");

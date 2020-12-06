@@ -33,6 +33,8 @@ public class TrackingTO {
     @ApiModelProperty(value = "Data do termino acompanhamento")
     private LocalDateTime finishedDate;
 
+    @ApiModelProperty(value = "Velocidade de Leitura")
+    private Double velocidadeLeitura;
 
     @ApiModelProperty(value = "Lista de acompanhamentos")
     private List<ReadingTrackingTO> trackings;

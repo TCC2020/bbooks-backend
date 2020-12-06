@@ -3,10 +3,7 @@ package br.edu.ifsp.spo.bulls.usersApi.controller;
 import br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking;
 import br.edu.ifsp.spo.bulls.usersApi.domain.Tag;
 import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
-import br.edu.ifsp.spo.bulls.usersApi.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserTO;
+import br.edu.ifsp.spo.bulls.usersApi.dto.*;
 import br.edu.ifsp.spo.bulls.usersApi.enums.Status;
 import br.edu.ifsp.spo.bulls.usersApi.service.ProfileService;
 import br.edu.ifsp.spo.bulls.usersApi.service.ReadingTrackingService;
@@ -184,7 +181,7 @@ public class ReadingTrackingControllerTest {
         userBooksTO.setStatus(status);
         userBooksTO.setIdBookGoogle(idBookGoogle);
         userBooksTO.setPage(page);
-        userBooksTO.setTags(new ArrayList<Tag>());
+        userBooksTO.setTags(new ArrayList<TagTO>());
         return userBooksService.save(userBooksTO).getId();
     }
 }

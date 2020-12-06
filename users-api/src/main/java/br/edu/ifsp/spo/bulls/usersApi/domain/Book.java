@@ -12,7 +12,10 @@ import java.util.*;
 @Data
 @Entity
 @ApiModel(value = "Objeto de domínio: Livro")
-@Table(name = "books")
+@Table(name = "books", indexes = { 
+		@Index(name = "IDX_BOOK_TITLE", columnList = "title"), 
+		@Index(name = "IDX_BOOK_CATEGORY", columnList = "category"),
+		@Index(name = "IDX_BOOK_PUBLISHER", columnList = "publisher") })
 public class Book {
 
     @Id
@@ -67,6 +70,10 @@ public class Book {
     @ApiModelProperty(value = "Descrição do livro")
     private String description;
 
+    //@Column(nullable = false)
+    //@NotBlank(message = "Description is mandatory")
+    @ApiModelProperty(value = "Link da imagem")
+    private String image;
     public Book() {
     }
 
@@ -77,7 +84,8 @@ public class Book {
                 @NotBlank(message = "Language is mandatory") String language,
                 @NotBlank(message = "Publisher is mandatory") String publisher,
                 @NotBlank(message = "Published Date is mandatory") int publishedDate,
-                @NotBlank(message = "Description is mandatory") String description) {
+                @NotBlank(message = "Description is mandatory") String description,
+                String image) {
         this.isbn10 = isbn10;
         this.title = title;
         this.authors = authors;
@@ -86,6 +94,7 @@ public class Book {
         this.publisher = publisher;
         this.publishedDate = publishedDate;
         this.description = description;
+        this.image = image;
     }
 
     public Book(@NotBlank(message = "ISBN10 is mandatory") String isbn10, @NotBlank(message = "Title is mandatory") String title, @NotNull(message = "NumberPage is mandatory") int numberPage, @NotBlank(message = "Language is mandatory") String language, @NotBlank(message = "Publisher is mandatory") String publisher, int publishedDate, @NotBlank(message = "Description is mandatory") String description) {

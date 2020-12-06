@@ -14,15 +14,13 @@ import java.util.List;
 
 @Data
 @ApiModel(value = "Objeto de trânsito: Livros do usuário ")
-public class UserBooksTO {
+public class UserBooksFlatTO {
     @ApiModelProperty(value = "Identificador")
     private Long id;
     @ApiModelProperty(value = "Número identificador do livro da Api do google")
     private String idBookGoogle;
     @ApiModelProperty(value = "Qauntidade de páginas do livro da Api do google")
     private int page;
-    @ApiModelProperty(value = "Lista de tags que o livro possui")
-    private List<TagTO> tags = new ArrayList<>();
     @ApiModelProperty(value = "Status do livro")
     @Enumerated(EnumType.STRING)
     private Status status;
