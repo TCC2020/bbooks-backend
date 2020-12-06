@@ -52,7 +52,7 @@ public class UserBooksService {
         Set<UserBooks> userBooksList = repository.findByProfile(userBooks.getProfile());
 
         for(UserBooks userBooks1 : userBooksList){
-            if (userBooks1.getBook() == userBooks.getBook() || userBooks1.getIdBookGoogle().equals(userBooks.getIdBookGoogle())){
+            if (userBooks1.getBook() == userBooks.getBook() || userBooks1.getIdBookGoogle() == userBooks.getIdBookGoogle()){
                 throw new ResourceConflictException(CodeException.UB003.getText(), CodeException.UB003);
             }
         }
