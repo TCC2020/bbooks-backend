@@ -38,7 +38,7 @@ public class BookRecommendationBeanUtil {
         bookRecommendationTO.setId(bookRecommendationTO.getId());
         bookRecommendationTO.setIdBook(bookRecommendation.getBook().getId());
         bookRecommendationTO.setProfileIdReceived(bookRecommendation.getProfileReceived().getId());
-        bookRecommendationTO.setProfileIdSubmitter(bookRecommendation.getProfileSubmitter().getId()s);
+        bookRecommendationTO.setProfileIdSubmitter(bookRecommendation.getProfileSubmitter().getId());
 
         return  bookRecommendationTO;
     }
