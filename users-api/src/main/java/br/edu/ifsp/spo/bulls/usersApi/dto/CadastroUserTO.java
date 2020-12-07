@@ -3,10 +3,8 @@ package br.edu.ifsp.spo.bulls.usersApi.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.Objects;
 import java.util.UUID;
 
 @Data
