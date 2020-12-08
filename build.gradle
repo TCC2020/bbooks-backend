@@ -89,12 +89,12 @@ project(':users-api') {
 
 	jacocoTestReport {
 		getClassDirectories().setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/usersApi/domain**',
-										 '**br/edu/ifsp/spo/bulls/usersApi/dto**',
-										 '**br/edu/ifsp/spo/bulls/usersApi/repository**',
-										 '**br/edu/ifsp/spo/bulls/usersApi/security**',
-										 '**br/edu/ifsp/spo/bulls/usersApi/exception**',
-										 '**br/edu/ifsp/spo/bulls/usersApi/enums**' ])
+			fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/users/api/domain**',
+										 '**br/edu/ifsp/spo/bulls/users/api/dto**',
+										 '**br/edu/ifsp/spo/bulls/users/api/repository**',
+										 '**br/edu/ifsp/spo/bulls/users/api/security**',
+										 '**br/edu/ifsp/spo/bulls/users/api/exception**',
+										 '**br/edu/ifsp/spo/bulls/users/api/enums**' ])
 		}))
 		reports {
 			html.enabled = true
