@@ -2,9 +2,7 @@ package br.edu.ifsp.spo.bulls.usersApi.bean;
 
 import br.edu.ifsp.spo.bulls.usersApi.controller.BookController;
 import br.edu.ifsp.spo.bulls.usersApi.domain.BookRecommendation;
-import br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.usersApi.dto.BookRecommendationTO;
-import br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.usersApi.enums.CodeException;
 import br.edu.ifsp.spo.bulls.usersApi.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository;
@@ -14,11 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class BookRecommendationBeanUtil {
