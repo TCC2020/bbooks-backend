@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Book" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Book.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="Book" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/domain/Book.java" binary="false" corner="BOTTOM_RIGHT">
     <position height="-1" width="-1" x="953" y="-328"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Profile" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Profile.java" binary="false" 
+  <class id="2" language="java" name="Profile" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/domain/Profile.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="952" y="-52"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -20,8 +20,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.BookCaseTO" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/BookCaseTO.java" binary="false" 
+  <class id="3" language="java" name="BookCaseTO" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/dto/BookCaseTO.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="156" y="-333"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -30,8 +30,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.UserBooksController" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/UserBooksController.java" binary="false" 
+  <class id="4" language="java" name="UserBooksController" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/controller/UserBooksController.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="158" y="32"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -40,8 +40,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.UserBooksService" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/UserBooksService.java" binary="false" 
+  <class id="5" language="java" name="UserBooksService" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/service/UserBooksService.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="658" y="235"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -50,8 +50,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="br.edu.ifsp.spo.bulls.usersApi.bean.UserBooksBeanUtil" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/bean/UserBooksBeanUtil.java" binary="false" 
+  <class id="6" language="java" name="UserBooksBeanUtil" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/bean/UserBooksBeanUtil.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="235" y="270"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -60,8 +60,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="7" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository" 
-    project="users-api" file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/ProfileRepository.java" 
+  <interface id="7" language="java" name="ProfileRepository"
+    project="users-api" file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/repository/ProfileRepository.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="636" y="472"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -70,9 +70,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="8" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository" 
+  <interface id="8" language="java" name="UserBooksRepository"
     project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/UserBooksRepository.java" binary="false" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/repository/UserBooksRepository.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1040" y="230"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -81,8 +81,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="9" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/UserBooks.java" binary="false" 
+  <class id="9" language="java" name="UserBooks" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/domain/UserBooks.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="655" y="-333"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -91,8 +91,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.UserBooksTO" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/UserBooksTO.java" binary="false" 
+  <class id="10" language="java" name="UserBooksTO" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/dto/UserBooksTO.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="457" y="-152"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -101,8 +101,8 @@
       <operations public="false" package="true" protected="true" private="true" static="false"/>    
     </display>  
   </class>  
-  <enumeration id="11" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks.Status" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/UserBooks.java" binary="false" 
+  <enumeration id="11" language="java" name="UserBooks.Status" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/domain/UserBooks.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="445" y="-564"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

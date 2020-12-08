@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.ReadingTrackingController" 
+  <class id="1" language="java" name="ReadingTrackingController"
     project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/ReadingTrackingController.java" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/controller/ReadingTrackingController.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="287" y="167"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -12,8 +12,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.ReadingTrackingService" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/ReadingTrackingService.java" binary="false" 
+  <class id="2" language="java" name="ReadingTrackingService" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/service/ReadingTrackingService.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="369" width="284" x="574" y="-16"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -22,8 +22,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="br.edu.ifsp.spo.bulls.usersApi.bean.ReadingTrackingBeanUtil" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/bean/ReadingTrackingBeanUtil.java" binary="false" 
+  <class id="3" language="java" name="ReadingTrackingBeanUtil" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/bean/ReadingTrackingBeanUtil.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="710" y="514"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -32,9 +32,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.ReadingTrackingRepository" 
+  <interface id="4" language="java" name="ReadingTrackingRepository"
     project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/ReadingTrackingRepository.java" 
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/repository/ReadingTrackingRepository.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1176" y="169"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -43,8 +43,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.ReadingTrackingTO" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/ReadingTrackingTO.java" binary="false" 
+  <class id="5" language="java" name="ReadingTrackingTO" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/dto/ReadingTrackingTO.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="347" y="519"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -53,8 +53,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.ReadingTracking" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/ReadingTracking.java" binary="false" 
+  <class id="6" language="java" name="ReadingTracking" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/domain/ReadingTracking.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1138" y="516"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
