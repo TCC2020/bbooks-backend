@@ -10,12 +10,10 @@ import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.FriendsBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Friendship;
-import br.edu.ifsp.spo.bulls.users.api.dto.*;
 import br.edu.ifsp.spo.bulls.users.api.repository.FriendshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;

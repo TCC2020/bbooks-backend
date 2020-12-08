@@ -2,14 +2,14 @@ package br.edu.ifsp.spo.bulls.users.api.service;
 
 import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Random;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -50,7 +50,7 @@ public class AuthorServiceTest {
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, ()-> {
             service.getOne(new Random().nextInt());}
         );
-        Assertions.assertEquals(CodeException.AU001.getText(), exception.getMessage());
+        assertEquals(CodeException.AU001.getText(), exception.getMessage());
     }
 
     @Test
