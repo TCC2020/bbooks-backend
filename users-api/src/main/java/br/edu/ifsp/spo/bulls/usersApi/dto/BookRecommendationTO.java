@@ -14,14 +14,17 @@ public class BookRecommendationTO {
     private UUID id;
 
     @ApiModelProperty(value = "Identificador do perfil que fez a recomendação")
-    private int profileIdSubmitter;
+    private int profileSubmitter;
 
     @ApiModelProperty(value = "Identificador do perfil que recebeu a recomendação")
-    private int profileIdReceived;
+    private int profileReceived;
 
     @ApiModelProperty(value = "Número identificador do livro da Api do google")
     private String idBookGoogle;
 
     @ApiModelProperty(value = "Livro")
     private int idBook;
+
+    @ApiModelProperty(value = "Comentario")
+    private String comentario;
 }

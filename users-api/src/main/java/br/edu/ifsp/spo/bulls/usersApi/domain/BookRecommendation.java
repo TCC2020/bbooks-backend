@@ -17,18 +17,19 @@ public class BookRecommendation {
     @Column(name = "id", updatable = false, unique = true, nullable = false)
     private UUID id;
 
-    @ManyToOne
     @ApiModelProperty(value = "Identificador do perfil que fez a recomendação")
-    private Profile profileSubmitter;
+    private int profileSubmitter;
 
-    @ManyToOne
     @ApiModelProperty(value = "Identificador do perfil que recebeu a recomendação")
-    private Profile profileReceived;
+    private int profileReceived;
 
     @ApiModelProperty(value = "Número identificador do livro da Api do google")
     private String idBookGoogle;
 
-    @ManyToOne
     @ApiModelProperty(value = "Livro")
+    @ManyToOne
     private Book book;
+
+    @ApiModelProperty(value = "Comentario")
+    private String comentario;
 }
