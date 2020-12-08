@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.AuthService" project="users-api" 
+  <class id="1" language="java" name="AuthService" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/AuthService.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="709" y="146"/>    
@@ -11,7 +11,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl" project="users-api" 
+  <class id="2" language="java" name="EmailServiceImpl" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/impl/EmailServiceImpl.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1075" y="-5"/>    
@@ -21,7 +21,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.AuthController" project="users-api" 
+  <class id="3" language="java" name="AuthController" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/AuthController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="280" y="137"/>    
@@ -31,7 +31,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="br.edu.ifsp.spo.bulls.usersApi.bean.UserBeanUtil" project="users-api" 
+  <class id="4" language="java" name="UserBeanUtil" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/bean/UserBeanUtil.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="688" y="469"/>    
@@ -41,7 +41,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="5" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.UserRepository" project="users-api" 
+  <interface id="5" language="java" name="UserRepository" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/UserRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="999" y="413"/>    
@@ -51,7 +51,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="6" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository" 
+  <interface id="6" language="java" name="ProfileRepository"
     project="users-api" file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/ProfileRepository.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="682" y="727"/>    
@@ -61,7 +61,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="7" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.LoginTO" project="users-api" 
+  <class id="7" language="java" name="LoginTO" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/LoginTO.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="432" y="-191"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -70,7 +70,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.RequestPassResetTO" project="users-api" 
+  <class id="8" language="java" name="RequestPassResetTO" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/RequestPassResetTO.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="159" y="-251"/>    
@@ -80,7 +80,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.ResetPassTO" project="users-api" 
+  <class id="9" language="java" name="ResetPassTO" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/ResetPassTO.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="719" y="-166"/>    
@@ -90,7 +90,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.UserTO" project="users-api" 
+  <class id="10" language="java" name="UserTO" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/UserTO.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="279" y="568"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

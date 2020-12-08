@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Profile" project="users-api" 
+  <class id="1" language="java" name="Profile" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Profile.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="497" y="-45"/>    
@@ -11,7 +11,7 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.ProfileTO" project="users-api" 
+  <class id="2" language="java" name="ProfileTO" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/ProfileTO.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="858" y="292"/>    
@@ -21,7 +21,7 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="br.edu.ifsp.spo.bulls.usersApi.bean.ProfileBeanUtil" project="users-api" 
+  <class id="3" language="java" name="ProfileBeanUtil" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/bean/ProfileBeanUtil.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="506" y="242"/>    
@@ -31,7 +31,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository" 
+  <interface id="4" language="java" name="ProfileRepository"
     project="users-api" file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/ProfileRepository.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="527" y="510"/>    
@@ -41,7 +41,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.ProfileController" project="users-api" 
+  <class id="5" language="java" name="ProfileController" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/ProfileController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="59" y="180"/>    
@@ -51,7 +51,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.ProfileService" project="users-api" 
+  <class id="6" language="java" name="ProfileService" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/ProfileService.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="65" y="515"/>    
@@ -61,7 +61,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.impl.EmailServiceImpl" project="users-api" 
+  <class id="7" language="java" name="EmailServiceImpl" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/impl/EmailServiceImpl.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="479" y="785"/>    
