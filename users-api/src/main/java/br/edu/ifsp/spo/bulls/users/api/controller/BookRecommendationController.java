@@ -20,7 +20,7 @@ public class BookRecommendationController {
     private Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    BookRecommendationService service;
+    private BookRecommendationService service;
 
     @ApiOperation(value = "Enviar uma recomendação")
     @ApiResponses(value = {

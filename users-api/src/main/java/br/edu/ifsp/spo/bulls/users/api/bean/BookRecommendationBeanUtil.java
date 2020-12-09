@@ -6,7 +6,6 @@ import br.edu.ifsp.spo.bulls.users.api.dto.BookRecommendationTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
-import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -19,10 +18,7 @@ import java.util.List;
 public class BookRecommendationBeanUtil {
 
     @Autowired
-    ProfileRepository profileRepository;
-
-    @Autowired
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     private Logger logger = LoggerFactory.getLogger(BookController.class);
 

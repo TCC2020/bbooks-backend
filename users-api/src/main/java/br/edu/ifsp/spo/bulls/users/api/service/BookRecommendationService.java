@@ -15,10 +15,10 @@ import java.util.UUID;
 public class BookRecommendationService {
 
     @Autowired
-    BookRecommendationRepository repository;
+    private BookRecommendationRepository repository;
 
     @Autowired
-    BookRecommendationBeanUtil beanUtil;
+    private BookRecommendationBeanUtil beanUtil;
 
     public BookRecommendationTO save(BookRecommendationTO bookRecommendationTO){
         BookRecommendation bookRecommendation = beanUtil.toDomain(bookRecommendationTO);

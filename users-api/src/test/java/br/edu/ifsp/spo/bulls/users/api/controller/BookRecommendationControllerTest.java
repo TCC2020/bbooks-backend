@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BookRecommendationControllerTest {
 
     @MockBean
-    BookRecommendationService mockRecommendationService;
+    private BookRecommendationService mockRecommendationService;
 
     @Autowired
     private MockMvc mockMvc;
