@@ -62,10 +62,22 @@ public class BookRecommendationController {
             @ApiResponse(code = 200, message = "Recomendações encontradas"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @GetMapping("/{profileSubmitter}")
+    @GetMapping("/sent/{profileSubmitter}")
     public List<BookRecommendationTO> getRecommentionsSent(@PathVariable int profileSubmitter){
         logger.info("Pesquisando recomendações enviadas pelo profile " + profileSubmitter);
         return service.getRecommentionsSent(profileSubmitter);
+    }
+
+    @ApiOperation(value = "Pesquisar uma recomendação pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Recomendação encontrada"),
+            @ApiResponse(code = 404, message = "Recomendação não encontrada"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @GetMapping("/{recommendationId}")
+    public BookRecommendationTO getRecommentionById(@PathVariable UUID recommendationId){
+        logger.info("Pesquisando a recomendação " + recommendationId);
+        return service.getRecommentionById(recommendationId);
     }
 
     @ApiOperation(value = "Pesquisar recomendações enviadas")

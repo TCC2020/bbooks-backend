@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
-import br.edu.ifsp.spo.bulls.users.api.bean.BookRecommendationBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookRecommendationTO;
 import br.edu.ifsp.spo.bulls.users.api.service.BookRecommendationService;
@@ -26,9 +25,6 @@ public class BookRecommendationControllerTest {
 
     @MockBean
     BookRecommendationService mockRecommendationService;
-
-    @Autowired
-    BookRecommendationBeanUtil beanUtil;
 
     @Autowired
     private MockMvc mockMvc;
@@ -89,7 +85,15 @@ public class BookRecommendationControllerTest {
     @Test
     void shouldGetRecommentionsSent() throws Exception {
         Mockito.when(mockRecommendationService.getRecommentionsSent(profileSubmitter.getId())).thenReturn(bookRecommendationTOList);
-        mockMvc.perform(get("/book-recommendation/" + profileSubmitter.getId())
+        mockMvc.perform(get("/book-recommendation/sent/" + profileSubmitter.getId())
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldGetRecommentionsById() throws Exception {
+        Mockito.when(mockRecommendationService.getRecommentionById(bookRecommendationTO.getId())).thenReturn(bookRecommendationTO);
+        mockMvc.perform(get("/book-recommendation/" + bookRecommendationTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }

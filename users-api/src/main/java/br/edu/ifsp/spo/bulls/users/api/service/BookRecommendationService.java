@@ -42,6 +42,11 @@ public class BookRecommendationService {
         return beanUtil.toDto(repository.findByProfileSubmitter(profileSubmitter));
     }
 
+    public BookRecommendationTO getRecommentionById(UUID recommendationId){
+        return beanUtil.toDto(repository.findById(recommendationId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.BR001.getText(), CodeException.BR001)));
+    }
+
     public List<BookRecommendationTO> getRecommentionsReceived(int profileReceived){
         return beanUtil.toDto(repository.findByProfileReceived(profileReceived));
     }
