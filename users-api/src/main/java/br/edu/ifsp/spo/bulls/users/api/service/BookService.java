@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -104,5 +105,12 @@ public class BookService {
                 Sort.Direction.ASC,
                 "id");
         return repository.search(search.toLowerCase(), pageRequest);
+    }
+
+    public HttpStatus updateBookImage(String url, int id) {
+        Book book = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+        book.setImage(url);
+        repository.save(book);
+        return HttpStatus.CREATED;
     }
 }
