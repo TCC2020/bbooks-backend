@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import java.util.HashSet;
 import java.util.UUID;
 import javax.validation.Valid;
-
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.users.api.service.UserService;

@@ -4,14 +4,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
-import br.edu.ifsp.spo.bulls.users.api.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,11 +24,8 @@ public class ProfileControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     
-    @Autowired
-    ProfileService service;
-
-    @Autowired
-    UserService userService;
+    @MockBean
+    private ProfileService service;
     
     @Test
     void testUpdateProfile() throws Exception {
