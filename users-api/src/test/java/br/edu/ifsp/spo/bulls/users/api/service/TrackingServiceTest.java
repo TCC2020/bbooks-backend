@@ -82,11 +82,13 @@ public class TrackingServiceTest {
         trackingTO.setUserBookId(userBooksQueroLer.getId());
         trackingTO.setTrackings(new ArrayList<ReadingTrackingTO>());
         trackingTO.setFinishedDate(LocalDateTime.now());
+        trackingTO.setVelocidadeLeitura(0.0);
 
         trackingTOLido.setId(UUID.randomUUID());
         trackingTOLido.setUserBookId(userBooksLido.getId());
         trackingTOLido.setTrackings(new ArrayList<ReadingTrackingTO>());
         trackingTOLido.setFinishedDate(LocalDateTime.now());
+        trackingTOLido.setVelocidadeLeitura(0.0);
 
         trackingQueroLer.setId(trackingTO.getId());
         trackingQueroLer.setUserBook(userBooksQueroLer);

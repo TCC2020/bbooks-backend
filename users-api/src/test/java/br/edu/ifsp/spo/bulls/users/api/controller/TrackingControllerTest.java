@@ -49,7 +49,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void should_get_all_trackings_by_userbook() throws Exception {
+    void shouldGetAllTrackingsByUserbook() throws Exception {
 
         Mockito.when(mockTrackingService.getAllByBook(userBooks.getId())).thenReturn(trackingTOList);
 
@@ -59,7 +59,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void shouldnt_get_all_trackings_by_userbook_when_userbooks_not_found() throws Exception {
+    void shouldntGetAllTrackingsByUserbookWhenUserbooksNotFound() throws Exception {
         Mockito.when(mockTrackingService.getAllByBook(userBooks.getId())).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
 
         mockMvc.perform(get("/tracking-group/book/" + userBooks.getId())
@@ -68,7 +68,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void should_get_one_tracking_by_id() throws Exception {
+    void shouldGetOneTrackingById() throws Exception {
         Mockito.when(mockTrackingService.findById(trackingTO.getId())).thenReturn(trackingTO);
 
         mockMvc.perform(get("/tracking-group/" + trackingTO.getId())
@@ -78,7 +78,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void shouldnt_get_one_tracking_by_id_when_tracking_not_found() throws Exception {
+    void shouldntGetOneTrackingByIdWhenTrackingNotFound() throws Exception {
         Mockito.when(mockTrackingService.findById(trackingTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
 
         mockMvc.perform(get("/tracking-group/" + trackingTO.getId())
@@ -87,7 +87,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void should_save_tracking()  throws Exception {
+    void shouldSaveTracking()  throws Exception {
         Mockito.when(mockTrackingService.save(trackingTO)).thenReturn(trackingTO);
         mockMvc.perform(post("/tracking-group")
                 .contentType("application/json")
@@ -96,7 +96,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void shouldnt_save_tracking_when_other_is_open()  throws Exception {
+    void shouldntSaveTrackingWhenOtherIsOpen()  throws Exception {
         Mockito.when(mockTrackingService.save(trackingTO)).thenThrow(new ResourceConflictException(CodeException.TA001.getText(), CodeException.TA001));
         mockMvc.perform(post("/tracking-group" )
                 .contentType("application/json")
@@ -105,7 +105,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void shouldnt_save_tracking_when_userbooks_not_found()  throws Exception {
+    void shouldntSaveTrackingWhenUserbooksNotFound()  throws Exception {
         Mockito.when(mockTrackingService.save(trackingTO)).thenThrow(new ResourceNotFoundException(CodeException.TA001.getText(), CodeException.TA001));
         mockMvc.perform(post("/tracking-group")
                 .contentType("application/json")
@@ -114,7 +114,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void should_delete_tracking() throws Exception {
+    void shouldDeleteTracking() throws Exception {
         Mockito.doNothing().when(mockTrackingService).deleteById(trackingTO.getId());
         mockMvc.perform(delete("/tracking-group/" + trackingTO.getId())
                 .contentType("application/json"))
@@ -122,7 +122,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void shouldnt_delete_tracking_when_tracking_not_found() throws Exception {
+    void shouldntDeleteTrackingWhenTrackingNotFound() throws Exception {
         Mockito.doThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002)).when(mockTrackingService).deleteById(trackingTO.getId());
         mockMvc.perform(delete("/tracking-group/" + trackingTO.getId())
                 .contentType("application/json"))
@@ -130,7 +130,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void should_update_tracking() throws Exception {
+    void shouldPpdateTracking() throws Exception {
         Mockito.when(mockTrackingService.update(trackingTO.getId(), trackingTO)).thenReturn(trackingTO);
         mockMvc.perform(put("/tracking-group/" + trackingTO.getId())
                 .contentType("application/json")
@@ -139,7 +139,7 @@ public class TrackingControllerTest {
     }
 
     @Test
-    void shouldnt_update_tracking_when_tracking_not_found() throws Exception {
+    void shouldntUpdateTrackingWhenTrackingNotFound() throws Exception {
         Mockito.when(mockTrackingService.update(trackingTO.getId(), trackingTO)).thenThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
         mockMvc.perform(put("/tracking-group/" + trackingTO.getId())
                 .contentType("application/json")
