@@ -47,17 +47,6 @@ public class ProfileService {
 		return profileRep.findByUser(userService.getByUsername(username));
 	}
 
-	public ProfileTO getByToken(String token) {
-		User user = userService.getByToken(token);
-		Profile profile;
-
-		if(user != null) {
-			profile =  profileRep.findByUser(user);
-			return beanUtil.toProfileTO(profile);
-		}
-		return null;
-	}
-
 	public ProfileTO getById(int id) {
 		
 		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
@@ -104,7 +93,6 @@ public class ProfileService {
 
 	public Profile getDomainByToken(String token) {
 		User user = userService.getByToken(token);
-		Profile profile;
 
 		if(user != null) {
 			return  profileRep.findByUser(user);

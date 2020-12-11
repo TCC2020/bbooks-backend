@@ -37,7 +37,6 @@ public class ProfileController {
 	@PutMapping(value = "{id}", consumes="application/json")
 	public ProfileTO update(@RequestBody @Valid ProfileTO profileTO, @PathVariable int id) throws Exception {
 		logger.info("Requisicao para atualizar o cadastro de um profile " + profileTO);
-		profileTO.setId(id);
 		return service.update(profileTO);
 	}
 
@@ -46,7 +45,7 @@ public class ProfileController {
 			@ApiResponse(code = 200, message = "Profile deletado"),
 			@ApiResponse(code = 404, message = "Profile não encontrado"),
 	})
-	@DeleteMapping(value = "{id}")
+	@DeleteMapping(value = "/{id}")
 	public void delete(@PathVariable int id){
 		logger.info("Requisião solicitada para deletar um profile " + id);
 		service.delete(id);
@@ -57,7 +56,7 @@ public class ProfileController {
 			@ApiResponse(code = 200, message = "Retorna o profile"),
 			@ApiResponse(code = 404, message = "Profile não encontrado"),
 	})
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public ProfileTO get(@PathVariable int id) {
 		logger.info("Requisitando informações de um profile: " + id);
 		ProfileTO profile = service.getById(id);

@@ -6,13 +6,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashSet;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -23,104 +26,60 @@ public class ProfileControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    
+
     @MockBean
-    private ProfileService service;
-    
+    private ProfileService mockProfileService;
+
+    private ProfileTO profileTO;
+    private HashSet<ProfileTO> profileTOList;
+
+    @BeforeEach
+    public void setUp(){
+        profileTO = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998");
+        profileTO.setId(1);
+
+        profileTOList = new HashSet<>();
+        profileTOList.add(profileTO);
+    }
+
     @Test
     void testUpdateProfile() throws Exception {
-//        CadastroUserTO userTo = new CadastroUserTO("testeUpdateProfile", "testeUp@profileController", "senhate", "nome", "sobrenome");
-//
-//    	String userName = userService.save(userTo).getUserName();
-//
-//        ProfileTO profile = service.getByUser(userName);
-//
-//        profile.setState("RJ");
-//        profile.setCity("Rio de janeiro");
-//
-//        mockMvc.perform(put("/profiles/" + profile.getId())
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(profile)))
-//                .andExpect(status().isOk());
-        
-    }
-    
-    @Test
-    void testUpdateProfileNotFound() throws Exception {
-
-    	ProfileTO profile = new ProfileTO("nome", "sobrenome", "pais", "sao paulo", "SP", "10/10/1998");
-		
-        mockMvc.perform(put("/profiles/123456" )
+        Mockito.when(mockProfileService.update(profileTO)).thenReturn(profileTO);
+        mockMvc.perform(put("/profiles/" + profileTO.getId())
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(profile)))
-                .andExpect(status().isNotFound());
+                .content(objectMapper.writeValueAsString(profileTO)))
+                .andExpect(status().isOk());
     }
     
     @Test
     void testDeleteProfile() throws Exception {
-
-//        CadastroUserTO userTo = new CadastroUserTO("testeDeleteController", "teste@profileDelete", "senhate", "nome", "sobrenome");
-//
-//    	String userName = userService.save(userTo).getUserName();
-//
-//        int id = service.getByUser(userName).getId();
-//
-//        mockMvc.perform(delete("/profiles/" + id)
-//                .contentType("application/json"))
-//                .andExpect(status().isOk());
-
-    }
-    
-    @Test
-    void testDeleteProfileNotFound() throws Exception {
-   
-        mockMvc.perform(delete("/profiles/12345678")
+        Mockito.doNothing().when(mockProfileService).delete(profileTO.getId());
+        mockMvc.perform(delete("/profiles/" + profileTO.getId())
                 .contentType("application/json"))
-                .andExpect(status().isNotFound());
-
+                .andExpect(status().isOk());
     }
     
     @Test
     void testeGetByIdProfile() throws Exception {
-
-//        CadastroUserTO userTo = new CadastroUserTO("testeUpdateOk", "testeS@updateOk", "senhate", "nome", "sobrenome");
-//
-//        String userName = userService.save(userTo).getUserName();
-//
-//        int id = service.getByUser(userName).getId();
-//
-//        mockMvc.perform(get("/profiles/" + id)
-//                .contentType("application/json"))
-//                .andExpect(status().isOk());
+        Mockito.when(mockProfileService.getById(profileTO.getId())).thenReturn(profileTO);
+        mockMvc.perform(get("/profiles/" + profileTO.getId())
+                .contentType("application/json"))
+                .andExpect(status().isOk());
     }
 
     @Test
     void testeGetByUser() throws Exception {
-//
-//        CadastroUserTO userTo = new CadastroUserTO("testGetByUser", "testeS@up", "senhate", "nome", "sobrenome");
-//
-//        String userName = userService.save(userTo).getUserName();
-//
-//        mockMvc.perform(get("/profiles/user/" + userName)
-//                .contentType("application/json"))
-//                .andExpect(status().isOk());
-    }
-
-    @Test
-    void testGetProfileNotFound() throws Exception {
-   
-        mockMvc.perform(get("/profiles/12345678")
+        Mockito.when(mockProfileService.getByUser(profileTO.getUsername())).thenReturn(profileTO);
+        mockMvc.perform(get("/profiles/user/" + profileTO.getUsername())
                 .contentType("application/json"))
-                .andExpect(status().isNotFound());
-
+                .andExpect(status().isOk());
     }
 
     @Test
     void testeGetAllProfiles() throws Exception {
-     
+        Mockito.when(mockProfileService.getAll()).thenReturn(profileTOList);
         mockMvc.perform(get("/profiles")
                 .contentType("application/json"))
                 .andExpect(status().isOk());
-        
     }
 }
