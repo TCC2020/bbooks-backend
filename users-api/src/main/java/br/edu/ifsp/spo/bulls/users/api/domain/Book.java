@@ -90,6 +90,7 @@ public class Book {
         this.authors = authors;
         this.numberPage = numberPage;
         this.language = language;
+
         this.publisher = publisher;
         this.publishedDate = publishedDate;
         this.description = description;
