@@ -98,7 +98,8 @@ public class UserBooksService {
         for(Tag tag: tagsRemove){
             tagService.untagBook(tag.getId(),dto.getId());
         }
-
+        if(!dto.getStatus().equals(Status.LIDO))
+            dto.setStatus(Status.LIDO);
         return this.save(dto);
     }
 
