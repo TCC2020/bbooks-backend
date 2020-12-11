@@ -109,7 +109,6 @@ public class UserService{
 	}
 
 	public void delete(UUID id) {
-			
 		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 		profileService.deleteByUser(user);
 		rep.deleteById(id);
