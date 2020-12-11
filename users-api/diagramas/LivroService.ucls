@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.BookController" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/BookController.java" binary="false" 
+  <class id="1" language="java" name="BookController" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/controller/BookController.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="123" y="170"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -11,8 +11,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.BookService" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/BookService.java" binary="false" 
+  <class id="2" language="java" name="BookService" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/service/BookService.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="478" y="168"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -21,8 +21,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="br.edu.ifsp.spo.bulls.usersApi.bean.BookBeanUtil" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/bean/BookBeanUtil.java" binary="false" 
+  <class id="3" language="java" name="BookBeanUtil" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/bean/BookBeanUtil.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="606" y="429"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -31,8 +31,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.BookRepository" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/BookRepository.java" binary="false" 
+  <interface id="4" language="java" name="BookRepository" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/repository/BookRepository.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="795" y="175"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -41,8 +41,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Book" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Book.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="Book" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/domain/Book.java" binary="false" corner="BOTTOM_RIGHT">
     <position height="-1" width="-1" x="942" y="433"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -50,8 +50,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.BookTO" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/BookTO.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="BookTO" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/dto/BookTO.java" binary="false" corner="BOTTOM_RIGHT">
     <position height="-1" width="-1" x="114" y="432"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -59,8 +59,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Author" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Author.java" binary="false" 
+  <class id="7" language="java" name="Author" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/domain/Author.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="611" y="687"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -69,8 +69,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="br.edu.ifsp.spo.bulls.usersApi.dto.AuthorTO" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/dto/AuthorTO.java" binary="false" 
+  <class id="8" language="java" name="br.edu.ifsp.spo.bulls.users.api.dto.AuthorTO" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/dto/AuthorTO.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="894" y="796"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -79,8 +79,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="br.edu.ifsp.spo.bulls.usersApi.bean.AuthorBeanUtil" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/bean/AuthorBeanUtil.java" binary="false" 
+  <class id="9" language="java" name="br.edu.ifsp.spo.bulls.users.api.bean.AuthorBeanUtil" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/bean/AuthorBeanUtil.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="146" y="641"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -89,8 +89,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.AuthorController" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/AuthorController.java" binary="false" 
+  <class id="10" language="java" name="AuthorController" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/controller/AuthorController.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="900" y="1134"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -99,8 +99,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.AuthorService" project="users-api" 
-    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/AuthorService.java" binary="false" 
+  <class id="11" language="java" name="AuthorService" project="users-api"
+    file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/service/AuthorService.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="506" y="1133"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -109,8 +109,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="12" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.AuthorRepository" 
-    project="users-api" file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/AuthorRepository.java" 
+  <interface id="12" language="java" name="AuthorRepository"
+    project="users-api" file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/users/api/repository/AuthorRepository.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="97" y="992"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

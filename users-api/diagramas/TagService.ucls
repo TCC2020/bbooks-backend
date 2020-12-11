@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Tag" project="users-api" 
+  <class id="1" language="java" name="Tag" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Tag.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="544" y="433"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -10,7 +10,7 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="br.edu.ifsp.spo.bulls.usersApi.controller.TagController" project="users-api" 
+  <class id="2" language="java" name="TagController" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/controller/TagController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="873" y="335"/>    
@@ -20,7 +20,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="br.edu.ifsp.spo.bulls.usersApi.service.TagService" project="users-api" 
+  <class id="3" language="java" name="TagService" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/service/TagService.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="547" y="78"/>    
@@ -30,7 +30,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.TagRepository" project="users-api" 
+  <interface id="4" language="java" name="TagRepository" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/TagRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="314" y="236"/>    
@@ -40,7 +40,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Profile" project="users-api" 
+  <class id="5" language="java" name="Profile" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Profile.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="164" y="436"/>    
@@ -50,7 +50,7 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks" project="users-api" 
+  <class id="6" language="java" name="UserBooks" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/UserBooks.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="545" y="776"/>    
@@ -60,7 +60,7 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <enumeration id="7" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.UserBooks.Status" project="users-api" 
+  <enumeration id="7" language="java" name="UserBooks.Status" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/UserBooks.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="150" y="753"/>    
@@ -70,7 +70,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <class id="8" language="java" name="br.edu.ifsp.spo.bulls.usersApi.domain.Book" project="users-api" 
+  <class id="8" language="java" name="Book" project="users-api"
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/domain/Book.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="873" y="773"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -79,7 +79,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <interface id="9" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.ProfileRepository" 
+  <interface id="9" language="java" name="ProfileRepository"
     project="users-api" file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/ProfileRepository.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="164" y="88"/>    
@@ -89,7 +89,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="10" language="java" name="br.edu.ifsp.spo.bulls.usersApi.repository.UserBooksRepository" 
+  <interface id="10" language="java" name="UserBooksRepository"
     project="users-api" 
     file="/users-api/src/main/java/br/edu/ifsp/spo/bulls/usersApi/repository/UserBooksRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
