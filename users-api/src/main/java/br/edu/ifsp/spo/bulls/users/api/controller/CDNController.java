@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
 import br.edu.ifsp.spo.bulls.users.api.enums.CDNEnum;
+import br.edu.ifsp.spo.bulls.users.api.service.BookService;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,9 @@ public class CDNController {
     @Autowired
     private ProfileService profileService;
 
+    @Autowired
+    private BookService bookService;
+
     Storage storage = StorageOptions.getDefaultInstance().getService();
 
 //    Storage storage = StorageOptions.newBuilder()
@@ -40,10 +44,9 @@ public class CDNController {
             @RequestHeader(value = "AUTHORIZATION") String token,
             @RequestPart(value = "info", required = true) String info,
             @RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
-        Map<String, Object> map = mapper.readValue(info, new TypeReference<Map<String, Object>>() {
+        Map<String, Object> infoMap = mapper.readValue(info, new TypeReference<Map<String, Object>>() {
         });
         String fileName = file.getOriginalFilename();
-        CDNEnum objectType = CDNEnum.getByString((String) map.get("objectType"));
 
         try {
             BlobInfo blobInfo = storage.create(
@@ -51,16 +54,19 @@ public class CDNController {
                     file.getBytes(), // the file
                     Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ) // Set file permission
             );
-            return this.handleUpload(objectType, blobInfo.getMediaLink(), StringUtils.removeStart(token, "Bearer").trim()); // Return file url
+            return this.handleUpload(blobInfo.getMediaLink(), StringUtils.removeStart(token, "Bearer").trim(), infoMap); // Return file url
         }catch(IllegalStateException e){
             throw new RuntimeException(e);
         }
     }
 
-    private HttpStatus handleUpload(CDNEnum objectType, String url, String token) {
+    private HttpStatus handleUpload(String url, String token, Map<String, Object>infoMap) {
+        CDNEnum objectType = CDNEnum.getByString((String) infoMap.get("objectType"));
         switch (objectType) {
             case profile_image :
                 return profileService.updateProfileImage(url, token);
+            case book_image :
+                return bookService.updateBookImage(url, (int) infoMap.get("bookId"));
             default:
                 return HttpStatus.CONFLICT;
         }

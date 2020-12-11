@@ -6,7 +6,6 @@ import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.users.api.service.ReadingTrackingService;
-import br.edu.ifsp.spo.bulls.users.api.dto.*;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
 import br.edu.ifsp.spo.bulls.users.api.service.UserBooksService;
 import br.edu.ifsp.spo.bulls.users.api.service.UserService;
