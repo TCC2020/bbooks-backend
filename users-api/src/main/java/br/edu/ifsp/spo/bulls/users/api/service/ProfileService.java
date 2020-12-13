@@ -1,9 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
 import java.util.HashSet;
-
 import br.edu.ifsp.spo.bulls.users.api.bean.ProfileBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
@@ -12,7 +10,6 @@ import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 
 @Service
@@ -27,18 +24,13 @@ public class ProfileService {
 	@Autowired
 	private ProfileBeanUtil beanUtil;
 	
-	@Autowired
-	private UserBeanUtil userBeanUtil;
-	
-	
 	public Profile save(Profile entity){
 		return profileRep.save(entity);
 	}
 	
 	public ProfileTO getByUser(String username) {
-		
-		UserTO user = userService.getByUserName(username, null);
-		Profile profile =  profileRep.findByUser(userBeanUtil.toUser(user));
+		User user = userService.getByUsername(username);
+		Profile profile =  profileRep.findByUser(user);
 		
 		return beanUtil.toProfileTO(profile);
 	}
@@ -48,9 +40,7 @@ public class ProfileService {
 	}
 
 	public ProfileTO getById(int id) {
-		
 		Profile profile = profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
-		
 		return beanUtil.toProfileTO(profile); 
 	}
 
@@ -65,7 +55,6 @@ public class ProfileService {
 	}
 	
 	public void deleteByUser(User  user) {
-		
 		Profile profile = profileRep.findByUser(user);
 		profileRep.deleteById(profile.getId());
 	}

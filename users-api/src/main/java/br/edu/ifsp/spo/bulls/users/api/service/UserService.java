@@ -28,7 +28,7 @@ public class UserService{
 	private UserRepository rep;
 	
 	@Autowired
-	EmailService email;
+	private EmailService email;
 	
 	@Autowired
 	private UserBeanUtil beanUtil;
@@ -99,13 +99,11 @@ public class UserService{
 
 	public UserTO getForGoogle(String email) {
 		Optional<User> user = rep.findByEmail(email);
-		User user1;
 		if(user.isPresent()){
 			return beanUtil.toUserTO(user.get());
 		}else{
 			return new UserTO();
 		}
-
 	}
 
 	public void delete(UUID id) {
@@ -136,10 +134,6 @@ public class UserService{
 
 	public User getByToken(String token){
 		return rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US004.getText(), CodeException.US004));
-	}
-
-	public UserTO getDTOByToken(String token) {
-		return beanUtil.toUserTO(rep.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
 	}
 	 
    	public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
