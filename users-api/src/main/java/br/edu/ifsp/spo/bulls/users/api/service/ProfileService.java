@@ -49,7 +49,6 @@ public class ProfileService {
 	}
 
 	public void delete(int  id) {
-		
 		profileRep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 		profileRep.deleteById(id);
 	}

@@ -24,7 +24,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -42,7 +45,7 @@ public class FriendsControllerTest {
 
     private FriendshipTO friendshipTO;
     private List<FriendRequestTO> friendshipTOList;
-    private HashSet<UserTO> userTOS;
+
     private UserTO userTO;
     private FriendTO friendTO;
     private Friendship friendship;
@@ -60,7 +63,7 @@ public class FriendsControllerTest {
         userTO.setToken("token");
         userTO.setUserName("username");
 
-        userTOS = new HashSet<>();
+        HashSet<UserTO> userTOS = new HashSet<>();
         userTOS.add(userTO);
 
         friendshipTO = new FriendshipTO();

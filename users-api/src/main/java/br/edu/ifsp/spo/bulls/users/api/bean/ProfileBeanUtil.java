@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.bean;
 
 import java.util.HashSet;
-
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,18 +35,6 @@ public class ProfileBeanUtil {
 			logger.error("Error while converting Profile to ProfileTO: " +  e);
 		}
 		
-		return profileTO;
-	}
-
-	public ProfileTO toProfileTO(Profile profile, String token) {
-		ProfileTO profileTO = new ProfileTO();
-
-		try{
-			BeanUtils.copyProperties(profile, profileTO);
-		}catch(Exception e) {
-			logger.error("Error while converting Profile to ProfileTO: " +  e);
-		}
-
 		return profileTO;
 	}
 

@@ -11,17 +11,19 @@ import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.HashSet;
+import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.atLeastOnce;
 
 @ExtendWith(SpringExtension.class)
@@ -30,9 +32,6 @@ public class ProfileServiceTest {
 
 	@Autowired
 	private ProfileService service;
-	
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private ProfileBeanUtil profileBeanUtil;
