@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -72,6 +71,7 @@ public class FriendsController {
         token = StringUtils.removeStart(token, "Bearer").trim();
         return service.accept(token, dto.getId());
     }
+
     @DeleteMapping(value = "/requests")
     public HttpStatus reject(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
         token = StringUtils.removeStart(token, "Bearer").trim();
