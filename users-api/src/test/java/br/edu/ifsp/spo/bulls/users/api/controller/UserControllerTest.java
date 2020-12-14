@@ -5,20 +5,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
+import br.edu.ifsp.spo.bulls.users.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.users.api.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import java.util.HashSet;
 import java.util.UUID;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,214 +32,117 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-	private UserService service;
+    @MockBean
+	private UserService mockUserService;
 
     @Autowired
 	private UserBeanUtil userBeanUtil;
-    
-    @Test
-    void testCreateUser() throws Exception {
-        
-//    	CadastroUserTO user = new CadastroUserTO();
-//    	user.setUserName("teste");
-//    	user.setEmail("teste@teste");
-//    	user.setPassword("1234567");
-//    	user.setName("nome");
-//    	user.setLastName("sobrenome");
-//
-//        mockMvc.perform(post("/users")
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(user)))
-//                .andExpect(status().isOk());
 
+    private CadastroUserTO cadastroUserTO;
+    private UserTO userTO;
+    private User user;
+    private HashSet<UserTO> userTOList;
+
+    @BeforeEach
+    public void setUp(){
+        cadastroUserTO = new CadastroUserTO();
+        cadastroUserTO.setId(UUID.randomUUID());
+        cadastroUserTO.setUserName("testeID");
+        cadastroUserTO.setEmail("teste@testeID");
+        cadastroUserTO.setPassword("1234567");
+        cadastroUserTO.setName("nome");
+        cadastroUserTO.setLastName("sobrenome");
+        cadastroUserTO.setToken("token");
+
+        user = userBeanUtil.toUser(cadastroUserTO);
+
+        userTO = userBeanUtil.toUserTO(user);
+
+        userTOList = new HashSet<>();
+        userTOList.add(userTO);
     }
-
     @Test
-    void testCreateUserUserNameIgual() throws Exception {
-
-		CadastroUserTO user = new CadastroUserTO();
-    	user.setUserName("teste1");
-    	user.setEmail("teste@teste");
-    	user.setPassword("1234");
-
-    	
-    	UserTO user1 = new UserTO();
-    	user.setUserName("teste1");
-    	user.setEmail("teste@teste123");
-    	user.setPassword("1234");
-    	
-    	// Criando um usu�rio 
+    void shouldCreateUser() throws Exception {
+        Mockito.when(mockUserService.save(cadastroUserTO)).thenReturn(userTO);
         mockMvc.perform(post("/users")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(user)));
-
-        // testando criar um usu�rio com Username repetido 
-        mockMvc.perform(post("/users")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(user1)))
-                .andExpect(status().isBadRequest());
-    }
-    
-    @Test
-    void testSaveEmailVazio() throws  Exception {
-        
-    	// Criando o usuario
-		CadastroUserTO user = new CadastroUserTO();
-    	user.setUserName("testeSEmailVazio");
-    	user.setEmail(null);
-    	user.setPassword("1234");
-    	
-        mockMvc.perform(post("/users")
-        		.contentType("application/json")
-        		.content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isBadRequest());
-    }
-    
-    @Test
-    void testSavePasswordVazio() throws Exception {
-        
-    	// Criando o usu�rio
-		CadastroUserTO user = new CadastroUserTO();
-    	user.setUserName("testeSenhaVazio");
-    	user.setEmail("teste@testeSUsernameVazio");
-    	user.setPassword(null);
-
-        mockMvc.perform(post("/users")
-        		.contentType("application/json")
-        		.content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isBadRequest());
+                .content(objectMapper.writeValueAsString(cadastroUserTO)))
+                .andExpect(status().isOk());
 
     }
     
     @Test
-    void testGetAll() throws Exception {
- 
-        // Recuperando o usu�rio
+    void shouldGetAllUsers() throws Exception {
+        Mockito.when(mockUserService.getAll()).thenReturn(userTOList);
+
         mockMvc.perform(get("/users")
         		.contentType("application/json"))
                 .andExpect(status().isOk());
     }
     
     @Test
-    void testGetById() throws Exception {
+    void shouldGetOneUserById() throws Exception {
+        Mockito.when(mockUserService.getById(cadastroUserTO.getId())).thenReturn(userTO);
 
-//		CadastroUserTO user = new CadastroUserTO();
-//    	user.setUserName("testeID");
-//    	user.setEmail("teste@testeID");
-//    	user.setPassword("1234567");
-//    	user.setName("nome");
-//    	user.setLastName("sobrenome");
-//    	// Criando o usuario
-//
-//		UserTO res = service.save(user);
-//
-//        // Recuperando o usuario
-//        mockMvc.perform(get("/users/" + res.getId())
-//        		.contentType("application/json"))
-//                .andExpect(status().isOk());
-    }
-    
-    @Test
-    void testGetByIdUserNotFound() throws Exception {
-        
-        // Recuperando o usuario
-        mockMvc.perform(get("/users/" + UUID.randomUUID())
+        mockMvc.perform(get("/users/" + cadastroUserTO.getId())
         		.contentType("application/json"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk());
     }
     
     @Test
-    void testUpdate() throws  Exception {
+    void shouldUpdateUser() throws  Exception {
+        Mockito.when(mockUserService.update(userTO)).thenReturn(userTO);
 
-		// Criando o usuario
-//		CadastroUserTO user = new CadastroUserTO();
-//		user.setUserName("testeU");
-//		user.setEmail("teste@test");
-//		user.setPassword("1234567");
-//		user.setName("nome");
-//		user.setLastName("sobrenome");
-//
-//		UserTO res = service.save(user);
-//
-//		// Alterando o usuario
-//		res.setEmail("testeUP@teste");
-//		//alterar.setPassword(user.getPassword());
-//
-//		mockMvc.perform(put("/users/" + res.getId())
-//				.contentType("application/json")
-//				.content(objectMapper.writeValueAsString(res)))
-//				.andExpect(status().isOk());
-    }
-    
-    @Test
-    void testUpdateUserNotFound() throws  Exception {
-        
-    	// Criando o usuario
-		UserTO user = new UserTO();
-    	user.setUserName("testeUPNotFound");
-    	user.setEmail("teste@testeUPFound");
-
-        mockMvc.perform(put("/users/" + UUID.randomUUID())
-        		.contentType("application/json")
-        		.content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isNotFound());
+		mockMvc.perform(put("/users/" + userTO.getId())
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(userTO)))
+				.andExpect(status().isOk());
     }
 
     @Test
-    void testDelete() throws Exception {
-        
-    	// Criando o usuario
-//		CadastroUserTO user = new CadastroUserTO();
-//    	user.setUserName("testeDelete");
-//    	user.setEmail("teste@testeDEL");
-//    	user.setPassword("1234567");
-//    	user.setName("nome");
-//    	user.setLastName("sobrenome");
-//
-//    	UserTO res = service.save(user);
-//
-//        // Apagando o usuario
-//        mockMvc.perform(delete("/users/" + res.getId())
-//        		.contentType("application/json"))
-//                .andExpect(status().isOk());
+    void shouldDeleteUser() throws Exception {
+        Mockito.doNothing().when(mockUserService).delete(userTO.getId());
 
-    }
-    
-    @Test
-    void testDeleteUserNotFound() throws  Exception {
-
-        // Apagando o usuario
-        mockMvc.perform(delete("/users/" + UUID.randomUUID())
+        mockMvc.perform(delete("/users/" + userTO.getId())
         		.contentType("application/json"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk());
     }
 
     @Test
-	void testGetInfoByToken() throws Exception {
-//		// Criando o usuario
-//		CadastroUserTO user = new CadastroUserTO();
-//		user.setUserName("testeUP");
-//		user.setEmail("teste@testeUP");
-//		user.setPassword("1234567");
-//		user.setName("nome");
-//		user.setLastName("sobrenome");
-//
-//		UserTO res = service.save(user);
-//
-//		// Criando o token
-//		LoginTO loginTo = new LoginTO(user.getUserName(),user.getEmail(), user.getPassword() );
-//
-//		mockMvc.perform(post("/auth/confirm")
-//				.contentType("application/json")
-//				.content(objectMapper.writeValueAsString(loginTo)));
-//
-//		String token  = service.getById(res.getId()).getToken();
-//
-//		// Requisição
-//		mockMvc.perform(get("/users/info")
-//				.contentType("application/json")
-//				.header("AUTHORIZATION", token ))
-//				.andExpect(status().isOk());
+	void shouldgetInfoByToken() throws Exception {
+        Mockito.when(mockUserService.getByToken(userTO.getToken())).thenReturn(user);
+
+		mockMvc.perform(get("/users/info")
+				.contentType("application/json")
+				.header("AUTHORIZATION", userTO.getToken() ))
+				.andExpect(status().isOk());
 	}
+
+	@Test
+    void shouldgetInfoByEmail() throws Exception {
+        Mockito.when(mockUserService.getByEmail(userTO.getEmail())).thenReturn(userTO);
+
+        mockMvc.perform(get("/users/email/" + userTO.getEmail())
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldGetUserForGoogle() throws Exception {
+        Mockito.when(mockUserService.getForGoogle(userTO.getEmail())).thenReturn(userTO);
+
+        mockMvc.perform(get("/users/google/" + userTO.getEmail())
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldGetUserByUserName() throws Exception {
+        Mockito.when(mockUserService.getByUserName(userTO.getUserName(), userTO.getToken())).thenReturn(userTO);
+
+        mockMvc.perform(get("/users/username/" + userTO.getUserName())
+                .contentType("application/json")
+                .header("AUTHORIZATION", userTO.getToken()))
+                .andExpect(status().isOk());
+    }
 }

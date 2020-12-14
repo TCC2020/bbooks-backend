@@ -25,12 +25,12 @@ public class AuthorService {
 
     public Author getOne (int id){
         Author author = repository.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001));
-        return repository.save(author);
+        return author;
     }
 
     public Author getByName (String name){
         Author author = repository.findByName(name.toLowerCase()).orElseThrow( () -> new ResourceNotFoundException(CodeException.AU001.getText(), CodeException.AU001));
-        return repository.save(author);
+        return author;
     }
 
     public List<Author> getAll(){
