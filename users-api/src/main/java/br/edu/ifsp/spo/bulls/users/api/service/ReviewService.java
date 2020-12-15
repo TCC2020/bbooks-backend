@@ -9,10 +9,8 @@ import br.edu.ifsp.spo.bulls.users.api.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReviewRepository;
-import com.google.rpc.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
