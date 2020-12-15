@@ -26,12 +26,12 @@ public class BookRecommendationBeanUtil {
         BookRecommendation bookRecommendation =  new BookRecommendation();
         try{
             BeanUtils.copyProperties(bookRecommendationTO, bookRecommendation);
-            if(bookRecommendationTO.getIdBook() != 0)
-                bookRecommendation.setBook(bookRepository.findById(bookRecommendationTO.getIdBook())
-                        .orElseThrow(() -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002)));
         }catch(Exception e) {
             logger.error("Error while converting BookRecommendationTO to BookRecommendation: " +  e);
         }
+        if(bookRecommendationTO.getIdBook() != 0)
+            bookRecommendation.setBook(bookRepository.findById(bookRecommendationTO.getIdBook())
+                    .orElseThrow(() -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002)));
         return bookRecommendation;
     }
 
