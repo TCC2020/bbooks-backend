@@ -26,19 +26,18 @@ public class ReviewBeanUtil {
     private Logger logger = LoggerFactory.getLogger(BookController.class);
 
     public Review toDomain(ReviewTO reviewTO){
+        System.out.println(reviewTO);
         Review review =  new Review();
         try{
             BeanUtils.copyProperties(reviewTO, review);
-            if(reviewTO.getBookId() != 0)
-                review.setBook(bookRepository.findById(reviewTO.getBookId())
-                        .orElseThrow(() -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002)));
-
-            review.setProfile(profileRepository.findById(reviewTO.getProfileId())
-                    .orElseThrow(() -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001)));
-
         }catch(Exception e) {
             logger.error("Error while converting BookRecommendationTO to BookRecommendation: " +  e);
         }
+        if(reviewTO.getBookId() != 0)
+            review.setBook(bookRepository.findById(reviewTO.getBookId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002)));
+
+        review.setProfile(profileRepository.findById(reviewTO.getProfileId())
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001)));
         return review;
     }
 

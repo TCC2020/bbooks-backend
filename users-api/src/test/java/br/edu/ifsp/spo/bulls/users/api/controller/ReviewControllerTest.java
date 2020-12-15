@@ -60,6 +60,7 @@ public class ReviewControllerTest {
         reviewTO.setTitle("titulo da resenha");
         reviewTO.setIdGoogleBook("idGoogleBook");
         reviewTO.setProfileId(profile.getId());
+        reviewTO.setBookId(1);
 
         reviewTOList = new ArrayList<>();
         reviewTOList.add(reviewTO);
@@ -75,9 +76,18 @@ public class ReviewControllerTest {
     }
 
     @Test
+    void getAllByGoogleBook() throws Exception {
+        Mockito.when(mockReviewService.getAllByGoogleBook(reviewTO.getIdGoogleBook(), user.getToken())).thenReturn(reviewTOList);
+        mockMvc.perform(get("/review/google-book/" + reviewTO.getIdGoogleBook())
+                .contentType("application/json")
+                .header(HttpHeaders.AUTHORIZATION,"Basic " + user.getToken() ))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void getAllByBook() throws Exception {
-        Mockito.when(mockReviewService.getAllByBook(reviewTO.getIdGoogleBook(), user.getToken())).thenReturn(reviewTOList);
-        mockMvc.perform(get("/review/book/" + reviewTO.getIdGoogleBook())
+        Mockito.when(mockReviewService.getAllByBook(reviewTO.getBookId(), user.getToken())).thenReturn(reviewTOList);
+        mockMvc.perform(get("/review/book/" + reviewTO.getBookId())
                 .contentType("application/json")
                 .header(HttpHeaders.AUTHORIZATION,"Basic " + user.getToken() ))
                 .andExpect(status().isOk());
@@ -85,7 +95,7 @@ public class ReviewControllerTest {
 
     @Test
     void postReview() throws Exception{
-        Mockito.when(mockReviewService.postReview(reviewTO, user.getToken())).thenReturn(reviewTO);
+        Mockito.when(mockReviewService.save(reviewTO, user.getToken())).thenReturn(reviewTO);
         mockMvc.perform(post("/review")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(reviewTO))
@@ -95,7 +105,7 @@ public class ReviewControllerTest {
 
     @Test
     void putReview() throws Exception {
-        Mockito.when(mockReviewService.putReview(reviewTO.getId(), reviewTO, user.getToken())).thenReturn(reviewTO);
+        Mockito.when(mockReviewService.updateReview(reviewTO.getId(), reviewTO, user.getToken())).thenReturn(reviewTO);
         mockMvc.perform(put("/review/" + reviewTO.getId())
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(reviewTO))

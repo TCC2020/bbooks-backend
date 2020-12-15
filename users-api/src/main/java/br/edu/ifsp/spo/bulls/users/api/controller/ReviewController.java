@@ -51,10 +51,24 @@ public class ReviewController {
             @ApiResponse(code = 404, message = "Livro não encontrado")
     })
     @GetMapping("/book/{bookId}")
-    public List<ReviewTO> getAllByBook(@PathVariable String bookId, @RequestHeader(value = "AUTHORIZATION") String token){
+    public List<ReviewTO> getAllByBook(@PathVariable int bookId, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Acessar resenhas por livro " + bookId);
         List<ReviewTO> reviews = service.getAllByBook(bookId, tokenValue);
+        logger.info("Resenhas encontradas: " + reviews.toString());
+        return reviews;
+    }
+
+    @ApiOperation(value = "Retorna uma resenha por livro")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna uma lista de resenhas"),
+            @ApiResponse(code = 404, message = "Livro não encontrado")
+    })
+    @GetMapping("/google-book/{googleBookId}")
+    public List<ReviewTO> getAllByGoogleBook(@PathVariable String googleBookId, @RequestHeader(value = "AUTHORIZATION") String token){
+        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
+        logger.info("Acessar resenhas por livro " + googleBookId);
+        List<ReviewTO> reviews = service.getAllByGoogleBook(googleBookId, tokenValue);
         logger.info("Resenhas encontradas: " + reviews.toString());
         return reviews;
     }
@@ -68,7 +82,7 @@ public class ReviewController {
     public ReviewTO postReview(@RequestBody ReviewTO reviewTO, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Cadastrando resenha");
-        ReviewTO review = service.postReview(reviewTO, tokenValue);
+        ReviewTO review = service.save(reviewTO, tokenValue);
         return review;
     }
 
@@ -81,7 +95,7 @@ public class ReviewController {
     public ReviewTO putReview(@PathVariable UUID reviewId ,@RequestBody ReviewTO reviewTO, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Editar resenha " + reviewId);
-        ReviewTO review = service.putReview(reviewId, reviewTO, tokenValue);
+        ReviewTO review = service.updateReview(reviewId, reviewTO, tokenValue);
         return review;
     }
 

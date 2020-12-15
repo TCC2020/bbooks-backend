@@ -7,7 +7,9 @@ import br.edu.ifsp.spo.bulls.users.api.domain.Review;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReviewTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.users.api.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +40,9 @@ public class ReviewServiceTest {
 
     @MockBean
     private ReviewRepository mockReviewRepository;
+
+    @MockBean
+    private BookRepository mockBookRepository;
 
     @MockBean
     private ProfileRepository mockProfileRepository;
@@ -97,32 +102,71 @@ public class ReviewServiceTest {
     void shouldGetOneReviewById() {
         Mockito.when(mockReviewRepository.findById(review.getId())).thenReturn(Optional.ofNullable(review));
         Mockito.when(mockProfileRepository.findById(review.getProfile().getId())).thenReturn(Optional.ofNullable(profile));
-
         ReviewTO result = service.getOneById(review.getId(), user.getToken());
-
         assertEquals(reviewTO, result);
     }
 
     @Test
     void shouldntGetOneReviewByIdWhenReviewNotFound() {
         Mockito.when(mockReviewRepository.findById(review.getId())).thenThrow(new ResourceNotFoundException(CodeException.RE001.getText(),CodeException.RE001));
-
         assertThrows(ResourceNotFoundException.class, () ->  service.getOneById(review.getId(), user.getToken()));
     }
 
     @Test
     void getAllByBook() {
-        //fail("Não implementado");
+        Mockito.when(mockBookRepository.findById(book.getId())).thenReturn(Optional.ofNullable(book));
+        Mockito.when(mockReviewRepository.findAllByBookOrderByCreationDate(book)).thenReturn(reviewList);
+        List<ReviewTO> reviews = service.getAllByBook(book.getId(), user.getToken());
+        assertEquals(reviewTOList, reviews);
     }
 
     @Test
-    void postReview() {
-        //fail("Não implementado");
+    void shouldntGetAllByBookWhenBookNotFound() {
+        Mockito.when(mockBookRepository.findById(book.getId())).thenThrow(new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
+        assertThrows(ResourceNotFoundException.class, () -> service.getAllByBook(book.getId(), user.getToken()));
     }
 
     @Test
-    void putReview() {
-        //fail("Não implementado");
+    void getAllByGoogleBook() {
+        Mockito.when(mockReviewRepository.findAllByIdGoogleBookOrderByCreationDate(review.getIdGoogleBook())).thenReturn(reviewList);
+        List<ReviewTO> reviews = service.getAllByGoogleBook(review.getIdGoogleBook(), user.getToken());
+        assertEquals(reviewTOList, reviews);
+    }
+
+    @Test
+    void shouldSaveReview() {
+        Mockito.when(mockBookRepository.findById(book.getId())).thenReturn(Optional.ofNullable(book));
+        Mockito.when(mockProfileRepository.findById(reviewBook.getProfile().getId())).thenReturn(Optional.ofNullable(profile));
+        Mockito.when(mockReviewRepository.save(reviewBook)).thenReturn(reviewBook);
+
+        ReviewTO result = service.save(reviewTOBook, user.getToken());
+        assertEquals(reviewTOBook, result);
+    }
+
+    @Test
+    void shouldntSaveReviewWhenBookNotFound() {
+        Mockito.when(mockBookRepository.findById(book.getId())).thenReturn(Optional.ofNullable(null));
+        assertThrows(ResourceNotFoundException.class, () -> service.save(reviewTOBook, user.getToken()));
+    }
+
+    @Test
+    void updateReview() {
+        Mockito.when(mockReviewRepository.findById(review.getId())).thenReturn(Optional.ofNullable(review));
+        Mockito.when(mockReviewRepository.save(review)).thenReturn(review);
+        ReviewTO result = service.updateReview(reviewTO.getId(), reviewTO, user.getToken());
+
+        assertEquals(reviewTO, result);
+    }
+
+    @Test
+    void shouldntUpdateReviewWhenReviewNotFound() {
+        Mockito.when(mockReviewRepository.findById(review.getId())).thenThrow(new ResourceNotFoundException(CodeException.RE001.getText(),CodeException.RE001));
+        assertThrows(ResourceNotFoundException.class, () -> service.updateReview(reviewTOBook.getId(), reviewTOBook, user.getToken()));
+    }
+
+    @Test
+    void shouldntUpdateReviewWhenIdNotMatch() {
+        assertThrows(ResourceBadRequestException.class, () -> service.updateReview(UUID.randomUUID(), reviewTOBook, user.getToken()));
     }
 
     @Test

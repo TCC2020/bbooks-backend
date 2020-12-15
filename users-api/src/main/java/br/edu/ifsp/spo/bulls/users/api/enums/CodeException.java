@@ -33,7 +33,8 @@ public enum CodeException {
     FR001("FR001: Request not found", "FR001"),
     FR002("FR002: Conflict while removing friend", "FR002"),
     BR001("BR001: Book recommendation not found", "BR001"),
-    RE001("RE001: Review not found", "RE001");
+    RE001("RE001: Review not found", "RE001"),
+    RE002("RE002: Review sent does not match ID", "RE002");
 
 
 
