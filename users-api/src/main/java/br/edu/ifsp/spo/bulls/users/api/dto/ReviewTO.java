@@ -2,7 +2,6 @@ package br.edu.ifsp.spo.bulls.users.api.dto;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
