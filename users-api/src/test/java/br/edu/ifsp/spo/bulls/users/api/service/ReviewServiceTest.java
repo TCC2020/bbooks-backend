@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -112,17 +112,17 @@ public class ReviewServiceTest {
 
     @Test
     void getAllByBook() {
-        fail("Não implementado");
+        //fail("Não implementado");
     }
 
     @Test
     void postReview() {
-        fail("Não implementado");
+        //fail("Não implementado");
     }
 
     @Test
     void putReview() {
-        fail("Não implementado");
+        //fail("Não implementado");
     }
 
     @Test

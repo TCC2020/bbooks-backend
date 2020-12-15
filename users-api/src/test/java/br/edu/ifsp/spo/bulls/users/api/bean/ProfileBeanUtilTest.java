@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class ProfileBeanUtilTest {
 
 	@Autowired
-	ProfileBeanUtil bean;
+	private ProfileBeanUtil bean;
 	
 	@Test
 	void testToUser() {

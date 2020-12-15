@@ -67,7 +67,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void should_save_tag() throws Exception {
+    void shouldSaveTag() throws Exception {
 
         when(mockTagService.save(tag)).thenReturn(tag);
 
@@ -78,7 +78,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void should_get_by_profile() throws Exception {
+    void shouldGetByProfile() throws Exception {
 
         when(mockTagService.getByProfile(profile.getId())).thenReturn(tagsList);
 
@@ -88,7 +88,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_get_by_profile_if_profile_not_found() throws Exception {
+    void shouldntGetByProfileIfProfileNotFound() throws Exception {
 
         when(mockTagService.getByProfile(2)).thenThrow(new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 
@@ -98,7 +98,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void should_get_tag_by_book() throws Exception {
+    void shouldGetTagByBook() throws Exception {
         when(mockTagService.getByIdBook(userBooks.getId())).thenReturn(tagsList);
         mockMvc.perform(get("/tags/book/" + userBooks.getId())
                 .contentType("application/json"))
@@ -106,7 +106,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void should_get_tag_by_id() throws Exception {
+    void shouldGetTagById() throws Exception {
 
         when(mockTagService.getbyId(tag.getId())).thenReturn(tag);
         mockMvc.perform(get("/tags/" + tag.getId())
@@ -115,7 +115,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_get_tag_by_id_when_tag_not_found() throws Exception {
+    void shouldntGetTagByIdWhenTagNotFoFund() throws Exception {
 
         when(mockTagService.getbyId(4L)).thenThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         mockMvc.perform(get("/tags/" + 4)
@@ -124,7 +124,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void should_update() throws Exception {
+    void shouldUpdate() throws Exception {
         when(mockTagService.update(tag.getId(), tag)).thenReturn(tag);
 
         mockMvc.perform(put("/tags/" + tag.getId())
@@ -134,7 +134,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_update_when_id_dont_match() throws Exception {
+    void shouldntUpdatWhenIdDontMatch() throws Exception {
         when(mockTagService.update(6L, tagNotFound)).thenThrow(new ResourceBadRequestException(CodeException.TG002.getText(), CodeException.TG002));
 
         mockMvc.perform(put("/tags/" + 6L)
@@ -144,7 +144,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_update_when_tag_not_found() throws Exception {
+    void shouldntUpdatWhenTagNotFoFund() throws Exception {
         when(mockTagService.update(5L, tagNotFound)).thenThrow(new ResourceNotFoundException(CodeException.TG002.getText(), CodeException.TG002));
 
         mockMvc.perform(put("/tags/" + 5)
@@ -154,7 +154,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void should_put_tag_on_book() throws Exception {
+    void shouldPutTagOnBook() throws Exception {
         Mockito.when(mockTagService.tagBook(tag.getId(), userBooks.getId())).thenReturn(tag);
 
         mockMvc.perform(put("/tags/" + tag.getId() + "/book/" +userBooks.getId())
@@ -163,7 +163,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_put_tag_on_book_when_tag_not_found() throws Exception {
+    void shouldntPutTagOnBookWhenTagNotFoFund() throws Exception {
         Long tagId = new Random().nextLong();
         Mockito.when(mockTagService.tagBook(tagId, userBooks.getId())).thenThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         mockMvc.perform(put("/tags/" + tagId + "/book/" + userBooks.getId())
@@ -172,7 +172,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_put_tag_on_book_when_userBooks_not_found() throws Exception {
+    void shouldntPutTagOnBookWhenUserBooksNotFound() throws Exception {
         Long userBooksId = new Random().nextLong();
         Mockito.when(mockTagService.tagBook(tag.getId(), userBooksId)).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
 
@@ -182,7 +182,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void should_untag_on_book() throws Exception {
+    void shouldUntagOnBook() throws Exception {
         Mockito.when(mockTagService.untagBook(tag.getId(), userBooks.getId())).thenReturn(HttpStatus.ACCEPTED);
         mockMvc.perform(delete("/tags/" + tag.getId() + "/book/" + userBooks.getId())
                 .contentType("application/json"))
@@ -190,7 +190,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_untag_book_when_tag_not_found() throws Exception {
+    void shouldntUntagBookWhenTagNotFound() throws Exception {
         Long tagId = new Random().nextLong();
         Mockito.when(mockTagService.untagBook(tagId, userBooks.getId())).thenThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         mockMvc.perform(delete("/tags/" + tagId+ "/book/" + userBooks.getId())
@@ -199,7 +199,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_untag_book_when_userBooks_not_found() throws Exception {
+    void shouldntUntagBookWhenUserBooksNotFund() throws Exception {
         Long userBooksId = new Random().nextLong();
         Mockito.when(mockTagService.untagBook(tag.getId(), userBooksId)).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         mockMvc.perform(delete("/tags/" + tag.getId() + "/book/" + userBooksId)
@@ -208,7 +208,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void should_delete_tag() throws Exception {
+    void shouldDeleteTag() throws Exception {
         Mockito.doNothing().when(mockTagService).delete(tag.getId());
         mockMvc.perform(delete("/tags/" + tag.getId())
                 .contentType("application/json"))
@@ -216,7 +216,7 @@ public class TagControllerTest {
     }
 
     @Test
-    void shouldnt_delete_tag() throws Exception {
+    void shouldntDeleteTag() throws Exception {
         Mockito.doThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001)).when(mockTagService).delete(2L);
         mockMvc.perform(delete("/tags/" + 2)
                 .contentType("application/json"))
