@@ -2,13 +2,10 @@ package br.edu.ifsp.spo.bulls.users.api.bean;
 
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
-import br.edu.ifsp.spo.bulls.users.api.repository.TagRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
