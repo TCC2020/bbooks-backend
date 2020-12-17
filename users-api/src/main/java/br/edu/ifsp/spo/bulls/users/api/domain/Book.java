@@ -37,6 +37,10 @@ public class Book {
     @ApiModelProperty(value = "Lista de autores que escreveram o livro")
     private List<Author> authors;
 
+    @OneToMany(cascade = CascadeType.MERGE)
+    @ApiModelProperty(value = "Lista de resenhas que escreveram sobre o livro")
+    private List<Review> reviews;
+
     @Column(nullable = false)
     @NotNull(message = "NumberPage is mandatory")
     @ApiModelProperty(value = "Quantidade de páginas do livro")
@@ -69,8 +73,6 @@ public class Book {
     @ApiModelProperty(value = "Descrição do livro")
     private String description;
 
-    //@Column(nullable = false)
-    //@NotBlank(message = "Description is mandatory")
     @ApiModelProperty(value = "Link da imagem")
     private String image;
     public Book() {

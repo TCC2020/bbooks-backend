@@ -44,7 +44,7 @@ public class ReadingTrackingControllerTest {
     @Test
     void testDeleteTracking() throws Exception {
 //        int idProfile = this.umProfile("testeDeleteAcOk", "teste@deleteAcOk");
-//        long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 30);
+//        long userBookId = this.umUserBook(idProfile, Status.LENDO, "1234teste", 30);
 //
 //        ReadingTrackingTO readingTrackingTO1 = umReadingTracking(userBookId, 20);
 //
@@ -87,7 +87,7 @@ public class ReadingTrackingControllerTest {
     @Test
     void testGetAllByBook() throws Exception {
 //        int idProfile = this.umProfile("TesteGetAllByBookOk", "teste@TesteGetAllByBookOk");
-//        long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 30);
+//        long userBookId = this.umUserBook(idProfile, Status.LENDO, "1234teste", 30);
 //
 //        ReadingTrackingTO readingTrackingTO1 = umReadingTracking(userBookId, 20);
 //
@@ -107,19 +107,6 @@ public class ReadingTrackingControllerTest {
 //                .contentType("application/json")
 //                .content(objectMapper.writeValueAsString(readingTrackingTO)))
 //                .andExpect(status().isOk());
-    }
-
-    @Test
-    void testPostReadingTrackingConflitStatusLido() throws Exception {
-//        int idProfile = this.umProfile("testeSaveAcConflit", "teste@testeSaveAcConflit");
-//
-//        ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-//        readingTrackingTO.setNumPag(20);
-//
-//        mockMvc.perform(post("/tracking")
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(readingTrackingTO)))
-//                .andExpect(status().isConflict());
     }
 
     @Test
