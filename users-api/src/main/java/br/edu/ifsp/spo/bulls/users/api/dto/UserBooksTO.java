@@ -30,4 +30,6 @@ public class UserBooksTO {
     private int idBook;
     @ApiModelProperty(value = "Usuario dono da estante virtual")
     private int profileId;
+    @ApiModelProperty(value = "Data de término de leitura")
+    private LocalDateTime finishDate;
 }

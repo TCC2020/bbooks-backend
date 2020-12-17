@@ -18,6 +18,8 @@ import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -98,8 +100,11 @@ public class UserBooksService {
         for(Tag tag: tagsRemove){
             tagService.untagBook(tag.getId(),dto.getId());
         }
-
-        return this.save(dto);
+        if(dto.getFinishDate() != null
+                && dto.getFinishDate().isBefore(LocalDateTime.now())
+                && !dto.getStatus().equals(Status.LIDO))
+            dto.setStatus(Status.LIDO);
+        return save(dto);
     }
 
     public UserBooks convertToUserBooks(UserBooksTO dto) {

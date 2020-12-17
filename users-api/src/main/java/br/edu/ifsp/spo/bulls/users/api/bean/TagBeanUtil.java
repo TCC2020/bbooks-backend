@@ -24,7 +24,22 @@ public class TagBeanUtil {
         return dto;
     }
 
+    public Tag toDomain(TagTO dto) {
+        Tag domain = new Tag();
+        try{
+            BeanUtils.copyProperties(dto, domain);
+        }catch(Exception e) {
+            logger.error("Error while converting UserBooks to UserBooksTO: " +  e);
+        }
+        return domain;
+    }
+
     public List<TagTO> toDtoList(List<Tag> tags) {
-        return tags.parallelStream().map(this::toDto).collect(Collectors.toList());
+        return tags.parallelStream().map(tag -> toDto(tag)).collect(Collectors.toList());
+    }
+
+    public List<Tag> toDomainList(List<TagTO> tags) {
+        System.out.println("lala");
+        return tags.stream().map(tag -> toDomain(tag)).collect(Collectors.toList());
     }
 }

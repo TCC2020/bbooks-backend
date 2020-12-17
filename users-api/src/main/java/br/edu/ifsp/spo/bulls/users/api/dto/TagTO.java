@@ -27,6 +27,9 @@ public class TagTO {
     @ApiModelProperty(value = "Cor que representa esta TAG")
     private String color;
 
-    public TagTO(long l, String nome, Profile profile) {
+    public TagTO(Long id, String name, Profile profile) {
+        this.id = id;
+        this.name = name;
+        this.profile = profile;
     }
 }
