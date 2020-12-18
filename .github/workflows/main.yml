@@ -29,13 +29,7 @@ jobs:
         if: github.ref == 'refs/heads/master' && job.status == 'success'
         run: |
           git remote add heroku https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
-          git push heroku HEAD:master -f
-          
-  codacy-coverage-reporter:
-    runs-on: ubuntu-latest
-    name: codacy-coverage-reporter
-    steps:
-      - uses: actions/checkout@master
+          git push heroku HEAD:master -f  
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@master
         with:
