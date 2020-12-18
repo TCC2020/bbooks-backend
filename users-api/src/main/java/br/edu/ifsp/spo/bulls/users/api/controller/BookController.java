@@ -1,7 +1,9 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
+import br.edu.ifsp.spo.bulls.users.api.dto.BookSearchTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookTO;
 import br.edu.ifsp.spo.bulls.users.api.service.BookService;
+import br.edu.ifsp.spo.bulls.users.api.webclient.Client;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -21,6 +23,9 @@ public class BookController {
 
     @Autowired
     BookService service;
+
+    @Autowired
+    private Client client;
 
     @ApiOperation(value = "Cadastrar um livro")
     @ApiResponses(value = {
@@ -93,5 +98,12 @@ public class BookController {
         logger.info("Livros encontrados: " + livros);
         return livros;
     }
+
+    @GetMapping("/searchByString")
+    public BookSearchTO searchByString(@RequestBody BookSearchTO bookSearchTO){
+        logger.info("Requisitando lista de  livros com titulo ou isbn: " + bookSearchTO.getSearch());
+        return client.searchBooks(bookSearchTO);
+    }
+
 
 }
