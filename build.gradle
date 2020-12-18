@@ -27,6 +27,7 @@ subprojects {
 			extendsFrom annotationProcessor
 		}
 	}
+
 	dependencies {
 		compileOnly 'org.projectlombok:lombok'
 		runtimeOnly 'com.h2database:h2'
