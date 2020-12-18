@@ -25,6 +25,7 @@ public class Review {
     @Column(name = "id", updatable = false, unique = true, nullable = false)
     public UUID id;
     public String title;
+    @Column(columnDefinition="TEXT")
     public String body;
     public String idGoogleBook;
     public LocalDateTime creationDate;
