@@ -34,14 +34,10 @@ public class ReadingTrackingControllerTest {
     @MockBean
     private ReadingTrackingService mockReadingTrackingService;
 
-    private Profile profile;
     private ReadingTrackingTO readingTrackingTO;
 
     @BeforeEach
-    void SetUp(){
-        profile = new Profile();
-        profile.setId(1);
-
+    void setUp(){
         readingTrackingTO = new ReadingTrackingTO();
         readingTrackingTO.setId(UUID.randomUUID());
     }
