@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
