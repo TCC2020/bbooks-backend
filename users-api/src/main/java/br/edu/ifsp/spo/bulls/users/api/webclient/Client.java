@@ -35,6 +35,6 @@ public class Client {
         bookSearchTO.setGoogleBooks(googleBooks);
         bookSearchTO.setPage(search.getPage());
         bookSearchTO.setBooks(books.getContent());
-;       return bookSearchTO;
+        return bookSearchTO;
     }
 }
