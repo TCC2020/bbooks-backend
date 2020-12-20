@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.users.api.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +24,7 @@ public class Review {
     @Column(name = "id", updatable = false, unique = true, nullable = false)
     public UUID id;
     public String title;
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition="TEXT", length = 1000)
     public String body;
     public String idGoogleBook;
     public LocalDateTime creationDate;

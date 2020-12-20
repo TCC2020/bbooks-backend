@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
 import br.edu.ifsp.spo.bulls.users.api.bean.ReviewBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.domain.Review;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReviewTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -33,6 +31,9 @@ public class ReviewService {
     }
 
     public Page<ReviewTO> getAllByBook(int bookId, String token, int page , int size){
+        if(!bookRepository.existsById(bookId))
+            throw new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002);
+
         PageRequest pageRequest = PageRequest.of(
                 page,
                 size,

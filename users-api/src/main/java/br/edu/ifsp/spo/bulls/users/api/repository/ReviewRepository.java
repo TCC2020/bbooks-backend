@@ -1,8 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.repository;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.domain.Review;
-import br.edu.ifsp.spo.bulls.users.api.dto.BookTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReviewTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -38,8 +34,5 @@ public interface ReviewRepository  extends CrudRepository<Review, UUID> {
     Page<ReviewTO> searchByBookId(
             @Param("bookId") int bookId,
             Pageable pageable);
-
-    List<Review> findAllByBookOrderByCreationDate (Book book);
-    List<Review> findAllByIdGoogleBookOrderByCreationDate (String idGoogleBook);
 
 }

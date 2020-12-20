@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.HashSet;
 
 @Repository
@@ -17,6 +16,8 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     HashSet<Book> findAll();
 
     boolean existsByIsbn10(String isbn10);
+
+    boolean existsById(int id);
 
     @Query(value =
             "select new br.edu.ifsp.spo.bulls.users.api.dto.BookTO(" +
