@@ -12,6 +12,7 @@ import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReviewRepository;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,12 +20,18 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.Optional;
+import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -56,6 +63,8 @@ public class ReviewServiceTest {
     private Profile profile;
     private List<Review> reviewList;
     private List<ReviewTO> reviewTOList;
+    private Page<ReviewTO> reviewTOPage;
+    private PageRequest pageRequest;
 
     @BeforeEach
     void setUp() {
@@ -96,6 +105,95 @@ public class ReviewServiceTest {
 
         reviewTO = beanUtil.toDto(review);
         reviewTOList = beanUtil.toDto(reviewList);
+
+        reviewTOPage = new Page<ReviewTO>() {
+            @Override
+            public int getTotalPages() {
+                return 0;
+            }
+
+            @Override
+            public long getTotalElements() {
+                return 0;
+            }
+
+            @Override
+            public <U> Page<U> map(Function<? super ReviewTO, ? extends U> converter) {
+                return null;
+            }
+
+            @Override
+            public int getNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getSize() {
+                return 0;
+            }
+
+            @Override
+            public int getNumberOfElements() {
+                return 0;
+            }
+
+            @Override
+            public List<ReviewTO> getContent() {
+                return reviewTOList;
+            }
+
+            @Override
+            public boolean hasContent() {
+                return false;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public boolean isFirst() {
+                return false;
+            }
+
+            @Override
+            public boolean isLast() {
+                return false;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+
+            @Override
+            public Pageable nextPageable() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousPageable() {
+                return null;
+            }
+
+            @NotNull
+            @Override
+            public Iterator<ReviewTO> iterator() {
+                return null;
+            }
+        };
+
+        pageRequest = PageRequest.of(
+                0,
+                1,
+                Sort.Direction.ASC,
+                "id");
     }
 
     @Test
@@ -115,22 +213,23 @@ public class ReviewServiceTest {
     @Test
     void getAllByBook() {
         Mockito.when(mockBookRepository.findById(book.getId())).thenReturn(Optional.ofNullable(book));
-        Mockito.when(mockReviewRepository.findAllByBookOrderByCreationDate(book)).thenReturn(reviewList);
-        List<ReviewTO> reviews = service.getAllByBook(book.getId(), user.getToken());
-        assertEquals(reviewTOList, reviews);
+        Mockito.when(mockBookRepository.existsById(book.getId())).thenReturn(true);
+        Mockito.when(mockReviewRepository.searchByBookId(book.getId(), pageRequest)).thenReturn(reviewTOPage);
+        Page<ReviewTO> reviews = service.getAllByBook(book.getId(), user.getToken(), 0 , 1);
+        assertEquals(reviewTOList, reviews.getContent());
     }
 
     @Test
     void shouldntGetAllByBookWhenBookNotFound() {
-        Mockito.when(mockBookRepository.findById(book.getId())).thenThrow(new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
-        assertThrows(ResourceNotFoundException.class, () -> service.getAllByBook(book.getId(), user.getToken()));
+        Mockito.when(mockBookRepository.existsById(book.getId())).thenReturn(false);
+        assertThrows(ResourceNotFoundException.class, () -> service.getAllByBook(book.getId(), user.getToken(), 0, 1));
     }
 
     @Test
     void getAllByGoogleBook() {
-        Mockito.when(mockReviewRepository.findAllByIdGoogleBookOrderByCreationDate(review.getIdGoogleBook())).thenReturn(reviewList);
-        List<ReviewTO> reviews = service.getAllByGoogleBook(review.getIdGoogleBook(), user.getToken());
-        assertEquals(reviewTOList, reviews);
+        Mockito.when(mockReviewRepository.searchByGoogleBook(review.getIdGoogleBook(), pageRequest)).thenReturn(reviewTOPage);
+        Page<ReviewTO> reviews = service.getAllByGoogleBook(review.getIdGoogleBook(), user.getToken(), 0 , 1);
+        assertEquals(reviewTOList, reviews.getContent());
     }
 
     @Test
