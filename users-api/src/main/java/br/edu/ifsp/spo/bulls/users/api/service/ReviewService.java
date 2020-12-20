@@ -10,6 +10,9 @@ import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -29,15 +32,22 @@ public class ReviewService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RE001.getText(),CodeException.RE001)));
     }
 
-    public List<ReviewTO> getAllByBook(int bookId, String token){
-        Book book = bookRepository.findById(bookId).orElseThrow( () -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
-        List<Review> listBook = repository.findAllByBookOrderByCreationDate(book);
-        return beanUtil.toDto(listBook);
+    public Page<ReviewTO> getAllByBook(int bookId, String token, int page , int size){
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "id");
+        return repository.searchByBookId(bookId, pageRequest);
     }
 
-    public List<ReviewTO> getAllByGoogleBook(String googleBookId, String token){
-        List<Review> listBook = repository.findAllByIdGoogleBookOrderByCreationDate(googleBookId);
-        return beanUtil.toDto(listBook);
+    public Page<ReviewTO> getAllByGoogleBook(String googleBookId, String token, int page , int size){
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "id");
+        return repository.searchByGoogleBook(googleBookId, pageRequest);
     }
 
     public ReviewTO save(ReviewTO reviewTO, String token){

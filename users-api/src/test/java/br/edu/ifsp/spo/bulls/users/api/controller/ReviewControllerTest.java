@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
@@ -39,7 +40,7 @@ public class ReviewControllerTest {
 
     private ReviewTO reviewTO;
     private User user;
-    private List<ReviewTO> reviewTOList;
+    private Page<ReviewTO> reviewTOList;
 
     @BeforeEach
     void setUp() {
@@ -62,7 +63,7 @@ public class ReviewControllerTest {
         reviewTO.setProfileId(profile.getId());
         reviewTO.setBookId(1);
 
-        reviewTOList = new ArrayList<>();
+        reviewTOList = new Page<>();
         reviewTOList.add(reviewTO);
     }
 
@@ -77,7 +78,7 @@ public class ReviewControllerTest {
 
     @Test
     void getAllByGoogleBook() throws Exception {
-        Mockito.when(mockReviewService.getAllByGoogleBook(reviewTO.getIdGoogleBook(), user.getToken())).thenReturn(reviewTOList);
+        Mockito.when(mockReviewService.getAllByGoogleBook(reviewTO.getIdGoogleBook(), user.getToken(), 0, 1)).thenReturn(reviewTOList);
         mockMvc.perform(get("/review/google-book/" + reviewTO.getIdGoogleBook())
                 .contentType("application/json")
                 .header(HttpHeaders.AUTHORIZATION,"Basic " + user.getToken() ))

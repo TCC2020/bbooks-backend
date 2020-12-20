@@ -9,16 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -51,10 +44,10 @@ public class ReviewController {
             @ApiResponse(code = 404, message = "Livro não encontrado")
     })
     @GetMapping("/book/{bookId}")
-    public List<ReviewTO> getAllByBook(@PathVariable int bookId, @RequestHeader(value = "AUTHORIZATION") String token){
+    public Page<ReviewTO> getAllByBook(@PathVariable int bookId,@RequestParam int page, @RequestParam int size, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Acessar resenhas por livro " + bookId);
-        List<ReviewTO> reviews = service.getAllByBook(bookId, tokenValue);
+        Page<ReviewTO> reviews = service.getAllByBook(bookId, tokenValue, page, size);
         logger.info("Resenhas encontradas: " + reviews.toString());
         return reviews;
     }
@@ -65,10 +58,10 @@ public class ReviewController {
             @ApiResponse(code = 404, message = "Livro não encontrado")
     })
     @GetMapping("/google-book/{googleBookId}")
-    public List<ReviewTO> getAllByGoogleBook(@PathVariable String googleBookId, @RequestHeader(value = "AUTHORIZATION") String token){
+    public Page<ReviewTO> getAllByGoogleBook(@PathVariable String googleBookId, @RequestParam int page, @RequestParam int size, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Acessar resenhas por livro " + googleBookId);
-        List<ReviewTO> reviews = service.getAllByGoogleBook(googleBookId, tokenValue);
+        Page<ReviewTO> reviews = service.getAllByGoogleBook(googleBookId, tokenValue, page,size);
         logger.info("Resenhas encontradas: " + reviews.toString());
         return reviews;
     }

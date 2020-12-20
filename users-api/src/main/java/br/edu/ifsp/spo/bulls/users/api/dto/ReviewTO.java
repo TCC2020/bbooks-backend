@@ -15,4 +15,26 @@ public class ReviewTO {
     public String idGoogleBook;
     public int profileId;
     public LocalDateTime creationDate;
+
+    public ReviewTO(UUID id, String title, String body, String idGoogleBook, int profileId, LocalDateTime creationDate) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.idGoogleBook = idGoogleBook;
+        this.profileId = profileId;
+        this.creationDate = creationDate;
+    }
+
+    public ReviewTO(UUID id, String title, String body, int bookId, String idGoogleBook, int profileId, LocalDateTime creationDate) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.bookId = bookId;
+        this.idGoogleBook = idGoogleBook;
+        this.profileId = profileId;
+        this.creationDate = creationDate;
+    }
+
+    public ReviewTO() {
+    }
 }
