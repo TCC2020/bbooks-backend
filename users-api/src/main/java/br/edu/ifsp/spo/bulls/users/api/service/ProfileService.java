@@ -29,7 +29,7 @@ public class ProfileService {
 	}
 	
 	public ProfileTO getByUser(String username) {
-		User user = userService.getByUsername(username);
+		User user = userService.getByUsername( username);
 		Profile profile =  profileRep.findByUser(user);
 		
 		return beanUtil.toProfileTO(profile);

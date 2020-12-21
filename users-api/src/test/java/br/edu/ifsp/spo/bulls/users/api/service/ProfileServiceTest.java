@@ -122,7 +122,7 @@ public class ProfileServiceTest {
 
 	@Test
 	void shouldGetProfileByUser(){
-		Mockito.when(mockUserService.getByUsername(user.getUserName()))
+		Mockito.when(mockUserService.getByUsername( user.getUserName()))
 				.thenReturn(user);
 		Mockito.when(mockProfileRespository.findByUser(user)).thenReturn(profile);
 
