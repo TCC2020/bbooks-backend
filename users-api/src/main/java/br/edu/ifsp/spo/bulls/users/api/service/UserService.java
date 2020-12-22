@@ -12,6 +12,9 @@ import br.edu.ifsp.spo.bulls.users.api.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 @Service
 public class UserService{
+
+	private Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
 	private UserRepository rep;
@@ -39,20 +44,21 @@ public class UserService{
 	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 	
 	public UserTO save(CadastroUserTO cadastroUserTO) throws Exception {
-        
-		User user = beanUtil.toUser(cadastroUserTO);
-		user.setPassword(bCryptPasswordEncoder.encode(cadastroUserTO.getPassword()));
-		user.setUserName(user.getUserName().toLowerCase());
-		user.setToken(UUID.randomUUID().toString());
+		User user = verifyUserToSave(cadastroUserTO);
+		User retorno = null;
 
-		Profile profile = new Profile (cadastroUserTO.getName(), cadastroUserTO.getLastName(), cadastroUserTO.getProfileImage(), user);
-		validationUserNameIsUnique(user);
-		validationEmailIsUnique(user);
-		validationPassword(cadastroUserTO);
-		
-		User retorno = rep.save(user);
-		profileService.save(profile);
+		try{
+			retorno = rep.save(user);
+			saveProfile(cadastroUserTO, user);
+			sendEmail(retorno);
+		}catch (Exception e){
+			logger.error("Error while save user: " +  e);
+		}
 
+		return beanUtil.toUserTO(retorno);
+	}
+
+	private void sendEmail(User retorno) {
 		email.
 			getInstance()
 			.withUrls("https://bbooks-front.herokuapp.com/confirm")
@@ -60,28 +66,45 @@ public class UserService{
 			.withContent(" Bem Vindo " + retorno.getUserName())
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
 			.send();
+	}
 
-		return beanUtil.toUserTO(retorno);
+	private void saveProfile(CadastroUserTO cadastroUserTO, User user) {
+		Profile profile = new Profile (cadastroUserTO.getName(), cadastroUserTO.getLastName(), cadastroUserTO.getProfileImage(), user);
+		profileService.save(profile);
+	}
+
+	@NotNull
+	private User verifyUserToSave(CadastroUserTO cadastroUserTO) throws Exception {
+		validationPassword(cadastroUserTO);
+		User user = beanUtil.toUser(cadastroUserTO);
+		user.setPassword(bCryptPasswordEncoder.encode(cadastroUserTO.getPassword()));
+		user.setUserName(user.getUserName().toLowerCase());
+		user.setToken(UUID.randomUUID().toString());
+		validationUserNameIsUnique(user);
+		validationEmailIsUnique(user);
+
+		return user;
 	}
 
 	private void validationPassword(CadastroUserTO entidade) {
+		System.out.println(entidade.getPassword().isEmpty());
 		if(entidade.getPassword().isEmpty())
 			throw new ResourceBadRequestException(CodeException.US003.getText(), CodeException.US003);
 		
 	}
 	
-	private void validationUserNameIsUnique(User entity) throws Exception {
+	private void validationUserNameIsUnique(User entity) {
 		if (rep.existsByUserName(entity.getUserName())) 
 			throw new ResourceConflictException(CodeException.US005.getText() + ": " + entity.getUserName() , CodeException.US005);
 	}
 	
-	private void validationEmailIsUnique(User entity) throws Exception {
+	private void validationEmailIsUnique(User entity) {
 		Optional<User> user = rep.findByEmail(entity.getEmail());
 		if ((user.isPresent()) && (!user.get().getUserName().equals(entity.getUserName())) )
 			throw new ResourceConflictException(CodeException.US002.getText() + ": " + entity.getEmail() , CodeException.US002);
 	}
 
-	private void validationEmailIsUnique(String email, UserTO entity) throws Exception {
+	private void validationEmailIsUnique(String email, UserTO entity) {
 		Optional<User> user = rep.findByEmail(email);
 		if ((user.isPresent()) && (!user.get().getId().equals(entity.getId())) )
 			throw new ResourceConflictException(CodeException.US002.getText() + ": " + entity.getEmail() , CodeException.US002);
