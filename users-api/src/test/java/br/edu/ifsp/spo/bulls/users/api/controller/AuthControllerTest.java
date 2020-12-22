@@ -3,14 +3,17 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
-import br.edu.ifsp.spo.bulls.users.api.dto.*;
+import br.edu.ifsp.spo.bulls.users.api.dto.LoginTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.RequestPassResetTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.users.api.service.AuthService;
 import br.edu.ifsp.spo.bulls.users.api.dto.ResetPassTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.UUID;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -76,7 +81,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void should_login() throws Exception {
+    void shouldLogin() throws Exception {
 
         Mockito.when(mockAuthService.authLogin(loginTo)).thenReturn(userTO);
 
@@ -87,7 +92,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void shouldnt_login_when_password_wrong() throws Exception {
+    void shouldntLoginWhenPasswordWrong() throws Exception {
         Mockito.when(mockAuthService.authLogin(loginTo)).thenThrow(new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001));
 
         mockMvc.perform(post("/auth/login")
@@ -97,7 +102,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void should_login_using_token() throws Exception {
+    void shouldLoginUsingToken() throws Exception {
 
         Mockito.when(mockAuthService.authLoginToken(loginTo)).thenReturn(userTO);
 
@@ -109,7 +114,7 @@ public class AuthControllerTest {
 
 
     @Test
-    void shouldnt_login_using_token_when_token_not_valid() throws Exception {
+    void shouldntLoginUsingTokenWhenTokenNotValid() throws Exception {
         Mockito.when(mockAuthService.authLoginToken(loginTo)).thenThrow(new ResourceUnauthorizedException(CodeException.AT001.getText(), CodeException.AT001));
 
         mockMvc.perform(post("/auth/login/token")
@@ -119,7 +124,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void should_confirm_user() throws Exception {
+    void shouldConfirmUser() throws Exception {
 
         Mockito.when(mockAuthService.verified(loginTo)).thenReturn(userTO);
 
@@ -130,7 +135,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void should_send_reset_password_email() throws Exception {
+    void shouldSendResetPasswordEmail() throws Exception {
 
         Mockito.doNothing().when(mockAuthService).sendResetPasswordEmail(requestPassResetTO.getEmail(), requestPassResetTO.getUrl());
 
@@ -141,7 +146,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void shouldnt_send_reset_password_email_user_not_found() throws Exception{
+    void shouldntSendResetPasswordEmailUserNotFound() throws Exception{
 
         Mockito.doThrow(new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)).when(mockAuthService).sendResetPasswordEmail(requestPassResetTO.getEmail(), requestPassResetTO.getUrl());
 
@@ -152,7 +157,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void should_reset_password() throws Exception {
+    void shouldResetPassword() throws Exception {
         Mockito.when(mockAuthService.resetPass(resetPassTO)).thenReturn(userTO);
 
         mockMvc.perform(put("/auth/reset-pass")
@@ -162,7 +167,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void shouldnt_reset_password_user_not_found() throws Exception {
+    void shouldntResetPasswordUserNotFound() throws Exception {
         Mockito.when(mockAuthService.resetPass(resetPassTO)).thenThrow(new ResourceConflictException(CodeException.US001.getText(), CodeException.US001));
 
         mockMvc.perform(put("/auth/reset-pass")
@@ -172,7 +177,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void should_get_by_token() throws Exception {
+    void shouldGetByToken() throws Exception {
         Mockito.when(mockAuthService.getByToken(resetPassTO.getToken())).thenReturn(userTO);
 
         mockMvc.perform(get("/auth/reset-pass/" + resetPassTO.getToken())
@@ -181,7 +186,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void should_get_by_token_when_user_not_found() throws Exception {
+    void shouldGetByTokenWhenUserNotFound() throws Exception {
 
         Mockito.when(mockAuthService.getByToken(resetPassTO.getToken())).thenThrow(new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 

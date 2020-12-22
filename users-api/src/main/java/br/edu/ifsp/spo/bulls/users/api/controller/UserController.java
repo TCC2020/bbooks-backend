@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import java.util.HashSet;
 import java.util.UUID;
 import javax.validation.Valid;
-
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.users.api.service.UserService;
@@ -45,8 +44,8 @@ public class UserController {
 	}
 	@GetMapping ("/username/{username}")
 	public UserTO getByUserName(@PathVariable String username, @RequestHeader(value = "AUTHORIZATION") String token) {
-		token = StringUtils.removeStart(token, "Bearer").trim();
-		return service.getByUserName(username, token);
+		String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
+		return service.getByUserName(username, tokenValue);
 	}
 
 	@ApiOperation(value = "Retorna informações de todos os usuários")
@@ -105,8 +104,8 @@ public class UserController {
 	@GetMapping("/info")
 	public UserTO getInfoByToken(@RequestHeader(value = "AUTHORIZATION") String token){
 		logger.info("Tentando requisição de usuário por token ");
-		token = StringUtils.removeStart(token, "Bearer").trim();
-		UserTO userTO = beanUtil.toUserTO(service.getByToken(token));
+		String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
+		UserTO userTO = beanUtil.toUserTO(service.getByToken(tokenValue));
 		logger.info("Usuário encontrado: " + userTO);
 		return userTO;
 	}

@@ -1,22 +1,23 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
-import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTrackingTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.Status;
+import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.service.ReadingTrackingService;
-import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
-import br.edu.ifsp.spo.bulls.users.api.service.UserBooksService;
-import br.edu.ifsp.spo.bulls.users.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import java.util.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import java.util.UUID;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -29,155 +30,75 @@ public class ReadingTrackingControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private UserService userService;
+    @MockBean
+    private ReadingTrackingService mockReadingTrackingService;
 
-    @Autowired
-    private ProfileService profileService;
+    private ReadingTrackingTO readingTrackingTO;
 
-    @Autowired
-    private UserBooksService userBooksService;
+    @BeforeEach
+    void setUp(){
+        readingTrackingTO = new ReadingTrackingTO();
+        readingTrackingTO.setId(UUID.randomUUID());
+    }
 
-    @Autowired
-    private ReadingTrackingService readingTrackingService;
 
     @Test
     void testDeleteTracking() throws Exception {
-//        int idProfile = this.umProfile("testeDeleteAcOk", "teste@deleteAcOk");
-//        long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 30);
-//
-//        ReadingTrackingTO readingTrackingTO1 = umReadingTracking(userBookId, 20);
-//
-//        mockMvc.perform(delete("/tracking/" + readingTrackingTO1.getId()))
-//                .andExpect(status().isOk());
+        Mockito.doNothing().when(mockReadingTrackingService).delete(readingTrackingTO.getId());
+
+        mockMvc.perform(delete("/tracking/" + readingTrackingTO.getId()))
+                .andExpect(status().isOk());
     }
 
     @Test
     void testDeleteNotFound() throws Exception {
-        mockMvc.perform(delete("/tracking/" + UUID.randomUUID())
+        Mockito.doThrow(new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001)).when(mockReadingTrackingService).delete(readingTrackingTO.getId());
+        mockMvc.perform(delete("/tracking/" + readingTrackingTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void testGetTracking() throws Exception {
-//        int idProfile = this.umProfile("testeGetOneAcOk", "teste@GetOneAcOk");
-//        long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 30);
-//
-//        ReadingTrackingTO readingTrackingTO1 = umReadingTracking(userBookId, 20);
-//
-//        mockMvc.perform(get("/tracking/" + readingTrackingTO1.getId()))
-//                .andExpect(status().isOk());
+    void testGetOneTracking() throws Exception {
+        Mockito.when(mockReadingTrackingService.get(readingTrackingTO.getId())).thenReturn(readingTrackingTO);
+
+        mockMvc.perform(get("/tracking/" + readingTrackingTO.getId()))
+                .andExpect(status().isOk());
     }
 
     @Test
     void testGetOneNotFound() throws Exception {
-        mockMvc.perform(get("/tracking/" + UUID.randomUUID())
+        Mockito.when(mockReadingTrackingService.get(readingTrackingTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+        mockMvc.perform(get("/tracking/" + readingTrackingTO.getId())
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void testGetAllByBookNotFound() throws Exception {
-        mockMvc.perform(get("/tracking/book/" + new Random().nextLong())
-                .contentType("application/json"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void testGetAllByBook() throws Exception {
-//        int idProfile = this.umProfile("TesteGetAllByBookOk", "teste@TesteGetAllByBookOk");
-//        long userBookId = this.umUserBook(idProfile, UserBooks.Status.LENDO, "1234teste", 30);
-//
-//        ReadingTrackingTO readingTrackingTO1 = umReadingTracking(userBookId, 20);
-//
-//        mockMvc.perform(get("/tracking/book/" + userBookId)
-//                .contentType("application/json"))
-//                .andExpect(status().isOk());
     }
 
     @Test
     void testPostReadingTracking() throws Exception {
-//        int idProfile = this.umProfile("testeSaveAcOk", "teste@testeSaveAcOk");
-//
-//        ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-//        readingTrackingTO.setNumPag(20);
-//
-//        mockMvc.perform(post("/tracking")
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(readingTrackingTO)))
-//                .andExpect(status().isOk());
-    }
-
-    @Test
-    void testPostReadingTrackingConflitStatusLido() throws Exception {
-//        int idProfile = this.umProfile("testeSaveAcConflit", "teste@testeSaveAcConflit");
-//
-//        ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-//        readingTrackingTO.setNumPag(20);
-//
-//        mockMvc.perform(post("/tracking")
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(readingTrackingTO)))
-//                .andExpect(status().isConflict());
-    }
-
-    @Test
-    void testPostReadingTracking404UserBooksNotFound() throws Exception {
-//        ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-//        readingTrackingTO.setNumPag(20);
-//
-//        mockMvc.perform(post("/tracking")
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(readingTrackingTO)))
-//                .andExpect(status().isNotFound());
+        Mockito.when(mockReadingTrackingService.save(readingTrackingTO)).thenReturn(readingTrackingTO);
+        mockMvc.perform(post("/tracking")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(readingTrackingTO)))
+                .andExpect(status().isOk());
     }
 
     @Test
     void testPutReadingOk() throws Exception {
-//        int idProfile = this.umProfile("testeUpdateOkAc", "teste@testeUpdateOkAc");
-//        long userBookId = this.umUserBook(idProfile, UserBooks.Status.QUERO_LER, "1234teste", 30);
-//
-//        ReadingTrackingTO readingTrackingTO = this.umReadingTracking(userBookId, 20);
-//
-//        readingTrackingTO.setComentario("aaaaa");
-//
-//        mockMvc.perform(put("/tracking/" + readingTrackingTO.getId())
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(readingTrackingTO)))
-//                .andExpect(status().isOk());
+        Mockito.when(mockReadingTrackingService.update(readingTrackingTO, readingTrackingTO.getId())).thenReturn(readingTrackingTO);
+        mockMvc.perform(put("/tracking/" + readingTrackingTO.getId())
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(readingTrackingTO)))
+                .andExpect(status().isOk());
     }
 
     @Test
     void testPutReadingNotFound() throws Exception {
-//        ReadingTracking readingTracking = new ReadingTracking();
-//        readingTracking.setId(UUID.randomUUID());
-//        mockMvc.perform(put("/tracking/" +  UUID.randomUUID())
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString( readingTracking )))
-//                .andExpect(status().isNotFound());
-    }
+        Mockito.when(mockReadingTrackingService.update(readingTrackingTO,readingTrackingTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
 
-    private ReadingTrackingTO umReadingTracking(long userBookId, int numberPage) {
-        ReadingTrackingTO readingTrackingTO = new ReadingTrackingTO();
-        readingTrackingTO.setNumPag(numberPage);
-        return readingTrackingService.save(readingTrackingTO);
-    }
-
-    private int umProfile(String userName, String email) throws Exception {
-        CadastroUserTO cadastroUserTO = new CadastroUserTO(userName, email, "senhate", "nome", "sobrenome");
-        UserTO userTO = userService.save(cadastroUserTO);
-
-        return profileService.getByUser(userTO.getUserName()).getId();
-    }
-
-    private Long umUserBook(int profileID, Status status, String idBookGoogle, int page){
-        UserBooksTO userBooksTO = new UserBooksTO();
-        userBooksTO.setProfileId(profileID);
-        userBooksTO.setStatus(status);
-        userBooksTO.setIdBookGoogle(idBookGoogle);
-        userBooksTO.setPage(page);
-        userBooksTO.setTags(new ArrayList<>());
-        return userBooksService.save(userBooksTO).getId();
+        mockMvc.perform(put("/tracking/" + readingTrackingTO.getId())
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(readingTrackingTO)))
+                .andExpect(status().isNotFound());
     }
 }

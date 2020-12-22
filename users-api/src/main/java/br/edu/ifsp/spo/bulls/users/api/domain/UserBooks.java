@@ -44,6 +44,9 @@ public class UserBooks {
     @OneToMany
     private List<Tracking> trackings = new ArrayList<>();
 
+    @ApiModelProperty(value = "Data de término de leitura")
+    private LocalDateTime finishDate;
+
     @PrePersist
     public void prePersist() {
         addDate = LocalDateTime.now();

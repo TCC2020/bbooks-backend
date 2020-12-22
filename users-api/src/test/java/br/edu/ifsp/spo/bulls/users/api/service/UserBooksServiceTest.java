@@ -34,18 +34,18 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 public class UserBooksServiceTest {
     @MockBean
-    UserBooksRepository mockUserBooksRepository;
+    private UserBooksRepository mockUserBooksRepository;
     @MockBean
-    BookRepository mockBookRepository;
+    private BookRepository mockBookRepository;
     @MockBean
-    ProfileRepository mockProfileRepository;
+    private ProfileRepository mockProfileRepository;
     @MockBean
-    TagService mockTagService;
+    private TagService mockTagService;
     @MockBean
-    TagBeanUtil mockBean;
+    private TagBeanUtil mockBean;
 
     @Autowired
-    UserBooksService userBookService;
+    private UserBooksService userBookService;
 
     private UserBooks userBooks = new UserBooks();
     private UserBooks userBooksLivro = new UserBooks();
@@ -58,6 +58,7 @@ public class UserBooksServiceTest {
     private Tag tag;
     private TagTO tagTO;
     private Book book;
+    private List<Tag> tagsList = new ArrayList<>();
 
     @BeforeEach
     void setUp(){
@@ -114,10 +115,12 @@ public class UserBooksServiceTest {
         //carregando userBooksList com userBook diferente
         userBooksListDiferente.add(userBooksLivro);
 
+        tagsList.add(tag);
+
     }
 
     @Test
-    public void user_books_service_should_save() {
+    public void userBooks_service_should_save() {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
         Mockito.when(mockUserBooksRepository.save(userBooks)).thenReturn(userBooks);
         Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
