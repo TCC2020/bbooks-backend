@@ -51,7 +51,6 @@ public class UserServiceTest {
     private User user;
     private UserTO userTO;
     private CadastroUserTO cadastroUserTO;
-    private HashSet<UserTO> userTOHashSet;
     private HashSet<User> userHashSet;
     private Profile profile;
 
@@ -66,11 +65,6 @@ public class UserServiceTest {
 
         Mockito.when(mockProfileRepository.findByUser(user)).thenReturn(profile);
         userTO = userBeanUtil.toUserTO(user);
-
-        userTOHashSet = new HashSet<>();
-        userHashSet = new HashSet<>();
-        userHashSet.add(user);
-        userTOHashSet.add(userTO);
     }
 
     @Test
