@@ -23,22 +23,22 @@ import java.util.UUID;
 public class TrackingService {
 
     @Autowired
-    UserBooksRepository userBooksRepository;
+    private UserBooksRepository userBooksRepository;
 
     @Autowired
-    UserBooksService userBooksService;
+    private UserBooksService userBooksService;
 
     @Autowired
-    UserBooksBeanUtil userBooksBeanUtil;
+    private UserBooksBeanUtil userBooksBeanUtil;
 
     @Autowired
-    TrackingRepository repository;
+    private TrackingRepository repository;
 
     @Autowired
-    ReadingTrackingService readingTrackingService;
+    private ReadingTrackingService readingTrackingService;
 
     @Autowired
-    TrackingBeanUtil beanUtil;
+    private TrackingBeanUtil beanUtil;
 
     public List<TrackingTO> getAllByBook(Long userBook) {
         List<TrackingTO> trackingTOS = beanUtil.toDTO(repository.findAllByUserBookOrderByCreationDate(
@@ -66,7 +66,7 @@ public class TrackingService {
     }
 
     public void deleteById(UUID trackingId){
-        Tracking tracking = repository.findById(trackingId)
+        repository.findById(trackingId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
 
         deleteChildrens(trackingId);
@@ -136,7 +136,6 @@ public class TrackingService {
     private Double calcularVelocidadeLeitura(TrackingTO tracking) {
         int qtdeDias = 1;
         double qtdePaginasLidas = 0;
-        double velocidade;
 
         if(tracking.getTrackings().size() == 1) {
             qtdePaginasLidas = tracking.getTrackings().get(0).getNumPag();
@@ -150,9 +149,7 @@ public class TrackingService {
             }
         }
 
-        velocidade = qtdePaginasLidas/qtdeDias;
-
-        return velocidade;
+        return qtdePaginasLidas/qtdeDias;
     }
 
 }
