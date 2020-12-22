@@ -33,13 +33,8 @@ public class TrackingBeanUtil {
         try{
             BeanUtils.copyProperties(tracking, trackingTO);
             trackingTO.setUserBookId(tracking.getUserBook().getId());
-            System.out.println(trackingTO.getTrackings());
-
             List<ReadingTrackingTO> lista = readingTrackingBeanUtil.toDTO(readingTrackingService.getByTrackingGroup(trackingTO.getId()));
             trackingTO.setTrackings(lista);
-
-            System.out.println("Retornado:" + lista);
-            System.out.println(trackingTO.getTrackings());
         }catch(Exception e) {
             e.printStackTrace();
             logger.error("Error while converting Tracking to TrackingTO: " +  e);
@@ -67,14 +62,6 @@ public class TrackingBeanUtil {
             trackingTO.add(toDTO(tracking));
         }
         return trackingTO;
-    }
-
-    public List<Tracking> toDomain(List<TrackingTO> trackingsTO){
-        List<Tracking> tracking = new ArrayList<>();
-        for (TrackingTO trackingTO: trackingsTO ) {
-            tracking.add(toDomain(trackingTO));
-        }
-        return tracking;
     }
 
 }

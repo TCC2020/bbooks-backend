@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
+import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.TrackingBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
@@ -22,22 +23,22 @@ import java.util.UUID;
 public class TrackingService {
 
     @Autowired
-    UserBooksRepository userBooksRepository;
+    private UserBooksRepository userBooksRepository;
 
     @Autowired
-    UserBooksService userBooksService;
+    private UserBooksService userBooksService;
 
     @Autowired
-    UserBooksBeanUtil userBooksBeanUtil;
+    private UserBooksBeanUtil userBooksBeanUtil;
 
     @Autowired
-    TrackingRepository repository;
+    private TrackingRepository repository;
 
     @Autowired
-    ReadingTrackingService readingTrackingService;
+    private ReadingTrackingService readingTrackingService;
 
     @Autowired
-    TrackingBeanUtil beanUtil;
+    private TrackingBeanUtil beanUtil;
 
     public List<TrackingTO> getAllByBook(Long userBook) {
         List<TrackingTO> trackingTOS = beanUtil.toDTO(repository.findAllByUserBookOrderByCreationDate(
@@ -65,7 +66,7 @@ public class TrackingService {
     }
 
     public void deleteById(UUID trackingId){
-        Tracking tracking = repository.findById(trackingId)
+        repository.findById(trackingId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
 
         deleteChildrens(trackingId);
@@ -98,17 +99,18 @@ public class TrackingService {
                         .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
 
         if(trackingsBooks.stream().filter( t -> t.getFinishedDate() == null).count() > 0){
-            throw new ResourceNotFoundException(CodeException.TA001.getText(), CodeException.TA001);
+            throw new ResourceConflictException(CodeException.TA001.getText(), CodeException.TA001);
         }
 
     }
 
     protected Tracking update(Tracking readingTracking) {
+        System.out.print(readingTracking.toString());
         return repository.findById(readingTracking.getId()).map( readingTracking1 -> {
             readingTracking1.setComentario(readingTracking.getComentario());
             readingTracking1.setCreationDate(readingTracking.getFinishedDate());
             return repository.save(readingTracking1);
-        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
 
     }
 
@@ -134,7 +136,6 @@ public class TrackingService {
     private Double calcularVelocidadeLeitura(TrackingTO tracking) {
         int qtdeDias = 1;
         double qtdePaginasLidas = 0;
-        double velocidade;
 
         if(tracking.getTrackings().size() == 1) {
             qtdePaginasLidas = tracking.getTrackings().get(0).getNumPag();
@@ -148,9 +149,7 @@ public class TrackingService {
             }
         }
 
-        velocidade = qtdePaginasLidas/qtdeDias;
-
-        return velocidade;
+        return qtdePaginasLidas/qtdeDias;
     }
 
 }
