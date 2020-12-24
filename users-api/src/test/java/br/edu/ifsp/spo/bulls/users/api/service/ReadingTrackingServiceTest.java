@@ -62,7 +62,6 @@ public class ReadingTrackingServiceTest {
     private ReadingTrackingTO readingTrackingTO2;
     private ReadingTracking readingTracking;
     private ReadingTracking readingTracking2;
-    private TrackingTO trackingTO;
     private Tracking tracking;
     private Tracking tracking2;
     private List<ReadingTracking> readingTrackingList;
@@ -79,7 +78,7 @@ public class ReadingTrackingServiceTest {
         userBooks.setStatus(Status.QUERO_LER);
         userBooks.setProfile(profile);
 
-        trackingTO = new TrackingTO();
+        TrackingTO trackingTO = new TrackingTO();
         trackingTO.setId(UUID.randomUUID());
         trackingTO.setCreationDate(LocalDateTime.now());
         trackingTO.setUserBookId(userBooks.getId());
