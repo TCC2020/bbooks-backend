@@ -17,7 +17,7 @@ public interface ReviewRepository  extends CrudRepository<Review, UUID> {
             "SELECT new br.edu.ifsp.spo.bulls.users.api.dto.ReviewTO(" +
                     "b.id, b.title, b.body, b.idGoogleBook, b.profile.id, b.creationDate) " +
                     "FROM Review b " +
-                    "WHERE b.idGoogleBook = idGoogleBook " +
+                    "WHERE b.idGoogleBook = :idGoogleBook " +
                     "ORDER BY b.creationDate DESC"
     )
     Page<ReviewTO> searchByGoogleBook(

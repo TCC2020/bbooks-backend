@@ -76,7 +76,7 @@ public class TrackingService {
 
     private void deleteChildrens(UUID trackingId) {
         for(ReadingTracking readingTracking : readingTrackingService.getByTrackingGroup(trackingId)){
-            readingTrackingService.deleteChild(readingTracking.getId());
+            readingTrackingService.delete(readingTracking.getId());
         }
     }
 

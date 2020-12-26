@@ -25,7 +25,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -120,7 +124,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void userBooks_service_should_save() {
+    public void userBooksServiceShouldSave() {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
         Mockito.when(mockUserBooksRepository.save(userBooks)).thenReturn(userBooks);
         Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
@@ -132,7 +136,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_service_shouldnt_save_if_profile_not_found() {
+    public void userBooksServiceShouldntSaveIfProfileNotFound() {
 
         Mockito.when(mockProfileRepository.findById(1)).thenThrow(new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 
@@ -141,7 +145,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_service_shouldnt_save_if_userbooks_already_in_bookcase() {
+    public void userBooksServiceShouldntSaveIfUserbooksAlreadyInBookcase() {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
         Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
         Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
@@ -151,14 +155,14 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_service_shouldnt_save_if_book_not_found() {
+    public void userBooksServiceShouldntSaveIfBookNotFound() {
         Mockito.when(mockBookRepository.findById(1)).thenThrow(new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
 
         assertThrows(ResourceNotFoundException.class, () -> userBookService.save(userBooksTOLivro));
     }
 
     @Test
-    public void user_books_service_should_save_with_book() {
+    public void userBooksServiceShouldSaveWithBook() {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
         Mockito.when(mockUserBooksRepository.save(userBooksLivro)).thenReturn(userBooksLivro);
         Mockito.when(mockTagService.tagBook(tagTO.getId(), userBooksTOLivro.getId())).thenReturn(tag);
@@ -172,7 +176,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_service_should_return_by_profileId(){
+    public void userBooksServiceShouldReturnByProfileId(){
 
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);
@@ -183,7 +187,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_service_should_return_by_id(){
+    public void userBooksServiceShouldReturnById(){
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
         Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
@@ -192,14 +196,14 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_service_shouldnt_return_by_id_when_userBooks_not_found(){
+    public void userBooksServiceShouldntReturnByIdWhenUserBooksNotFound(){
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         assertThrows(ResourceNotFoundException.class, () -> userBookService.getById(userBooksTO.getId()));
     }
 
     @Test
-    public void user_books_service_shouldnt_return_by_profileID_if_profile_not_found() {
+    public void userBooksServiceShouldntReturnByProfileIDIfProfileNotFound() {
 
         Mockito.when(mockProfileRepository.findById(1)).thenThrow(new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 
@@ -208,7 +212,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_should_delete(){
+    public void userBooksShouldDelete(){
         Mockito.doNothing().when(mockUserBooksRepository).deleteById(userBooksTO.getId());
 
         userBookService.deleteById(userBooksTO.getId());
@@ -216,7 +220,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_should_update(){
+    public void userBooksShouldUpdate(){
         UserBooksTO novoStatus = userBooksTO;
         novoStatus.setStatus(Status.QUERO_LER);
 
@@ -233,13 +237,13 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_shouldnt_update_when_userBooks_not_found(){
+    public void userbooksShouldntUpdateStatusWhenUserBooksNotFound(){
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         assertThrows(ResourceNotFoundException.class, () -> userBookService.update(userBooksTO));
     }
 
     @Test
-    public void user_books_shouldnt_update_when_userBooks_status_null(){
+    public void userBooksShouldntUpdateStatusWhenUserBooksNull(){
         UserBooksTO semStatus = userBooksTO;
         semStatus.setStatus(null);
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
@@ -247,7 +251,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_should_update_status(){
+    public void userBooksShouldUpdateStatus(){
 
         UserBookUpdateStatusTO updateStatus = new UserBookUpdateStatusTO();
         updateStatus.setId(userBooksTO.getId());
@@ -268,7 +272,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_shouldnt_update_status_when_userBooks_status_null(){
+    public void userBooksShouldntUpdateStatusWhenUserBooksStatusNull(){
 
         UserBookUpdateStatusTO updateStatus = new UserBookUpdateStatusTO();
         updateStatus.setId(userBooksTO.getId());
@@ -279,7 +283,7 @@ public class UserBooksServiceTest {
     }
 
     @Test
-    public void user_books_shouldnt_update_status_when_userBooks_not_found(){
+    public void userBooksShouldntUpdateStatusWhenUserBooksNotFound(){
 
         UserBookUpdateStatusTO updateStatus = new UserBookUpdateStatusTO();
         updateStatus.setId(userBooksTO.getId());
