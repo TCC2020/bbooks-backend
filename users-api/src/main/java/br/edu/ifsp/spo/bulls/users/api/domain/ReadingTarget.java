@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +18,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "reading_targets")
 public class ReadingTarget {
+    @Id
     @ApiModelProperty(value = "Identificador")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
     private UUID id;
     @ApiModelProperty(value = "Ano da meta de leitura")
     private Integer year;
