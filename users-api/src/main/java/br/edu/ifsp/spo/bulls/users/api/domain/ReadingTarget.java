@@ -26,7 +26,8 @@ public class ReadingTarget {
     @ApiModelProperty(value = "Ano da meta de leitura")
     private Integer year;
     @ApiModelProperty(value = "Livros que estão na meta")
+    @ManyToMany
     private List<UserBooks> targets;
     @ApiModelProperty(value = "Identificador do perfil que a meta está relacionada")
-    private Long profileId;
+    private int profileId;
 }

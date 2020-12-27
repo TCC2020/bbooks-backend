@@ -21,7 +21,7 @@ public class ReadingTargetService {
     private ReadingTargetBeanUtil beanUtil;
 
     public ReadingTargetTO save(ReadingTargetTO dto) {
-        if(repository.findByYear(dto.getYear()).isPresent())
+        if(repository.findByProfileIdAndYear(dto.getProfileId(), dto.getYear()).isPresent())
             throw new ResourceConflictException(CodeException.RTG002.getText(), CodeException.RTG002);
         return beanUtil.toDto(repository.save(beanUtil.toDomain(dto)));
     }

@@ -19,5 +19,5 @@ public class ReadingTargetTO {
     @ApiModelProperty(value = "Livros que estão na meta")
     private List<UserBooksTO> targets;
     @ApiModelProperty(value = "Identificador do perfil que a meta está relacionada")
-    private Long profileId;
+    private int profileId;
 }

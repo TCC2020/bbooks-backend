@@ -27,9 +27,9 @@ public class ReadingTargetController {
     @ApiResponses(value =
             {@ApiResponse(code = 200, message = "Retorna uma lista de meta de leituras por ano"),
             @ApiResponse(code = 409, message = "Uma meta de leitura para esse ano já foi criada")})
-    @PostMapping(value = "/profile/{profileId}")
-    public ReadingTargetTO save(@PathVariable Long profileId, @RequestBody ReadingTargetTO dto) throws Exception {
-        logger.info("Salvando reading target para o profile: " + profileId);
+    @PostMapping
+    public ReadingTargetTO save(@RequestBody ReadingTargetTO dto) throws Exception {
+        logger.info("Salvando reading target para o profile: " + dto.getProfileId());
         return service.save(dto);
     }
 

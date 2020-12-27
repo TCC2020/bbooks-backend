@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface ReadingTargetRepository extends CrudRepository<ReadingTarget, UUID> {
 
-    Optional<ReadingTarget> findByYear(Integer year);
+    Optional<ReadingTarget> findByProfileIdAndYear(int profileId, Integer year);
 
     List<ReadingTarget> findByProfileId(Long profileId);
 }
