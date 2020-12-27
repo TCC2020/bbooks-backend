@@ -2,7 +2,6 @@ package br.edu.ifsp.spo.bulls.users.api.bean;
 
 import br.edu.ifsp.spo.bulls.users.api.domain.ReadingTracking;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTrackingTO;
-import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTrackingRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.TrackingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,16 +11,13 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Component
 public class ReadingTrackingBeanUtil {
 
     private Logger logger = LoggerFactory.getLogger(ReadingTrackingBeanUtil.class);
-    @Autowired
-    ReadingTrackingRepository repository;
 
     @Autowired
-    TrackingRepository trackingRepository;
+    private TrackingRepository trackingRepository;
 
 
     public ReadingTracking toDomain(ReadingTrackingTO readingTrackingTO) {
@@ -55,13 +51,5 @@ public class ReadingTrackingBeanUtil {
             readingTrackingTOS.add(toDTO(readingTracking));
         }
         return readingTrackingTOS;
-    }
-
-    public List<ReadingTracking> toDomain(List<ReadingTrackingTO> readingTrackingsTo){
-        List<ReadingTracking> readingTracking = new ArrayList<>();
-        for (ReadingTrackingTO readingTrackingTo: readingTrackingsTo ) {
-            readingTracking.add(toDomain(readingTrackingTo));
-        }
-        return readingTracking;
     }
 }

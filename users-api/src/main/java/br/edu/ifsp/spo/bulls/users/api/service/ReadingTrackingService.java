@@ -23,19 +23,19 @@ import java.util.UUID;
 public class ReadingTrackingService {
 
     @Autowired
-    ReadingTrackingRepository repository;
+    private ReadingTrackingRepository repository;
 
     @Autowired
-    ReadingTrackingBeanUtil beanUtil;
+    private ReadingTrackingBeanUtil beanUtil;
 
     @Autowired
-    UserBooksService userBooksService;
+    private UserBooksService userBooksService;
 
     @Autowired
-    UserBooksBeanUtil userBooksBeanUtil;
+    private UserBooksBeanUtil userBooksBeanUtil;
 
     @Autowired
-    TrackingService trackingService;
+    private TrackingService trackingService;
 
 
     public List<ReadingTracking> getByTrackingGroup(UUID trackingGroup){
@@ -56,6 +56,7 @@ public class ReadingTrackingService {
 
         readingTracking.setPercentage(calcularPercentual(readingTracking));
 
+        System.out.println(readingTracking);
         return beanUtil.toDTO(repository.save(readingTracking));
     }
 
@@ -77,16 +78,11 @@ public class ReadingTrackingService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RT001.getText(), CodeException.RT001));
 
         if(readingTracking.getPercentage() == 100.0){
-            trackingService.verifingTrackings(readingTracking.getTrackingGroup().getUserBook().getId());
             this.updateFinishedDate(readingTracking.getTrackingGroup(), null);
             this.updateUserBooksStatus(readingTracking.getTrackingGroup().getUserBook(), Status.LENDO);
         }
 
         repository.delete(readingTracking);
-    }
-
-    protected void deleteChild(UUID readingTrackingID) {
-        repository.deleteById(readingTrackingID);
     }
 
     private float calcularPercentual(ReadingTracking readingTracking) {
