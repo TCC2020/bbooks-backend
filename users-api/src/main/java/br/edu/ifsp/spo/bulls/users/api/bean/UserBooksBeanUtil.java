@@ -9,8 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class UserBooksBeanUtil {
@@ -56,6 +60,14 @@ public class UserBooksBeanUtil {
         }
         userBooks.setStatus(dto.getStatus());
         return userBooks;
+    }
+
+    public List<UserBooks> toDomainList(List<UserBooksTO> dtos) {
+        return dtos.stream().parallel().map(this::toDomain).collect(Collectors.toList());
+    }
+
+    public List<UserBooksTO> toDtoList(List<UserBooks> domains) {
+        return domains.stream().parallel().map(userBook -> toDto(userBook)).collect(Collectors.toList());
     }
 
     public Set<UserBooksTO> toDtoSet(Set<UserBooks> userBooks) {

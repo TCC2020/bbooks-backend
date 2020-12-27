@@ -18,7 +18,7 @@ public enum CodeException {
     RT001("RT001: Reading Tracking not found", "RT001"),
     RT002("RT002: Page number greater than the total pages of the book", "RT002"),
     RT003("RT003: Book already completed", "RT002"),
-    RT004("RT004: Conflit IDs", "RTO04"),
+    RT004("RT004: Conflict IDs", "RTO04"),
     RT005("RT005: Page smaller than last tracking", "RT005"),
     RT006("RT006: Page can´t be zero", "RT006"),
     TA001("TA001: Last tracking is not finished yeat", "TA001"),
@@ -34,7 +34,9 @@ public enum CodeException {
     FR002("FR002: Conflict while removing friend", "FR002"),
     BR001("BR001: Book recommendation not found", "BR001"),
     RE001("RE001: Review not found", "RE001"),
-    RE002("RE002: Review sent does not match ID", "RE002");
+    RE002("RE002: Review sent does not match ID", "RE002"),
+    RTG001("RTG001: Reading target not found", "RTG001"),
+    RTG002("RTG002: Reading target already exists", "RTG002");
 
 
 
