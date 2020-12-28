@@ -59,13 +59,15 @@ public class UserService{
 	}
 
 	private void sendEmail(User retorno) {
-		email.
+		new Thread(()-> {
+			email.
 			getInstance()
 			.withUrls("https://bbooks-front.herokuapp.com/confirm")
 			.withTo(retorno.getEmail())
 			.withContent(" Bem Vindo " + retorno.getUserName())
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
 			.send();
+		}).start();
 	}
 
 	private void saveProfile(CadastroUserTO cadastroUserTO, User user) {
