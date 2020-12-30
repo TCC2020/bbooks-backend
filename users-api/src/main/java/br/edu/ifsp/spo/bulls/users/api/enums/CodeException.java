@@ -29,6 +29,7 @@ public enum CodeException {
     UB001("UB001: UserBook not found", "UB001"),
     UB002("UB002: Invalid status", "UB002"),
     UB003("UB003: Userbook already in bookcase", "UB003"),
+    UB004("UB004: Userbook sent does not match ID", "UB004"),
     TK001("TK001: Invalid token", "TK001"),
     FR001("FR001: Request not found", "FR001"),
     FR002("FR002: Conflict while removing friend", "FR002"),

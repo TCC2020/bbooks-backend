@@ -49,11 +49,13 @@ public class UserBooksController {
     @ApiOperation(value = "Editar um livro na estante do usuário")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Livro editado"),
+            @ApiResponse(code = 404, message = "Userbook não encontrado"),
+            @ApiResponse(code = 409, message = "Status não pode estar vazio")
     })
-    @PutMapping()
-    public UserBooksTO putUserBook(@RequestBody UserBooksTO dto){
+    @PutMapping("/{id}")
+    public UserBooksTO putUserBook(@RequestBody UserBooksTO dto, @PathVariable Long id){
         logger.info("Solicitacao para alterar um livro da estante " + dto);
-        return service.update(dto);
+        return service.update(dto, id);
     }
 
 

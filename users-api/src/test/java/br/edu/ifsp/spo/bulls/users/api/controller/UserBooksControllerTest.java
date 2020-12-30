@@ -73,9 +73,9 @@ public class UserBooksControllerTest {
 
         UserBooksTO userBooksTO1 = userBooksTO;
         userBooksTO1.setStatus(Status.EMPRESTADO);
-        Mockito.when(mockUserBooksService.update(userBooksTO)).thenReturn(userBooksTO1);
+        Mockito.when(mockUserBooksService.update(userBooksTO, userBooksTO.getId())).thenReturn(userBooksTO1);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/bookcases")
+        mockMvc.perform(MockMvcRequestBuilders.put("/bookcases/" + userBooksTO.getId())
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userBooksTO)))
                 .andExpect(status().isOk());

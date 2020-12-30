@@ -24,12 +24,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -46,7 +49,7 @@ public class UserBooksServiceTest {
     @MockBean
     private TagService mockTagService;
     @MockBean
-    private TagBeanUtil mockBean;
+    private TagBeanUtil mockTagBeanUtil;
 
     @Autowired
     private UserBooksService userBookService;
@@ -128,7 +131,7 @@ public class UserBooksServiceTest {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
         Mockito.when(mockUserBooksRepository.save(userBooks)).thenReturn(userBooks);
         Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
-        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksListDiferente);
         UserBooksTO userBooksTO1 = userBookService.save(userBooksTO);
 
@@ -148,7 +151,7 @@ public class UserBooksServiceTest {
     public void userBooksServiceShouldntSaveIfUserbooksAlreadyInBookcase() {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.ofNullable(profile));
         Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
-        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
 
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);
         assertThrows(ResourceConflictException.class, () -> userBookService.save(userBooksTO));
@@ -167,7 +170,7 @@ public class UserBooksServiceTest {
         Mockito.when(mockUserBooksRepository.save(userBooksLivro)).thenReturn(userBooksLivro);
         Mockito.when(mockTagService.tagBook(tagTO.getId(), userBooksTOLivro.getId())).thenReturn(tag);
         Mockito.when(mockBookRepository.findById(userBooksTOLivro.getIdBook())).thenReturn(Optional.of(book));
-        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
 
         UserBooksTO userBooksTO1 = userBookService.save(userBooksTOLivro);
 
@@ -180,7 +183,7 @@ public class UserBooksServiceTest {
 
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);
-        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         BookCaseTO result = userBookService.getByProfileId(profile.getId());
 
         assertEquals(bookCaseTO, result);
@@ -190,7 +193,7 @@ public class UserBooksServiceTest {
     public void userBooksServiceShouldReturnById(){
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
-        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         UserBooksTO alterado =  userBookService.getById(userBooksTO.getId());
         assertEquals(userBooksTO, alterado);
     }
@@ -223,23 +226,37 @@ public class UserBooksServiceTest {
     public void userBooksShouldUpdate(){
         UserBooksTO novoStatus = userBooksTO;
         novoStatus.setStatus(Status.QUERO_LER);
+        novoStatus.setFinishDate(LocalDateTime.now().minusDays(1));
 
         UserBooks userBookNovoStatus = userBooks;
-        userBookNovoStatus.setStatus(Status.QUERO_LER);
+        userBookNovoStatus.setStatus(Status.LIDO);
+        userBookNovoStatus.setFinishDate(novoStatus.getFinishDate());
+
+        List<TagTO> tagsToList = new ArrayList<>();
+        tagsToList.add(tagTO);
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
         Mockito.when(mockUserBooksRepository.save(userBookNovoStatus)).thenReturn(userBookNovoStatus);
-        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockTagService.getByIdBook(novoStatus.getId())).thenReturn(tagsList);
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
+        Mockito.when(mockTagService.untagBook(tagTO.getId(), userBookNovoStatus.getId())).thenReturn(HttpStatus.ACCEPTED);
+        Mockito.when(mockTagBeanUtil.toDtoList(tagsList)).thenReturn(tagsToList);
 
-        UserBooksTO alterado =  userBookService.update(novoStatus);
+        UserBooksTO alterado =  userBookService.update(novoStatus, novoStatus.getId());
         assertEquals(novoStatus, alterado);
     }
 
     @Test
+    public void userBooksShouldntUpdateWhenIdsNotMacth(){
+
+        assertThrows(ResourceConflictException.class, () -> userBookService.update(userBooksTO, new Random().nextLong()));
+    }
+
+
+    @Test
     public void userbooksShouldntUpdateStatusWhenUserBooksNotFound(){
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
-        assertThrows(ResourceNotFoundException.class, () -> userBookService.update(userBooksTO));
+        assertThrows(ResourceNotFoundException.class, () -> userBookService.update(userBooksTO, userBooksTO.getId()));
     }
 
     @Test
@@ -247,7 +264,7 @@ public class UserBooksServiceTest {
         UserBooksTO semStatus = userBooksTO;
         semStatus.setStatus(null);
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
-        assertThrows(ResourceConflictException.class, () -> userBookService.update(semStatus));
+        assertThrows(ResourceConflictException.class, () -> userBookService.update(semStatus, semStatus.getId()));
     }
 
     @Test
@@ -265,7 +282,7 @@ public class UserBooksServiceTest {
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenReturn(Optional.of(userBooks));
         Mockito.when(mockUserBooksRepository.save(userBookNovoStatus)).thenReturn(userBookNovoStatus);
-        Mockito.when(mockBean.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
+        Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
 
         UserBooksTO alterado =  userBookService.updateStatus(updateStatus);
         assertEquals(novoStatus, alterado);
