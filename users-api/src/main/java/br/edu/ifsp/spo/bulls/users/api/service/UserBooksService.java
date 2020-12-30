@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
+import br.edu.ifsp.spo.bulls.users.api.bean.TagBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
@@ -33,6 +34,9 @@ public class UserBooksService {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private TagBeanUtil tagBeanUtil;
 
     @Autowired
     private BookRepository bookRepository;
@@ -99,6 +103,7 @@ public class UserBooksService {
         verifyIfRequestHasConflict(dto, id);
         removeTags(dto);
         UserBooks userBook = util.toDomain(verifyFinishDate(dto));
+        saveTags(dto, userBook);
 
         UserBooks resultado = repository.findById(id).map(userBooks1 -> {
             userBooks1 = userBook;
@@ -109,7 +114,7 @@ public class UserBooksService {
     }
 
     private void verifyIfRequestHasConflict(UserBooksTO dto, Long id) {
-        if(dto.getId() != id)
+        if(!dto.getId().equals(id))
             throw new ResourceConflictException(CodeException.UB004.getText(), CodeException.UB004);
 
         if(dto.getStatus() == null)
@@ -151,8 +156,11 @@ public class UserBooksService {
     }
 
     private void saveTags(UserBooksTO dto, UserBooks userBooks) {
+        Tag tag = new Tag();
         for(TagTO t : dto.getTags()){
-            tagService.tagBook(t.getId(), userBooks.getId());
+            if(t.getId() == null)
+                tag =tagService.save(tagBeanUtil.toDomain(t));
+            tagService.tagBook(tag.getId(), userBooks.getId());
         }
     }
 }

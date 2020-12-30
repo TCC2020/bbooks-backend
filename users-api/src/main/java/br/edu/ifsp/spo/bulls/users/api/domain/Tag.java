@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -26,7 +27,7 @@ public class Tag {
 
     @ApiModelProperty(value = "Lista de userBooks")
     @ManyToMany(cascade = CascadeType.MERGE)
-    private List<UserBooks> books;
+    private List<UserBooks> books = new ArrayList<>();
 
     public Tag(Long id, String name, Profile profile) {
         this.id = id;
