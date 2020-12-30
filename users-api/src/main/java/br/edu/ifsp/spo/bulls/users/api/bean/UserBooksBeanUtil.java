@@ -6,7 +6,6 @@ import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
-import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
 import br.edu.ifsp.spo.bulls.users.api.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
