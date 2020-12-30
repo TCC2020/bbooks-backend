@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
+import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.service.TagService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,13 +28,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UserBooksBeanUtilTest {
 
     @Autowired
-    UserBooksBeanUtil beanUtil;
+    private UserBooksBeanUtil beanUtil;
 
     @MockBean
-    TagService mockTagService;
+    private TagService mockTagService;
 
     @MockBean
-    TagBeanUtil mockBean;
+    private ProfileRepository mockProfileRepository;
+
+    @MockBean
+    private TagBeanUtil mockBean;
 
     private UserBooks userBooks = new UserBooks();
     private UserBooksTO userBooksTO = new UserBooksTO();
@@ -110,6 +115,7 @@ public class UserBooksBeanUtilTest {
     @Test
     void toDomain() {
 
+        Mockito.when(mockProfileRepository.findById(userBooksTO.getProfileId())).thenReturn(Optional.ofNullable(profile));
         UserBooks userBooks1 = beanUtil.toDomain(userBooksTO);
 
         userBooks1.setProfile(profile);
