@@ -133,10 +133,6 @@ public class UserBooksServiceTest {
         Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
         Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksListDiferente);
-        Mockito.when(mockTagBeanUtil.toDomain(tagTO)).thenReturn(tag);
-        Mockito.when(mockTagService.save(tag)).thenReturn(tag);
-
-        userBooksTO.getTags().get(0).setId(null);
         UserBooksTO userBooksTO1 = userBookService.save(userBooksTO);
 
         assertEquals(userBooksTO, userBooksTO1);

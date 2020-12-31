@@ -36,9 +36,6 @@ public class UserBooksService {
     private TagService tagService;
 
     @Autowired
-    private TagBeanUtil tagBeanUtil;
-
-    @Autowired
     private BookRepository bookRepository;
 
     @Autowired
