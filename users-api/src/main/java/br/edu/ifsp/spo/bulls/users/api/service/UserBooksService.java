@@ -156,11 +156,8 @@ public class UserBooksService {
     }
 
     private void saveTags(UserBooksTO dto, UserBooks userBooks) {
-        Tag tag = new Tag();
         for(TagTO t : dto.getTags()){
-            if(t.getId() == null)
-                tag =tagService.save(tagBeanUtil.toDomain(t));
-            tagService.tagBook(tag.getId(), userBooks.getId());
+            tagService.tagBook(t.getId(), userBooks.getId());
         }
     }
 }
