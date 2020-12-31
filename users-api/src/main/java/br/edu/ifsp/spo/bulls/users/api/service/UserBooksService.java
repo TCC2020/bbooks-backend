@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.bean.TagBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
