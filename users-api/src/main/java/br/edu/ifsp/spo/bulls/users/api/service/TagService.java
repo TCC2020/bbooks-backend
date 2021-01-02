@@ -35,7 +35,9 @@ public class TagService {
     }
 
     public Tag tagBook(Long tagId, Long userBookId) {
+        System.out.println(userBookId);
         Tag tag = repository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
+        System.out.println(tag);
         tag.getBooks().add(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
         return repository.save(tag);
     }

@@ -24,13 +24,13 @@ import java.util.List;
 public class BookService {
 
     @Autowired
-    BookBeanUtil beanUtil;
+    private BookBeanUtil beanUtil;
 
     @Autowired
-    BookRepository repository;
+    private BookRepository repository;
 
     @Autowired
-    AuthorService authorService;
+    private AuthorService authorService;
 
     public BookTO save(BookTO entity) {
 

@@ -1,7 +1,8 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
+import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
@@ -11,14 +12,12 @@ import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +27,10 @@ import java.util.Set;
 public class UserBooksService {
     @Autowired
     private UserBooksRepository repository;
+
     @Autowired
     private UserBooksBeanUtil util;
+
     @Autowired
     private TagService tagService;
 
@@ -53,7 +54,9 @@ public class UserBooksService {
         Set<UserBooks> userBooksList = repository.findByProfile(userBooks.getProfile());
 
         for(UserBooks userBooks1 : userBooksList){
-            if (userBooks1.getBook() == userBooks.getBook() || userBooks1.getIdBookGoogle() == userBooks.getIdBookGoogle()){
+            if(     (userBooks1.getBook()!= null && (userBooks1.getBook() == userBooks.getBook() ))
+                ||  (userBooks1.getIdBookGoogle()!= null && (userBooks1.getIdBookGoogle().equals(userBooks.getIdBookGoogle())))
+                ){
                 throw new ResourceConflictException(CodeException.UB003.getText(), CodeException.UB003);
             }
         }
@@ -66,11 +69,11 @@ public class UserBooksService {
             throw new ResourceConflictException(CodeException.UB002.getText(), CodeException.UB002);
 
         UserBooks userBooks1 = repository.save(userBooks);
-        System.out.println(userBooks1.toString());
         return util.toDto(userBooks1);
     }
 
     public void deleteById(Long id){
+        // TODO: Tirar o livro da meta de leitura (se estiver) antes de excluir
         repository.deleteById(id);
     }
 
@@ -92,19 +95,42 @@ public class UserBooksService {
         return util.toDto(userBooks);
     }
 
-    public UserBooksTO update(UserBooksTO dto) {
+    public UserBooksTO update(UserBooksTO dto, Long id) {
+        verifyIfRequestHasConflict(dto, id);
+        removeTags(dto);
+        UserBooks userBook = util.toDomain(verifyFinishDate(dto));
+        saveTags(dto, userBook);
+
+        UserBooks resultado = repository.findById(id).map(userBooks1 -> {
+            userBooks1 = userBook;
+            return repository.save(userBooks1);
+        }).orElseThrow( () -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001 ));
+
+        return util.toDto(resultado);
+    }
+
+    private void verifyIfRequestHasConflict(UserBooksTO dto, Long id) {
+        if(!dto.getId().equals(id))
+            throw new ResourceConflictException(CodeException.UB004.getText(), CodeException.UB004);
+
         if(dto.getStatus() == null)
             throw new ResourceConflictException(CodeException.UB002.getText(), CodeException.UB002);
+    }
 
-        List<Tag> tagsRemove = tagService.getByIdBook(dto.getId());
-        for(Tag tag: tagsRemove){
-            tagService.untagBook(tag.getId(),dto.getId());
-        }
+    private UserBooksTO verifyFinishDate(UserBooksTO dto) {
         if(dto.getFinishDate() != null
                 && dto.getFinishDate().isBefore(LocalDateTime.now())
                 && !dto.getStatus().equals(Status.LIDO))
             dto.setStatus(Status.LIDO);
-        return save(dto);
+
+        return dto;
+    }
+
+    private void removeTags(UserBooksTO dto) {
+        List<Tag> tagsRemove = tagService.getByIdBook(dto.getId());
+        for(Tag tag: tagsRemove){
+            tagService.untagBook(tag.getId(),dto.getId());
+        }
     }
 
     public UserBooks convertToUserBooks(UserBooksTO dto) {
