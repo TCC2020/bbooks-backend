@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class FeedApiApplicationTests {
+public class CompetitionApiApplicationTests {
 
     @Test
     public void test() {
