@@ -10,7 +10,7 @@
         </appender>
 
         <logger name="org.springframework" level="INFO"/>
-        <logger name="br.edu.ifsp.spo.bulls.usersApi" level="INFO"/>
+        <logger name="br.edu.ifsp.spo.bulls.competitionApi" level="INFO"/>
         <logger name="org.springframework.mail" level="DEBUG"/>
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
@@ -31,7 +31,7 @@
         </appender>
 
         <logger name="org.springframework" level="INFO"/>
-        <logger name="br.edu.ifsp.spo.bulls.usersApi" level="INFO"/>
+        <logger name="br.edu.ifsp.spo.bulls.competitionApi" level="INFO"/>
         <logger name="org.hibernate" level="INFO"/>
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
