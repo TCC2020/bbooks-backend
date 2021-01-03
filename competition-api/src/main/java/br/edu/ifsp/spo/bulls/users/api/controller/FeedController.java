@@ -8,19 +8,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/feed", produces="application/json")
+@RequestMapping(value = "/competitions", produces="application/json")
 @CrossOrigin(origins = "*")
 public class FeedController {
 
     private final Logger logger = LoggerFactory.getLogger(FeedController.class);
 
-    @ApiOperation(value = "Retorna o feed do usuário")
+    @ApiOperation(value = "Retorna string teste")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Feed String")
+            @ApiResponse(code = 200, message = "Competition String")
     })
     @GetMapping
     public String getFeed() {
-        logger.info("Requisitando feed");
-        return "Feed is working!";
+        logger.info("Requisitando competições");
+        return "Competition is working!";
     }
 }
