@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.users.api;
+package br.edu.ifsp.spo.bulls.competition.api;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
