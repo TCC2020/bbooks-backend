@@ -1,4 +1,4 @@
-name: Java CI with Gradle PROD
+name: Java CI/CD with Gradle PROD
 
 on:
   push:
