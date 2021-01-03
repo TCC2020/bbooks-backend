@@ -37,6 +37,10 @@
             <appender-ref ref="CONSOLE"/>
         </root>
 
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+
     </springProfile>
 
     <property name="patternString" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n%rEx"  />
