@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
+import br.edu.ifsp.spo.bulls.users.api.dto.FeedTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -19,8 +20,8 @@ public class FeedController {
             @ApiResponse(code = 200, message = "Feed String")
     })
     @GetMapping
-    public String getFeed() {
+    public FeedTO getFeed() {
         logger.info("Requisitando feed");
-        return "Feed is working!";
+        return new FeedTO("Feed is being implemented");
     }
 }

@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
+import br.edu.ifsp.spo.bulls.users.api.dto.CompetitionTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -10,17 +11,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/competitions", produces="application/json")
 @CrossOrigin(origins = "*")
-public class FeedController {
+public class CompetitionController {
 
-    private final Logger logger = LoggerFactory.getLogger(FeedController.class);
+    private final Logger logger = LoggerFactory.getLogger(CompetitionController.class);
 
     @ApiOperation(value = "Retorna string teste")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Competition String")
     })
     @GetMapping
-    public String getFeed() {
+    public CompetitionTO getFeed() {
         logger.info("Requisitando competições");
-        return "Competition is working!";
+        return new CompetitionTO("Competition is working!");
     }
 }
