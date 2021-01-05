@@ -182,7 +182,7 @@ public class UserBooksServiceTest {
     public void userBooksServiceShouldReturnByProfileId(){
 
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
-        Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);
+        Mockito.when(mockUserBooksRepository.findByProfileOrderByFinishDateDesc(profile)).thenReturn(userBooksList);
         Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         BookCaseTO result = userBookService.getByProfileId(profile.getId());
 

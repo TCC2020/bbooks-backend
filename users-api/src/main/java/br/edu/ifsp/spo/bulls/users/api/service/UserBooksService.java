@@ -1,9 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
-import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
-import br.edu.ifsp.spo.bulls.users.api.domain.Book;
-import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
+import br.edu.ifsp.spo.bulls.users.api.domain.*;
 import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
@@ -20,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -77,15 +73,22 @@ public class UserBooksService {
         repository.deleteById(id);
     }
 
-    public BookCaseTO getByProfileId(int profileId) {
+    public BookCaseTO getByProfileId(int profileId, boolean timeLine) {
         BookCaseTO bookCase = new BookCaseTO();
-        Optional<Profile> profile = profileRepository.findById(profileId);
-        Set<UserBooks> userBooks = repository.findByProfile(profile.get());
+        Profile profile = profileRepository.findById(profileId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
+
+        Set<UserBooks> userBooks;
+        if(timeLine){
+            userBooks = repository.findByProfileOrderByFinishDateDesc(profileId);
+        }else{
+            userBooks = repository.findByProfile(profile);
+        }
 
         bookCase.setProfileId(profileId);
-
         Set<UserBooksTO> userBooksTO = util.toDtoSet(userBooks);
         bookCase.setBooks(userBooksTO);
+
         return bookCase;
     }
 

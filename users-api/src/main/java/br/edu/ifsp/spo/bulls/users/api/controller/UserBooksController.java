@@ -39,9 +39,9 @@ public class UserBooksController {
             @ApiResponse(code = 200, message = "Retorna os livros da estante do usuário"),
     })
     @GetMapping("/profile/{profileId}")
-    public BookCaseTO getAllByProfile(@PathVariable int profileId) {
+    public BookCaseTO getAllByProfile(@PathVariable int profileId, @RequestParam boolean timeLine) {
         logger.info("Usuario solicitou sua estante virutal" + profileId);
-        BookCaseTO estante = service.getByProfileId(profileId);
+        BookCaseTO estante = service.getByProfileId(profileId,timeLine);
         logger.info("Estante encontrada. " + estante);
         return estante;
     }
@@ -58,8 +58,6 @@ public class UserBooksController {
         return service.update(dto, id);
     }
 
-
-    // VERIFICAR SE PODE EXCLUIR
     @ApiOperation(value = "Inserir status em um livro na estante virtual")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Status do livro alterado"),
