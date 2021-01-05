@@ -1,6 +1,9 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.*;
+import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
+import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
+import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
