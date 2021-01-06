@@ -6,126 +6,167 @@ buildscript {
 		}
 	}
 	dependencies {
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.10.RELEASE"
 		classpath('org.springframework.boot:spring-boot-gradle-plugin:2.2.4.RELEASE')
 		classpath('gradle.plugin.com.boxfuse.client:gradle-plugin-publishing:5.2.4')
 	}
 }
+
+allprojects {
+	group 'br.edu.ifsp.spo.bulls'
+	version '1.0.0.SNAPSHOT'
+}
+
 subprojects {
+
+	repositories {
+		mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
 
 	apply plugin: 'java'
 	apply plugin: 'idea'
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
-
-	group = 'br.edu.ifsp.spo.bulls'
-	version = '0.0.1-SNAPSHOT'
 
 	sourceCompatibility = 8
+	targetCompatibility = 8
 
 	configurations {
 		compileOnly {
 			extendsFrom annotationProcessor
 		}
 	}
+
 	dependencies {
 		compileOnly 'org.projectlombok:lombok'
-		runtimeOnly 'com.h2database:h2'
 		annotationProcessor 'org.projectlombok:lombok'
-		compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-		compile group: 'org.json', name: 'json', version: '20090211'
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {
 			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 		}
-		implementation 'org.postgresql:postgresql'
-
-		compile('io.springfox:springfox-swagger2:2.9.2')
-		compile('io.springfox:springfox-swagger-ui:2.9.2')
-	}
-	repositories {
-		mavenCentral()
-		maven { url 'https://repo.spring.io/milestone' }
-		jcenter()
-	}
-	dependencyManagement {
-		imports {
-			mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR2'
-		}
-	}
-
-}
-project(':users-api') {
-	bootRun {
-		environment('spring.profiles.active', 'dev')
-	}
-
-	apply plugin: 'jacoco'
-
-	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
-		implementation 'org.springframework.boot:spring-boot-starter-security'
-		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-		implementation 'org.springframework.boot:spring-boot-starter-mail'
-		testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
-		testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
-		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
-        implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-        implementation 'org.springframework.boot:spring-boot-starter-mail'
-		compile 'com.google.cloud:google-cloud-storage:1.113.1'
-        compile 'io.springfox:springfox-swagger2:2.9.2'
-        compile 'io.springfox:springfox-swagger-ui:2.9.2'
-		compile'io.github.createam-labs:spring-boot-starter-heroku:1.1'
-		compile 'org.springframework.boot:spring-boot-starter-webflux'
-		compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
-		implementation 'com.logentries:logentries-appender:1.1.38'
-
-
-    }
-
-	test {
-		useJUnitPlatform()
-		environment('spring.profiles.active', 'test')
-		systemProperty 'spring.profiles.active', 'test'
-		finalizedBy jacocoTestReport
-	}
-
-	check.dependsOn jacocoTestCoverageVerification
-
-	jacocoTestReport {
-		getClassDirectories().setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/users/api/domain**',
-										 '**br/edu/ifsp/spo/bulls/users/api/dto**',
-										 '**br/edu/ifsp/spo/bulls/users/api/repository**',
-										 '**br/edu/ifsp/spo/bulls/users/api/security**',
-										 '**br/edu/ifsp/spo/bulls/users/api/exception**',
-										 '**br/edu/ifsp/spo/bulls/users/api/enums**' ])
-		}))
-		reports {
-			html.enabled = true
-			html.destination file("${buildDir}/jacocoHtml")
-			xml.enabled = true
-			xml.setDestination(file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
-		}
-	}
-
-	jacocoTestCoverageVerification {
-		violationRules {
-			rule {
-				element = 'CLASS'
-				limit {
-					counter = 'METHOD'
-					value = 'COVEREDRATIO'
-					minimum = 0.0
-				}
-				excludes = [
-						'**br/edu/ifsp/spo/bulls/usersApi/domain**',
-						'**br/edu/ifsp/spo/bulls/usersApi/dto**',
-						'**br/edu/ifsp/spo/bulls/usersApi/repository**',
-						'**br/edu/ifsp/spo/bulls/usersApi/security**',
-						'**br/edu/ifsp/spo/bulls/usersApi/exception**',
-						'**br/edu/ifsp/spo/bulls/usersApi/enums**'
-				]
-			}
-		}
 	}
 }
+//	test {
+//		useJUnitPlatform()
+//		environment('spring.profiles.active', 'test')
+//		systemProperty 'spring.profiles.active', 'test'
+//		finalizedBy jacocoTestReport
+//	}
+//
+//	check.dependsOn jacocoTestCoverageVerification
+//
+//	jacocoTestReport {
+//		getClassDirectories().setFrom(files(classDirectories.files.collect {
+//			fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/feed/api/domain**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/dto**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/repository**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/security**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/exception**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/enums**' ])
+//		}))
+//		reports {
+//			html.enabled = true
+//			html.destination file("${buildDir}/jacocoHtml")
+//			xml.enabled = true
+//			xml.setDestination(file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
+//		}
+//	}
+//
+//	jacocoTestCoverageVerification {
+//		violationRules {
+//			rule {
+//				element = 'CLASS'
+//				limit {
+//					counter = 'METHOD'
+//					value = 'COVEREDRATIO'
+//					minimum = 0.0
+//				}
+//				excludes = [
+//						'**br/edu/ifsp/spo/bulls/feedApi/domain**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/dto**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/repository**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/security**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/exception**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/enums**'
+//				]
+//			}
+//		}
+//	}
+//}
+//
+//project(':competition-api') {
+//	bootRun {
+//		environment('spring.profiles.active', 'dev')
+//	}
+//
+//	apply plugin: 'jacoco'
+//
+//	dependencies {
+//		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//		implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
+////		implementation 'org.springframework.boot:spring-boot-starter-security'
+//		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//		implementation 'org.springframework.boot:spring-boot-starter-mail'
+//		testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
+//		testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+//		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+//		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//		implementation 'org.springframework.boot:spring-boot-starter-mail'
+//		compile 'com.google.cloud:google-cloud-storage:1.113.1'
+//		compile 'io.springfox:springfox-swagger2:2.9.2'
+//		compile 'io.springfox:springfox-swagger-ui:2.9.2'
+//		compile'io.github.createam-labs:spring-boot-starter-heroku:1.1'
+////		compile 'org.springframework.boot:spring-boot-starter-webflux'
+//		compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+//		implementation 'com.logentries:logentries-appender:1.1.38'
+//
+//
+//	}
+//
+//	test {
+//		useJUnitPlatform()
+//		environment('spring.profiles.active', 'test')
+//		systemProperty 'spring.profiles.active', 'test'
+//		finalizedBy jacocoTestReport
+//	}
+//
+//	check.dependsOn jacocoTestCoverageVerification
+//
+//	jacocoTestReport {
+//		getClassDirectories().setFrom(files(classDirectories.files.collect {
+//			fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/feed/api/domain**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/dto**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/repository**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/security**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/exception**',
+//										 '**br/edu/ifsp/spo/bulls/feed/api/enums**' ])
+//		}))
+//		reports {
+//			html.enabled = true
+//			html.destination file("${buildDir}/jacocoHtml")
+//			xml.enabled = true
+//			xml.setDestination(file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
+//		}
+//	}
+//
+//	jacocoTestCoverageVerification {
+//		violationRules {
+//			rule {
+//				element = 'CLASS'
+//				limit {
+//					counter = 'METHOD'
+//					value = 'COVEREDRATIO'
+//					minimum = 0.0
+//				}
+//				excludes = [
+//						'**br/edu/ifsp/spo/bulls/feedApi/domain**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/dto**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/repository**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/security**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/exception**',
+//						'**br/edu/ifsp/spo/bulls/feedApi/enums**'
+//				]
+//			}
+//		}
+//	}
+//}
