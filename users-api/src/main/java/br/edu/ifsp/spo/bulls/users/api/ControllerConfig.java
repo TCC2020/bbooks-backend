@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api;
 
-import br.edu.ifsp.spo.bulls.users.api.exception.*;
+import br.edu.ifsp.spo.bulls.common.api.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

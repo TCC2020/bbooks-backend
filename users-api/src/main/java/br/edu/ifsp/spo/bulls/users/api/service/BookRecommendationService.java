@@ -4,7 +4,7 @@ import br.edu.ifsp.spo.bulls.users.api.bean.BookRecommendationBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.BookRecommendation;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookRecommendationTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRecommendationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

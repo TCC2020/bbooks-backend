@@ -1,6 +1,6 @@
-package br.edu.ifsp.spo.bulls.feed.api.exception;
+package br.edu.ifsp.spo.bulls.common.api.exception;
 
-import br.edu.ifsp.spo.bulls.feed.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

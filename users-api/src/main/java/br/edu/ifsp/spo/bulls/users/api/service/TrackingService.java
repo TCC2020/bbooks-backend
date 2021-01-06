@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.TrackingBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.ReadingTracking;

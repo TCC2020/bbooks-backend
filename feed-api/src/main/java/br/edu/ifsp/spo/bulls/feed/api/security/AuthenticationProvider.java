@@ -1,6 +1,6 @@
 //package br.edu.ifsp.spo.bulls.feed.api.security;
 //
-//import br.edu.ifsp.spo.bulls.feed.api.exception.ResourceNotFoundException;
+//import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 //import br.edu.ifsp.spo.bulls.feed.api.service.UserService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

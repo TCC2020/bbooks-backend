@@ -1,8 +1,8 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceBadRequestException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.BookBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Author;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;

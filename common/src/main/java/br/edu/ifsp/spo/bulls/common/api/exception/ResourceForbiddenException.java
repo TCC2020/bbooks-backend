@@ -1,21 +1,20 @@
-package br.edu.ifsp.spo.bulls.users.api.exception;
+package br.edu.ifsp.spo.bulls.common.api.exception;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
-    private static final long serialVersionUID = 2952659171804391823L;
+@ResponseStatus(HttpStatus.FORBIDDEN)
+public class ResourceForbiddenException extends RuntimeException {
+    private static final long serialVersionUID = 2949171135602789718L;
+    public CodeException code;
 
-    private CodeException code;
-
-    public ResourceNotFoundException(String message, CodeException code) {
+    public ResourceForbiddenException(String message, CodeException code) {
         super(message);
         this.code = code;
     }
 
-    public ResourceNotFoundException(String message) {
+    public ResourceForbiddenException(String message) {
         super(message);
     }
 

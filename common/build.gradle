@@ -9,6 +9,10 @@ plugins {
     id 'jacoco'
 }
 
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
+}
+
 bootJar {
     enabled = false
 }

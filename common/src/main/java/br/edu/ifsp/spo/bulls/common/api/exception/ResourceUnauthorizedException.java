@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.competition.api.exception;
+package br.edu.ifsp.spo.bulls.common.api.exception;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import org.springframework.http.HttpStatus;

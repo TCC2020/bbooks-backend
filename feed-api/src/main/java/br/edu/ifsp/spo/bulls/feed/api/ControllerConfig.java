@@ -1,10 +1,10 @@
 package br.edu.ifsp.spo.bulls.feed.api;
 
-import br.edu.ifsp.spo.bulls.feed.api.exception.ResourceBadRequestException;
-import br.edu.ifsp.spo.bulls.feed.api.exception.ResourceConflictException;
-import br.edu.ifsp.spo.bulls.feed.api.exception.ResourceForbiddenException;
-import br.edu.ifsp.spo.bulls.feed.api.exception.ResourceNotFoundException;
-import br.edu.ifsp.spo.bulls.feed.api.exception.ResourceUnauthorizedException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceForbiddenException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
