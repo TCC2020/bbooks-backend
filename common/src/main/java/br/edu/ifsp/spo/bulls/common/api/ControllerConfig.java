@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.users.api;
+package br.edu.ifsp.spo.bulls.common.api;
 
 import br.edu.ifsp.spo.bulls.common.api.exception.*;
 import org.slf4j.Logger;

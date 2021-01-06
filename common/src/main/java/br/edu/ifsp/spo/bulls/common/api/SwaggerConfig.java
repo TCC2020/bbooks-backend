@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.feed.api;
+package br.edu.ifsp.spo.bulls.common.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
