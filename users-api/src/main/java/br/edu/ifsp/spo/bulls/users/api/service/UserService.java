@@ -6,7 +6,7 @@ import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.enums.EmailSubject;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;

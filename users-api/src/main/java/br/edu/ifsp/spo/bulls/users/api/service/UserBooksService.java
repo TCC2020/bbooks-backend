@@ -7,7 +7,7 @@ import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;

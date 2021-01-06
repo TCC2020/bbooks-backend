@@ -9,7 +9,7 @@ import br.edu.ifsp.spo.bulls.users.api.domain.Tracking;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.TrackingTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.users.api.repository.TrackingRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;

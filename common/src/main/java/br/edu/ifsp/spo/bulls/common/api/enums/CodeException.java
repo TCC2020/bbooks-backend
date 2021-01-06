@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.users.api.enums;
+package br.edu.ifsp.spo.bulls.common.api.enums;
 
 public enum CodeException {
 

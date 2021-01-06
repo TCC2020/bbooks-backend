@@ -7,7 +7,7 @@ import br.edu.ifsp.spo.bulls.users.api.bean.BookBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Author;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

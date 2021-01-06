@@ -3,7 +3,7 @@ package br.edu.ifsp.spo.bulls.users.api.bean;
 import br.edu.ifsp.spo.bulls.users.api.controller.BookController;
 import br.edu.ifsp.spo.bulls.users.api.domain.Review;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReviewTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
