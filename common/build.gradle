@@ -2,10 +2,13 @@ buildscript {
     repositories { mavenCentral() }
 }
 
-
 plugins {
     id 'org.springframework.boot'
     id "io.spring.dependency-management"
     id 'java'
     id 'jacoco'
+}
+
+bootJar {
+    enabled = false
 }

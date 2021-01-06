@@ -1,5 +1,5 @@
 rootProject.name = 'bbooks'
 include 'users-api'
+include 'feed-api'
+include 'competition-api'
 include 'common'
-//include 'feed-api'
-//include 'competition-api'

@@ -22,7 +22,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +71,7 @@ public class TrackingServiceTest {
     private List<Tracking> trackingList = new ArrayList<>();
     private List<Tracking> trackingListOpen = new ArrayList<>();
     private List<ReadingTracking> trackingsFilho = new ArrayList<>();
+    private List<ReadingTrackingTO> readingsTrackingsTO = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -114,6 +119,7 @@ public class TrackingServiceTest {
 
 
         trackingsFilho.add(new ReadingTracking());
+        readingsTrackingsTO.add(new ReadingTrackingTO());
     }
 
     @Test
@@ -152,7 +158,8 @@ public class TrackingServiceTest {
         Mockito.when(mockUserBooksService.updateStatus(userBooksBeanUtil.toDTOUpdate(userBooksQueroLer))).thenReturn(userBooksQueroLerTO);
 
         TrackingTO resultado = trackingService.save(trackingTO);
-        assertEquals(trackingTO, resultado);
+        assertEquals(trackingTO.getComentario(), resultado.getComentario());
+        assertEquals(trackingTO.getVelocidadeLeitura(), resultado.getVelocidadeLeitura());
     }
 
     @Test
@@ -163,7 +170,8 @@ public class TrackingServiceTest {
         Mockito.when(mockUserBooksService.updateStatus(userBooksBeanUtil.toDTOUpdate(userBooksLido))).thenReturn(userBooksLidoTO);
 
         TrackingTO resultado = trackingService.save(trackingTOLido);
-        assertEquals(trackingTOLido, resultado);
+        assertEquals(trackingTOLido.getComentario(), resultado.getComentario());
+        assertEquals(trackingTOLido.getVelocidadeLeitura(), resultado.getVelocidadeLeitura());
     }
 
     @Test
@@ -201,7 +209,11 @@ public class TrackingServiceTest {
         Mockito.when(mockTrackingRepository.save(trackingQueroLer)).thenReturn(trackingQueroLer);
         Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
         TrackingTO resultado = trackingService.update(trackingTO.getId(), trackingTO);
-        assertEquals(trackingTO, resultado);
+
+        assertEquals(trackingTO.getTrackings(), resultado.getTrackings());
+        assertEquals(trackingTO.getComentario(), resultado.getComentario());
+        assertEquals(trackingTO.getUserBookId(), resultado.getUserBookId());
+        assertEquals(trackingTO.getVelocidadeLeitura(), resultado.getVelocidadeLeitura());
     }
 
     @Test
@@ -222,5 +234,54 @@ public class TrackingServiceTest {
     void shouldntUpdateTrackingWhenTrackingNotFound() {
         Mockito.when(mockTrackingRepository.findById(trackingQueroLer.getId())).thenThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
         assertThrows(ResourceNotFoundException.class, () -> trackingService.update(trackingQueroLer));
+    }
+
+    @Test
+    void shouldCalcularVelocidadeLeituraWithOneTracking() {
+        trackingTO.setTrackings(readingsTrackingsTO);
+        double speedy = trackingTO.getTrackings().get(0).getNumPag()/1;
+        double result = trackingService.calcularVelocidadeLeitura(trackingTO);
+        assertEquals(speedy, result);
+    }
+
+    @Test
+    void shouldCalcularVelocidadeLeituraWithManyEqualsDateTracking() {
+        Clock clock = Clock.fixed(Instant.parse("2021-01-05T10:15:30.00Z"), ZoneId.of("UTC"));
+        LocalDateTime creationDate1 = LocalDateTime.now(clock);
+        LocalDateTime creationDate2 = LocalDateTime.now(clock);
+
+        ReadingTrackingTO tracking1 = new ReadingTrackingTO();
+        tracking1.setCreationDate(creationDate2);
+        tracking1.setNumPag(40);
+
+        readingsTrackingsTO.add(tracking1);
+        trackingTO.setTrackings(readingsTrackingsTO);
+
+        trackingTO.getTrackings().get(0).setCreationDate(creationDate1);
+        trackingTO.getTrackings().get(0).setNumPag(20);
+        double speedy = trackingTO.getTrackings().get(1).getNumPag();
+        double result = trackingService.calcularVelocidadeLeitura(trackingTO);
+        assertEquals(speedy, result);
+    }
+
+    @Test
+    void shouldCalcularVelocidadeLeituraWithManyDifferentDateTracking() {
+        Clock clock = Clock.fixed(Instant.parse("2021-01-04T10:15:30.00Z"), ZoneId.of("UTC"));
+        LocalDateTime creationDate1 = LocalDateTime.now(clock);
+        clock = Clock.fixed(Instant.parse("2021-01-05T10:15:30.00Z"), ZoneId.of("UTC"));
+        LocalDateTime creationDate2 = LocalDateTime.now(clock);
+
+        ReadingTrackingTO tracking1 = new ReadingTrackingTO();
+        tracking1.setCreationDate(creationDate2);
+        tracking1.setNumPag(40);
+
+        readingsTrackingsTO.add(tracking1);
+        trackingTO.setTrackings(readingsTrackingsTO);
+
+        trackingTO.getTrackings().get(0).setCreationDate(creationDate1);
+        trackingTO.getTrackings().get(0).setNumPag(20);
+        double speedy = trackingTO.getTrackings().get(1).getNumPag()/2;
+        double result = trackingService.calcularVelocidadeLeitura(trackingTO);
+        assertEquals(speedy, result);
     }
 }

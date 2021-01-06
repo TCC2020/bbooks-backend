@@ -2,7 +2,6 @@ buildscript {
     repositories { mavenCentral() }
 }
 
-
 plugins {
     id 'org.springframework.boot'
     id "io.spring.dependency-management"
@@ -14,32 +13,31 @@ bootRun {
     environment('spring.profiles.active', 'dev')
 }
 
+apply plugin: 'jacoco'
+
 dependencies {
     implementation project(':common').sourceSets.main.output
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+//		implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'org.postgresql:postgresql'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-    runtimeOnly 'com.h2database:h2'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-    compile group: 'org.json', name: 'json', version: '20090211'
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+    runtimeOnly 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     compile 'com.google.cloud:google-cloud-storage:1.113.1'
     compile 'io.springfox:springfox-swagger2:2.9.2'
     compile 'io.springfox:springfox-swagger-ui:2.9.2'
     compile'io.github.createam-labs:spring-boot-starter-heroku:1.1'
-    compile 'org.springframework.boot:spring-boot-starter-webflux'
+//		compile 'org.springframework.boot:spring-boot-starter-webflux'
     compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
-    compile('io.springfox:springfox-swagger-ui:2.9.2')
-    compile('io.springfox:springfox-swagger2:2.9.2')
     implementation 'com.logentries:logentries-appender:1.1.38'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
 
 test {
@@ -53,12 +51,12 @@ check.dependsOn jacocoTestCoverageVerification
 
 jacocoTestReport {
     getClassDirectories().setFrom(files(classDirectories.files.collect {
-        fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/users/api/domain**',
-                                     '**br/edu/ifsp/spo/bulls/users/api/dto**',
-                                     '**br/edu/ifsp/spo/bulls/users/api/repository**',
-                                     '**br/edu/ifsp/spo/bulls/users/api/security**',
-                                     '**br/edu/ifsp/spo/bulls/users/api/exception**',
-                                     '**br/edu/ifsp/spo/bulls/users/api/enums**' ])
+        fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/competition/api/domain**',
+                                     '**br/edu/ifsp/spo/bulls/competition/api/dto**',
+                                     '**br/edu/ifsp/spo/bulls/competition/api/repository**',
+                                     '**br/edu/ifsp/spo/bulls/competition/api/security**',
+                                     '**br/edu/ifsp/spo/bulls/competition/api/exception**',
+                                     '**br/edu/ifsp/spo/bulls/competition/api/enums**' ])
     }))
     reports {
         html.enabled = true
@@ -78,12 +76,12 @@ jacocoTestCoverageVerification {
                 minimum = 0.0
             }
             excludes = [
-                    '**br/edu/ifsp/spo/bulls/usersApi/domain**',
-                    '**br/edu/ifsp/spo/bulls/usersApi/dto**',
-                    '**br/edu/ifsp/spo/bulls/usersApi/repository**',
-                    '**br/edu/ifsp/spo/bulls/usersApi/security**',
-                    '**br/edu/ifsp/spo/bulls/usersApi/exception**',
-                    '**br/edu/ifsp/spo/bulls/usersApi/enums**'
+                    '**br/edu/ifsp/spo/bulls/competitionApi/domain**',
+                    '**br/edu/ifsp/spo/bulls/competitionApi/dto**',
+                    '**br/edu/ifsp/spo/bulls/competitionApi/repository**',
+                    '**br/edu/ifsp/spo/bulls/competitionApi/security**',
+                    '**br/edu/ifsp/spo/bulls/competitionApi/exception**',
+                    '**br/edu/ifsp/spo/bulls/competitionApi/enums**'
             ]
         }
     }

@@ -133,7 +133,7 @@ public class TrackingService {
         userBooksService.updateStatus(booK);
     }
 
-    private Double calcularVelocidadeLeitura(TrackingTO tracking) {
+    public Double calcularVelocidadeLeitura(TrackingTO tracking) {
         int qtdeDias = 1;
         double qtdePaginasLidas = 0;
 
