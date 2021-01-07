@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <springProfile name="staging">
+    <springProfile name="prod">
 
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
@@ -11,12 +11,8 @@
 
         <logger name="org.springframework" level="INFO"/>
         <logger name="br.edu.ifsp.spo.bulls.usersApi" level="INFO"/>
-        <logger name="org.springframework.mail" level="DEBUG"/>
+        <logger name="org.hibernate" level="INFO"/>
         <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
-        </root>
-
-        <root level="DEBUG">
             <appender-ref ref="CONSOLE"/>
         </root>
 
@@ -42,7 +38,7 @@
     <property name="patternString" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n%rEx"  />
     <appender name="LE"
               class="com.logentries.logback.LogentriesAppender">
-        <Debug>False</Debug>
+        <Debug>True</Debug>
         <Token>7ad4d656-d9a5-49b4-8d33-f8e44212f897</Token>
         <Ssl>True</Ssl>
         <facility>USER</facility>
