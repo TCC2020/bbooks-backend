@@ -1,0 +1,27 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: $JDBC_DATABASE_URL
+    username: $JDBC_DATABASE_USERNAME
+    password: $JDBC_DATABASE_PASSWORD
+  jpa:
+    generate-ddl: true
+    databasePlatform: org.hibernate.dialect.PostgreSQL9Dialect
+    hibernate:
+      ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    debug: true
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+heroku:
+  enforceHttps: true

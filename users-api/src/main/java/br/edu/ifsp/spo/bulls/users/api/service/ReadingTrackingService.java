@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.ReadingTrackingBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.ReadingTracking;
@@ -9,7 +9,7 @@ import br.edu.ifsp.spo.bulls.users.api.domain.Tracking;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTrackingTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTrackingRepository;
 import org.springframework.beans.factory.annotation.Autowired;

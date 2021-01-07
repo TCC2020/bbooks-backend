@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar users-api/build/libs/*.jar -Dspring.profiles.active=staging
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar $JAR_PATH -Dspring.profiles.active=$JAVA_PROFILE
