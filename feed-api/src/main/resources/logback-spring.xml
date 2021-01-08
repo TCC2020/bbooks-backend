@@ -42,7 +42,7 @@
     <property name="patternString" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n%rEx"  />
     <appender name="LE"
               class="com.logentries.logback.LogentriesAppender">
-        <Debug>False</Debug>
+        <Debug>True</Debug>
         <Token>7ad4d656-d9a5-49b4-8d33-f8e44212f897</Token>
         <Ssl>True</Ssl>
         <facility>USER</facility>
