@@ -1,13 +1,13 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceBadRequestException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.BookBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Author;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,13 +24,13 @@ import java.util.List;
 public class BookService {
 
     @Autowired
-    BookBeanUtil beanUtil;
+    private BookBeanUtil beanUtil;
 
     @Autowired
-    BookRepository repository;
+    private BookRepository repository;
 
     @Autowired
-    AuthorService authorService;
+    private AuthorService authorService;
 
     public BookTO save(BookTO entity) {
 

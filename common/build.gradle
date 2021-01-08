@@ -1,0 +1,20 @@
+buildscript {
+    repositories { mavenCentral() }
+}
+
+plugins {
+    id 'org.springframework.boot'
+    id "io.spring.dependency-management"
+    id 'java'
+    id 'jacoco'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
+    compile('io.springfox:springfox-swagger-ui:2.9.2')
+    compile('io.springfox:springfox-swagger2:2.9.2')
+}
+
+bootJar {
+    enabled = false
+}

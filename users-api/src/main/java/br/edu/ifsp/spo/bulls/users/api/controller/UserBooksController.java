@@ -39,9 +39,9 @@ public class UserBooksController {
             @ApiResponse(code = 200, message = "Retorna os livros da estante do usuário"),
     })
     @GetMapping("/profile/{profileId}")
-    public BookCaseTO getAllByProfile(@PathVariable int profileId) {
+    public BookCaseTO getAllByProfile(@PathVariable int profileId, @RequestParam(value = "timeLine", required=false) boolean timeLine) {
         logger.info("Usuario solicitou sua estante virutal" + profileId);
-        BookCaseTO estante = service.getByProfileId(profileId);
+        BookCaseTO estante = service.getByProfileId(profileId,timeLine);
         logger.info("Estante encontrada. " + estante);
         return estante;
     }
@@ -49,15 +49,15 @@ public class UserBooksController {
     @ApiOperation(value = "Editar um livro na estante do usuário")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Livro editado"),
+            @ApiResponse(code = 404, message = "Userbook não encontrado"),
+            @ApiResponse(code = 409, message = "Status não pode estar vazio")
     })
-    @PutMapping()
-    public UserBooksTO putUserBook(@RequestBody UserBooksTO dto){
+    @PutMapping("/{id}")
+    public UserBooksTO putUserBook(@RequestBody UserBooksTO dto, @PathVariable Long id){
         logger.info("Solicitacao para alterar um livro da estante " + dto);
-        return service.update(dto);
+        return service.update(dto, id);
     }
 
-
-    // VERIFICAR SE PODE EXCLUIR
     @ApiOperation(value = "Inserir status em um livro na estante virtual")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Status do livro alterado"),

@@ -3,6 +3,9 @@ package br.edu.ifsp.spo.bulls.users.api.bean;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +28,9 @@ public class UserBooksBeanUtil {
     private TagService tagService;
     @Autowired
     private TagBeanUtil tagBeanUtil;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     public UserBooksTO toDto(UserBooks userBooks) {
         UserBooksTO userBooksTO = new UserBooksTO();
@@ -59,6 +65,8 @@ public class UserBooksBeanUtil {
             logger.error("Error while converting UserBooksTO to UserBooks: " +  e);
         }
         userBooks.setStatus(dto.getStatus());
+        userBooks.setProfile(profileRepository.findById(dto.getProfileId())
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001)));
         return userBooks;
     }
 

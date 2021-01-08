@@ -2,9 +2,9 @@ package br.edu.ifsp.spo.bulls.users.api.service;
 
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceBadRequestException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.TagRepository;
@@ -35,7 +35,9 @@ public class TagService {
     }
 
     public Tag tagBook(Long tagId, Long userBookId) {
+        System.out.println(userBookId);
         Tag tag = repository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
+        System.out.println(tag);
         tag.getBooks().add(userBooksRepository.findById(userBookId).orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
         return repository.save(tag);
     }

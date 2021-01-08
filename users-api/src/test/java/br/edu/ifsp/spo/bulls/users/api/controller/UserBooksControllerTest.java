@@ -61,9 +61,10 @@ public class UserBooksControllerTest {
     @Test
     void getAllByProfile() throws Exception {
 
-        Mockito.when(mockUserBooksService.getByProfileId(1)).thenReturn(bookCaseTO);
+        Mockito.when(mockUserBooksService.getByProfileId(1, false)).thenReturn(bookCaseTO);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/bookcases/profile/1")
+                .param("timeLine", "false")
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
@@ -73,9 +74,9 @@ public class UserBooksControllerTest {
 
         UserBooksTO userBooksTO1 = userBooksTO;
         userBooksTO1.setStatus(Status.EMPRESTADO);
-        Mockito.when(mockUserBooksService.update(userBooksTO)).thenReturn(userBooksTO1);
+        Mockito.when(mockUserBooksService.update(userBooksTO, userBooksTO.getId())).thenReturn(userBooksTO1);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/bookcases")
+        mockMvc.perform(MockMvcRequestBuilders.put("/bookcases/" + userBooksTO.getId())
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userBooksTO)))
                 .andExpect(status().isOk());

@@ -1,0 +1,3 @@
+spring:test
+  application:
+    name: feed-api

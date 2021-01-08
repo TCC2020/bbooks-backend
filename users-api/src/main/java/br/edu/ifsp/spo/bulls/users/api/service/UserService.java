@@ -6,11 +6,11 @@ import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.enums.EmailSubject;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceBadRequestException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -59,13 +59,15 @@ public class UserService{
 	}
 
 	private void sendEmail(User retorno) {
-		email.
+		new Thread(()-> {
+			email.
 			getInstance()
 			.withUrls("https://bbooks-front.herokuapp.com/confirm")
 			.withTo(retorno.getEmail())
 			.withContent(" Bem Vindo " + retorno.getUserName())
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
 			.send();
+		}).start();
 	}
 
 	private void saveProfile(CadastroUserTO cadastroUserTO, User user) {
