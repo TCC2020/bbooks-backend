@@ -51,6 +51,15 @@ public class ReadingTargetController {
         return service.getById(id);
     }
 
+    @ApiOperation(value = "Adicionar um livro a meta de leitura")
+    @ApiResponses(value =
+            {@ApiResponse(code = 201, message = "Retorna a meta atualizada")})
+    @PutMapping(value = "/{id}/user-book/{userBookId}")
+    public ReadingTargetTO addTarget(@PathVariable UUID id, @PathVariable Long userBookId) throws Exception {
+        logger.info("Adicionando o livro com id: " + userBookId, "\n Para a meta: " + id);
+        return service.addTarget(id, userBookId);
+    }
+
     @ApiOperation(value = "Deleta a meta de leitura")
     @ApiResponses(value =
             {@ApiResponse(code = 202, message = "Meta de leitura excluída com sucesso")})

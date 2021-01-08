@@ -1,11 +1,13 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.ReadingTargetBeanUtil;
+import br.edu.ifsp.spo.bulls.users.api.domain.ReadingTarget;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTargetTO;
-import br.edu.ifsp.spo.bulls.users.api.enums.CodeException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceConflictException;
-import br.edu.ifsp.spo.bulls.users.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;
+import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class ReadingTargetService {
 
     @Autowired
     private ReadingTargetBeanUtil beanUtil;
+
+    @Autowired
+    private UserBooksRepository userBooksRepository;
 
     public ReadingTargetTO save(ReadingTargetTO dto) {
         if(repository.findByProfileIdAndYear(dto.getProfileId(), dto.getYear()).isPresent())
@@ -43,5 +48,14 @@ public class ReadingTargetService {
 
     public void delete(UUID id) {
         repository.deleteById(id);
+    }
+
+    public ReadingTargetTO addTarget(UUID id, Long userBookId) {
+        ReadingTarget target = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RTG001.getText(), CodeException.RTG001));
+        target.getTargets().add(userBooksRepository.findById(userBookId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
+
+        return beanUtil.toDto(repository.save(target));
     }
 }
