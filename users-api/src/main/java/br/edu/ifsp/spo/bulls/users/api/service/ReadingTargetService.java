@@ -54,7 +54,7 @@ public class ReadingTargetService {
 
     public ReadingTargetTO addTarget(int id, Long userBookId) {
         ReadingTarget target = repository.findByProfileIdAndYear(id, LocalDateTime.now().getYear())
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RTG001.getText(), CodeException.RTG001));
+                .orElse(repository.save(new ReadingTarget(null, LocalDateTime.now().getYear(), null, id)));
         target.getTargets().add(userBooksRepository.findById(userBookId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));
 
