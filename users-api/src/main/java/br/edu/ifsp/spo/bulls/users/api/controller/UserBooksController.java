@@ -39,7 +39,7 @@ public class UserBooksController {
             @ApiResponse(code = 200, message = "Retorna os livros da estante do usuário"),
     })
     @GetMapping("/profile/{profileId}")
-    public BookCaseTO getAllByProfile(@PathVariable int profileId, @RequestParam boolean timeLine) {
+    public BookCaseTO getAllByProfile(@PathVariable int profileId, @RequestParam(value = "timeLine", required=false) boolean timeLine) {
         logger.info("Usuario solicitou sua estante virutal" + profileId);
         BookCaseTO estante = service.getByProfileId(profileId,timeLine);
         logger.info("Estante encontrada. " + estante);
