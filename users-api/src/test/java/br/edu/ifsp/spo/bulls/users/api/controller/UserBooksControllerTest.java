@@ -61,9 +61,10 @@ public class UserBooksControllerTest {
     @Test
     void getAllByProfile() throws Exception {
 
-        Mockito.when(mockUserBooksService.getByProfileId(1)).thenReturn(bookCaseTO);
+        Mockito.when(mockUserBooksService.getByProfileId(1, false)).thenReturn(bookCaseTO);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/bookcases/profile/1")
+                .param("timeLine", "false")
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }

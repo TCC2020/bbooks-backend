@@ -184,7 +184,18 @@ public class UserBooksServiceTest {
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
         Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);
         Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
-        BookCaseTO result = userBookService.getByProfileId(profile.getId());
+        BookCaseTO result = userBookService.getByProfileId(profile.getId(), false);
+
+        assertEquals(bookCaseTO, result);
+    }
+
+    @Test
+    public void userBooksServiceShouldReturnByProfileIdTimeLine(){
+
+        Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
+        Mockito.when(mockUserBooksRepository.findByProfileOrderByFinishDateDesc(profile.getId())).thenReturn(userBooksList);
+        Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
+        BookCaseTO result = userBookService.getByProfileId(profile.getId(), true);
 
         assertEquals(bookCaseTO, result);
     }
@@ -210,7 +221,7 @@ public class UserBooksServiceTest {
 
         Mockito.when(mockProfileRepository.findById(1)).thenThrow(new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
 
-        assertThrows(ResourceNotFoundException.class, () -> userBookService.getByProfileId(profile.getId()));
+        assertThrows(ResourceNotFoundException.class, () -> userBookService.getByProfileId(profile.getId(), false));
 
     }
 

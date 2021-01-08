@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BookControllerTest {
 
     @MockBean
-    BookService mockBookService;
+    private BookService mockBookService;
 
     @Autowired
     private MockMvc mockMvc;
