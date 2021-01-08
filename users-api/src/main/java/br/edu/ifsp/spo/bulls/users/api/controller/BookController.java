@@ -99,7 +99,7 @@ public class BookController {
         return livros;
     }
 
-    @GetMapping("/searchByString")
+    @PostMapping("/searchByString")
     public BookSearchTO searchByString(@RequestBody BookSearchTO bookSearchTO){
         logger.info("Requisitando lista de  livros com titulo ou isbn: " + bookSearchTO.getSearch());
         return client.searchBooks(bookSearchTO);
