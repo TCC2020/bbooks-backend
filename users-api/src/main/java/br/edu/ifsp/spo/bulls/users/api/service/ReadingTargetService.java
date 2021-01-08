@@ -11,6 +11,8 @@ import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,8 +52,8 @@ public class ReadingTargetService {
         repository.deleteById(id);
     }
 
-    public ReadingTargetTO addTarget(UUID id, Long userBookId) {
-        ReadingTarget target = repository.findById(id)
+    public ReadingTargetTO addTarget(int id, Long userBookId) {
+        ReadingTarget target = repository.findByProfileIdAndYear(id, LocalDateTime.now().getYear())
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RTG001.getText(), CodeException.RTG001));
         target.getTargets().add(userBooksRepository.findById(userBookId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001)));

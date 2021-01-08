@@ -54,16 +54,16 @@ public class ReadingTargetController {
     @ApiOperation(value = "Adicionar um livro a meta de leitura")
     @ApiResponses(value =
             {@ApiResponse(code = 201, message = "Retorna a meta atualizada")})
-    @PutMapping(value = "/{id}/user-book/{userBookId}")
-    public ReadingTargetTO addTarget(@PathVariable UUID id, @PathVariable Long userBookId) throws Exception {
-        logger.info("Adicionando o livro com id: " + userBookId, "\n Para a meta: " + id);
-        return service.addTarget(id, userBookId);
+    @PutMapping(value = "/profile/{profileId}/user-book/{userBookId}")
+    public ReadingTargetTO addTarget(@PathVariable int profileId, @PathVariable Long userBookId) throws Exception {
+        logger.info("Adicionando na meta o livro com id: " + userBookId);
+        return service.addTarget(profileId, userBookId);
     }
 
     @ApiOperation(value = "Deleta a meta de leitura")
     @ApiResponses(value =
             {@ApiResponse(code = 202, message = "Meta de leitura excluída com sucesso")})
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable UUID id) throws Exception {
         logger.info("Deletando meta para o id: " + id);
         service.delete(id);
