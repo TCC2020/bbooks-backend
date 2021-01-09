@@ -12,7 +12,7 @@ public enum CodeException {
     US003("US003: Password can't be null", "US003"),
     US004("US004: Token not found", "US004"),
     US005("US005: Username already used", "US005"),
-    BK001("BK001: IBNB already exists", "BK001"),
+    BK001("BK001: ISBN already exists", "BK001"),
     BK002("BK002: Book not found", "BK002"),
     BK003("BK003: Book should have at least 1 author", "BK003"),
     RT001("RT001: Reading Tracking not found", "RT001"),
@@ -37,7 +37,9 @@ public enum CodeException {
     RE001("RE001: Review not found", "RE001"),
     RE002("RE002: Review sent does not match ID", "RE002"),
     RTG001("RTG001: Reading target not found", "RTG001"),
-    RTG002("RTG002: Reading target already exists", "RTG002");
+    RTG002("RTG002: Reading target already exists", "RTG002"),
+    RTG003("RTG003: Userbook not in the list", "RTG003");
+
 
 
 

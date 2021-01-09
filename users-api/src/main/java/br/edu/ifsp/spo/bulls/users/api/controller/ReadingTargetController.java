@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
+import br.edu.ifsp.spo.bulls.users.api.dto.AddTargetTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTargetTO;
 import br.edu.ifsp.spo.bulls.users.api.service.ReadingTargetService;
 import io.swagger.annotations.ApiOperation;
@@ -8,20 +9,19 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Controller
-@RequestMapping(value = "/reading-targets", produces="application/json")
+@RestController
+@RequestMapping(value = "/reading-targets", produces ="application/json")
 @CrossOrigin(origins = "*")
 public class ReadingTargetController {
     @Autowired
     private ReadingTargetService service;
 
-    private Logger logger = LoggerFactory.getLogger(ProfileController.class);
+    private Logger logger = LoggerFactory.getLogger(ReadingTargetController.class);
 
     @ApiOperation(value = "Criar nova meta de leitura")
     @ApiResponses(value =
@@ -53,11 +53,20 @@ public class ReadingTargetController {
 
     @ApiOperation(value = "Adicionar um livro a meta de leitura")
     @ApiResponses(value =
-            {@ApiResponse(code = 201, message = "Retorna a meta atualizada")})
-    @PutMapping(value = "/profile/{profileId}/user-book/{userBookId}")
-    public ReadingTargetTO addTarget(@PathVariable int profileId, @PathVariable Long userBookId) throws Exception {
-        logger.info("Adicionando na meta o livro com id: " + userBookId);
-        return service.addTarget(profileId, userBookId);
+            {@ApiResponse(code = 200, message = "Retorna a meta atualizada")})
+    @PutMapping("")
+    public ReadingTargetTO addTarget(@RequestBody AddTargetTO dto) throws Exception {
+        logger.info("Adicionando na meta o livro com id: " + dto.getUserBookId());
+        return service.addTarget(dto.getProfileId(), dto.getUserBookId());
+    }
+
+    @ApiOperation(value = "Adicionar um livro a meta de leitura")
+    @ApiResponses(value =
+            {@ApiResponse(code = 200, message = "Retorna a meta atualizada")})
+    @DeleteMapping("/delete/profile/{profileId}/user-book/{userBookId}")
+    public ReadingTargetTO RemoveTarget(@PathVariable int profileId, @PathVariable Long userBookId) throws Exception {
+        logger.info("remomento na meta o livro com id: " + userBookId);
+        return service.removeTarget(profileId, userBookId);
     }
 
     @ApiOperation(value = "Deleta a meta de leitura")
