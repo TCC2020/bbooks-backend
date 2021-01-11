@@ -15,6 +15,7 @@ import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
+import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ public class UserBooksService {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private ReadingTargetRepository targetRepository;
 
     public UserBooksTO save(UserBooksTO dto) {
         UserBooks userBooks = convertToUserBooks(dto);
@@ -72,7 +76,7 @@ public class UserBooksService {
     }
 
     public void deleteById(Long id){
-        // TODO: Tirar o livro da meta de leitura (se estiver) antes de excluir
+        targetRepository.deleteTargetRelationship(id);
         repository.deleteById(id);
     }
 

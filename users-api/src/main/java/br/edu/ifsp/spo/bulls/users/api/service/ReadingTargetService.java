@@ -10,8 +10,6 @@ import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTargetTO;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +29,6 @@ public class ReadingTargetService {
     @Autowired
     private UserBooksRepository userBooksRepository;
 
-    private Logger logger = LoggerFactory.getLogger(ReadingTargetService.class);
-
     public ReadingTargetTO save(ReadingTargetTO dto) {
         if(repository.findByProfileIdAndYear(dto.getProfileId(), dto.getYear()).isPresent())
             throw new ResourceConflictException(CodeException.RTG002.getText(), CodeException.RTG002);
@@ -44,7 +40,7 @@ public class ReadingTargetService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RTG001.getText(), CodeException.RTG001)));
     }
 
-    public List<ReadingTargetTO> getAllByProfileId(Long profileId) {
+    public List<ReadingTargetTO> getAllByProfileId(int profileId) {
         return beanUtil.toDtoList(repository.findByProfileId(profileId));
     }
 
@@ -62,9 +58,8 @@ public class ReadingTargetService {
         ReadingTarget target = repository.findByProfileIdAndYear(id, LocalDateTime.now().getYear()).orElse(null);
         if(target == null)
             target = repository.save(new ReadingTarget(null, LocalDateTime.now().getYear(), null, id));
-        if(target.getTargets() == null) {
+        if(target.getTargets() == null)
             target.setTargets(new ArrayList<UserBooks>());
-        }
         UserBooks userBooks = userBooksRepository.findById(userBookId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         if(!target.getTargets().contains(userBooks))

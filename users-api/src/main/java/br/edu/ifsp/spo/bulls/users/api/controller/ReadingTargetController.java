@@ -9,7 +9,15 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +45,7 @@ public class ReadingTargetController {
     @ApiResponses(value =
             {@ApiResponse(code = 200, message = "Retorna uma lista de meta de leituras por ano")})
     @GetMapping(value = "/profile/{profileId}")
-    public List<ReadingTargetTO> getAllByProfileId(@PathVariable Long profileId) throws Exception {
+    public List<ReadingTargetTO> getAllByProfileId(@PathVariable int profileId) throws Exception {
         logger.info("Buscando lista de metas de leitura para o profile: " + profileId);
         return service.getAllByProfileId(profileId);
     }
