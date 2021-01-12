@@ -61,7 +61,7 @@ public class ReadingTargetController {
     @ApiResponses(value =
             {@ApiResponse(code = 200, message = "Retorna a meta atualizada")})
     @DeleteMapping("/delete/profile/{profileId}/user-book/{userBookId}")
-    public ReadingTargetTO RemoveTarget(@PathVariable int profileId, @PathVariable Long userBookId) throws Exception {
+    public ReadingTargetTO removeTarget(@PathVariable int profileId, @PathVariable Long userBookId) throws Exception {
         logger.info("remomento na meta o livro com id: " + userBookId);
         return service.removeTarget(profileId, userBookId);
     }

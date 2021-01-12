@@ -47,8 +47,6 @@ public class ReadingTargetServiceTest {
 
     private ReadingTarget readingTarget = new ReadingTarget();
 
-    private ReadingTargetTO readingTargetTO = new ReadingTargetTO();
-
     private UserBooks userBooks = new UserBooks();
 
     private UserBooks userBooks2 = new UserBooks();
@@ -92,17 +90,10 @@ public class ReadingTargetServiceTest {
         readingTarget.setTargets(new ArrayList<UserBooks>());
         readingTarget.getTargets().add(userBooks);
         readingTarget.setYear(LocalDateTime.now().getYear());
-
-        readingTargetTO = new ReadingTargetTO();
-        readingTargetTO.setId(UUID.randomUUID());
-        readingTargetTO.setProfileId(1);
-        readingTargetTO.setTargets(new ArrayList<UserBooksTO>());
-        readingTargetTO.getTargets().add(userBooksTO);
-        readingTargetTO.setYear(LocalDateTime.now().getYear());
     }
 
     @Test
-    public void reading_target_should_add_when_already_has_reading_target() {
+    public void readingTargetShouldAddWhenAlreadyHasReadingTarget() {
         readingTarget.getTargets().add(userBooks2);
         Mockito.when(repository.save(readingTarget)).thenReturn(readingTarget);
         Mockito.when(repository.findByProfileIdAndYear(profile.getId(), readingTarget.getYear()))
