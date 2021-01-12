@@ -31,16 +31,6 @@ public class ReadingTargetController {
 
     private Logger logger = LoggerFactory.getLogger(ReadingTargetController.class);
 
-    @ApiOperation(value = "Criar nova meta de leitura")
-    @ApiResponses(value =
-            {@ApiResponse(code = 200, message = "Retorna uma lista de meta de leituras por ano"),
-            @ApiResponse(code = 409, message = "Uma meta de leitura para esse ano já foi criada")})
-    @PostMapping
-    public ReadingTargetTO save(@RequestBody ReadingTargetTO dto) throws Exception {
-        logger.info("Salvando reading target para o profile: " + dto.getProfileId());
-        return service.save(dto);
-    }
-
     @ApiOperation(value = "Buscar todas a metas de leitura por profile id")
     @ApiResponses(value =
             {@ApiResponse(code = 200, message = "Retorna uma lista de meta de leituras por ano")})
@@ -50,11 +40,11 @@ public class ReadingTargetController {
         return service.getAllByProfileId(profileId);
     }
 
-    @ApiOperation(value = "Buscar todas a metas de leitura por id")
+    @ApiOperation(value = "Buscar meta de leitura por id")
     @ApiResponses(value =
-            {@ApiResponse(code = 200, message = "Retorna uma lista de meta de leitura por id")})
+            {@ApiResponse(code = 200, message = "Retorna meta de leitura por id")})
     @GetMapping(value = "/{id}")
-    public ReadingTargetTO getAllById(@PathVariable UUID id) throws Exception {
+    public ReadingTargetTO getAById(@PathVariable UUID id) throws Exception {
         logger.info("Buscando lista de metas de leitura com id: " + id);
         return service.getById(id);
     }

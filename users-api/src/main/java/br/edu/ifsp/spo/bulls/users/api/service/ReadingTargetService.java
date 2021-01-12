@@ -29,12 +29,6 @@ public class ReadingTargetService {
     @Autowired
     private UserBooksRepository userBooksRepository;
 
-    public ReadingTargetTO save(ReadingTargetTO dto) {
-        if(repository.findByProfileIdAndYear(dto.getProfileId(), dto.getYear()).isPresent())
-            throw new ResourceConflictException(CodeException.RTG002.getText(), CodeException.RTG002);
-        return beanUtil.toDto(repository.save(beanUtil.toDomain(dto)));
-    }
-
     public ReadingTargetTO getById(UUID id) {
         return beanUtil.toDto(repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RTG001.getText(), CodeException.RTG001)));
