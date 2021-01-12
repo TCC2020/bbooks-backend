@@ -85,4 +85,14 @@ public class ReadingTargetController {
         logger.info("Deletando meta para o id: " + id);
         service.delete(id);
     }
+
+    @ApiOperation(value = "Buscar Target por UserBook")
+    @ApiResponses(value =
+            {@ApiResponse(code = 200, message = "Retorna um TargetTO")})
+    @GetMapping(value = "/search/profile/{profileId}/user-book/{userBookId}")
+    public ReadingTargetTO getByUserBookId(@PathVariable int profileId, @PathVariable Long userBookId) throws Exception {
+        logger.info("procurando target com id: " + userBookId);
+
+        return service.getByUserBookId(profileId, userBookId);
+    }
 }
