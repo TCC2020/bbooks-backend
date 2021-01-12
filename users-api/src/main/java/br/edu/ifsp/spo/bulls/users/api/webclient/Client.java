@@ -24,9 +24,9 @@ public class Client {
                 + maxResults + "&q=" + search + "&startIndex=" + pageIndex);
     }
 
-    public BookSearchTO searchBooks(BookSearchTO search) {
-        Page<BookTO> books = bookService.search(search.getSearch(), search.getPage().intValue(), 20);
-        setup((int) (40 - books.stream().count()), search.getSearch(), search.getPage().intValue());
+    public BookSearchTO searchBooks(BookSearchTO search, int size) {
+        Page<BookTO> books = bookService.search(search.getSearch(), search.getPage().intValue(), size/2);
+            setup((int) (size - books.stream().count()), search.getSearch(), search.getPage().intValue());
         LinkedHashMap googleBooks = wc.get().exchange()
                 .block()
                 .bodyToMono(LinkedHashMap.class)
@@ -35,7 +35,7 @@ public class Client {
         bookSearchTO.setSearch(search.getSearch());
         bookSearchTO.setGoogleBooks(googleBooks);
         bookSearchTO.setPage(search.getPage());
-        bookSearchTO.setBooks(books.getContent());
+        bookSearchTO.setBooks(books);
         return bookSearchTO;
     }
 }
