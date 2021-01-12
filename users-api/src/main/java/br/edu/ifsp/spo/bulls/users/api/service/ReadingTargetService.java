@@ -75,4 +75,16 @@ public class ReadingTargetService {
 
         return beanUtil.toDto(repository.save(target));
     }
+
+    public ReadingTargetTO getByUserBookId(int id, Long userBookId) {
+        ReadingTarget target = repository.findByProfileIdAndYear(id, LocalDateTime.now().getYear())
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.RTG002.getText(), CodeException.RTG002));
+        UserBooks userBooks = userBooksRepository.findById(userBookId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
+
+        if(target.getTargets().contains(userBooks))
+            return beanUtil.toDto(target);
+
+        return new ReadingTargetTO();
+    }
 }
