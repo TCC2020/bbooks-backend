@@ -37,12 +37,6 @@ public class ReadingTargetService {
         return beanUtil.toDtoList(repository.findByProfileId(profileId));
     }
 
-    public ReadingTargetTO update(ReadingTargetTO dto) {
-        if (!repository.findById(dto.getId()).isPresent())
-            throw new ResourceNotFoundException(CodeException.RTG001.getText(), CodeException.RTG001);
-        return beanUtil.toDto(repository.save(beanUtil.toDomain(dto)));
-    }
-
     public void delete(UUID id) {
         repository.deleteById(id);
     }
@@ -50,7 +44,7 @@ public class ReadingTargetService {
     public ReadingTargetTO addTarget(int id, Long userBookId) {
         ReadingTarget target = repository.findByProfileIdAndYear(id, LocalDateTime.now().getYear()).orElse(null);
         if(target == null)
-            target = repository.save(new ReadingTarget(null, LocalDateTime.now().getYear(), null, id));
+            target = new ReadingTarget(null, LocalDateTime.now().getYear(), null, id);
         if(target.getTargets() == null)
             target.setTargets(new ArrayList<UserBooks>());
         UserBooks userBooks = userBooksRepository.findById(userBookId)
@@ -86,4 +80,5 @@ public class ReadingTargetService {
 
         return new ReadingTargetTO();
     }
+
 }

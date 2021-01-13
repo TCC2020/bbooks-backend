@@ -20,4 +20,6 @@ public class ReadingTargetTO {
     private List<UserBooksTO> targets;
     @ApiModelProperty(value = "Identificador do perfil que a meta está relacionada")
     private int profileId;
+    @ApiModelProperty(value = "Progresso da meta")
+    private ReadingTargetProgressTO progress;
 }
