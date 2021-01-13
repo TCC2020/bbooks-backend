@@ -7,7 +7,6 @@ import br.edu.ifsp.spo.bulls.users.api.domain.ReadingTarget;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTargetTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
@@ -51,10 +50,6 @@ public class ReadingTargetServiceTest {
     private UserBooks userBooks = new UserBooks();
 
     private UserBooks userBooks2 = new UserBooks();
-
-    private UserBooksTO userBooksTO = new UserBooksTO();
-
-    private UserBooksTO userBooksTO2 = new UserBooksTO();
 
     private Profile profile = new Profile();
 
