@@ -157,7 +157,7 @@ public class ReadingTargetServiceTest {
                 .thenReturn(Optional.ofNullable(readingTarget));
         Mockito.when(userBooksRepository.findById(userBooks2.getId())).thenReturn(Optional.ofNullable(userBooks2));
 
-        ReadingTargetTO dto = service.getByUserBookId(profile.getId(), userBooks2.getId());
+
         assertEquals(new ReadingTargetTO(), service.getByUserBookId(profile.getId(), userBooks2.getId()));
     }
 }
