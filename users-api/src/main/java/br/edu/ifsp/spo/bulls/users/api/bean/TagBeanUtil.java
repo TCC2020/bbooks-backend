@@ -39,7 +39,6 @@ public class TagBeanUtil {
     }
 
     public List<Tag> toDomainList(List<TagTO> tags) {
-        System.out.println("lala");
         return tags.stream().map(tag -> toDomain(tag)).collect(Collectors.toList());
     }
 }
