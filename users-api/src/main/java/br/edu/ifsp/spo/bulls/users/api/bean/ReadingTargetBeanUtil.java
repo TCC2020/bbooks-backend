@@ -56,7 +56,7 @@ public class ReadingTargetBeanUtil {
                 .collect(Collectors.toList()).size());
 
         progress.setRemaining(dto.getTargets().size() - progress.getDone());
-        progress.setProgress(progress.getDone()/dto.getTargets().size() * 100D);
+        progress.setProgress((double)progress.getDone()/(double)dto.getTargets().size() * 100D);
         dto.setProgress(progress);
     }
 
