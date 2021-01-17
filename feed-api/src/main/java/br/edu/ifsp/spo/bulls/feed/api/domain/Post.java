@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -25,9 +26,9 @@ public class Post {
     private int profileId;
 
     @Column(length = 32)
-    private String descricao;
+    private String description;
 
-    private DateTime dataPublicacao;
+    private LocalDateTime creationDate;
 
     @ApiModelProperty(value = "Link da imagem")
     private String image;
@@ -37,4 +38,14 @@ public class Post {
 
     @Column(length = 32)
     private String comentarioId ;
+
+    //TODO: Campo da enquete
+    //TODO: Reações
+
+
+
+    @PrePersist
+    public void prePersist() {
+        creationDate = LocalDateTime.now();
+    }
 }

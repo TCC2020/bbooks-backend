@@ -17,6 +17,8 @@ public class PostService {
     private PostRepository repository;
 
     public Post create(Post post) {
+
+        System.out.println(post.toString());
         return repository.save(post);
     }
 
