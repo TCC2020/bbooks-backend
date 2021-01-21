@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
+import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -27,6 +26,9 @@ public class PostControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private PostBeanUtil postBeanUtil;
 
     @MockBean
     private PostService mockPostService;
@@ -64,7 +66,7 @@ public class PostControllerTest {
 
     @Test
     void get()  throws Exception{
-        Mockito.when(mockPostService.get(post.getId())).thenReturn(post);
+        Mockito.when(mockPostService.get(post.getId())).thenReturn(postBeanUtil.toDto(post));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/post/" + post.getId())
                 .contentType("application/json"))
@@ -73,12 +75,12 @@ public class PostControllerTest {
 
     @Test
     void getByProfile() throws Exception {
-        List<Post> posts = new ArrayList<>();
-        posts.add(post);
-        Mockito.when(mockPostService.getByProfile(post.getProfileId())).thenReturn(posts);
+
+        Mockito.when(mockPostService.getByProfile(post.getProfileId(), 0, 1)).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/post/profile/" + post.getProfileId())
-                .contentType("application/json"))
+                .param("page", "0")
+                .param("size", "1"))
                 .andExpect(status().isOk());
     }
 

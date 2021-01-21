@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
+import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -47,7 +49,7 @@ public class PostController {
             @ApiResponse(code = 200, message = "Publicação encontrada")
     })
     @GetMapping("/{idPost}")
-    public Post get(@PathVariable UUID idPost) {
+    public PostTO get(@PathVariable UUID idPost) {
         logger.info("Buscando post: " + idPost);
         return service.get(idPost);
     }
@@ -57,9 +59,10 @@ public class PostController {
             @ApiResponse(code = 200, message = "Publicação encontradas")
     })
     @GetMapping("/profile/{idProfile}")
-    public List<Post> get(@PathVariable int idProfile) {
+    public Page<PostTO> get(@PathVariable int idProfile, @RequestParam int page, @RequestParam int size) {
         logger.info("Buscando posts por profile: " + idProfile);
-        return service.getByProfile(idProfile);
+
+        return service.getByProfile(idProfile, page, size);
     }
 
     @ApiOperation(value = "Deletar uma publicação")

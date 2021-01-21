@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.domain;
 
+import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import com.google.api.client.util.DateTime;
 import io.swagger.annotations.ApiModel;
@@ -36,13 +37,13 @@ public class Post {
     @Column(nullable = false)
     private TypePost tipoPost;
 
-    @Column(length = 32)
-    private String comentarioId ;
+    private UUID upperPostId;
+
+    @Column(nullable = false)
+    private PostPrivacy privacy;
 
     //TODO: Campo da enquete
     //TODO: Reações
-
-
 
     @PrePersist
     public void prePersist() {
