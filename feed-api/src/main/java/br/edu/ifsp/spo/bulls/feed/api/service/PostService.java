@@ -47,16 +47,13 @@ public class PostService {
     }
 
     public Page<PostTO> getByProfile(int profileId, int page, int pageSize) {
-        Page<PostTO> post = null ;
         Pageable pageRequest = PageRequest.of(
                 page,
                 pageSize,
                 Sort.Direction.ASC,
                 "id");
 
-        post = repository.findByProfileId(profileId, TypePost.post, pageRequest);;
-
-        return post ;
+        return repository.findByProfileId(profileId, TypePost.post, pageRequest);
     }
 
     public void delete(UUID idPost) {
