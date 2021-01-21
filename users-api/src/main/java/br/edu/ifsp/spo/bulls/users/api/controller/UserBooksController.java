@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 
 import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatus;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.users.api.service.UserBooksService;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +45,20 @@ public class UserBooksController {
         BookCaseTO estante = service.getByProfileId(profileId,timeLine);
         logger.info("Estante encontrada. " + estante);
         return estante;
+    }
+
+    @ApiOperation(value = "Retorna informações de quantas pessoas querem ler/estão lendo (todos os status) o livro ")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna a lista de informações por livro informado"),
+            @ApiResponse(code = 404, message = "Livro informado não existe na base de dados")
+    })
+    @GetMapping("/status-data")
+    public UserBooksDataStatus getDataStatusByBooks(@RequestParam(value = "googleBook", required=false) String googleBook,
+                                           @RequestParam(value = "bookId", required=false) int bookId) {
+        logger.info("Buscando informações de leitura do livro " + googleBook + " " + bookId);
+        UserBooksDataStatus info = service.getStatusData(googleBook,bookId);
+        logger.info("Informações encontradas. " + info);
+        return info;
     }
 
     @ApiOperation(value = "Editar um livro na estante do usuário")
