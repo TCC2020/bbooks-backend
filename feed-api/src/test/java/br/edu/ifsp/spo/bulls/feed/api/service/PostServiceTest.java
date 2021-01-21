@@ -8,7 +8,6 @@ import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,9 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.Optional;
-import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -48,8 +45,6 @@ public class PostServiceTest {
     private Post comment;
     private PostTO postTO;
     private List<PostTO> comments;
-    private List<PostTO> postByProfile;
-    private Page<PostTO> postPage;
 
     @BeforeEach
     void setUp() {
@@ -79,8 +74,6 @@ public class PostServiceTest {
         postTO = postagem;
         postTO.setComments(comments);
 
-        postByProfile = new ArrayList<>();
-        postByProfile.add(postTO);
     }
 
     @Test
@@ -130,6 +123,7 @@ public class PostServiceTest {
 
     @Test
     void getByProfile() {
+        Page<PostTO> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,
