@@ -2,10 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.dto;
 
 import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
