@@ -5,18 +5,10 @@ import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Enumerated;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.PrePersist;
 
 @Data
 @Entity
@@ -43,13 +35,13 @@ public class Post {
     private String image;
 
     @Column(nullable = false)
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private TypePost tipoPost;
 
     private UUID upperPostId;
 
     @Column(nullable = false)
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private PostPrivacy privacy;
 
     //TODO: Campo da enquete
