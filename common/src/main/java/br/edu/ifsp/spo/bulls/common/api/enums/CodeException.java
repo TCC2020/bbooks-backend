@@ -38,24 +38,25 @@ public enum CodeException {
     RE002("RE002: Review sent does not match ID", "RE002"),
     RTG001("RTG001: Reading target not found", "RTG001"),
     RTG002("RTG002: Reading target already exists", "RTG002"),
-    RTG003("RTG003: Userbook not in the list", "RTG003");
+    RTG003("RTG003: Userbook not in the list", "RTG003"),
+    PT001("PT001: Post not found", "PT001");
 
 
 
 
     private final String text;
-    private final String number;
+    private final String code;
 
     CodeException(final String text, String number) {
         this.text = text;
-        this.number = number;
+        this.code = number;
     }
 
     public String getText() {
         return text;
     }
 
-    public String getNumber() {
-        return number;
+    public String getCode() {
+        return code;
     }
 }
