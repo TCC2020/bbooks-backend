@@ -1,8 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
-import java.util.HashSet;
-import javax.validation.Valid;
-import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,14 +8,10 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.HashSet;
 
 @RestController
 @RequestMapping(value = "/profiles", produces="application/json")
@@ -88,5 +82,11 @@ public class ProfileController {
 		HashSet<ProfileTO> profiles = service.getAll();
 		logger.info("Profiles encontrados: " + profiles);
 		return profiles;
+	}
+
+	@GetMapping("/token/{token}")
+	public ProfileTO getAll(@PathVariable String token) {
+		logger.info("Requisitando profile por token cadastro");
+		return service.getByToken(token);
 	}
 }

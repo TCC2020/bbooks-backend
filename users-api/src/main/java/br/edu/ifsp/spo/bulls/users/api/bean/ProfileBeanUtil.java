@@ -1,12 +1,12 @@
 package br.edu.ifsp.spo.bulls.users.api.bean;
 
 import java.util.HashSet;
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
-import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
 
 @Component
 public class ProfileBeanUtil {

@@ -39,7 +39,7 @@ public class Post {
 
     private UUID upperPostId;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PostPrivacy privacy;
 
     //TODO: Campo da enquete

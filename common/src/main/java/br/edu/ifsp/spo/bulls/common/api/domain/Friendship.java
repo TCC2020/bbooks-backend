@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.users.api.domain;
+package br.edu.ifsp.spo.bulls.common.api.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

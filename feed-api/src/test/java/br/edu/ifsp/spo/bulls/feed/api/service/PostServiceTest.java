@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.controller.PostController;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
@@ -27,7 +28,7 @@ import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(classes = PostService.class)
 public class PostServiceTest {
 
     @MockBean

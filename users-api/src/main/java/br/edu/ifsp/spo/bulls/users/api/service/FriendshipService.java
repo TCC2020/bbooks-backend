@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.dto.FriendRequestTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.FriendTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.FriendshipTO;
@@ -9,7 +9,7 @@ import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.FriendsBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.Friendship;
+import br.edu.ifsp.spo.bulls.common.api.domain.Friendship;
 import br.edu.ifsp.spo.bulls.users.api.repository.FriendshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

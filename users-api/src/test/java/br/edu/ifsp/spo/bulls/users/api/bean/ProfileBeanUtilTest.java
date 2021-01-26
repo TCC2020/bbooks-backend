@@ -2,9 +2,9 @@ package br.edu.ifsp.spo.bulls.users.api.bean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
-import br.edu.ifsp.spo.bulls.users.api.domain.User;
-import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.common.api.domain.User;
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

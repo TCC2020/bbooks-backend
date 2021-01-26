@@ -1,5 +1,6 @@
 server:
   port: 8080
+  users: ${USERS_API:'http://localhost:8080/'}
 spring:
   datasource:
     driverClassName: org.postgresql.Driver

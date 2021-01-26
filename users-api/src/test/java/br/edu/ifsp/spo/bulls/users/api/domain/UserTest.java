@@ -2,6 +2,8 @@ package br.edu.ifsp.spo.bulls.users.api.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
+
+import br.edu.ifsp.spo.bulls.common.api.domain.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;

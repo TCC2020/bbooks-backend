@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.User;
+import br.edu.ifsp.spo.bulls.common.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ResetPassTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;

@@ -1,8 +1,8 @@
 package br.edu.ifsp.spo.bulls.users.api.bean;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.User;
+import br.edu.ifsp.spo.bulls.common.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
-import br.edu.ifsp.spo.bulls.users.api.domain.Friendship;
+import br.edu.ifsp.spo.bulls.common.api.domain.Friendship;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
 import java.util.HashSet;
 import br.edu.ifsp.spo.bulls.users.api.repository.FriendshipRepository;

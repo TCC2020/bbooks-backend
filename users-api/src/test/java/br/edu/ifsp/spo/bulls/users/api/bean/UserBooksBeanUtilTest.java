@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.bean;
 
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;

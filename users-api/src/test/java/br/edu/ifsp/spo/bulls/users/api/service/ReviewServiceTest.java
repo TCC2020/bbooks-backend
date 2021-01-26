@@ -2,9 +2,9 @@ package br.edu.ifsp.spo.bulls.users.api.service;
 
 import br.edu.ifsp.spo.bulls.users.api.bean.ReviewBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.Review;
-import br.edu.ifsp.spo.bulls.users.api.domain.User;
+import br.edu.ifsp.spo.bulls.common.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReviewTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;

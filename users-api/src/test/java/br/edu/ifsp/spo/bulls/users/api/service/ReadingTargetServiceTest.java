@@ -2,7 +2,7 @@ package br.edu.ifsp.spo.bulls.users.api.service;
 
 import br.edu.ifsp.spo.bulls.users.api.bean.ReadingTargetBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.ReadingTarget;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;

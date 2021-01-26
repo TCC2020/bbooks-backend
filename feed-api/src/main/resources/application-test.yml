@@ -1,5 +1,6 @@
 server:
   port: 8081
+  users: ${USERS_API:'http://localhost:8080/'}
 spring:
   profiles:
     active: test

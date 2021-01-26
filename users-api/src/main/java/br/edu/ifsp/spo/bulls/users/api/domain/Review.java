@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.domain;
 
+import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

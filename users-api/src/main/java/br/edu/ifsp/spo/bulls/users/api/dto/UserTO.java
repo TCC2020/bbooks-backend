@@ -1,11 +1,13 @@
 package br.edu.ifsp.spo.bulls.users.api.dto;
 
-import java.util.UUID;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Data
 @ApiModel(value = "Objeto de trânsito: Usuario ")

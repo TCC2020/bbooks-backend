@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.repository;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.Friendship;
+import br.edu.ifsp.spo.bulls.common.api.domain.Friendship;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

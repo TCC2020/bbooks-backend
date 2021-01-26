@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
+import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookRecommendationTO;
 import br.edu.ifsp.spo.bulls.users.api.service.BookRecommendationService;
 import com.fasterxml.jackson.databind.ObjectMapper;

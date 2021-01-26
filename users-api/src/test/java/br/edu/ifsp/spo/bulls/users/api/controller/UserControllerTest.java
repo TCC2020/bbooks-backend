@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.User;
+import br.edu.ifsp.spo.bulls.common.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.users.api.service.UserService;

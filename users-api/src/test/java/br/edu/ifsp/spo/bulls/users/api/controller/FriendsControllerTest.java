@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
-import br.edu.ifsp.spo.bulls.users.api.domain.Friendship;
+import br.edu.ifsp.spo.bulls.common.api.domain.Friendship;
 import br.edu.ifsp.spo.bulls.users.api.dto.FriendRequestTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.FriendTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.FriendshipTO;

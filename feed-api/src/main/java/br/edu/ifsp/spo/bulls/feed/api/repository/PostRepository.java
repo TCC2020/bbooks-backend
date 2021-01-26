@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,4 +35,17 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
                     "ORDER BY p.creationDate DESC"
     )
     List<PostTO> findByUpperPostId (@Param("upperPostId") UUID upperPostId);
+
+    @Query(value =
+            "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO "+
+                    "(p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy)" +
+                    "FROM FRIENDSHIPS f, POST p WHERE (f.profile2 = p.profile_id or f.profile1 = p.profile_id) AND p.profile_id != :id " +
+                    "ORDER BY p.creationDate DESC")
+    Page<PostTO> findFeedByRequesterId(@Param("id") int profileId, Pageable pageable);
+
+    @Query(value =
+            "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO "+
+                    "(p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy)" +
+                    "FROM POST p WHERE p.privacy = 'public'")
+    Page<PostTO> findFeedByRequesterIdPublic(int id, int profileId, Pageable pageable);
 }
