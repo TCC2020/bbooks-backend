@@ -4,15 +4,12 @@ import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
-import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.*;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;
@@ -20,6 +17,7 @@ import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -165,5 +163,15 @@ public class UserBooksService {
         for(TagTO t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }
+    }
+
+    public List<?> getStatusData(String googleBook, int bookId) {
+        // TODO: implementar esse método com uma query  no banco
+        // Exemplo: select r.Status, count(Status) from user_books r where id_book_google = 'zGdwDwAAQBAJ' GROUP BY Status;
+        List<UserBooksDataStatusTO> data = new ArrayList<>();
+        if(!googleBook.isEmpty())
+            return  repository.findInfoGoogleBook(googleBook);
+
+        return null;
     }
 }
