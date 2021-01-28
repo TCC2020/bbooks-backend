@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.common.api.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import br.edu.ifsp.spo.bulls.common.api.domain.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

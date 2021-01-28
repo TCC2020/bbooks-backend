@@ -1,10 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
 import br.edu.ifsp.spo.bulls.common.api.domain.Friendship;
-import br.edu.ifsp.spo.bulls.common.api.domain.User;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
-import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
-import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.repository.FriendshipCommonRepository;
 import br.edu.ifsp.spo.bulls.common.api.repository.UserCommonRepository;
 import br.edu.ifsp.spo.bulls.feed.api.client.Client;
@@ -48,6 +45,6 @@ public class FeedService {
         if(friendship.isPresent() && friendship.get().getStatus().equals(Friendship.FriendshipStatus.added)){
             return repository.findFeedByRequesterId(profileTO.getId(), pageable);
         }
-        return repository.findFeedByRequesterIdPublic(profileTO.getId(), profileId, pageable);
+        return repository.findFeedByRequesterIdPublic(profileId, pageable);
     }
 }

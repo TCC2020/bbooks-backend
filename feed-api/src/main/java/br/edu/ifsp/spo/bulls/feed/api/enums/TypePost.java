@@ -4,9 +4,6 @@ public enum TypePost {
     post("post"),
     comentario("comment");
 
-    private final String text;
-
-    TypePost(String text) {
-        this.text = text;
+    TypePost(String post) {
     }
 }

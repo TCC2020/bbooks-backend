@@ -7,21 +7,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("postBeanUtil")
 public class PostBeanUtil {
 
     private Logger logger = LoggerFactory.getLogger(PostBeanUtil.class);
 
-    public PostTO toDto(Post post ){
+    public PostTO toDto(Post post){
         PostTO postTO = new PostTO();
-        System.out.println(postTO);
         try{
             BeanUtils.copyProperties(post, postTO);
             System.out.println(postTO);
         }catch(Exception e) {
             logger.error("Error while converting Post to PostTO: " +  e);
         }
-
         return postTO;
     }
 }

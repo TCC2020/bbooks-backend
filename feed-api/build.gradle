@@ -21,6 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'

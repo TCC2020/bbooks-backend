@@ -9,7 +9,6 @@ import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,18 +16,23 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.function.Function;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = PostService.class)
+@SpringBootTest
+@ComponentScan("br.edu.ifsp.spo.bulls.feed.api.bean")
 public class PostServiceTest {
 
     @MockBean
@@ -44,8 +48,6 @@ public class PostServiceTest {
     private Post comment;
     private PostTO postTO;
     private List<PostTO> comments;
-    private List<PostTO> postByProfile;
-    private Page<PostTO> postPage;
 
     @BeforeEach
     void setUp() {
@@ -74,93 +76,6 @@ public class PostServiceTest {
         PostTO postagem = postBeanUtil.toDto(post);
         postTO = postagem;
         postTO.setComments(comments);
-
-        postByProfile = new ArrayList<>();
-        postByProfile.add(postTO);
-
-        postPage = new Page<PostTO>() {
-            @Override
-            public int getTotalPages() {
-                return 0;
-            }
-
-            @Override
-            public long getTotalElements() {
-                return 0;
-            }
-
-            @Override
-            public <U> Page<U> map(Function<? super PostTO, ? extends U> converter) {
-                return null;
-            }
-
-            @Override
-            public int getNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getSize() {
-                return 0;
-            }
-
-            @Override
-            public int getNumberOfElements() {
-                return 0;
-            }
-
-            @Override
-            public List<PostTO> getContent() {
-                return postByProfile;
-            }
-
-            @Override
-            public boolean hasContent() {
-                return false;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public boolean isFirst() {
-                return false;
-            }
-
-            @Override
-            public boolean isLast() {
-                return false;
-            }
-
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-
-            @Override
-            public Pageable nextPageable() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousPageable() {
-                return null;
-            }
-
-            @NotNull
-            @Override
-            public Iterator<PostTO> iterator() {
-                return null;
-            }
-        };
-
 
     }
 
@@ -211,6 +126,7 @@ public class PostServiceTest {
 
     @Test
     void getByProfile() {
+        Page<PostTO> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,

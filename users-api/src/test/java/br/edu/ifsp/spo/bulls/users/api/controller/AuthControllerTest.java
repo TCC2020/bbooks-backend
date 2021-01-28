@@ -1,10 +1,10 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.common.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.common.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.LoginTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.RequestPassResetTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;

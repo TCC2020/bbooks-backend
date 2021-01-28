@@ -10,7 +10,7 @@ public class Client {
 
     private WebClient wc;
 
-    @Value("${server.usersApi}")
+    @Value("${server.users}")
     private String usersApi;
 
     public ProfileTO getProfileByToken(String token) {

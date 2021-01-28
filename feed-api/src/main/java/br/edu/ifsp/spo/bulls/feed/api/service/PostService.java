@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 @Service
@@ -48,16 +47,13 @@ public class PostService {
     }
 
     public Page<PostTO> getByProfile(int profileId, int page, int pageSize) {
-        Page<PostTO> post = null ;
         Pageable pageRequest = PageRequest.of(
                 page,
                 pageSize,
                 Sort.Direction.ASC,
                 "id");
 
-        post = repository.findByProfileId(profileId, TypePost.post, pageRequest);;
-
-        return post ;
+        return repository.findByProfileId(profileId, TypePost.post, pageRequest);
     }
 
     public void delete(UUID idPost) {

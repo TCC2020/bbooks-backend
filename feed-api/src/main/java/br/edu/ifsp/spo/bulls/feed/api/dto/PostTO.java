@@ -2,10 +2,10 @@ package br.edu.ifsp.spo.bulls.feed.api.dto;
 
 import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -23,10 +23,12 @@ public class PostTO {
 
     private String image;
 
+    @Enumerated(EnumType.STRING)
     private TypePost tipoPost;
 
     private List<PostTO> comments  ;
 
+    @Enumerated(EnumType.STRING)
     private PostPrivacy privacy;
 
     public PostTO(UUID id, int profileId, String description, LocalDateTime creationDate, String image, TypePost tipoPost, PostPrivacy privacy) {
