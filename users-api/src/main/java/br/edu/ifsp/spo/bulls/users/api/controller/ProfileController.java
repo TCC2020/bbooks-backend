@@ -2,7 +2,7 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 
 import java.util.HashSet;
 import javax.validation.Valid;
-import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

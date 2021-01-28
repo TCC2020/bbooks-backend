@@ -5,7 +5,7 @@ import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.ReadingTarget;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
-import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ReadingTargetTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;

@@ -4,7 +4,7 @@ import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ResetPassTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.enums.EmailSubject;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
