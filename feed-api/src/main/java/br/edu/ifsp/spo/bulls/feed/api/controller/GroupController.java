@@ -29,8 +29,9 @@ public class GroupController {
     @PostMapping
     public Group post(@RequestBody Group group) {
         logger.info("Criando um grupo: " + group.toString());
-        //TODO: Chamar o service aqui
-        return new Group();
+        Group result = service.save(group);
+        logger.info("Groupo criado " + result.toString());
+        return result ;
     }
 
     @ApiOperation(value = "Editar um grupo")
@@ -40,8 +41,9 @@ public class GroupController {
     @PutMapping("/{idGroup}")
     public Group put(@RequestBody Group group, @PathVariable UUID idGroup) {
         logger.info("Editando group: " + group.toString());
-        //TODO: Chamar o service aqui
-        return new Group();
+        Group result = service.update(group, idGroup);
+        logger.info("Groupo editado " + result.toString());
+        return result;
     }
 
     @ApiOperation(value = "Buscar um grupo por id")
@@ -52,8 +54,9 @@ public class GroupController {
     @GetMapping("/{idGroup}")
     public Group get(@PathVariable UUID idGroup) {
         logger.info("Buscando group: " + idGroup);
-        //TODO: Chamar o service aqui
-        return new Group();
+        Group result = service.getById( idGroup);
+        logger.info("Groupo encontrado " + result.toString());
+        return result;
     }
 
     @ApiOperation(value = "Deletar um grupo pelo id")
@@ -63,9 +66,9 @@ public class GroupController {
     })
     @DeleteMapping("/{idGroup}")
     public void delete(@PathVariable UUID idGroup) {
-        logger.info("Buscando group: " + idGroup);
-        //TODO: Chamar o service aqui
-
+        logger.info("Deletando group: " + idGroup);
+        service.delete( idGroup);
+        logger.info("Groupo deletado " + idGroup);
     }
 
 }
