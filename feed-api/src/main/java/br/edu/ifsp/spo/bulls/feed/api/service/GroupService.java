@@ -16,10 +16,7 @@ public class GroupService {
     private GroupRepository repository;
 
     public Group save(Group group) {
-        //TODO: testar método
-
         verifyIfNameIsUnique(group);
-
         return repository.save(group);
     }
 
