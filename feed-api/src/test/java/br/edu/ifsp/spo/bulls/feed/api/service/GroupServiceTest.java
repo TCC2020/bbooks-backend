@@ -1,14 +1,17 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.GroupBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +29,8 @@ public class GroupServiceTest {
 
     @MockBean
     private GroupRepository mockGroupRepository;
+    @MockBean
+    private GroupMemberRepository mockGroupMemberRepository;
 
     @Autowired
     private GroupService service;
@@ -53,6 +58,7 @@ public class GroupServiceTest {
     void ShouldSaveGroup() {
         Mockito.when(mockGroupRepository.save(group)).thenReturn(group);
         Mockito.when(mockGroupRepository.existsByName(groupTO.getName())).thenReturn(false);
+        Mockito.when(mockGroupMemberRepository.findGroupOwner(group.getId(), Cargo.owner)).thenReturn(groupTO.getUserId());
 
         GroupTO result = service.save(groupTO);
 
@@ -63,6 +69,7 @@ public class GroupServiceTest {
     void ShouldntSaveGroupWhenNameIsAlreadyUsed() {
         Mockito.when(mockGroupRepository.save(group)).thenReturn(group);
         Mockito.when(mockGroupRepository.existsByName(groupTO.getName())).thenReturn(true);
+        Mockito.when(mockGroupMemberRepository.findGroupOwner(group.getId(), Cargo.owner)).thenReturn(groupTO.getUserId());
 
         assertThrows(ResourceConflictException.class,  () -> service.save(groupTO));
     }
@@ -72,6 +79,7 @@ public class GroupServiceTest {
         Mockito.when(mockGroupRepository.findById(groupTO.getId())).thenReturn(Optional.ofNullable(group));
         Mockito.when(mockGroupRepository.save(group)).thenReturn(group);
         Mockito.when(mockGroupRepository.existsByName(groupTO.getName())).thenReturn(false);
+        Mockito.when(mockGroupMemberRepository.findGroupOwner(group.getId(), Cargo.owner)).thenReturn(groupTO.getUserId());
 
         GroupTO result = service.update(groupTO, groupTO.getId());
 
