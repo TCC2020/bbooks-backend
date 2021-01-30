@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "/group/member", produces="application/json")
 @CrossOrigin(origins = "*")
@@ -40,6 +43,24 @@ public class GroupMemberController {
     public void exitGroup(@RequestBody GroupMembers member) {
         // TODO: Authorization e identificação da pessoa - Para excluir outras pessoas do grupo (só para o dono e admin)
         service.exitMember(member);
+    }
+
+    @ApiOperation(value = "Buscar grupos por usuário")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Grupos encontrados")
+    })
+    @GetMapping("/user/{id}")
+    public List<GroupMembers> getGroupByUser(@PathVariable UUID id) {
+        return service.getGroupByUser(id);
+    }
+
+    @ApiOperation(value = "Buscar membros de um grupo")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Membros encontrados")
+    })
+    @GetMapping("/{id}")
+    public List<GroupMembers> getGroupMembers(@PathVariable UUID id) {
+        return service.getGroupMembers(id);
     }
 
 }
