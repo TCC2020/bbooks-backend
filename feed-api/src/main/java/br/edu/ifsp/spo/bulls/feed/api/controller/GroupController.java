@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
+import br.edu.ifsp.spo.bulls.feed.api.service.GroupService;
 import br.edu.ifsp.spo.bulls.feed.api.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -19,7 +20,7 @@ public class GroupController {
     private final Logger logger = LoggerFactory.getLogger(GroupController.class);
 
     @Autowired
-    private PostService service;
+    private GroupService service;
 
     @ApiOperation(value = "Cria um novo grupo de leitura")
     @ApiResponses( value = {
