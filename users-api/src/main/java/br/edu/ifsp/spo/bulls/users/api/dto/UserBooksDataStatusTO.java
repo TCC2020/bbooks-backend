@@ -30,4 +30,7 @@ public class UserBooksDataStatusTO {
         this.relendo = relendo;
         this.interrompido = interrompido;
     }
+
+    public UserBooksDataStatusTO() {
+    }
 }

@@ -19,18 +19,18 @@ public interface UserBooksRepository  extends CrudRepository<UserBooks, Long> {
     Set<UserBooks> findByProfileOrderByFinishDateDesc(@Param("profileId") int profileId);
 
     @Query(value =
-            "SELECT new br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO( r.idBookGoogle, " +
-                    "count(r.status) filter (where r.status = 'QUERO_LER'), " +
-                    "count(r.status) filter (where r.status = 'LENDO'), " +
-                    "count(r.status) filter (where r.status = 'LIDO'), " +
-                    "count(r.status) filter (where r.status = 'EMPRESTADO'), " +
-                    "count(r.status) filter (where r.status = 'RELENDO'), " +
-                    "count(r.status) filter (where r.status = 'INTERROMPIDO')) " +
-                    "FROM UserBooks r " +
-                    "WHERE r.idBookGoogle = :googleBook "+
-                    "GROUP BY r.status, r.idBookGoogle")
-    // Exemplo: select  from user_books r where id_book_google = 'zGdwDwAAQBAJ' GROUP BY Status;
-    List<?> findInfoGoogleBook(@Param("googleBook") String googleBook);
+            "SELECT new br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO( " +
+                    "r.idBookGoogle, " +
+                    "(count(r.status) filter (where r.status = 'QUERO_LER')), " +
+                    "(count(r.status) filter (where r.status = 'LENDO')), " +
+                    "(count(r.status) filter (where r.status = 'LIDO')), " +
+                    "(count(r.status) filter (where r.status = 'EMPRESTADO')), " +
+                    "(count(r.status) filter (where r.status = 'RELENDO')), " +
+                    "(count(r.status) filter (where r.status = 'INTERROMPIDO')) ) " +
+            "FROM user_books r " +
+            "WHERE r.idBookGoogle = :googleBook "+
+            "GROUP BY r.id_book_google")
+    UserBooksDataStatusTO findInfoGoogleBook(@Param("googleBook") String googleBook);
 
     @Query(value =
             "SELECT r.status, count(r.status), r.book.id from UserBooks r " +
