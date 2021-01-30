@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
-import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupService;
 import io.swagger.annotations.ApiOperation;
