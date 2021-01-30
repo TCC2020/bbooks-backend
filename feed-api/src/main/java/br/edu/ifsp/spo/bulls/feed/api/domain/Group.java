@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.domain;
 
+import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,10 +9,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@ApiModel(value = "Objeto de domínio: Grupos de leitura ")
-@Table
 @Data
+@ApiModel(value = "Objeto de domínio: Grupos de leitura ")
+@Entity
+@Table(name = "group_read")
 public class Group {
 
     @Id
@@ -19,7 +20,7 @@ public class Group {
     @ApiModelProperty(value = "Identificador")
     private UUID id;
 
-    @JoinTable(name="user",
+    @JoinTable(name="users",
             joinColumns={@JoinColumn(name="userId",
                     referencedColumnName="id")})
     @Column(nullable = false)
@@ -33,10 +34,10 @@ public class Group {
     @Column(nullable = false, length = 255)
     private String description;
 
-    // TODO: Implementar essa privacidade como um enum
     @ApiModelProperty(value = "Privacidade do grupo, qualquer pessoa pode entrar ou mediante aprovação")
     @Column(nullable = false, length = 50)
-    private String privacidade;
+    @Enumerated(EnumType.STRING)
+    private Privacy privacy;
 
     @ApiModelProperty(value = "Data de criação do grupo")
     private LocalDateTime creationDate;

@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface GroupRepository extends CrudRepository<Group, UUID> {
+    boolean existsByName(String name);
 }

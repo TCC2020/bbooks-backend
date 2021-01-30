@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
@@ -17,12 +18,22 @@ public class GroupService {
     public Group save(Group group) {
         //TODO: testar método
 
+        verifyIfNameIsUnique(group);
+
         return repository.save(group);
     }
 
+    private void verifyIfNameIsUnique(Group group) {
+        if(repository.existsByName(group.getName())){
+            throw new ResourceConflictException(CodeException.GR002.getText(), CodeException.GR002);
+        }
+    }
+
     public Group update(Group group, UUID groupId) {
-        //TODO: testar
         return repository.findById(groupId).map( group1 -> {
+            if(!group.getName().equals(group1.getName())){
+                verifyIfNameIsUnique(group);
+            }
             group1 = group;
             group1.setId(groupId);
             return repository.save(group1);
@@ -31,13 +42,11 @@ public class GroupService {
     }
 
     public Group getById(UUID groupId) {
-        //TODO: testar método
         return repository.findById(groupId)
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001));
     }
 
     public void delete(UUID groupId) {
-        //TODO: Testar método
         repository.deleteById(groupId);
     }
 }

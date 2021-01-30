@@ -1,9 +1,10 @@
 package br.edu.ifsp.spo.bulls.feed.api.enums;
 
-public enum PostPrivacy {
+public enum Privacy {
     public_all("public"),
+    private_group("private"),
     friends_only("friend");
 
-    PostPrivacy(String s) {
+    Privacy(String s) {
     }
 }

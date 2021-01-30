@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.domain;
 
-import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
+import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,8 +30,8 @@ public class Post {
     @ApiModelProperty(value = "Identificador")
     private UUID id;
 
-    @JoinTable(name="profile",
-            joinColumns={@JoinColumn(name="profile",
+    @JoinTable(name="profiles",
+            joinColumns={@JoinColumn(name="profile_id",
                     referencedColumnName="id")})
     private int profileId;
 
@@ -51,7 +51,7 @@ public class Post {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PostPrivacy privacy;
+    private Privacy privacy;
 
     //TODO: Campo da enquete
     //TODO: Reações
