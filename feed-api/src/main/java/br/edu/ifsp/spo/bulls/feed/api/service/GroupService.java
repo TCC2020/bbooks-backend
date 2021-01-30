@@ -30,7 +30,10 @@ public class GroupService {
     }
 
     public Group update(Group group, UUID groupId) {
+        System.out.println(group.toString());
+        System.out.println(groupId);
         return repository.findById(groupId).map( group1 -> {
+            System.out.println(group1.toString());
             if(!group.getName().equals(group1.getName())){
                 verifyIfNameIsUnique(group);
             }
