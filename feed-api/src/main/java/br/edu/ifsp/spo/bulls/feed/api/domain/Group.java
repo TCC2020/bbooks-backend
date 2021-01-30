@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Entity
 @ApiModel(value = "Objeto de domínio: Grupos de leitura ")
 @Table
+@Data
 public class Group {
 
     @Id
