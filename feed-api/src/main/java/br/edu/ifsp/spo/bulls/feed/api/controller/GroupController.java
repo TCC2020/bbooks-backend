@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,9 +27,9 @@ public class GroupController {
             @ApiResponse(code = 200, message = "Grupo criado")
     })
     @PostMapping
-    public Group post(@RequestBody Group group) {
+    public GroupTO post(@RequestBody GroupTO group) {
         logger.info("Criando um grupo: " + group.toString());
-        Group result = service.save(group);
+        GroupTO result = service.save(group);
         logger.info("Groupo criado " + result.toString());
         return result ;
     }
@@ -38,9 +39,9 @@ public class GroupController {
             @ApiResponse(code = 200, message = "Grupo editad")
     })
     @PutMapping("/{idGroup}")
-    public Group put(@RequestBody Group group, @PathVariable UUID idGroup) {
+    public GroupTO put(@RequestBody GroupTO group, @PathVariable UUID idGroup) {
         logger.info("Editando group: " + group.toString());
-        Group result = service.update(group, idGroup);
+        GroupTO result = service.update(group, idGroup);
         logger.info("Groupo editado " + result.toString());
         return result;
     }
@@ -51,9 +52,9 @@ public class GroupController {
             @ApiResponse(code = 404, message = "Grupo não existe")
     })
     @GetMapping("/{idGroup}")
-    public Group get(@PathVariable UUID idGroup) {
+    public GroupTO get(@PathVariable UUID idGroup) {
         logger.info("Buscando group: " + idGroup);
-        Group result = service.getById( idGroup);
+        GroupTO result = service.getById( idGroup);
         logger.info("Groupo encontrado " + result.toString());
         return result;
     }

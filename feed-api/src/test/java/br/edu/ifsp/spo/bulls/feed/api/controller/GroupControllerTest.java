@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,11 +31,11 @@ public class GroupControllerTest {
     @MockBean
     private GroupService mockGroupService;
 
-    private Group group;
+    private GroupTO group;
 
     @BeforeEach
     void setUp() {
-        group = new Group();
+        group = new GroupTO();
         group.setId(UUID.randomUUID());
         group.setUserId(UUID.randomUUID());
         group.setCreationDate(LocalDateTime.now());

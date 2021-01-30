@@ -5,22 +5,17 @@ import br.edu.ifsp.spo.bulls.feed.api.enums.MemberStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @ApiModel(value = "Objeto de domínio: Membros dos grupos de leitura ")
 @Entity
 public class GroupMembers {
 
-    @ApiModelProperty(value = "Id do grupo")
-    @ManyToMany
-    private Group group;
-
-    @ApiModelProperty(value = "Id do usuário")
-    private UUID userId;
+    @ApiModelProperty(value = "Id do membro")
+    @EmbeddedId
+    private GroupMemberId id;
 
     @ApiModelProperty(value = "Data que o membro entrou no grupo")
     private LocalDateTime date;
