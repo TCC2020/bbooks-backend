@@ -66,7 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "connect-src *; " +
                             "child-src 'self' https://apis.google.com https://facebook.com https://www.googleapis.com/;"))
                     .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "geolocation=(self), fullscreen=(self)"))
-                    .addHeaderWriter(new StaticHeadersWriter("Referrer-Policy", "no-referrer"))
+                    .addHeaderWriter(new StaticHeadersWriter("Referrer-Policy", "same-origin"))
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
