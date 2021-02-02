@@ -65,7 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "script-src 'self' 'unsafe-line' 'unsafe-eval' https://fonts.googleapis.com/ http://apis.google.com/ http://connect.facebook.net/ *.facebook.com; " +
                             "connect-src *; " +
                             "child-src 'self' https://apis.google.com https://facebook.com https://www.googleapis.com/;"))
-                    .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "geolocation=(self), fullscreen=(self), syncXhr()"))
+                    .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "geolocation=(self), fullscreen=(self)"))
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
