@@ -60,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .headers()
-                    .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","default-src 'self'; " +
+                    .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy","default-src 'self'; " +
                             "style-src: 'self' 'unsafe-line' https://fonts.googleapis.com/, https://use.typekit.net; " +
                             "script-src: 'self' 'unsafe-line' 'unsafe-eval' https://fonts.googleapis.com/ http://apis.google.com/ http://connect.facebook.net/ *.facebook.com;" +
                             "connect-src: *;" +
