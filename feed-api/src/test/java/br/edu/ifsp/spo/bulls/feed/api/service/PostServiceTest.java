@@ -115,7 +115,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void getPostNotFound() {
+    void fgetPostNotFound() {
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
 
         assertThrows(ResourceNotFoundException.class, () -> postService.get(post.getId()));

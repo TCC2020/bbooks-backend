@@ -1,2 +1,0 @@
-feign:
-  users: 'http://localhost:8080/'

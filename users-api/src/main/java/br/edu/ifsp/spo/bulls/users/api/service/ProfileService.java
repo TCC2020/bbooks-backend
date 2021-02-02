@@ -98,4 +98,13 @@ public class ProfileService {
 		profileRep.save(profile);
 		return HttpStatus.CREATED;
 	}
+
+	public ProfileTO getByToken(String token) {
+		User user = userService.getByToken(token);
+		if(user != null) {
+			return beanUtil.toProfileTO(profileRep.findByUser(user));
+		}
+		return null;
+	}
+
 }

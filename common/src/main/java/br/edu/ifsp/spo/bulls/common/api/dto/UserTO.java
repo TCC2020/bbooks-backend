@@ -4,7 +4,6 @@ import java.util.UUID;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

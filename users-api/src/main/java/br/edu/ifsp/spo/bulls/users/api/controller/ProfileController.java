@@ -89,4 +89,10 @@ public class ProfileController {
 		logger.info("Profiles encontrados: " + profiles);
 		return profiles;
 	}
+
+	@GetMapping("/token/{token}")
+	public ProfileTO getAll(@PathVariable String token) {
+		logger.info("Requisitando profile por token cadastro");
+		return service.getByToken(token);
+	}
 }
