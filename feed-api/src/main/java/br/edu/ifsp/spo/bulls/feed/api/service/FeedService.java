@@ -19,6 +19,7 @@ public class FeedService {
     @Autowired
     private PostRepository repository;
 
+    @Autowired
     private UserCommonFeign feign;
 
     public Page<PostTO> getFeed(String token, int page, int size) {
@@ -36,7 +37,7 @@ public class FeedService {
         ProfileTO profileTO = feign.getProfileByToken(tokenValue);
         GetFriendStatusTO getStatus = new GetFriendStatusTO();
         getStatus.setProfileId(profileTO.getId());
-        getStatus.setProfileId(profileId);
+        getStatus.setProfileFriendId(profileId);
         FriendshipStatusTO friendship = feign.getFriendshipStatusTO(getStatus);
         if(friendship.getStatus().equals("added")){
             return repository.findFeedByRequesterId(profileTO.getId(), pageable);
