@@ -20,7 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import sun.jvm.hotspot.utilities.Assert;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
