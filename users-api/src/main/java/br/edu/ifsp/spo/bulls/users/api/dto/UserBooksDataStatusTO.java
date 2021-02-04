@@ -1,5 +1,8 @@
 package br.edu.ifsp.spo.bulls.users.api.dto;
 
+import lombok.Data;
+
+@Data
 public class UserBooksDataStatusTO {
 
     public String googleId;

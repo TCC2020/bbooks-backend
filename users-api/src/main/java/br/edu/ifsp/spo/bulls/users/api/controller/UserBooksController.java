@@ -1,9 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
-import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.*;
 import br.edu.ifsp.spo.bulls.users.api.service.UserBooksService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -55,7 +53,7 @@ public class UserBooksController {
             @ApiResponse(code = 404, message = "Livro informado não existe na base de dados")
     })
     @GetMapping("/status-data")
-    public UserBooksDataStatusTO getDataStatusByBooks(@RequestParam(name = "googleBook", required=false) String googleBook,
+    public UserBooksDataStatusTO getDataStatusByBooks(@RequestParam(name = "googleBook", required=false, defaultValue = " ") String googleBook,
                                                       @RequestParam(name = "bookId", required=false, defaultValue = "0") int bookId) {
         logger.info("Buscando informações de leitura do livro " + googleBook + " " + bookId);
         UserBooksDataStatusTO info = service.getStatusData(googleBook,bookId);

@@ -14,15 +14,18 @@ import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserBooksService {
+    private Logger logger = LoggerFactory.getLogger(UserBooksService.class);
+
+
     @Autowired
     private UserBooksRepository repository;
 
@@ -167,11 +170,31 @@ public class UserBooksService {
 
     public UserBooksDataStatusTO getStatusData(String googleBook, int bookId) {
         // TODO: implementar esse método com uma query  no banco
-        // Exemplo: select r.Status, count(Status) from user_books r where id_book_google = 'zGdwDwAAQBAJ' GROUP BY Status;
-        UserBooksDataStatusTO data = new UserBooksDataStatusTO();
-        if(!googleBook.isEmpty())
-            data =  repository.findInfoGoogleBook(googleBook);
+        List<UserBooks> data;
 
-        return data;
+        if(!googleBook.isEmpty())
+            data = repository.findByIdBookGoogle(googleBook);
+        else{
+            Book book = bookRepository.findById(bookId)
+                    .orElseThrow(() -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
+            data = repository.findByBook(book);
+        }
+
+        return this.mapToStatusData(data, googleBook, bookId);
+    }
+
+    public UserBooksDataStatusTO mapToStatusData(List<UserBooks> data, String googleBook, int bookId){
+        UserBooksDataStatusTO dataStatusTO = new UserBooksDataStatusTO();
+
+        dataStatusTO.setGoogleId(googleBook);
+        dataStatusTO.setBookId(bookId);
+        dataStatusTO.setEmprestado(data.stream().filter(x -> x.getStatus() == Status.EMPRESTADO).count());
+        dataStatusTO.setInterrompido(data.stream().filter(x -> x.getStatus() == Status.INTERROMPIDO).count());
+        dataStatusTO.setLendo(data.stream().filter(x -> x.getStatus() == Status.LENDO).count());
+        dataStatusTO.setLido(data.stream().filter(x -> x.getStatus() == Status.LIDO).count());
+        dataStatusTO.setQueroLer(data.stream().filter(x -> x.getStatus() == Status.QUERO_LER).count());
+        dataStatusTO.setRelendo(data.stream().filter(x -> x.getStatus() == Status.RELENDO).count());
+
+        return dataStatusTO;
     }
 }
