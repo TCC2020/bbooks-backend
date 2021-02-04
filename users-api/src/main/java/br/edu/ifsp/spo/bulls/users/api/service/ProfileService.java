@@ -4,7 +4,7 @@ import java.util.HashSet;
 import br.edu.ifsp.spo.bulls.users.api.bean.ProfileBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
-import br.edu.ifsp.spo.bulls.users.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,4 +98,13 @@ public class ProfileService {
 		profileRep.save(profile);
 		return HttpStatus.CREATED;
 	}
+
+	public ProfileTO getByToken(String token) {
+		User user = userService.getByToken(token);
+		if(user != null) {
+			return beanUtil.toProfileTO(profileRep.findByUser(user));
+		}
+		return null;
+	}
+
 }
