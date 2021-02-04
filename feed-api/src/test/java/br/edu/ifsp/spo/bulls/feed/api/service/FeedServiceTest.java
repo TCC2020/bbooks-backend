@@ -38,9 +38,6 @@ public class FeedServiceTest {
     @Autowired
     private FeedService service;
 
-    @Autowired
-    private PostBeanUtil postBeanUtil;
-
     private ProfileTO profileTO = new ProfileTO();
     private FriendshipStatusTO statusTO = new FriendshipStatusTO();
     private GetFriendStatusTO getStatus = new GetFriendStatusTO();
