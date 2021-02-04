@@ -55,10 +55,10 @@ public class UserBooksController {
             @ApiResponse(code = 404, message = "Livro informado não existe na base de dados")
     })
     @GetMapping("/status-data")
-    public List<?>getDataStatusByBooks(@RequestParam(name = "googleBook", required=false) String googleBook,
+    public UserBooksDataStatusTO getDataStatusByBooks(@RequestParam(name = "googleBook", required=false) String googleBook,
                                                       @RequestParam(name = "bookId", required=false, defaultValue = "0") int bookId) {
         logger.info("Buscando informações de leitura do livro " + googleBook + " " + bookId);
-        List<?> info = service.getStatusData(googleBook,bookId);
+        UserBooksDataStatusTO info = service.getStatusData(googleBook,bookId);
         logger.info("Informações encontradas. " + info);
         return info;
     }

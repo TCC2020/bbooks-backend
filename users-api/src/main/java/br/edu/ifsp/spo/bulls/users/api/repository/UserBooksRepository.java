@@ -18,18 +18,23 @@ public interface UserBooksRepository  extends CrudRepository<UserBooks, Long> {
     @Query(value = "SELECT * FROM user_books WHERE profile_id =:profileId AND finish_date is not null ORDER BY finish_date ASC", nativeQuery = true)
     Set<UserBooks> findByProfileOrderByFinishDateDesc(@Param("profileId") int profileId);
 
+//    @Query(value =
+//            "SELECT new br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO( " +
+//                    "r.idBookGoogle, " +
+//                    "(count(r.status) filter (where r.status = 'QUERO_LER')), " +
+//                    "(count(r.status) filter (where r.status = 'LENDO')), " +
+//                    "(count(r.status) filter (where r.status = 'LIDO')), " +
+//                    "(count(r.status) filter (where r.status = 'EMPRESTADO')), " +
+//                    "(count(r.status) filter (where r.status = 'RELENDO')), " +
+//                    "(count(r.status) filter (where r.status = 'INTERROMPIDO')) ) " +
+//            "FROM UserBooks r " +
+//            "WHERE r.idBookGoogle = :googleBook "+
+//            "GROUP BY r.idBookGoogle")
     @Query(value =
-            "SELECT new br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO( " +
-                    "r.idBookGoogle, " +
-                    "(count(r.status) filter (where r.status = 'QUERO_LER')), " +
-                    "(count(r.status) filter (where r.status = 'LENDO')), " +
-                    "(count(r.status) filter (where r.status = 'LIDO')), " +
-                    "(count(r.status) filter (where r.status = 'EMPRESTADO')), " +
-                    "(count(r.status) filter (where r.status = 'RELENDO')), " +
-                    "(count(r.status) filter (where r.status = 'INTERROMPIDO')) ) " +
-            "FROM user_books r " +
-            "WHERE r.idBookGoogle = :googleBook "+
-            "GROUP BY r.id_book_google")
+        "SELECT r.status, count(r.status), r.idBookGoogle " +
+                "from UserBooks r " +
+                "WHERE r.idBookGoogle = :googleBook " +
+                "GROUP BY status")
     UserBooksDataStatusTO findInfoGoogleBook(@Param("googleBook") String googleBook);
 
     @Query(value =

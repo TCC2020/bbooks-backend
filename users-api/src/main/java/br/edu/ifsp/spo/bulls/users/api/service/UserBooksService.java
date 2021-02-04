@@ -165,13 +165,13 @@ public class UserBooksService {
         }
     }
 
-    public List<?> getStatusData(String googleBook, int bookId) {
+    public UserBooksDataStatusTO getStatusData(String googleBook, int bookId) {
         // TODO: implementar esse método com uma query  no banco
         // Exemplo: select r.Status, count(Status) from user_books r where id_book_google = 'zGdwDwAAQBAJ' GROUP BY Status;
         UserBooksDataStatusTO data = new UserBooksDataStatusTO();
         if(!googleBook.isEmpty())
-            return  repository.findInfoGoogleBook(googleBook);
+            data =  repository.findInfoGoogleBook(googleBook);
 
-        return null;
+        return data;
     }
 }
