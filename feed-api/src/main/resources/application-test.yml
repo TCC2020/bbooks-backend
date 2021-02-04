@@ -1,5 +1,7 @@
 server:
   port: 8081
+feign:
+  users: 'localhost:8080'
 spring:
   profiles:
     active: test

@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.common.api.feign;
+package br.edu.ifsp.spo.bulls.feed.api.feign;
 
 
 import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;

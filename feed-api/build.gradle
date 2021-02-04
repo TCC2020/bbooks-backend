@@ -36,6 +36,7 @@ dependencies {
     compile'io.github.createam-labs:spring-boot-starter-heroku:1.1'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.6.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon', version: '2.2.6.RELEASE'
     compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
     implementation 'com.logentries:logentries-appender:1.1.38'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
