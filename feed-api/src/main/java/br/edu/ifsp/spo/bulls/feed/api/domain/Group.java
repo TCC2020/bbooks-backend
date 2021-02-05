@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.domain;
 
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
-import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,44 +19,41 @@ import javax.persistence.JoinTable;
 import javax.persistence.PrePersist;
 
 @Data
+@ApiModel(value = "Objeto de domínio: Grupos de leitura ")
 @Entity
-@ApiModel(value = "Objeto de domínio: Publicações ")
-@Table
-public class Post {
+@Table(name = "group_read")
+public class Group {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @ApiModelProperty(value = "Identificador")
     private UUID id;
 
-    @JoinTable(name="profiles",
-            joinColumns={@JoinColumn(name="profile_id",
+    @JoinTable(name="users",
+            joinColumns={@JoinColumn(name="userId",
                     referencedColumnName="id")})
-    private int profileId;
+    @Column(nullable = false)
+    private UUID userId;
 
-    @Column(length = 32)
+    @ApiModelProperty(value = "Nome do grupo")
+    @Column(nullable = false, length = 80,unique = true)
+    private String name;
+
+    @ApiModelProperty(value = "Descrição do grupo")
+    @Column(nullable = false, length = 255)
     private String description;
 
-    private LocalDateTime creationDate;
-
-    @ApiModelProperty(value = "Link da imagem")
-    private String image;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TypePost tipoPost;
-
-    private UUID upperPostId;
-
-    @Column(nullable = false)
+    @ApiModelProperty(value = "Privacidade do grupo, qualquer pessoa pode entrar ou mediante aprovação")
+    @Column(nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private Privacy privacy;
 
-    //TODO: Campo da enquete
-    //TODO: Reações
+    @ApiModelProperty(value = "Data de criação do grupo")
+    private LocalDateTime creationDate;
 
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();
     }
+
 }
