@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
-import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
 import io.swagger.annotations.ApiOperation;
@@ -9,8 +8,14 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +23,6 @@ import java.util.UUID;
 @RequestMapping(value = "/group/member", produces="application/json")
 @CrossOrigin(origins = "*")
 public class GroupMemberController {
-    
-    private final Logger logger = LoggerFactory.getLogger(GroupMemberController.class);
 
     @Autowired
     private GroupMemberService service;

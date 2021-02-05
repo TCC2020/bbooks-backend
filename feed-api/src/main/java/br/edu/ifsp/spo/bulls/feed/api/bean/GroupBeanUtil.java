@@ -2,7 +2,6 @@ package br.edu.ifsp.spo.bulls.feed.api.bean;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
-import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import org.slf4j.Logger;

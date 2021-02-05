@@ -11,7 +11,6 @@ import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +19,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -54,7 +55,7 @@ public class GroupServiceTest {
     }
 
     @Test
-    void ShouldSaveGroup() {
+    void shouldSaveGroup() {
         Mockito.when(mockGroupRepository.save(group)).thenReturn(group);
         Mockito.when(mockGroupRepository.existsByName(groupTO.getName())).thenReturn(false);
         Mockito.when(mockGroupMemberRepository.findGroupOwner(group.getId(), Cargo.owner)).thenReturn(groupTO.getUserId());
@@ -65,7 +66,7 @@ public class GroupServiceTest {
     }
 
     @Test
-    void ShouldntSaveGroupWhenNameIsAlreadyUsed() {
+    void shouldntSaveGroupWhenNameIsAlreadyUsed() {
         Mockito.when(mockGroupRepository.save(group)).thenReturn(group);
         Mockito.when(mockGroupRepository.existsByName(groupTO.getName())).thenReturn(true);
         Mockito.when(mockGroupMemberRepository.findGroupOwner(group.getId(), Cargo.owner)).thenReturn(groupTO.getUserId());
@@ -74,7 +75,7 @@ public class GroupServiceTest {
     }
 
     @Test
-    void ShouldUpdate() {
+    void shouldUpdate() {
         Mockito.when(mockGroupRepository.findById(groupTO.getId())).thenReturn(Optional.ofNullable(group));
         Mockito.when(mockGroupRepository.save(group)).thenReturn(group);
         Mockito.when(mockGroupRepository.existsByName(groupTO.getName())).thenReturn(false);
@@ -86,7 +87,7 @@ public class GroupServiceTest {
     }
 
     @Test
-    void ShouldntUpdateGroupWhenNameIsAlreadyUsed() {
+    void shouldntUpdateGroupWhenNameIsAlreadyUsed() {
         GroupTO group1 = groupTO;
         group1.setName("wdwqubduwb");
 

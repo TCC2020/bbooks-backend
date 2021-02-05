@@ -2,10 +2,10 @@ package br.edu.ifsp.spo.bulls.feed.api.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.UUID;
+import java.io.Serializable;
 
 @Embeddable
 @Data
