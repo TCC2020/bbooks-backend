@@ -169,7 +169,6 @@ public class UserBooksService {
     }
 
     public UserBooksDataStatusTO getStatusData(String googleBook, int bookId) {
-        // TODO: implementar esse método com uma query  no banco
         List<UserBooks> data;
 
         if(!googleBook.isEmpty())
