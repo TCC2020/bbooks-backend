@@ -171,12 +171,13 @@ public class UserBooksService {
     public UserBooksDataStatusTO getStatusData(String googleBook, int bookId) {
         List<UserBooks> data;
 
-        if(!googleBook.isEmpty())
-            data = repository.findByIdBookGoogle(googleBook);
-        else{
+        if(bookId != 0){
             Book book = bookRepository.findById(bookId)
                     .orElseThrow(() -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
             data = repository.findByBook(book);
+        }
+        else{
+            data = repository.findByIdBookGoogle(googleBook);
         }
 
         return this.mapToStatusData(data, googleBook, bookId);

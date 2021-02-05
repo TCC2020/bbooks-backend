@@ -77,7 +77,7 @@ public class UserBooksServiceTest {
 
         // carregando book
         book = new Book("1234489-", "lIVRO TESTE", 10, "português", "editora", 3, "livro");
-        book.setId(1);
+        book.setId(2);
 
         // carregando o UserBooksTO
         userBooksTOLivro.setId(2L);
@@ -128,7 +128,7 @@ public class UserBooksServiceTest {
         tagsList.add(tag);
 
         dataBook.setBookId(book.getId());
-        dataBook.setGoogleId(" ");
+        dataBook.setGoogleId(null);
         dataBook.setEmprestado(1L);
         dataBook.setLido(0L);
         dataBook.setRelendo(0L);
@@ -347,7 +347,7 @@ public class UserBooksServiceTest {
         Mockito.when(mockBookRepository.findById(book.getId())).thenReturn(Optional.ofNullable(book));
         Mockito.when(mockUserBooksRepository.findByBook(book)).thenReturn(userBooksListLivro);
 
-        UserBooksDataStatusTO result = userBookService.getStatusData(" ", book.getId());
+        UserBooksDataStatusTO result = userBookService.getStatusData(null, book.getId());
 
         assertEquals(dataBook, result);
 
@@ -356,9 +356,9 @@ public class UserBooksServiceTest {
     @Test
     public void shouldntGetDataInfoForBookWithIdWhenBookNotFound() {
         Mockito.when(mockBookRepository.findById(book.getId()))
-                .thenThrow(new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
+                .thenReturn(Optional.ofNullable(null));
 
-        assertThrows(ResourceNotFoundException.class, () -> userBookService.getStatusData(" ", book.getId()));
+        assertThrows(ResourceNotFoundException.class, () -> userBookService.getStatusData(null,book.getId()));
 
     }
 
