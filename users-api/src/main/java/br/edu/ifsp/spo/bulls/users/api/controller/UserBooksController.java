@@ -1,6 +1,9 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
-import br.edu.ifsp.spo.bulls.users.api.dto.*;
+import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.users.api.service.UserBooksService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -8,10 +11,16 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping(value = "/bookcases", produces="application/json")

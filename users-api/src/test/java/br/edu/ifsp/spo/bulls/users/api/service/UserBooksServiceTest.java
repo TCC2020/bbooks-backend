@@ -1,12 +1,16 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.bean.TagBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
-import br.edu.ifsp.spo.bulls.users.api.dto.*;
+import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
+import br.edu.ifsp.spo.bulls.users.api.bean.TagBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
@@ -77,10 +81,10 @@ public class UserBooksServiceTest {
 
         // carregando book
         book = new Book("1234489-", "lIVRO TESTE", 10, "português", "editora", 3, "livro");
-        book.setId(2);
+        book.setId(1);
 
         // carregando o UserBooksTO
-        userBooksTOLivro.setId(2L);
+        userBooksTOLivro.setId(1L);
         userBooksTOLivro.setProfileId(1);
         userBooksTOLivro.setIdBook(1);
         userBooksTOLivro.setStatus(Status.EMPRESTADO);
@@ -104,7 +108,7 @@ public class UserBooksServiceTest {
 
 
         // carregando o UserBooksTOLivro
-        userBooksLivro.setId(2L);
+        userBooksLivro.setId(1L);
         userBooksLivro.setProfile(profile);
         userBooksLivro.setBook(book);
         userBooksLivro.setStatus(Status.EMPRESTADO);

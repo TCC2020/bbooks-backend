@@ -4,8 +4,12 @@ import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
-import br.edu.ifsp.spo.bulls.users.api.dto.*;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
@@ -14,18 +18,14 @@ import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserBooksService {
-    private Logger logger = LoggerFactory.getLogger(UserBooksService.class);
-
-
     @Autowired
     private UserBooksRepository repository;
 
