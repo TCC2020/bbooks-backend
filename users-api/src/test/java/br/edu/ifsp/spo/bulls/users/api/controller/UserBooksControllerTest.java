@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 
 import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.users.api.service.UserBooksService;
@@ -34,6 +35,7 @@ public class UserBooksControllerTest {
 
     private BookCaseTO bookCaseTO = new BookCaseTO();
     private UserBooksTO userBooksTO = new UserBooksTO();
+    private UserBooksDataStatusTO userBooksDataStatusTO = new UserBooksDataStatusTO();
 
     @BeforeEach
     void setUp() {
@@ -45,6 +47,9 @@ public class UserBooksControllerTest {
         userBooksList.add(userBooksTO);
         bookCaseTO.setProfileId(1);
         bookCaseTO.setBooks(userBooksList);
+
+        userBooksDataStatusTO.setBookId(1);
+        userBooksDataStatusTO.setLido(100L);
 
     }
 
@@ -65,6 +70,18 @@ public class UserBooksControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/bookcases/profile/1")
                 .param("timeLine", "false")
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getInfoOfBook() throws Exception {
+
+        Mockito.when(mockUserBooksService.getStatusData("", 1)).thenReturn(userBooksDataStatusTO);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/bookcases/status-data")
+                .param("googleBook", "")
+                .param("bookId", "1")
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
