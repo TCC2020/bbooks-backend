@@ -35,7 +35,7 @@ public class Post {
                     referencedColumnName="id")})
     private int profileId;
 
-    @Column(length = 32)
+    @Column(length = 500)
     private String description;
 
     private LocalDateTime creationDate;
