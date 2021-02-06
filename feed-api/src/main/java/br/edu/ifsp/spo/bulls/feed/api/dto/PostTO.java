@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.dto;
 
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.EnumType;
@@ -13,8 +14,13 @@ import java.util.UUID;
 @Data
 public class PostTO {
 
+    @ApiModelProperty(value = "Id do post")
     private UUID id;
 
+    @ApiModelProperty(value = "Id do grupo")
+    private UUID groupId;
+
+    @ApiModelProperty(value = "Id do usuário")
     private int profileId;
 
     private String description;

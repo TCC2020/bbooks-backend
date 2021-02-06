@@ -5,19 +5,9 @@ import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.PrePersist;
 
 @Data
 @Entity
@@ -52,6 +42,9 @@ public class Post {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Privacy privacy;
+
+    @ManyToOne
+    private Group group;
 
     //TODO: Campo da enquete
     //TODO: Reações

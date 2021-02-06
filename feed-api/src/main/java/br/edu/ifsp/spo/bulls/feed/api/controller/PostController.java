@@ -37,7 +37,7 @@ public class PostController {
             @ApiResponse(code = 200, message = "Publicação criada")
     })
     @PostMapping
-    public Post post(@RequestBody Post post) {
+    public Post post(@RequestBody PostTO post) {
         logger.info("Criando post: " + post.toString());
         return service.create(post);
     }

@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +25,8 @@ public class PostService {
     @Autowired
     private PostBeanUtil postBeanUtil;
 
-    public Post create(Post post) {
+    public Post create(PostTO postTO) {
+        Post post = postBeanUtil.toDomain(postTO);
         return repository.save(post);
     }
 
