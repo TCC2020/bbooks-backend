@@ -40,7 +40,7 @@ public class Group {
     private String name;
 
     @ApiModelProperty(value = "Descrição do grupo")
-    @Column(nullable = false, length = 255)
+    @Column(length = 255)
     private String description;
 
     @ApiModelProperty(value = "Privacidade do grupo, qualquer pessoa pode entrar ou mediante aprovação")

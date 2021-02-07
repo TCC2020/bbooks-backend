@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
-import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
+import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
@@ -40,7 +40,7 @@ public class GroupService {
         id.setGroup(result.getId());
         id.setUser(groupTO.getUserId());
         GroupMembers member = new GroupMembers();
-        member.setCargo(Cargo.owner);
+        member.setRole(Role.owner);
         member.setId(id);
         memberService.putMember(member);
     }

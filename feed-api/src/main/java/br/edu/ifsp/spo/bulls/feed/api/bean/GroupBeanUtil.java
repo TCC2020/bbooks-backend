@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.bean;
 
-import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
+import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
@@ -25,7 +25,7 @@ public class GroupBeanUtil {
         }catch(Exception e) {
             logger.error("Error while converting Group to GroupTO: " +  e);
         }
-        groupTO.setUserId(groupMemberRepository.findGroupOwner(group.getId(), Cargo.owner));
+        groupTO.setUserId(groupMemberRepository.findGroupOwner(group.getId(), Role.owner));
 
         return groupTO;
     }

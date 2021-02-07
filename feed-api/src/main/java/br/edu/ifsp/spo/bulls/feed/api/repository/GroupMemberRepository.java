@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.repository;
 
-import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
+import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import org.springframework.data.jpa.repository.Query;
@@ -21,9 +21,9 @@ public interface GroupMemberRepository extends CrudRepository<GroupMembers, Grou
             "SELECT g.id.user " +
                     "FROM GroupMembers g " +
                     "WHERE g.id.group = :groupId " +
-                    "AND g.cargo = :cargo"
+                    "AND g.role = :cargo"
     )
     UUID findGroupOwner(@Param("groupId") UUID groupId,
-                        @Param("cargo") Cargo cargo);
+                        @Param("cargo") Role role);
 
 }

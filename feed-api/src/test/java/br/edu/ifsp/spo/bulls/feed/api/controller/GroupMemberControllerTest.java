@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
-import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
+import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
@@ -41,7 +41,7 @@ public class GroupMemberControllerTest {
         id.setUser(UUID.randomUUID());
 
         groupMembers = new GroupMembers();
-        groupMembers.setCargo(Cargo.admin);
+        groupMembers.setRole(Role.admin);
         groupMembers.setDate(LocalDateTime.now());
         groupMembers.setId(id);
     }
