@@ -25,6 +25,8 @@ public enum CodeException {
     TA002("TA002: TrackingGroup not found", "TA002"),
     TG001("TG001: Tag not found", "TG001"),
     TG002("TG002: Tag sent does not match ID", "TG002"),
+    BAD001("BAD001: Book ad not found", "BAD001"),
+    BAD002("BAD002: User is not owner", "BAD002"),
     PF001("PF001: Profile not found", "PF001"),
     UB001("UB001: UserBook not found", "UB001"),
     UB002("UB002: Invalid status", "UB002"),

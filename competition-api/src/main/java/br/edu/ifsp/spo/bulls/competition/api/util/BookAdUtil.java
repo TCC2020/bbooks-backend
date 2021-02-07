@@ -21,7 +21,7 @@ public class BookAdUtil {
         AdReview adReview = new AdReview();
         try {
             BeanUtils.copyProperties(dto, ad);
-            if(dto.getReview().getId() != null){
+            if(dto.getReview() != null){
                 adReview.setId(dto.getReview().getId());
                 adReview.setDescription(dto.getDescription());
                 ad.setReview(adReview);
@@ -41,7 +41,7 @@ public class BookAdUtil {
         AdReviewTO adReview = new AdReviewTO();
         try {
             BeanUtils.copyProperties(domain, dto);
-            if(domain.getReview().getId() != null){
+            if(domain.getReview() != null){
                 adReview.setId(domain.getReview().getId());
                 adReview.setDescription(domain.getDescription());
                 dto.setReview(adReview);
