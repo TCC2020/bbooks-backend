@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.users.api.dto;
+package br.edu.ifsp.spo.bulls.common.api.dto;
 
 import javax.validation.constraints.NotBlank;
 import io.swagger.annotations.ApiModel;

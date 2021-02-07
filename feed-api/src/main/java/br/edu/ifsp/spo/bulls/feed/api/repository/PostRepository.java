@@ -34,4 +34,17 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
                     "ORDER BY p.creationDate DESC"
     )
     List<PostTO> findByUpperPostId (@Param("upperPostId") UUID upperPostId);
+
+    @Query(value =
+            "SELECT *" +
+                    " FROM Friendships f, Post p WHERE (f.profile2 = p.profile_id or f.profile1 = p.profile_id) AND p.profile_id != :id " +
+                    " ORDER BY p.creationDate DESC;", nativeQuery = true)
+    Page<PostTO> findFeedByRequesterId(@Param("id") int profileId, Pageable pageable);
+
+    @Query(value =
+            "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO"+
+                    "(p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy)" +
+                    " FROM Post p WHERE p.privacy = 'public' AND p.profileId = :id")
+    Page<PostTO> findFeedByRequesterIdPublic(@Param("id") int profileId, Pageable pageable);
+
 }
