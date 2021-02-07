@@ -1,12 +1,14 @@
 server:
   port: 8081
+feign:
+  users: 'localhost:8080'
 spring:
   profiles:
     active: dev
   datasource:
     driver-class-name: org.h2.Driver
     password: ''
-    url: jdbc:h2:file:../db-local-development
+    url: jdbc:h2:file:../users-api/api-users-development
     username: sa
     initialization-mode: always
   h2:

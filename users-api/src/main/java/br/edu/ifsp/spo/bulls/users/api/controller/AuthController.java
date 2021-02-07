@@ -3,7 +3,7 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import br.edu.ifsp.spo.bulls.users.api.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.RequestPassResetTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ResetPassTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.users.api.service.AuthService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

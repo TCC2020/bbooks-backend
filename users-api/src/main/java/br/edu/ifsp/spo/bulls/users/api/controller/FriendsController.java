@@ -1,5 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.domain.Friendship;
 import br.edu.ifsp.spo.bulls.users.api.dto.AcceptTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.FriendRequestTO;
@@ -76,6 +78,11 @@ public class FriendsController {
     public HttpStatus reject(@RequestBody AcceptTO dto, @RequestHeader(value = "AUTHORIZATION") String token) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         return service.reject(tokenValue, dto.getId());
+    }
+
+    @PostMapping(value = "/status")
+    public FriendshipStatusTO getStatus(@RequestBody GetFriendStatusTO getFriendStatusTO) {
+        return service.getStatus(getFriendStatusTO);
     }
 
 }

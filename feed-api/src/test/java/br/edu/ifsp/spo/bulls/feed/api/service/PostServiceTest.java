@@ -19,7 +19,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {PostService.class, PostBeanUtil.class})
 public class PostServiceTest {
 
     @MockBean
@@ -115,7 +119,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void getPostNotFound() {
+    void fgetPostNotFound() {
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
 
         assertThrows(ResourceNotFoundException.class, () -> postService.get(post.getId()));

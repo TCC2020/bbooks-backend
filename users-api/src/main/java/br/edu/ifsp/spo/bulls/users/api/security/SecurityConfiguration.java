@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -57,6 +58,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(PROTECTED_URLS)
                 .authenticated()
+                .and()
+                .headers()
+                    .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy","default-src 'self'; " +
+                            "style-src 'self' 'unsafe-line' https://fonts.googleapis.com/, https://use.typekit.net; " +
+                            "script-src 'self' 'unsafe-line' 'unsafe-eval' https://fonts.googleapis.com/ http://apis.google.com/ http://connect.facebook.net/ *.facebook.com; " +
+                            "connect-src *; " +
+                            "child-src 'self' https://apis.google.com https://facebook.com https://www.googleapis.com/;"))
+                    .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "geolocation=(self), fullscreen=(self)"))
+                    .addHeaderWriter(new StaticHeadersWriter("Referrer-Policy", "same-origin"))
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
