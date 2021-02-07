@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
+import br.edu.ifsp.spo.bulls.feed.api.bean.GroupBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
@@ -11,7 +12,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +23,7 @@ import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {GroupMemberService.class})
 public class GroupMemberServiceTest {
 
     @Autowired
