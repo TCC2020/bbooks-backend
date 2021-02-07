@@ -6,7 +6,7 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     password: ''
-    url: jdbc:h2:file:./api-users-test
+    url: jdbc:h2:file:../db-local-development-test;AUTO_SERVER=TRUE
     username: sa
     initialization-mode: always
   h2:

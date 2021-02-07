@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class BookAdUtil {
     private Logger logger = LoggerFactory.getLogger(BookAdUtil.class);
@@ -27,6 +30,10 @@ public class BookAdUtil {
             logger.error("Error while converting BookAd: " + ex);
         }
         return ad;
+    }
+
+    public List<BookAdTO> toDtoList(List<BookAd> domains) {
+        return domains.parallelStream().map(this::toDto).collect(Collectors.toList());
     }
 
     public BookAdTO toDto(BookAd domain) {

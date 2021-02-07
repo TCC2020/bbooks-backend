@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookAdService {
     @Autowired
@@ -27,6 +29,11 @@ public class BookAdService {
         UserTO user = feign.getUserInfo(tokenValue);
         if(user == null)
             throw new ResourceUnauthorizedException(CodeException.US001.getText(), CodeException.US001);
+        dto.setUserId(user.getId());
         return utils.toDto(repository.save(utils.toDomain(dto)));
+    }
+
+    public List<BookAdTO> getAds() {
+        return utils.toDtoList(repository.findAll());
     }
 }
