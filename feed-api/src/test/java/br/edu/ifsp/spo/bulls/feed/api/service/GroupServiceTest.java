@@ -15,6 +15,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -112,9 +115,23 @@ public class GroupServiceTest {
 
     @Test
     void delete() {
-
         service.delete(groupTO.getId());
-
         Mockito.verify(mockGroupRepository).deleteById(groupTO.getId());
+    }
+
+
+    @Test
+    void getByName() {
+        PageRequest pageRequest = PageRequest.of(
+                0,
+                1,
+                Sort.Direction.ASC,
+                "id");
+        Mockito.when(mockGroupRepository.findByNameContaining("teste", pageRequest)).thenReturn(Page.empty());
+
+        service.search("teste", 0, 1);
+
+        Mockito.verify(mockGroupRepository).findByNameContaining("teste", pageRequest);
+
     }
 }
