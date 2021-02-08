@@ -11,6 +11,9 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 
@@ -27,8 +30,9 @@ public class GroupService {
     private GroupBeanUtil beanUtil;
 
     public GroupTO save(GroupTO groupTO) {
+        // TODO: Verificar se usuário existe antes de salvar o grupo
         verifyIfNameIsUnique(groupTO.getName());
-         Group result = repository.save(beanUtil.toDomain(groupTO));
+        Group result = repository.save(beanUtil.toDomain(groupTO));
 
         saveMember(groupTO, result);
 
@@ -71,5 +75,14 @@ public class GroupService {
 
     public void delete(UUID groupId) {
         repository.deleteById(groupId);
+    }
+
+    public Page<Group> search(String name, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "id");
+        return repository.findByNameContaining(name.toLowerCase(), pageRequest);
     }
 }

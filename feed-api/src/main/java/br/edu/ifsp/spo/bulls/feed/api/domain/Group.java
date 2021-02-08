@@ -29,12 +29,6 @@ public class Group {
     @ApiModelProperty(value = "Identificador")
     private UUID id;
 
-    @JoinTable(name="users",
-            joinColumns={@JoinColumn(name="userId",
-                    referencedColumnName="id")})
-    @Column(nullable = false)
-    private UUID userId;
-
     @ApiModelProperty(value = "Nome do grupo")
     @Column(nullable = false, length = 80,unique = true)
     private String name;

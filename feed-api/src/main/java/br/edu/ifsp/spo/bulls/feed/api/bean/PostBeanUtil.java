@@ -16,7 +16,6 @@ public class PostBeanUtil {
         PostTO postTO = new PostTO();
         try{
             BeanUtils.copyProperties(post, postTO);
-            System.out.println(postTO);
         }catch(Exception e) {
             logger.error("Error while converting Post to PostTO: " +  e);
         }
