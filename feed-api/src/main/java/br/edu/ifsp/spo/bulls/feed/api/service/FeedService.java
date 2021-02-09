@@ -36,14 +36,14 @@ public class FeedService {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
 
         ProfileTO profileTO = feign.getProfileByToken(tokenValue);
+        if(profileTO != null && profileId == profileTO.getId())
+            return repository.findByProfileId(profileId, TypePost.post, pageable);
         GetFriendStatusTO getStatus = new GetFriendStatusTO();
         getStatus.setProfileId(profileTO.getId());
         getStatus.setProfileFriendId(profileId);
         FriendshipStatusTO friendship = feign.getFriendshipStatusTO(getStatus);
         if("added".equals(friendship.getStatus()))
             return repository.findFeedByRequesterId(profileTO.getId(), pageable);
-        if(profileTO != null && profileId == profileTO.getId())
-            return repository.findByProfileId(profileId, TypePost.post, pageable);
         return repository.findFeedByRequesterIdPublic(profileId, pageable);
     }
 }
