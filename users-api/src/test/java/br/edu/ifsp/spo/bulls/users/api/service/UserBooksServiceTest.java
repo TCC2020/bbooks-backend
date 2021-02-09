@@ -1,18 +1,19 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
-import br.edu.ifsp.spo.bulls.users.api.bean.TagBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
-import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.users.api.domain.Book;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
+import br.edu.ifsp.spo.bulls.users.api.bean.TagBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
-import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserBooksRepository;
@@ -60,17 +61,20 @@ public class UserBooksServiceTest {
     private UserBooksTO userBooksTOLivro = new UserBooksTO();
     private BookCaseTO bookCaseTO = new BookCaseTO();
     private Profile profile = new Profile();
-    private Set<UserBooks> userBooksList = new HashSet<>();
+    private Set<UserBooks> userBooksSet = new HashSet<>();
+    private List<UserBooks> userBooksListLivro = new ArrayList<>();
+    private List<UserBooks> userBooksList = new ArrayList<>();
     private Set<UserBooks> userBooksListDiferente = new HashSet<>();
     private Tag tag;
     private TagTO tagTO;
     private Book book;
     private List<Tag> tagsList = new ArrayList<>();
+    private UserBooksDataStatusTO dataBook = new UserBooksDataStatusTO();
+    private UserBooksDataStatusTO dataGoogleBook = new UserBooksDataStatusTO();
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.initMocks(this);
-
         // carregando tag
         tagTO = new TagTO(1L, "nome", profile);
         tag = new Tag(1L, "nome", profile);
@@ -80,7 +84,7 @@ public class UserBooksServiceTest {
         book.setId(1);
 
         // carregando o UserBooksTO
-        userBooksTOLivro.setId(2L);
+        userBooksTOLivro.setId(1L);
         userBooksTOLivro.setProfileId(1);
         userBooksTOLivro.setIdBook(1);
         userBooksTOLivro.setStatus(Status.EMPRESTADO);
@@ -104,7 +108,7 @@ public class UserBooksServiceTest {
 
 
         // carregando o UserBooksTOLivro
-        userBooksLivro.setId(2L);
+        userBooksLivro.setId(1L);
         userBooksLivro.setProfile(profile);
         userBooksLivro.setBook(book);
         userBooksLivro.setStatus(Status.EMPRESTADO);
@@ -116,6 +120,9 @@ public class UserBooksServiceTest {
         bookCaseTO.setBooks(userBooksListTO);
 
         //carregando userBooksList com userBook igual
+        userBooksSet.add(userBooks);
+
+        userBooksListLivro.add(userBooksLivro);
         userBooksList.add(userBooks);
 
 
@@ -123,6 +130,23 @@ public class UserBooksServiceTest {
         userBooksListDiferente.add(userBooksLivro);
 
         tagsList.add(tag);
+
+        dataBook.setBookId(book.getId());
+        dataBook.setGoogleId(null);
+        dataBook.setEmprestado(1L);
+        dataBook.setLido(0L);
+        dataBook.setRelendo(0L);
+        dataBook.setQueroLer(0L);
+        dataBook.setInterrompido(0L);
+        dataBook.setLendo(0L);
+
+        dataGoogleBook.setGoogleId(userBooks.getIdBookGoogle());
+        dataGoogleBook.setEmprestado(1L);
+        dataGoogleBook.setLido(0L);
+        dataGoogleBook.setRelendo(0L);
+        dataGoogleBook.setQueroLer(0L);
+        dataGoogleBook.setInterrompido(0L);
+        dataGoogleBook.setLendo(0L);
 
     }
 
@@ -153,7 +177,7 @@ public class UserBooksServiceTest {
         Mockito.when(mockTagService.tagBook(1L, userBooksTO.getId())).thenReturn(tag);
         Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
 
-        Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);
+        Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksSet);
         assertThrows(ResourceConflictException.class, () -> userBookService.save(userBooksTO));
     }
 
@@ -182,7 +206,7 @@ public class UserBooksServiceTest {
     public void userBooksServiceShouldReturnByProfileId(){
 
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
-        Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksList);
+        Mockito.when(mockUserBooksRepository.findByProfile(profile)).thenReturn(userBooksSet);
         Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         BookCaseTO result = userBookService.getByProfileId(profile.getId(), false);
 
@@ -193,7 +217,7 @@ public class UserBooksServiceTest {
     public void userBooksServiceShouldReturnByProfileIdTimeLine(){
 
         Mockito.when(mockProfileRepository.findById(1)).thenReturn(Optional.of(profile));
-        Mockito.when(mockUserBooksRepository.findByProfileOrderByFinishDateDesc(profile.getId())).thenReturn(userBooksList);
+        Mockito.when(mockUserBooksRepository.findByProfileOrderByFinishDateDesc(profile.getId())).thenReturn(userBooksSet);
         Mockito.when(mockTagBeanUtil.toDtoList(mockTagService.getByIdBook(userBooksTO.getId()))).thenReturn(userBooksTO.getTags());
         BookCaseTO result = userBookService.getByProfileId(profile.getId(), true);
 
@@ -319,5 +343,35 @@ public class UserBooksServiceTest {
 
         Mockito.when(mockUserBooksRepository.findById(userBooksTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         assertThrows(ResourceNotFoundException.class, () -> userBookService.updateStatus(updateStatus));
+    }
+
+
+    @Test
+    public void shouldGetDataInfoForBookWithId() {
+        Mockito.when(mockBookRepository.findById(book.getId())).thenReturn(Optional.ofNullable(book));
+        Mockito.when(mockUserBooksRepository.findByBook(book)).thenReturn(userBooksListLivro);
+
+        UserBooksDataStatusTO result = userBookService.getStatusData(null, book.getId());
+
+        assertEquals(dataBook, result);
+
+    }
+
+    @Test
+    public void shouldntGetDataInfoForBookWithIdWhenBookNotFound() {
+        Mockito.when(mockBookRepository.findById(book.getId()))
+                .thenReturn(Optional.ofNullable(null));
+
+        assertThrows(ResourceNotFoundException.class, () -> userBookService.getStatusData(null,book.getId()));
+
+    }
+
+    @Test
+    public void shouldntGetDataInfoForGoogleBookWithId() {
+        Mockito.when(mockUserBooksRepository.findByIdBookGoogle(userBooks.getIdBookGoogle())).thenReturn(userBooksList);
+
+        UserBooksDataStatusTO result = userBookService.getStatusData(userBooks.getIdBookGoogle(), 0);
+
+        assertEquals(dataGoogleBook, result);
     }
 }

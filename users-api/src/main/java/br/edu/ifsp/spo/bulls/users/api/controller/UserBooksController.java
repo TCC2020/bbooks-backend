@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 
 import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.users.api.service.UserBooksService;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +11,16 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping(value = "/bookcases", produces="application/json")
@@ -44,6 +54,20 @@ public class UserBooksController {
         BookCaseTO estante = service.getByProfileId(profileId,timeLine);
         logger.info("Estante encontrada. " + estante);
         return estante;
+    }
+
+    @ApiOperation(value = "Retorna informações de quantas pessoas querem ler/estão lendo (todos os status) o livro ")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna a lista de informações por livro informado"),
+            @ApiResponse(code = 404, message = "Livro informado não existe na base de dados")
+    })
+    @GetMapping("/status-data")
+    public UserBooksDataStatusTO getDataStatusByBooks(@RequestParam(name = "googleBook", required=false, defaultValue = " ") String googleBook,
+                                                      @RequestParam(name = "bookId", required=false, defaultValue = "0") int bookId) {
+        logger.info("Buscando informações de leitura do livro " + googleBook + " " + bookId);
+        UserBooksDataStatusTO info = service.getStatusData(googleBook,bookId);
+        logger.info("Informações encontradas. " + info);
+        return info;
     }
 
     @ApiOperation(value = "Editar um livro na estante do usuário")
