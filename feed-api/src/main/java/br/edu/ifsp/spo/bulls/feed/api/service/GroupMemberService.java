@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,12 @@ public class GroupMemberService {
         repository.deleteById(membro.getId());
     }
 
-    public List<GroupMembers> getGroupByUser(UUID id) {
+    public List<GroupRead> getGroupByUser(UUID id) {
         feign.getUserById(id);
         return repository.findByIdUser(id);
     }
 
     public List<GroupMembers> getGroupMembers(UUID id) {
-        return repository.findByIdGroup(id);
+        return repository.findByIdGroupRead(id);
     }
 }

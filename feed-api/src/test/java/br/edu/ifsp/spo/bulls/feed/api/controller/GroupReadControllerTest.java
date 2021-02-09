@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GroupControllerTest {
+public class GroupReadControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

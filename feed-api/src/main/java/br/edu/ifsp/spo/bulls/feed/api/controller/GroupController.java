@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
-import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupService;
 import io.swagger.annotations.ApiOperation;
@@ -86,9 +86,9 @@ public class GroupController {
             @ApiResponse(code = 200, message = "Grupos encontrados")
     })
     @GetMapping
-    public Page<Group> get(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
+    public Page<GroupRead> get(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
         logger.info("Buscando groups pelo nome: " + name);
-        Page<Group> result = service.search(name, page, size);
+        Page<GroupRead> result = service.search(name, page, size);
         logger.info("Groupos encontrados " + result.toString());
         return result;
     }

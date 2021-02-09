@@ -21,8 +21,7 @@ import javax.persistence.PrePersist;
 @Data
 @ApiModel(value = "Objeto de domínio: Grupos de leitura ")
 @Entity
-@Table(name = "group_read")
-public class Group {
+public class GroupRead {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

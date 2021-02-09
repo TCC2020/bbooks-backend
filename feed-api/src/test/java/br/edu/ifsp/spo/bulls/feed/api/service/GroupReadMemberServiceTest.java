@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ import java.util.UUID;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {GroupMemberService.class})
-public class GroupMemberServiceTest {
+public class GroupReadMemberServiceTest {
 
     @Autowired
     private GroupMemberService service;
@@ -37,11 +38,16 @@ public class GroupMemberServiceTest {
 
     private GroupMembers groupMembers;
     private List<GroupMembers> groupMembersList;
+    private GroupRead groupRead;
+    private List<GroupRead> groupReadList;
 
     @BeforeEach
     void setUp() {
+        groupRead = new GroupRead();
+        groupRead.setId(UUID.randomUUID());
+
         GroupMemberId id = new GroupMemberId();
-        id.setGroup(UUID.randomUUID());
+        id.setGroupRead(groupRead);
         id.setUser(UUID.randomUUID());
 
         groupMembers = new GroupMembers();
@@ -51,6 +57,9 @@ public class GroupMemberServiceTest {
 
         groupMembersList = new ArrayList<>();
         groupMembersList.add(groupMembers);
+
+        groupReadList = new ArrayList<>();
+        groupReadList.add(groupRead);
     }
 
     @Test
@@ -73,7 +82,7 @@ public class GroupMemberServiceTest {
 
     @Test
     void shouldGetGroupsByUser() {
-        Mockito.when(mockGroupMemberRepository.findByIdUser(groupMembers.getId().getUser())).thenReturn(groupMembersList);
+        Mockito.when(mockGroupMemberRepository.findByIdUser(groupMembers.getId().getUser())).thenReturn(groupReadList);
 
         service.getGroupByUser(groupMembers.getId().getUser());
 
@@ -82,10 +91,10 @@ public class GroupMemberServiceTest {
 
     @Test
     void shouldGetMemberOfAGroup() {
-        Mockito.when(mockGroupMemberRepository.findByIdGroup(groupMembers.getId().getGroup())).thenReturn(groupMembersList);
+        Mockito.when(mockGroupMemberRepository.findByIdGroupRead(groupMembers.getId().getGroupRead().getId())).thenReturn(groupMembersList);
 
-        service.getGroupMembers(groupMembers.getId().getGroup());
+        service.getGroupMembers(groupMembers.getId().getGroupRead().getId());
 
-        Mockito.verify(mockGroupMemberRepository).findByIdGroup(groupMembers.getId().getGroup());
+        Mockito.verify(mockGroupMemberRepository).findByIdGroupRead(groupMembers.getId().getGroupRead().getId());
     }
 }

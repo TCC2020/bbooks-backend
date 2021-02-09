@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.bean;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
-import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import org.slf4j.Logger;
@@ -18,26 +18,26 @@ public class GroupBeanUtil {
     @Autowired
     private GroupMemberRepository groupMemberRepository;
 
-    public GroupTO toDto(Group group ){
+    public GroupTO toDto(GroupRead groupRead){
         GroupTO groupTO = new GroupTO();
         try{
-            BeanUtils.copyProperties(group, groupTO);
+            BeanUtils.copyProperties(groupRead, groupTO);
         }catch(Exception e) {
             logger.error("Error while converting Group to GroupTO: " +  e);
         }
-        groupTO.setUserId(groupMemberRepository.findGroupOwner(group.getId(), Role.owner));
+        groupTO.setUserId(groupMemberRepository.findGroupOwner(groupRead.getId(), Role.owner));
 
         return groupTO;
     }
 
-    public Group toDomain(GroupTO groupTO ){
-        Group group = new Group();
+    public GroupRead toDomain(GroupTO groupTO ){
+        GroupRead groupRead = new GroupRead();
         try{
-            BeanUtils.copyProperties(groupTO, group);
+            BeanUtils.copyProperties(groupTO, groupRead);
         }catch(Exception e) {
             logger.error("Error while converting GroupTO to Group: " +  e);
         }
 
-        return group;
+        return groupRead;
     }
 }
