@@ -8,16 +8,8 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
-
-
-import javax.websocket.server.PathParam;
 
 
 @RestController
@@ -41,7 +33,7 @@ public class FeedController {
     }
 
     @GetMapping("/{profileId}")
-    public Page<PostTO> getPersonFeed(@RequestHeader(value = "AUTHORIZATION") String token, @PathParam("profileId") int profileId, @RequestParam int page, @RequestParam int size) {
+    public Page<PostTO> getPersonFeed(@RequestHeader(value = "AUTHORIZATION") String token, @PathVariable("profileId") int profileId, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando feed do perfil: " + profileId);
         return service.getProfileFeed(token, profileId, page, size);
     }

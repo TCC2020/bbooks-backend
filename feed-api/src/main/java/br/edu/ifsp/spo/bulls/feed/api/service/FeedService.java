@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
@@ -39,9 +40,10 @@ public class FeedService {
         getStatus.setProfileId(profileTO.getId());
         getStatus.setProfileFriendId(profileId);
         FriendshipStatusTO friendship = feign.getFriendshipStatusTO(getStatus);
-        if(friendship.getStatus().equals("added")){
+        if("added".equals(friendship.getStatus()))
             return repository.findFeedByRequesterId(profileTO.getId(), pageable);
-        }
+        if(profileTO != null && profileId == profileTO.getId())
+            return repository.findByProfileId(profileId, TypePost.post, pageable);
         return repository.findFeedByRequesterIdPublic(profileId, pageable);
     }
 }
