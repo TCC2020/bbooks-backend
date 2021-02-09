@@ -1,5 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
@@ -9,6 +11,7 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
+import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,8 +32,13 @@ public class GroupService {
     @Autowired
     private GroupBeanUtil beanUtil;
 
+    @Autowired
+    private UserCommonFeign feign;
+
     public GroupTO save(GroupTO groupTO) {
-        // TODO: Verificar se usuário existe antes de salvar o grupo
+
+        feign.getUserById(groupTO.getUserId());
+
         verifyIfNameIsUnique(groupTO.getName());
         Group result = repository.save(beanUtil.toDomain(groupTO));
 

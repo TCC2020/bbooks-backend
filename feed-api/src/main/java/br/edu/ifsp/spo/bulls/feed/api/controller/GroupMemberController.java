@@ -51,7 +51,7 @@ public class GroupMemberController {
             @ApiResponse(code = 200, message = "Grupos encontrados")
     })
     @GetMapping("/user/{id}")
-    //TODO: Retornar uma lista de usuários
+    //TODO: Retornar uma lista de grupos
     public List<GroupMembers> getGroupByUser(@PathVariable UUID id) {
         return service.getGroupByUser(id);
     }

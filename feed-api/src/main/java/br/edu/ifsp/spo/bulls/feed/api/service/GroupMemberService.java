@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
+import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,11 @@ public class GroupMemberService {
     @Autowired
     private GroupMemberRepository repository;
 
+    @Autowired
+    private UserCommonFeign feign;
+
     public void putMember(GroupMembers membro){
+        feign.getUserById(membro.getId().getUser());
         repository.save(membro);
     }
 
@@ -23,6 +28,7 @@ public class GroupMemberService {
     }
 
     public List<GroupMembers> getGroupByUser(UUID id) {
+        feign.getUserById(id);
         return repository.findByIdUser(id);
     }
 

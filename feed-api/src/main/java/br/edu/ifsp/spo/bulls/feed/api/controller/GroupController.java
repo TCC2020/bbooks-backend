@@ -81,8 +81,6 @@ public class GroupController {
         logger.info("Groupo deletado " + idGroup);
     }
 
-    // TODO: Rota para buscar grupo por nome
-
     @ApiOperation(value = "Buscar grupos pelo nome")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Grupos encontrados")

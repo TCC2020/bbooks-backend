@@ -6,6 +6,7 @@ import br.edu.ifsp.spo.bulls.feed.api.bean.GroupBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
+import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,8 +37,12 @@ public class GroupServiceTest {
 
     @MockBean
     private GroupRepository mockGroupRepository;
+
     @MockBean
     private GroupMemberRepository mockGroupMemberRepository;
+
+    @MockBean
+    private UserCommonFeign feign;
 
     @Autowired
     private GroupService service;
