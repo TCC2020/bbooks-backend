@@ -2,7 +2,6 @@ package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
-import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,8 +47,6 @@ public class GroupMemberController {
         service.exitMember(member);
     }
 
-    //TODO: Refazer esse teste
-
     @ApiOperation(value = "Buscar grupos por usuário")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Grupos encontrados")
@@ -59,7 +56,6 @@ public class GroupMemberController {
         return service.getGroupByUser(id);
     }
 
-    //TODO: Refazer esse teste
     @ApiOperation(value = "Buscar membros de um grupo")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Membros encontrados")

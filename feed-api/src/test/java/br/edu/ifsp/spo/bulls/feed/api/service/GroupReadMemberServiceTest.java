@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
@@ -38,12 +39,12 @@ public class GroupReadMemberServiceTest {
 
     private GroupMembers groupMembers;
     private List<GroupMembers> groupMembersList;
-    private GroupRead groupRead;
+
     private List<GroupRead> groupReadList;
 
     @BeforeEach
     void setUp() {
-        groupRead = new GroupRead();
+        GroupRead groupRead = new GroupRead();
         groupRead.setId(UUID.randomUUID());
 
         GroupMemberId id = new GroupMemberId();
@@ -65,6 +66,7 @@ public class GroupReadMemberServiceTest {
     @Test
     void putMember() {
         Mockito.when(mockGroupMemberRepository.save(groupMembers)).thenReturn(groupMembers);
+        Mockito.when(feign.getUserById(groupMembers.getId().getUser())).thenReturn(new UserTO());
 
         service.putMember(groupMembers);
 
