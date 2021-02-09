@@ -70,4 +70,5 @@ public class BookAdServiceTest {
         Mockito.when(repository.findAll()).thenReturn(list);
         assertEquals(util.toDtoList(list), service.getAds());
     }
+
 }
