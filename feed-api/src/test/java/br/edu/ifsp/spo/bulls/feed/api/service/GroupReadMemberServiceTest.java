@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +22,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
@@ -32,6 +34,9 @@ public class GroupReadMemberServiceTest {
     private GroupMemberService service;
 
     @MockBean
+    private GroupRepository groupRepository;
+
+    @MockBean
     private GroupMemberRepository mockGroupMemberRepository;
 
     @MockBean
@@ -39,12 +44,12 @@ public class GroupReadMemberServiceTest {
 
     private GroupMembers groupMembers;
     private List<GroupMembers> groupMembersList;
-
+    private GroupRead groupRead;
     private List<GroupRead> groupReadList;
 
     @BeforeEach
     void setUp() {
-        GroupRead groupRead = new GroupRead();
+        groupRead = new GroupRead();
         groupRead.setId(UUID.randomUUID());
 
         GroupMemberId id = new GroupMemberId();
@@ -93,10 +98,10 @@ public class GroupReadMemberServiceTest {
 
     @Test
     void shouldGetMemberOfAGroup() {
-        Mockito.when(mockGroupMemberRepository.findByIdGroupRead(groupMembers.getId().getGroupRead().getId())).thenReturn(groupMembersList);
-
+        Mockito.when(mockGroupMemberRepository.findByIdGroupRead(groupMembers.getId().getGroupRead())).thenReturn(groupMembersList);
+        Mockito.when(groupRepository.findById(groupMembers.getId().getGroupRead().getId())).thenReturn(Optional.of(groupRead));
         service.getGroupMembers(groupMembers.getId().getGroupRead().getId());
 
-        Mockito.verify(mockGroupMemberRepository).findByIdGroupRead(groupMembers.getId().getGroupRead().getId());
+        Mockito.verify(mockGroupMemberRepository).findByIdGroupRead(groupMembers.getId().getGroupRead());
     }
 }

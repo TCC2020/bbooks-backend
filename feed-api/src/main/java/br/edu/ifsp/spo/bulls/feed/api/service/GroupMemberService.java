@@ -1,9 +1,12 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,9 @@ public class GroupMemberService {
 
     @Autowired
     private GroupMemberRepository repository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Autowired
     private UserCommonFeign feign;
@@ -34,6 +40,8 @@ public class GroupMemberService {
     }
 
     public List<GroupMembers> getGroupMembers(UUID id) {
-        return repository.findByIdGroupRead(id);
+        GroupRead group = groupRepository.findById(id)
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001));
+        return repository.findByIdGroupRead(group);
     }
 }

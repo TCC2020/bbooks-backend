@@ -22,7 +22,7 @@ public interface GroupMemberRepository extends CrudRepository<GroupMembers, Grou
     )
     List<GroupRead> findByIdUser(@Param("userId") UUID userId);
 
-    List<GroupMembers> findByIdGroupRead(UUID groupId);
+    List<GroupMembers> findByIdGroupRead(GroupRead groupRead);
 
     @Query(value =
             "SELECT g.id.user " +
