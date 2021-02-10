@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/book-ads")
@@ -36,5 +37,10 @@ public class BookAdsController {
     public List<BookAdTO> getAll(){
         logger.info("Buscando todas as ads");
         return service.getAds();
+    }
+
+    @DeleteMapping("/{id}")
+    private void deleteById(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID id) {
+        service.deleteById(token, id);
     }
 }

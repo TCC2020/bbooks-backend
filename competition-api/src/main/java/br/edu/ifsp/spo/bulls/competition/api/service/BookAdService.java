@@ -48,4 +48,13 @@ public class BookAdService {
             repository.deleteById(id);
         new ResourceUnauthorizedException(CodeException.BAD002.getText(), CodeException.BAD002);
     }
+
+    public void deleteById(String token, UUID id) {
+        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
+        UserTO user = feign.getUserInfo(tokenValue);
+        BookAd ad = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001.getText(), CodeException.BAD001));
+        if(ad.getUserId().equals(user.getId())) {
+            repository.deleteById(id);
+        }
+    }
 }

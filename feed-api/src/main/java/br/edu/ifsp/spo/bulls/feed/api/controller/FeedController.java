@@ -35,6 +35,8 @@ public class FeedController {
     @GetMapping("/{profileId}")
     public Page<PostTO> getPersonFeed(@RequestHeader(value = "AUTHORIZATION") String token, @PathVariable("profileId") int profileId, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando feed do perfil: " + profileId);
-        return service.getProfileFeed(token, profileId, page, size);
+        Page<PostTO> res = service.getProfileFeed(token, profileId, page, size);
+        logger.info("Objeto encontrado: " + res);
+        return res;
     }
 }
