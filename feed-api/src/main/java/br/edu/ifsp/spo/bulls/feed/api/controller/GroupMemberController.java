@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -31,7 +32,7 @@ public class GroupMemberController {
             @ApiResponse(code = 200, message = "Membro adicionado")
     })
     @PostMapping
-    public void enterGroup(@RequestBody GroupMembers member) {
+    public void enterGroup(@RequestBody GroupMemberTO member) {
         // TODO: Authorization e identificação da pessoa para diferenciar membro ou não - Para adicionar admin
 
         service.putMember(member);
@@ -42,7 +43,7 @@ public class GroupMemberController {
             @ApiResponse(code = 200, message = "Membro retirado do grupo")
     })
     @DeleteMapping
-    public void exitGroup(@RequestBody GroupMembers member) {
+    public void exitGroup(@RequestBody GroupMemberTO member) {
         // TODO: Authorization e identificação da pessoa - Para excluir outras pessoas do grupo (só para o dono e admin)
         service.exitMember(member);
     }

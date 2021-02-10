@@ -8,6 +8,7 @@ import br.edu.ifsp.spo.bulls.feed.api.bean.GroupBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
@@ -46,12 +47,10 @@ public class GroupService {
     }
 
     private void saveMember(GroupTO groupTO, GroupRead result) {
-        GroupMemberId id = new GroupMemberId();
-        id.setGroupRead(result);
-        id.setUser(groupTO.getUserId());
-        GroupMembers member = new GroupMembers();
+        GroupMemberTO member = new GroupMemberTO();
         member.setRole(Role.owner);
-        member.setId(id);
+        member.setGroupId(result.getId());
+        member.setUserId(groupTO.getUserId());
         memberService.putMember(member);
     }
 
