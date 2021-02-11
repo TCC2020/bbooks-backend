@@ -114,7 +114,7 @@ public class AuthController {
     }
 
     @GetMapping("/{tpken}")
-    public Optional<org.springframework.security.core.userdetails.User> authByToken(@PathVariable String token) {
+    public Optional<User> authByToken(@PathVariable String token) {
         return service.findByToken(token);
     }
 }

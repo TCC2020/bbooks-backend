@@ -4,7 +4,14 @@ import br.edu.ifsp.spo.bulls.common.api.bean.StringConverter;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.OneToOne;
 import java.util.List;
 import java.util.UUID;
 
