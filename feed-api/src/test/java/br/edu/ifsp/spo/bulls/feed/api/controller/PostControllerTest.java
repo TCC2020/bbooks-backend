@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -81,6 +82,17 @@ public class PostControllerTest {
         Mockito.when(mockPostService.getByProfile(post.getProfileId(), 0, 1)).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/post/profile/" + post.getProfileId())
+                .param("page", "0")
+                .param("size", "1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getComment() throws Exception {
+
+        Mockito.when(mockPostService.getComment(post.getId(), 0, 1)).thenReturn(Page.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/post/comment/" + post.getId())
                 .param("page", "0")
                 .param("size", "1"))
                 .andExpect(status().isOk());

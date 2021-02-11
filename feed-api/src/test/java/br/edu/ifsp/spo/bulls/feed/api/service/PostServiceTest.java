@@ -119,7 +119,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void fgetPostNotFound() {
+    void getPostNotFound() {
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
 
         assertThrows(ResourceNotFoundException.class, () -> postService.get(post.getId()));
@@ -136,6 +136,21 @@ public class PostServiceTest {
         Mockito.when(mockPostRepository.findByProfileId(post.getProfileId(), TypePost.post, pageRequest)).thenReturn(postPage);
 
         Page<PostTO> result = postService.getByProfile(post.getProfileId(), 0, 1);
+
+        assertEquals(postPage, result);
+    }
+
+    @Test
+    void getComment() {
+        Page<PostTO> postPage = null;
+        Pageable pageRequest = PageRequest.of(
+                0,
+                1,
+                Sort.Direction.ASC,
+                "id");
+        Mockito.when(mockPostRepository.findByUpperPostId(post.getId(), pageRequest)).thenReturn(postPage);
+
+        Page<PostTO> result = postService.getComment(post.getId(), 0, 1);
 
         assertEquals(postPage, result);
     }
