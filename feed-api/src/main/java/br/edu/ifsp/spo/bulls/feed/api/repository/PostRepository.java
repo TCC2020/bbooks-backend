@@ -40,7 +40,7 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
                     "FROM friendships f, post p WHERE (f.profile2 = p.profile_id AND f.profile1 = :id) " +
                     "or (f.profile1 = p.profile_id AND f.profile2 = :id) " +
                     "AND p.profile_id != :id AND p.TIPO_POST = 'post' ORDER BY p.creation_date DESC", nativeQuery = true)
-    Page<Post> findFeedByRequesterId(@Param("id") int profileId, Pageable pageable);
+    List<Post> findFeedByRequesterId(@Param("id") int profileId);
 
     @Query(value =
             "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO"+

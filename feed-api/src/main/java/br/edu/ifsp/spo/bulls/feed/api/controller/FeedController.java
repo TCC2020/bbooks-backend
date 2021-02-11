@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/feed", produces="application/json")
@@ -33,7 +35,7 @@ public class FeedController {
             @ApiResponse(code = 200, message = "Feed String")
     })
     @GetMapping
-    public Page<PostTO> getFeed(@RequestHeader(value = "AUTHORIZATION") String token, @RequestParam int page, @RequestParam int size) {
+    public List<PostTO> getFeed(@RequestHeader(value = "AUTHORIZATION") String token, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando feed");
         return service.getFeed(token, page, size);
     }

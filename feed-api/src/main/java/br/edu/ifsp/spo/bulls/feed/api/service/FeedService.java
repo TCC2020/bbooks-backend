@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FeedService {
     @Autowired
@@ -27,12 +29,9 @@ public class FeedService {
     @Autowired
     private PostBeanUtil utils;
 
-    public Page<PostTO> getFeed(String token, int page, int size) {
-        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
-
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, "id");
-        ProfileTO profileTO = feign.getProfileByToken(tokenValue);
-        return utils.toPageDto(repository.findFeedByRequesterId(profileTO.getId(), pageable));
+    public List<PostTO> getFeed(String token, int page, int size) {
+        ProfileTO profileTO = feign.getProfileByToken(StringUtils.removeStart(token, "Bearer").trim());
+        return utils.toDtoList(repository.findFeedByRequesterId(profileTO.getId()));
     }
 
     public Page<PostTO> getProfileFeed(String token, int profileId,  int page, int size) {
