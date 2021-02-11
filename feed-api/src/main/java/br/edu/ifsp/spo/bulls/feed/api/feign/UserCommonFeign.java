@@ -28,4 +28,7 @@ public interface UserCommonFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/friends/status")
     FriendshipStatusTO getFriendshipStatusTO(@RequestBody GetFriendStatusTO dto);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/users/profile/{profileId}")
+    UserTO getUserByProfileId(@PathVariable("profileId") int profileId);
 }

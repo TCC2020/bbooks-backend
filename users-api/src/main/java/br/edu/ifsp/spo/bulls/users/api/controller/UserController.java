@@ -110,6 +110,12 @@ public class UserController {
 		return userTO;
 	}
 
+	@GetMapping("/profile/{id}")
+	public UserTO getByProfileId(@PathVariable("id") int profileId) {
+		logger.info("Buscando por profile com id: " + profileId);
+		return service.getByProfileId(profileId);
+	}
+
 	@ApiOperation(value = "Retorna informações de um usuário a partir do email")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Retorna o usuário"),
