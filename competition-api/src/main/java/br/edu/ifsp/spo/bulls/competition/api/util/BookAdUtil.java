@@ -51,4 +51,8 @@ public class BookAdUtil {
         }
         return dto;
     }
+
+    public List<BookAd> toDomainList(List<BookAdTO> requesterAds) {
+        return requesterAds.parallelStream().map(this::toDomain).collect(Collectors.toList());
+    }
 }

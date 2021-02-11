@@ -36,11 +36,25 @@ public class BookAdService {
         return utils.toDto(repository.save(utils.toDomain(dto)));
     }
 
+    public BookAdTO update(String token, BookAdTO dto) {
+        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
+        UserTO user = feign.getUserInfo(tokenValue);
+        if(user == null || !user.getId().equals(dto.getUserId()))
+            throw new ResourceUnauthorizedException(CodeException.US001.getText(), CodeException.US001);
+
+        return utils.toDto(repository.save(utils.toDomain(dto)));
+    }
+
+
     public List<BookAdTO> getAds() {
         return utils.toDtoList(repository.findAll());
     }
 
-    public void deleteAd(String token, UUID id){
+    public List<BookAdTO> getAdsByUser(UUID userId) {
+        return utils.toDtoList(repository.findByUserId(userId));
+    }
+
+    public void deleteById(String token, UUID id) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         UserTO user = feign.getUserInfo(tokenValue);
         BookAd ad = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001.getText(), CodeException.BAD001));
@@ -49,12 +63,7 @@ public class BookAdService {
         new ResourceUnauthorizedException(CodeException.BAD002.getText(), CodeException.BAD002);
     }
 
-    public void deleteById(String token, UUID id) {
-        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
-        UserTO user = feign.getUserInfo(tokenValue);
-        BookAd ad = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001.getText(), CodeException.BAD001));
-        if(ad.getUserId().equals(user.getId())) {
-            repository.deleteById(id);
-        }
+    public BookAdTO getAdById(UUID id) {
+        return utils.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001.getText(), CodeException.BAD001)));
     }
 }

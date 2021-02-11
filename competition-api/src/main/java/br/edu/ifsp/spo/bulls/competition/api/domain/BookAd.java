@@ -25,6 +25,6 @@ public class BookAd {
     private UUID userId;
     private String idBookGoogle;
     private String bookId;
-    @ManyToOne
+    @OneToOne
     private AdReview review;
 }

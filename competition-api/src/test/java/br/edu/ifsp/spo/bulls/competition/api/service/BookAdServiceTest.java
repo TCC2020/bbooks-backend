@@ -13,6 +13,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -65,10 +68,14 @@ public class BookAdServiceTest {
 
     @Test
     public void shouldReturn() {
-        List<BookAd> list = new ArrayList<BookAd>();
-        list.add(bookAd);
-        Mockito.when(repository.findAll()).thenReturn(list);
-        assertEquals(util.toDtoList(list), service.getAds());
+//        Page<BookAd>
+//        Pageable pageRequest = PageRequest.of(
+//                0,
+//                1,
+//                Sort.Direction.ASC,
+//                "id");
+//        Mockito.when(repository.findAll()).thenReturn(list);
+//        assertEquals(util.toDtoList(list), service.getAds(0, 1));
     }
 
 }

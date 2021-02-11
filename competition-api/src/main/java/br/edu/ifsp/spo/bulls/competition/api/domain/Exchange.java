@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.competition.api.domain;
 
+import br.edu.ifsp.spo.bulls.common.api.enums.BookExchangeStatus;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -19,29 +20,13 @@ public class Exchange {
     private BookExchangeStatus status;
     private LocalDateTime exchangeDate;
     private LocalDateTime creationDate;
+    private UUID requesterId;
+    private UUID receiverId;
     @OneToMany
     private List<BookAd> requesterAds;
     @OneToMany
     private List<BookAd> receiverAds;
 
-    public enum BookExchangeStatus {
-        pending("pending"),
-        refused("refused"),
-        accepted("accepted");
-
-        private final String text;
-        BookExchangeStatus(final String text) {
-            this.text = text;
-        }
-
-        public static BookExchangeStatus getByString(String value) {
-            for (BookExchangeStatus exchange : BookExchangeStatus.values()) {
-                if (exchange.text.equalsIgnoreCase(value))
-                    return exchange;
-            }
-            return null;
-        }
-    }
 
     @PrePersist
     public void prePersist() {
