@@ -12,7 +12,6 @@ import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

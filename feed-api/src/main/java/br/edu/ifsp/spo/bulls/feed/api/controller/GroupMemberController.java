@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
-import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;

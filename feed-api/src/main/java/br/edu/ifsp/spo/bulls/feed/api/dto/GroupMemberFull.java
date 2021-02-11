@@ -5,7 +5,6 @@ import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.enums.MemberStatus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,11 +37,10 @@ public class GroupReadMemberControllerTest {
     @MockBean
     private GroupMemberService mockGroupMemberService;
 
-    private GroupMembers groupMembers;
     private GroupMemberTO groupMemberTO;
     private GroupRead groupRead;
     private List<GroupRead> groupReadList;
-    private List<GroupMembers> groupMembersList;
+    private List<GroupMemberFull> groupMembersList;
 
 
     @BeforeEach
@@ -48,26 +48,19 @@ public class GroupReadMemberControllerTest {
         groupRead = new GroupRead();
         groupRead.setId(UUID.randomUUID());
 
-        GroupMemberId id = new GroupMemberId();
-        id.setGroupRead(groupRead);
-        id.setUser(UUID.randomUUID());
-
-        groupMembers = new GroupMembers();
-        groupMembers.setRole(Role.admin);
-        groupMembers.setDate(LocalDateTime.now());
-        groupMembers.setId(id);
+        GroupMemberFull full = new GroupMemberFull();
 
         groupMembersList = new ArrayList<>();
-        groupMembersList.add(groupMembers);
+        groupMembersList.add(full);
 
         groupReadList = new ArrayList<>();
         groupReadList.add(groupRead);
 
         groupMemberTO = new GroupMemberTO();
-        groupMemberTO.setUserId(groupMembers.getId().getUser());
-        groupMemberTO.setGroupId(groupMembers.getId().getGroupRead().getId());
-        groupMemberTO.setDate(groupMembers.getDate());
-        groupMemberTO.setRole(groupMembers.getRole());
+        groupMemberTO.setUserId(UUID.randomUUID());
+        groupMemberTO.setGroupId(groupRead.getId());
+        groupMemberTO.setDate(LocalDateTime.now());
+        groupMemberTO.setRole(Role.admin);
     }
 
     @Test

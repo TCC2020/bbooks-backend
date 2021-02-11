@@ -2,9 +2,11 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
+import br.edu.ifsp.spo.bulls.feed.api.bean.GroupMemberBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
@@ -27,14 +29,14 @@ import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {GroupMemberService.class})
+@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {GroupMemberService.class, GroupMemberBeanUtil.class})
 public class GroupReadMemberServiceTest {
 
     @Autowired
     private GroupMemberService service;
 
     @MockBean
-    private GroupRepository groupRepository;
+    private GroupRepository mockGroupRepository;
 
     @MockBean
     private GroupMemberRepository mockGroupMemberRepository;
@@ -42,10 +44,12 @@ public class GroupReadMemberServiceTest {
     @MockBean
     private UserCommonFeign feign;
 
+
     private GroupMembers groupMembers;
     private List<GroupMembers> groupMembersList;
     private GroupRead groupRead;
     private List<GroupRead> groupReadList;
+    private GroupMemberTO groupMemberTO;
 
     @BeforeEach
     void setUp() {
@@ -66,14 +70,21 @@ public class GroupReadMemberServiceTest {
 
         groupReadList = new ArrayList<>();
         groupReadList.add(groupRead);
+
+        groupMemberTO = new GroupMemberTO();
+        groupMemberTO.setUserId(groupMembers.getId().getUser());
+        groupMemberTO.setGroupId(groupMembers.getId().getGroupRead().getId());
+        groupMemberTO.setDate(groupMembers.getDate());
+        groupMemberTO.setRole(groupMembers.getRole());
     }
 
     @Test
     void putMember() {
         Mockito.when(mockGroupMemberRepository.save(groupMembers)).thenReturn(groupMembers);
         Mockito.when(feign.getUserById(groupMembers.getId().getUser())).thenReturn(new UserTO());
+        Mockito.when(mockGroupRepository.findById(groupMembers.getId().getGroupRead().getId())).thenReturn(Optional.ofNullable(groupRead));
 
-        service.putMember(groupMembers);
+        service.putMember(groupMemberTO);
 
         Mockito.verify(mockGroupMemberRepository).save(groupMembers);
     }
@@ -81,8 +92,9 @@ public class GroupReadMemberServiceTest {
     @Test
     void exitMember() {
         Mockito.doNothing().when(mockGroupMemberRepository).deleteById(groupMembers.getId());
+        Mockito.when(mockGroupRepository.findById(groupMembers.getId().getGroupRead().getId())).thenReturn(Optional.ofNullable(groupRead));
 
-        service.exitMember(groupMembers);
+        service.exitMember(groupMemberTO);
 
         Mockito.verify(mockGroupMemberRepository).deleteById(groupMembers.getId());
     }
@@ -99,7 +111,7 @@ public class GroupReadMemberServiceTest {
     @Test
     void shouldGetMemberOfAGroup() {
         Mockito.when(mockGroupMemberRepository.findByIdGroupRead(groupMembers.getId().getGroupRead())).thenReturn(groupMembersList);
-        Mockito.when(groupRepository.findById(groupMembers.getId().getGroupRead().getId())).thenReturn(Optional.of(groupRead));
+        Mockito.when(mockGroupRepository.findById(groupMembers.getId().getGroupRead().getId())).thenReturn(Optional.of(groupRead));
         service.getGroupMembers(groupMembers.getId().getGroupRead().getId());
 
         Mockito.verify(mockGroupMemberRepository).findByIdGroupRead(groupMembers.getId().getGroupRead());

@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.GroupBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
@@ -32,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {GroupService.class, GroupBeanUtil.class, GroupMemberService.class})
+@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {GroupService.class, GroupBeanUtil.class})
 public class GroupReadServiceTest {
 
     @MockBean
@@ -40,6 +41,9 @@ public class GroupReadServiceTest {
 
     @MockBean
     private GroupMemberRepository mockGroupMemberRepository;
+
+    @MockBean
+    private GroupMemberService mockGroupMemService;
 
     @Autowired
     private GroupService service;
@@ -68,10 +72,19 @@ public class GroupReadServiceTest {
 
     @Test
     void shouldSaveGroup() {
+
+        GroupMemberTO member = new GroupMemberTO();
+        member.setRole(Role.owner);
+        member.setGroupId(groupTO.getId());
+        member.setUserId(groupTO.getUserId());
+
+
         Mockito.when(mockGroupRepository.save(groupRead)).thenReturn(groupRead);
         Mockito.when(mockGroupRepository.existsByName(groupTO.getName())).thenReturn(false);
         Mockito.when(mockGroupMemberRepository.findGroupOwner(groupRead.getId(), Role.owner)).thenReturn(groupTO.getUserId());
         Mockito.when(feign.getUserById(groupTO.getUserId())).thenReturn(new UserTO());
+        Mockito.doNothing().when(mockGroupMemService).putMember(member);
+
 
         GroupTO result = service.save(groupTO);
 
