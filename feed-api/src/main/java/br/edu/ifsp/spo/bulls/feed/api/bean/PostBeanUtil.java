@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,5 +22,10 @@ public class PostBeanUtil {
         }
 
         return postTO;
+    }
+
+    public Page<PostTO> toPageDto(Page<Post> page) {
+        Page<PostTO> dtos = page.map(this::toDto);
+        return dtos;
     }
 }

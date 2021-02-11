@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
@@ -53,7 +54,7 @@ public class FeedServiceTest {
 
     @Test
     public void getFeed() {
-        Page<PostTO> postPage = null;
+        Page<Post> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,
@@ -68,7 +69,7 @@ public class FeedServiceTest {
 
     @Test
     public void getProfileFeed() {
-        Page<PostTO> postPage = null;
+        Page<Post> postPage = null;
         statusTO.setStatus("added");
         getStatus.setProfileId(1);
         getStatus.setProfileFriendId(2);

@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
@@ -23,12 +24,15 @@ public class FeedService {
     @Autowired
     private UserCommonFeign feign;
 
+    @Autowired
+    private PostBeanUtil utils;
+
     public Page<PostTO> getFeed(String token, int page, int size) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
 
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, "id");
         ProfileTO profileTO = feign.getProfileByToken(tokenValue);
-        return repository.findFeedByRequesterId(profileTO.getId(), pageable);
+        return utils.toPageDto(repository.findFeedByRequesterId(profileTO.getId(), pageable));
     }
 
     public Page<PostTO> getProfileFeed(String token, int profileId,  int page, int size) {
