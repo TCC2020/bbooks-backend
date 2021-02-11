@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.GroupMemberBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
@@ -12,6 +13,7 @@ import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,9 +46,15 @@ public class GroupMemberService {
         return repository.findByIdUser(id);
     }
 
-    public List<GroupMembers> getGroupMembers(UUID id) {
+    public List<GroupMemberFull> getGroupMembers(UUID id) {
         GroupRead group = groupRepository.findById(id)
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001));
-        return repository.findByIdGroupRead(group);
+        List<GroupMembers> members = repository.findByIdGroupRead(group);
+
+        List<GroupMemberFull> membersFull = new ArrayList<>();
+
+        members.stream().forEach( a -> membersFull.add(memberBeanUtil.toDtoFull(a)));
+
+        return membersFull;
     }
 }

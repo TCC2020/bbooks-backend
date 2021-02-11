@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,7 @@ public class GroupReadMemberControllerTest {
     private GroupMemberService mockGroupMemberService;
 
     private GroupMembers groupMembers;
+    private GroupMemberTO groupMemberTO;
     private GroupRead groupRead;
     private List<GroupRead> groupReadList;
     private List<GroupMembers> groupMembersList;
@@ -60,25 +62,31 @@ public class GroupReadMemberControllerTest {
 
         groupReadList = new ArrayList<>();
         groupReadList.add(groupRead);
+
+        groupMemberTO = new GroupMemberTO();
+        groupMemberTO.setUserId(groupMembers.getId().getUser());
+        groupMemberTO.setGroupId(groupMembers.getId().getGroupRead().getId());
+        groupMemberTO.setDate(groupMembers.getDate());
+        groupMemberTO.setRole(groupMembers.getRole());
     }
 
     @Test
     void enterGroup() throws Exception {
-        Mockito.doNothing().when(mockGroupMemberService).putMember(groupMembers);
+        Mockito.doNothing().when(mockGroupMemberService).putMember(groupMemberTO);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/group/member")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(groupMembers)))
+                .content(objectMapper.writeValueAsString(groupMemberTO)))
                 .andExpect(status().isOk());
     }
 
     @Test
     void exitGroup() throws Exception {
-        Mockito.doNothing().when(mockGroupMemberService).exitMember(groupMembers);
+        Mockito.doNothing().when(mockGroupMemberService).exitMember(groupMemberTO);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/group/member")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(groupMembers)))
+                .content(objectMapper.writeValueAsString(groupMemberTO)))
                 .andExpect(status().isOk());
     }
 
@@ -93,9 +101,9 @@ public class GroupReadMemberControllerTest {
 
     @Test
     void getUserGroups() throws Exception {
-        Mockito.when(mockGroupMemberService.getGroupByUser(groupMembers.getId().getUser())).thenReturn(groupReadList);
+        Mockito.when(mockGroupMemberService.getGroupByUser(groupMemberTO.getUserId())).thenReturn(groupReadList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/group/member/user/" + groupMembers.getId().getUser())
+        mockMvc.perform(MockMvcRequestBuilders.get("/group/member/user/" + groupMemberTO.getUserId())
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }

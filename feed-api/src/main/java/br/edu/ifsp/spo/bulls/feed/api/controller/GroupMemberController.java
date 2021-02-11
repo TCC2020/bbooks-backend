@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
 import io.swagger.annotations.ApiOperation;
@@ -62,7 +63,7 @@ public class GroupMemberController {
             @ApiResponse(code = 200, message = "Membros encontrados")
     })
     @GetMapping("/{id}")
-    public List<GroupMembers> getGroupMembers(@PathVariable UUID id) {
+    public List<GroupMemberFull> getGroupMembers(@PathVariable UUID id) {
         return service.getGroupMembers(id);
     }
 
