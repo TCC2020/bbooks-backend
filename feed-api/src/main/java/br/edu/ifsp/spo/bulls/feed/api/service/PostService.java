@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -59,5 +61,15 @@ public class PostService {
     public void delete(UUID idPost) {
 
         repository.deleteById(idPost);
+    }
+
+    public Page<PostTO> getComment(UUID idPost, int page, int pageSize) {
+
+        Pageable pageRequest = PageRequest.of(
+                page,
+                pageSize,
+                Sort.Direction.ASC,
+                "id");
+        return repository.findByUpperPostId(idPost, pageRequest);
     }
 }

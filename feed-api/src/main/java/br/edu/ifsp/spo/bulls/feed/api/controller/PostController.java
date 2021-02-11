@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -60,6 +62,16 @@ public class PostController {
     public PostTO get(@PathVariable UUID idPost) {
         logger.info("Buscando post: " + idPost);
         return service.get(idPost);
+    }
+
+    @ApiOperation(value = "Ver uma publicação")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Publicação encontrada")
+    })
+    @GetMapping("/comment/{idPost}")
+    public Page<PostTO> getComment(@PathVariable UUID idPost, @RequestParam int page, @RequestParam int size) {
+        logger.info("Buscando comenários do post: " + idPost);
+        return service.getComment(idPost, page, size);
     }
 
     @ApiOperation(value = "Ver publicações de um perfil")
