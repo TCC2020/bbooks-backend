@@ -17,6 +17,7 @@ public class Exchange {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
+    @Enumerated(EnumType.STRING)
     private BookExchangeStatus status;
     private LocalDateTime exchangeDate;
     private LocalDateTime creationDate;

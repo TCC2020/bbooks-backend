@@ -39,7 +39,7 @@ public class ExchangeService {
     private boolean checkExchangeIntegrity(ExchangeTO dto) {
         return dto.getRequesterAds().stream().parallel()
                 .anyMatch(ad -> ad.getUserId().equals(dto.getRequesterId()))
-                && dto.getRequesterAds().stream().parallel()
+                && dto.getReceiverAds().stream().parallel()
                 .anyMatch(ad -> ad.getUserId().equals(dto.getReceiverId()));
     }
 
@@ -76,5 +76,9 @@ public class ExchangeService {
 
     public List<ExchangeTO> getByUser(UUID id) {
         return util.toDtoList(repository.findByReceiverId(id));
+    }
+
+    public List<ExchangeTO> getByUserSent(UUID id) {
+        return util.toDtoList(repository.findByRequesterId(id));
     }
 }

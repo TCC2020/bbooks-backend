@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/exchanges")
+@CrossOrigin(origins = "*")
 public class ExchangeController {
     private final Logger logger = LoggerFactory.getLogger(ExchangeController.class);
 
@@ -34,7 +36,7 @@ public class ExchangeController {
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Anuncio de livro criado")
     })
-    @GetMapping("/user/{id}")
+    @GetMapping("/received/user/{id}")
     public List<ExchangeTO> getByUser(@PathVariable("id") UUID id) {
         return service.getByUser(id);
     }
@@ -45,6 +47,19 @@ public class ExchangeController {
             @ApiResponse(code = 401, message = "Usuário não é quem recebeu"),
             @ApiResponse(code = 404, message = "Anúncio não encontrado"),
     })
+
+    @GetMapping("/sent/user/{id}")
+    public List<ExchangeTO> getByUserSent(@PathVariable("id") UUID id) {
+        return service.getByUserSent(id);
+    }
+
+    @ApiOperation(value = "aceita uma poposta de troca")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Anuncio de livro criado"),
+            @ApiResponse(code = 401, message = "Usuário não é quem recebeu"),
+            @ApiResponse(code = 404, message = "Anúncio não encontrado"),
+    })
+
     @PutMapping("/accept/{id}")
     public ExchangeTO acceptExchange(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID id) {
         return service.accept(token, id);

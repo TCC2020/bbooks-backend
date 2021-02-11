@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface ExchangeRepository extends CrudRepository<Exchange, UUID> {
     List<Exchange> findByReceiverId(UUID id);
+
+    List<Exchange> findByRequesterId(UUID id);
 }
