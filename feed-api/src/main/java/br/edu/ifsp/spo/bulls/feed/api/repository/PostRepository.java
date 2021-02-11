@@ -44,7 +44,7 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
     @Query(value =
             "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO"+
                     "(p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy)" +
-                    " FROM Post p WHERE p.privacy = 'public_all' AND p.profileId = :id")
+                    " FROM Post p WHERE p.privacy = 'public_all' AND p.profileId = :id AND p.tipoPost = 'post'")
     Page<PostTO> findFeedByRequesterIdPublic(@Param("id") int profileId, Pageable pageable);
 
 }

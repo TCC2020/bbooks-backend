@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/auth", produces="application/json")
@@ -108,5 +111,10 @@ public class AuthController {
         UserTO userTO = service.getByToken(token);
         logger.info("Usuario encontrado: " + userTO);
         return userTO;
+    }
+
+    @GetMapping("/{tpken}")
+    public Optional<org.springframework.security.core.userdetails.User> authByToken(@PathVariable String token) {
+        return service.findByToken(token);
     }
 }

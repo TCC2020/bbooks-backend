@@ -20,8 +20,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
     implementation 'org.postgresql:postgresql'
-
-//		implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
