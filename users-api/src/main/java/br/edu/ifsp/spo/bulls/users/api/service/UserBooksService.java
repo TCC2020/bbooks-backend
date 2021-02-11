@@ -4,15 +4,16 @@ import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.Tag;
 import br.edu.ifsp.spo.bulls.users.api.domain.UserBooks;
 import br.edu.ifsp.spo.bulls.users.api.domain.Book;
-import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBookUpdateStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksDataStatusTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.UserBooksTO;
+import br.edu.ifsp.spo.bulls.users.api.dto.TagTO;
 import br.edu.ifsp.spo.bulls.users.api.enums.Status;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBooksBeanUtil;
-import br.edu.ifsp.spo.bulls.users.api.dto.BookCaseTO;
 import br.edu.ifsp.spo.bulls.users.api.repository.BookRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ReadingTargetRepository;
@@ -165,5 +166,35 @@ public class UserBooksService {
         for(TagTO t : dto.getTags()){
             tagService.tagBook(t.getId(), userBooks.getId());
         }
+    }
+
+    public UserBooksDataStatusTO getStatusData(String googleBook, int bookId) {
+        List<UserBooks> data;
+
+        if(bookId != 0){
+            Book book = bookRepository.findById(bookId)
+                    .orElseThrow(() -> new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
+            data = repository.findByBook(book);
+        }
+        else{
+            data = repository.findByIdBookGoogle(googleBook);
+        }
+
+        return this.mapToStatusData(data, googleBook, bookId);
+    }
+
+    public UserBooksDataStatusTO mapToStatusData(List<UserBooks> data, String googleBook, int bookId){
+        UserBooksDataStatusTO dataStatusTO = new UserBooksDataStatusTO();
+
+        dataStatusTO.setGoogleId(googleBook);
+        dataStatusTO.setBookId(bookId);
+        dataStatusTO.setEmprestado(data.stream().filter(x -> x.getStatus() == Status.EMPRESTADO).count());
+        dataStatusTO.setInterrompido(data.stream().filter(x -> x.getStatus() == Status.INTERROMPIDO).count());
+        dataStatusTO.setLendo(data.stream().filter(x -> x.getStatus() == Status.LENDO).count());
+        dataStatusTO.setLido(data.stream().filter(x -> x.getStatus() == Status.LIDO).count());
+        dataStatusTO.setQueroLer(data.stream().filter(x -> x.getStatus() == Status.QUERO_LER).count());
+        dataStatusTO.setRelendo(data.stream().filter(x -> x.getStatus() == Status.RELENDO).count());
+
+        return dataStatusTO;
     }
 }
