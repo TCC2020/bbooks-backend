@@ -5,7 +5,7 @@ import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
-import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
+import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +58,7 @@ public class PostServiceTest {
         post.setCreationDate(LocalDateTime.now());
         post.setDescription("post");
         post.setTipoPost(TypePost.post);
-        post.setPrivacy(PostPrivacy.friends_only);
+        post.setPrivacy(Privacy.friends_only);
 
         comment = new Post();
         comment.setId(UUID.randomUUID());
@@ -66,7 +66,7 @@ public class PostServiceTest {
         comment.setCreationDate(LocalDateTime.now().plusDays(1));
         comment.setDescription("comment");
         comment.setTipoPost(TypePost.comentario);
-        comment.setPrivacy(PostPrivacy.friends_only);
+        comment.setPrivacy(Privacy.friends_only);
         comment.setUpperPostId(post.getId());
 
         comments = new ArrayList<>();

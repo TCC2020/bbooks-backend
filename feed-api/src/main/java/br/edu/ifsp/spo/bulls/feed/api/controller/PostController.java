@@ -27,7 +27,7 @@ import java.util.UUID;
 @CrossOrigin(origins = "*")
 public class PostController {
 
-    private final Logger logger = LoggerFactory.getLogger(FeedController.class);
+    private final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     @Autowired
     private PostService service;

@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.dto;
 
-import br.edu.ifsp.spo.bulls.feed.api.enums.PostPrivacy;
+import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import lombok.Data;
 
@@ -29,9 +29,9 @@ public class PostTO {
     private List<PostTO> comments  ;
 
     @Enumerated(EnumType.STRING)
-    private PostPrivacy privacy;
+    private Privacy privacy;
 
-    public PostTO(UUID id, int profileId, String description, LocalDateTime creationDate, String image, TypePost tipoPost, PostPrivacy privacy) {
+    public PostTO(UUID id, int profileId, String description, LocalDateTime creationDate, String image, TypePost tipoPost, Privacy privacy) {
         this.id = id;
         this.profileId = profileId;
         this.description = description;
