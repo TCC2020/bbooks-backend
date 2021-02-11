@@ -34,9 +34,6 @@ public class BookAdServiceTest {
     @Autowired
     private BookAdService service;
 
-    @Autowired
-    private BookAdUtil util;
-
     private BookAdTO bookAdTO = new BookAdTO();
 
     private BookAd bookAd = new BookAd();
