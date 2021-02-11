@@ -25,6 +25,8 @@ public class PostBeanUtil {
     }
 
     public Page<PostTO> toPageDto(Page<Post> page) {
+        if (page == null)
+            return null;
         Page<PostTO> dtos = page.map(this::toDto);
         return dtos;
     }
