@@ -122,7 +122,7 @@ public class PostServiceTest {
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenReturn(Optional.ofNullable(post));
-        Mockito.when(mockPostRepository.findByUpperPostId(comment.getUpperPostId())).thenReturn(comments);
+        Mockito.when(mockPostRepository.findByUpperPostIdQuery(comment.getUpperPostId())).thenReturn(comments);
 
         PostTO result = postService.get(post.getId());
 
@@ -130,7 +130,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void fgetPostNotFound() {
+    void getPostNotFound() {
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
@@ -151,6 +151,21 @@ public class PostServiceTest {
         Mockito.when(mockPostRepository.findByProfileId(post.getProfileId(), TypePost.post, pageRequest)).thenReturn(postPage);
 
         Page<PostTO> result = postService.getByProfile(post.getProfileId(), 0, 1);
+
+        assertEquals(postPage, result);
+    }
+
+    @Test
+    void getComment() {
+        Page<PostTO> postPage = null;
+        Pageable pageRequest = PageRequest.of(
+                0,
+                1,
+                Sort.Direction.ASC,
+                "id");
+        Mockito.when(mockPostRepository.findByUpperPostIdQuery(post.getId(), pageRequest)).thenReturn(postPage);
+
+        Page<PostTO> result = postService.getComment(post.getId(), 0, 1);
 
         assertEquals(postPage, result);
     }

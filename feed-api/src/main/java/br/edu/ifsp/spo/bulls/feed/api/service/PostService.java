@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -41,7 +43,7 @@ public class PostService {
         PostTO postTO = postBeanUtil.toDto(repository.findById(idPost)
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001)));
 
-        postTO.setComments(repository.findByUpperPostId(idPost));
+        postTO.setComments(repository.findByUpperPostIdQuery(idPost));
 
         return postTO;
     }
@@ -59,5 +61,18 @@ public class PostService {
     public void delete(UUID idPost) {
 
         repository.deleteById(idPost);
+    }
+    public List<PostTO> getCommentList(UUID idPost, int page, int pageSize) {
+        return postBeanUtil.toDtoList(repository.findByUpperPostId(idPost));
+    }
+
+    public Page<PostTO> getComment(UUID idPost, int page, int pageSize) {
+
+        Pageable pageRequest = PageRequest.of(
+                page,
+                pageSize,
+                Sort.Direction.ASC,
+                "id");
+        return repository.findByUpperPostIdQuery(idPost, pageRequest);
     }
 }
