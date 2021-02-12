@@ -111,7 +111,7 @@ public class PostServiceTest {
     @Test
     void get() {
         Mockito.when(mockPostRepository.findById(post.getId())).thenReturn(Optional.ofNullable(post));
-        Mockito.when(mockPostRepository.findByUpperPostId(comment.getUpperPostId())).thenReturn(comments);
+        Mockito.when(mockPostRepository.findByUpperPostIdQuery(comment.getUpperPostId())).thenReturn(comments);
 
         PostTO result = postService.get(post.getId());
 
@@ -148,7 +148,7 @@ public class PostServiceTest {
                 1,
                 Sort.Direction.ASC,
                 "id");
-        Mockito.when(mockPostRepository.findByUpperPostId(post.getId(), pageRequest)).thenReturn(postPage);
+        Mockito.when(mockPostRepository.findByUpperPostIdQuery(post.getId(), pageRequest)).thenReturn(postPage);
 
         Page<PostTO> result = postService.getComment(post.getId(), 0, 1);
 

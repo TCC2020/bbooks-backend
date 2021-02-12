@@ -33,7 +33,9 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
                     "WHERE p.upperPostId = :upperPostId " +
                     "ORDER BY p.creationDate DESC"
     )
-    List<PostTO> findByUpperPostId (@Param("upperPostId") UUID upperPostId);
+    List<PostTO> findByUpperPostIdQuery(@Param("upperPostId") UUID upperPostId);
+
+    List<Post> findByUpperPostId(UUID upperPostId);
 
     @Query(value =
             "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO(" +
@@ -42,7 +44,7 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
                     "WHERE p.upperPostId = :upperPostId " +
                     "ORDER BY p.creationDate DESC"
     )
-    Page<PostTO> findByUpperPostId (@Param("upperPostId") UUID upperPostId, Pageable pageable);
+    Page<PostTO> findByUpperPostIdQuery(@Param("upperPostId") UUID upperPostId, Pageable pageable);
 
     @Query(value =
             "SELECT *" +
