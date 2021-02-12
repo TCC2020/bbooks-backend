@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.websocket.server.PathParam;
 import java.util.UUID;
 
 @FeignClient(name = "users", url = "${feign.users}")
@@ -25,8 +24,11 @@ public interface UserCommonFeign {
     UserTO getUserById(@PathVariable("id") UUID id);
 
     @RequestMapping(method = RequestMethod.GET, value = "/profiles/token/{token}")
-    ProfileTO getProfileByToken(@PathParam("token") String token);
+    ProfileTO getProfileByToken(@PathVariable("token") String token);
 
     @RequestMapping(method = RequestMethod.POST, value = "/friends/status")
     FriendshipStatusTO getFriendshipStatusTO(@RequestBody GetFriendStatusTO dto);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/users/profile/{profileId}")
+    UserTO getUserByProfileId(@PathVariable("profileId") int profileId);
 }

@@ -1,5 +1,7 @@
 server:
-  port: 8080
+  port: 8082
+feign:
+  users: ${USERS_API}
 spring:
   datasource:
     driverClassName: org.postgresql.Driver

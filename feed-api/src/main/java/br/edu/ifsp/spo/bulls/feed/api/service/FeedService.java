@@ -3,6 +3,8 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FeedService {
     @Autowired
@@ -22,12 +26,12 @@ public class FeedService {
     @Autowired
     private UserCommonFeign feign;
 
-    public Page<PostTO> getFeed(String token, int page, int size) {
-        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
+    @Autowired
+    private PostBeanUtil utils;
 
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, "id");
-        ProfileTO profileTO = feign.getProfileByToken(tokenValue);
-        return repository.findFeedByRequesterId(profileTO.getId(), pageable);
+    public List<PostTO> getFeed(String token, int page, int size) {
+        ProfileTO profileTO = feign.getProfileByToken(StringUtils.removeStart(token, "Bearer").trim());
+        return utils.toDtoList(repository.findFeedByRequesterId(profileTO.getId()));
     }
 
     public Page<PostTO> getProfileFeed(String token, int profileId,  int page, int size) {
@@ -35,12 +39,17 @@ public class FeedService {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
 
         ProfileTO profileTO = feign.getProfileByToken(tokenValue);
+        if(profileTO != null && profileId == profileTO.getId())
+            return repository.findByProfileId(profileId, TypePost.post, pageable);
         GetFriendStatusTO getStatus = new GetFriendStatusTO();
         getStatus.setProfileId(profileTO.getId());
         getStatus.setProfileFriendId(profileId);
-        FriendshipStatusTO friendship = feign.getFriendshipStatusTO(getStatus);
-        if(friendship.getStatus().equals("added")){
-            return repository.findFeedByRequesterId(profileTO.getId(), pageable);
+        try {
+            FriendshipStatusTO friendship = feign.getFriendshipStatusTO(getStatus);
+            if("added".equalsIgnoreCase(friendship.getStatus()))
+                return repository.findByProfileId(profileId, TypePost.post, pageable);
+        } catch (Exception e) {
+            System.out.println(e);
         }
         return repository.findFeedByRequesterIdPublic(profileId, pageable);
     }

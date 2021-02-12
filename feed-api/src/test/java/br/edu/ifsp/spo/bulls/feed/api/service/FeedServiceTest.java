@@ -3,6 +3,8 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
+import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
@@ -21,6 +23,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -53,16 +58,11 @@ public class FeedServiceTest {
 
     @Test
     public void getFeed() {
-        Page<PostTO> postPage = null;
-        Pageable pageRequest = PageRequest.of(
-                0,
-                1,
-                Sort.Direction.ASC,
-                "id");
-        Mockito.when(mockPostRepository.findFeedByRequesterId(profileTO.getId(), pageRequest)).thenReturn(postPage);
+        List<Post> postPage = new ArrayList<Post>();
+        Mockito.when(mockPostRepository.findFeedByRequesterId(profileTO.getId())).thenReturn(postPage);
         Mockito.when(feign.getProfileByToken("token")).thenReturn(profileTO);
 
-        Page<PostTO> result = service.getFeed("token" , 0, 1);
+        List<PostTO> result = service.getFeed("token" , 0, 1);
         assertEquals(postPage, result);
     }
 
@@ -77,7 +77,7 @@ public class FeedServiceTest {
                 1,
                 Sort.Direction.ASC,
                 "id");
-        Mockito.when(mockPostRepository.findFeedByRequesterId(profileTO.getId(), pageRequest)).thenReturn(postPage);
+        Mockito.when(mockPostRepository.findByProfileId(profileTO.getId(), TypePost.post, pageRequest)).thenReturn(postPage);
         Mockito.when(feign.getProfileByToken("token")).thenReturn(profileTO);
         Mockito.when(feign.getFriendshipStatusTO(getStatus)).thenReturn(statusTO);
 

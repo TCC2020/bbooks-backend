@@ -14,6 +14,11 @@ public class ResourceUnauthorizedException  extends RuntimeException{
         this.code = code;
     }
 
+    public ResourceUnauthorizedException(CodeException code) {
+        super(code.getText());
+        this.code = code;
+    }
+
     public ResourceUnauthorizedException(String message) {
         super(message);
     }

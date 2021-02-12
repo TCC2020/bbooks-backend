@@ -1,12 +1,14 @@
 server:
   port: 8082
+feign:
+  users: 'localhost:8080'
 spring:
   profiles:
     active: test
   datasource:
     driver-class-name: org.h2.Driver
     password: ''
-    url: jdbc:h2:file:./api-competition-test
+    url: jdbc:h2:file:../db-local-development-test;AUTO_SERVER=TRUE
     username: sa
     initialization-mode: always
   h2:
