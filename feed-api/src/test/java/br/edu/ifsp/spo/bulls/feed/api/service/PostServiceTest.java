@@ -130,13 +130,9 @@ public class PostServiceTest {
     }
 
     @Test
-<<<<<<< HEAD
     void getPostNotFound() {
-=======
-    void fgetPostNotFound() {
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
->>>>>>> 32ff6e8c3bf241f546c3cf29b6d0188b806e61ac
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
 
         assertThrows(ResourceNotFoundException.class, () -> postService.get(post.getId()));
