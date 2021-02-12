@@ -8,16 +8,16 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 
-
-import javax.websocket.server.PathParam;
+import java.util.List;
 
 
 @RestController
@@ -35,14 +35,16 @@ public class FeedController {
             @ApiResponse(code = 200, message = "Feed String")
     })
     @GetMapping
-    public Page<PostTO> getFeed(@RequestHeader(value = "AUTHORIZATION") String token, @RequestParam int page, @RequestParam int size) {
+    public List<PostTO> getFeed(@RequestHeader(value = "AUTHORIZATION") String token, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando feed");
         return service.getFeed(token, page, size);
     }
 
     @GetMapping("/{profileId}")
-    public Page<PostTO> getPersonFeed(@RequestHeader(value = "AUTHORIZATION") String token, @PathParam("profileId") int profileId, @RequestParam int page, @RequestParam int size) {
+    public Page<PostTO> getPersonFeed(@RequestHeader(value = "AUTHORIZATION") String token, @PathVariable("profileId") int profileId, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando feed do perfil: " + profileId);
-        return service.getProfileFeed(token, profileId, page, size);
+        Page<PostTO> res = service.getProfileFeed(token, profileId, page, size);
+        logger.info("Objeto encontrado: " + res);
+        return res;
     }
 }

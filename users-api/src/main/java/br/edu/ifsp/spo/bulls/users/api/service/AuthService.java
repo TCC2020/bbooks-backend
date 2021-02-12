@@ -28,6 +28,8 @@ public class AuthService {
     private UserBeanUtil utils;
     @Autowired
     private EmailServiceImpl emailService;
+    @Autowired
+    private UserService userService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -127,4 +129,7 @@ public class AuthService {
         return  utils.toUserTO(repository.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
     }
 
+    public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
+        return userService.findByToken(token);
+    }
 }

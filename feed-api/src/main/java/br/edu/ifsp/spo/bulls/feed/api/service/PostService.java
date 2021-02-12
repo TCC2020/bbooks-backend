@@ -62,8 +62,17 @@ public class PostService {
 
         repository.deleteById(idPost);
     }
+    public List<PostTO> getCommentList(UUID idPost, int page, int pageSize) {
+        return postBeanUtil.toDtoList(repository.findByUpperPostId(idPost));
+    }
 
-    public List<PostTO> getComment(UUID idPost, int page, int pageSize) {
-        return postBeanUtil(repository.findByUpperPostIdQuery(idPost));
+    public Page<PostTO> getComment(UUID idPost, int page, int pageSize) {
+
+        Pageable pageRequest = PageRequest.of(
+                page,
+                pageSize,
+                Sort.Direction.ASC,
+                "id");
+        return repository.findByUpperPostIdQuery(idPost, pageRequest);
     }
 }

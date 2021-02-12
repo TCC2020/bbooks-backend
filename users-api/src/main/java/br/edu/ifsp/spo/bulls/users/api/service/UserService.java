@@ -180,5 +180,9 @@ public class UserService{
 		return rep.findByUserName(username);
 	}
 
+	public UserTO getByProfileId(int profileId) {
+		return beanUtil.toUserTO(rep.findByProfileId(profileId).orElseThrow(() ->
+				new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
+	}
 }
 

@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.dto;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import lombok.Data;
@@ -23,10 +24,12 @@ public class PostTO {
 
     private String image;
 
+    private UserTO user;
+
     @Enumerated(EnumType.STRING)
     private TypePost tipoPost;
 
-    private List<PostTO> comments  ;
+    private List<PostTO> comments;
 
     @Enumerated(EnumType.STRING)
     private Privacy privacy;

@@ -10,6 +10,11 @@ public class ResourceNotFoundException extends RuntimeException {
 
     private CodeException code;
 
+    public ResourceNotFoundException(CodeException code) {
+        super(code.getText());
+        this.code = code;
+    }
+
     public ResourceNotFoundException(String message, CodeException code) {
         super(message);
         this.code = code;

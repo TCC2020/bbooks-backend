@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
+import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {PostService.class, PostBeanUtil.class})
 public class PostServiceTest {
+
+    @MockBean
+    private UserCommonFeign feign;
 
     @MockBean
     private PostRepository mockPostRepository;
@@ -83,6 +87,8 @@ public class PostServiceTest {
     @Test
     void create() {
         Mockito.when(mockPostRepository.save(post)).thenReturn(post);
+        Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
+        Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
 
         Post result = postService.create(post);
 
@@ -91,6 +97,8 @@ public class PostServiceTest {
 
     @Test
     void update() {
+        Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
+        Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenReturn(Optional.ofNullable(post));
         Mockito.when(mockPostRepository.save(post)).thenReturn(post);
 
@@ -101,7 +109,8 @@ public class PostServiceTest {
 
     @Test
     void updatePostNotFound() {
-
+        Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
+        Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
 
         assertThrows(ResourceNotFoundException.class, () -> postService.update(post, post.getId()));
@@ -110,6 +119,8 @@ public class PostServiceTest {
 
     @Test
     void get() {
+        Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
+        Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenReturn(Optional.ofNullable(post));
         Mockito.when(mockPostRepository.findByUpperPostIdQuery(comment.getUpperPostId())).thenReturn(comments);
 
@@ -119,7 +130,13 @@ public class PostServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
     void getPostNotFound() {
+=======
+    void fgetPostNotFound() {
+        Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
+        Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
+>>>>>>> 32ff6e8c3bf241f546c3cf29b6d0188b806e61ac
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
 
         assertThrows(ResourceNotFoundException.class, () -> postService.get(post.getId()));
@@ -127,6 +144,8 @@ public class PostServiceTest {
 
     @Test
     void getByProfile() {
+        Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
+        Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Page<PostTO> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
@@ -157,6 +176,8 @@ public class PostServiceTest {
 
     @Test
     void delete() {
+        Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
+        Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.doNothing().when(mockPostRepository).deleteById(post.getId());
 
         postService.delete(post.getId());
