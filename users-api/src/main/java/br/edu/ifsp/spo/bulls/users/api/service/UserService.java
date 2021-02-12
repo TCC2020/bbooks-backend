@@ -11,7 +11,7 @@ import br.edu.ifsp.spo.bulls.users.api.enums.EmailSubject;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -180,5 +180,9 @@ public class UserService{
 		return rep.findByUserName(username);
 	}
 
+	public UserTO getByProfileId(int profileId) {
+		return beanUtil.toUserTO(rep.findByProfileId(profileId).orElseThrow(() ->
+				new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
+	}
 }
 

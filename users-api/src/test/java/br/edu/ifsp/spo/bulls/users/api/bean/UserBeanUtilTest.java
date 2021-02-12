@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.bean;
 
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,5 +1,7 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.dto.FriendRequestTO;
@@ -129,5 +131,12 @@ public class FriendshipService {
         return repository
                 .hasFriendship(profileService.getDomainByToken(token).getId(), profileService.getByUsername(username).getId())
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
+    }
+
+    public FriendshipStatusTO getStatus(GetFriendStatusTO getFriendStatusTO) {
+        Friendship friendship = repository.hasFriendship(getFriendStatusTO.getProfileId(), getFriendStatusTO.getProfileFriendId()).orElseThrow(() -> new ResourceNotFoundException("Friendship not found "));
+        FriendshipStatusTO statusTO = new FriendshipStatusTO();
+        statusTO.setStatus(friendship.getStatus().toString());
+        return statusTO;
     }
 }

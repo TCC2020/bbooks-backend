@@ -3,7 +3,7 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import br.edu.ifsp.spo.bulls.users.api.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.RequestPassResetTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ResetPassTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.users.api.service.AuthService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/auth", produces="application/json")
@@ -108,5 +111,10 @@ public class AuthController {
         UserTO userTO = service.getByToken(token);
         logger.info("Usuario encontrado: " + userTO);
         return userTO;
+    }
+
+    @GetMapping("/{tpken}")
+    public Optional<User> authByToken(@PathVariable String token) {
+        return service.findByToken(token);
     }
 }

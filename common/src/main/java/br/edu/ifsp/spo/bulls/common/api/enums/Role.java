@@ -1,10 +1,10 @@
 package br.edu.ifsp.spo.bulls.common.api.enums;
 
-public enum Cargo {
+public enum Role {
     owner("owner"),
     member("member"),
     admin("admin");
 
-    Cargo(String s) {
+    Role(String s) {
     }
 }

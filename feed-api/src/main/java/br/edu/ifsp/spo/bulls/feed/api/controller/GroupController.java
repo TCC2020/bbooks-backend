@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupService;
 import io.swagger.annotations.ApiOperation;
@@ -8,6 +9,8 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import java.util.UUID;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import java.util.UUID;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping(value = "/group", produces="application/json")
@@ -59,7 +62,7 @@ public class GroupController {
             @ApiResponse(code = 404, message = "Grupo não existe")
     })
     @GetMapping("/{idGroup}")
-    public GroupTO get(@PathVariable UUID idGroup) {
+    public GroupTO getById(@PathVariable UUID idGroup) {
         logger.info("Buscando group: " + idGroup);
         GroupTO result = service.getById( idGroup);
         logger.info("Groupo encontrado " + result.toString());
@@ -78,4 +81,15 @@ public class GroupController {
         logger.info("Groupo deletado " + idGroup);
     }
 
+    @ApiOperation(value = "Buscar grupos pelo nome")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Grupos encontrados")
+    })
+    @GetMapping
+    public Page<GroupRead> get(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
+        logger.info("Buscando groups pelo nome: " + name);
+        Page<GroupRead> result = service.search(name, page, size);
+        logger.info("Groupos encontrados " + result.toString());
+        return result;
+    }
 }

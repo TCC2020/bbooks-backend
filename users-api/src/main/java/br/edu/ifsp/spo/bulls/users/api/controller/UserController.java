@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 
 @RestController
 @ControllerAdvice
@@ -108,6 +108,12 @@ public class UserController {
 		UserTO userTO = beanUtil.toUserTO(service.getByToken(tokenValue));
 		logger.info("Usuário encontrado: " + userTO);
 		return userTO;
+	}
+
+	@GetMapping("/profile/{id}")
+	public UserTO getByProfileId(@PathVariable("id") int profileId) {
+		logger.info("Buscando por profile com id: " + profileId);
+		return service.getByProfileId(profileId);
 	}
 
 	@ApiOperation(value = "Retorna informações de um usuário a partir do email")

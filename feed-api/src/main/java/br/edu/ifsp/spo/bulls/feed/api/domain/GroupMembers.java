@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.domain;
 
-import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
+import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.enums.MemberStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,7 +28,7 @@ public class GroupMembers {
     @ApiModelProperty(value = "Função do membro")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Cargo cargo;
+    private Role role;
 
     @ApiModelProperty(value = "Status do membro")
     @Enumerated(EnumType.STRING)

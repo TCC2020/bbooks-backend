@@ -4,7 +4,7 @@ import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.LoginTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.ResetPassTO;
-import br.edu.ifsp.spo.bulls.users.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.users.api.enums.EmailSubject;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
@@ -28,6 +28,8 @@ public class AuthService {
     private UserBeanUtil utils;
     @Autowired
     private EmailServiceImpl emailService;
+    @Autowired
+    private UserService userService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -127,4 +129,7 @@ public class AuthService {
         return  utils.toUserTO(repository.findByToken(token).orElseThrow(() -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001)));
     }
 
+    public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
+        return userService.findByToken(token);
+    }
 }

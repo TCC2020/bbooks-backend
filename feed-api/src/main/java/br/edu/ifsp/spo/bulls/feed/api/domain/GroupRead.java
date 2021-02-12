@@ -21,26 +21,19 @@ import javax.persistence.PrePersist;
 @Data
 @ApiModel(value = "Objeto de domínio: Grupos de leitura ")
 @Entity
-@Table(name = "group_read")
-public class Group {
+public class GroupRead {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @ApiModelProperty(value = "Identificador")
     private UUID id;
 
-    @JoinTable(name="users",
-            joinColumns={@JoinColumn(name="userId",
-                    referencedColumnName="id")})
-    @Column(nullable = false)
-    private UUID userId;
-
     @ApiModelProperty(value = "Nome do grupo")
     @Column(nullable = false, length = 80,unique = true)
     private String name;
 
     @ApiModelProperty(value = "Descrição do grupo")
-    @Column(nullable = false, length = 255)
+    @Column(length = 255)
     private String description;
 
     @ApiModelProperty(value = "Privacidade do grupo, qualquer pessoa pode entrar ou mediante aprovação")

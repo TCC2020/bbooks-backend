@@ -1,16 +1,19 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
-import br.edu.ifsp.spo.bulls.common.api.enums.Cargo;
+import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.GroupBeanUtil;
-import br.edu.ifsp.spo.bulls.feed.api.domain.Group;
-import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
-import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
+import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 
@@ -26,22 +29,26 @@ public class GroupService {
     @Autowired
     private GroupBeanUtil beanUtil;
 
+    @Autowired
+    private UserCommonFeign feign;
+
     public GroupTO save(GroupTO groupTO) {
+
+        feign.getUserById(groupTO.getUserId());
+
         verifyIfNameIsUnique(groupTO.getName());
-         Group result = repository.save(beanUtil.toDomain(groupTO));
+        GroupRead result = repository.save(beanUtil.toDomain(groupTO));
 
         saveMember(groupTO, result);
 
         return beanUtil.toDto(result);
     }
 
-    private void saveMember(GroupTO groupTO, Group result) {
-        GroupMemberId id = new GroupMemberId();
-        id.setGroup(result.getId());
-        id.setUser(groupTO.getUserId());
-        GroupMembers member = new GroupMembers();
-        member.setCargo(Cargo.owner);
-        member.setId(id);
+    private void saveMember(GroupTO groupTO, GroupRead result) {
+        GroupMemberTO member = new GroupMemberTO();
+        member.setRole(Role.owner);
+        member.setGroupId(result.getId());
+        member.setUserId(groupTO.getUserId());
         memberService.putMember(member);
     }
 
@@ -52,12 +59,12 @@ public class GroupService {
     }
 
     public GroupTO update(GroupTO groupTO, UUID groupId) {
-        Group group = beanUtil.toDomain(groupTO);
+        GroupRead groupRead = beanUtil.toDomain(groupTO);
         return beanUtil.toDto(repository.findById(groupId).map( group1 -> {
-            if(!group.getName().equals(group1.getName())){
-                verifyIfNameIsUnique(group.getName());
+            if(!groupRead.getName().equals(group1.getName())){
+                verifyIfNameIsUnique(groupRead.getName());
             }
-            group1 = group;
+            group1 = groupRead;
             group1.setId(groupId);
             return repository.save(group1);
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001)));
@@ -71,5 +78,14 @@ public class GroupService {
 
     public void delete(UUID groupId) {
         repository.deleteById(groupId);
+    }
+
+    public Page<GroupRead> search(String name, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "id");
+        return repository.findByNameContaining(name.toLowerCase(), pageRequest);
     }
 }
