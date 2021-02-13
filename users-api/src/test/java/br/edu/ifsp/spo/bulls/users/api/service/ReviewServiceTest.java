@@ -61,7 +61,7 @@ public class ReviewServiceTest {
     private ReviewTO reviewTOBook;
     private User user;
     private Profile profile;
-    private List<Review> reviewList;
+
     private List<ReviewTO> reviewTOList;
     private Page<ReviewTO> reviewTOPage;
     private PageRequest pageRequest;
@@ -100,7 +100,7 @@ public class ReviewServiceTest {
 
         reviewTOBook = beanUtil.toDto(reviewBook);
 
-        reviewList = new ArrayList<>();
+        List<Review> reviewList = new ArrayList<>();
         reviewList.add(review);
 
         reviewTO = beanUtil.toDto(review);

@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
 import br.edu.ifsp.spo.bulls.users.api.enums.EmailSubject;
-import br.edu.ifsp.spo.bulls.users.api.service.impl.EmailServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +16,6 @@ public class EmailServiceTest {
     @Autowired
     private EmailService emailService;
 
-    @Autowired
-    private EmailServiceImpl emailServiceImpl;
-
     private String to = "teste@teste.com";
     private String content = "verify your e-mail";
     private String url = "www.test.com";
@@ -34,7 +30,7 @@ public class EmailServiceTest {
                 .withSubject(EmailSubject.VERIFY_EMAIL.name());
     }
     @Test
-    void verify_settings_send_email(){
+    void verifySettingsSendEmail(){
 
         assertEquals(to, emailService.getTo());
         assertEquals(EmailSubject.VERIFY_EMAIL.name(), emailService.getSubject());
@@ -43,7 +39,7 @@ public class EmailServiceTest {
     }
 
     @Test
-    void verify_email_has_sent(){
+    void verifyEmailHasSent(){
         boolean result = this.emailService.send();
 
         if (result){
