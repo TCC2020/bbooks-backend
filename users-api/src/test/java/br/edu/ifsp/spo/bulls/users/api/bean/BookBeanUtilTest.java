@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BookBeanUtilTest {
 
     @Autowired
-    BookBeanUtil beanUtil;
+    private BookBeanUtil beanUtil;
 
     @Test
     void testToBook(){

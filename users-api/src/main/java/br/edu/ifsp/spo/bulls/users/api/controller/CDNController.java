@@ -29,7 +29,7 @@ public class CDNController {
     @Autowired
     private BookService bookService;
 
-    Storage storage = StorageOptions.getDefaultInstance().getService();
+    private Storage storage = StorageOptions.getDefaultInstance().getService();
 
 //    Storage storage = StorageOptions.newBuilder()
 //            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("C:/Users/AndreNascimentodeFre/Downloads/key.json")))

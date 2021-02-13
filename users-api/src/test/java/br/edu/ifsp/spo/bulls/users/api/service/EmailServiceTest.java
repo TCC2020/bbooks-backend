@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class EmailServiceTest {
 
     @Autowired
-    EmailService emailService;
+    private EmailService emailService;
 
     @Autowired
-    EmailServiceImpl emailServiceImpl;
+    private EmailServiceImpl emailServiceImpl;
 
-    String to = "teste@teste.com";
-    String content = "verify your e-mail";
-    String url = "www.test.com";
+    private String to = "teste@teste.com";
+    private String content = "verify your e-mail";
+    private String url = "www.test.com";
 
     @BeforeEach
     void setUp(){
