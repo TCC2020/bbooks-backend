@@ -42,19 +42,21 @@ public class PostBeanUtil {
         return postTO;
     }
 
-    public Post toDomain(PostTO postTO ){
+    public Post toDomain(PostTO postTO ) {
         Post post = new Post();
-        try{
-            BeanUtils.copyProperties(postTO, post );
-        }catch(Exception e) {
-            logger.error("Error while converting Post to PostTO: " +  e);
+        try {
+            BeanUtils.copyProperties(postTO, post);
+        } catch (Exception e) {
+            logger.error("Error while converting Post to PostTO: " + e);
         }
 
-        if(postTO.getGroupId() != null)
+        if (postTO.getGroupId() != null)
             post.setGroup(groupRepository.findById(postTO.getGroupId())
                     .orElseThrow(() -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001)));
 
-        return post ;
+        return post;
+    }
+
     public List<PostTO> toDtoList(List<Post> list) {
         return list.stream().map(this::toDto).collect(Collectors.toList());
     }

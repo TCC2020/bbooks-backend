@@ -55,7 +55,7 @@ public class Post {
     private Privacy privacy;
 
     @ManyToOne
-    private Group group;
+    private GroupRead group;
 
     //TODO: Campo da enquete
     //TODO: Reações

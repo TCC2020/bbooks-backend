@@ -8,6 +8,7 @@ import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,11 +32,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {FeedService.class, PostBeanUtil.class})
+@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {FeedService.class, PostBeanUtil.class, UserCommonFeign.class})
 public class FeedServiceTest {
 
     @MockBean
     private PostRepository mockPostRepository;
+
+    @MockBean
+    private  GroupRepository mockGroupRepository;
 
     @MockBean
     private UserCommonFeign feign;
