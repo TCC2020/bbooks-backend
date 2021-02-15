@@ -20,7 +20,7 @@ public class TrackingController {
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    TrackingService service;
+    private TrackingService service;
 
     @ApiOperation(value = "Retorna um grupo acompanhamentos de um livro")
     @ApiResponses(value = {

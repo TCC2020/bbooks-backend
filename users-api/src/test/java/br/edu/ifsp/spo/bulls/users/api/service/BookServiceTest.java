@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class BookServiceTest {
 
     @Autowired
-    BookService service;
+    private BookService service;
 
 //    @Test
 //    void testSave(){

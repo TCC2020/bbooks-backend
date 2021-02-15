@@ -70,7 +70,7 @@ class BookControllerTest {
     }
 
     @Test
-    void shouldnt_save_if_isbn_exists() throws Exception {
+    void shouldntSaveIfIsbnExists() throws Exception {
 
         Mockito.when(mockBookService.save(bookTO)).thenThrow(new ResourceConflictException(CodeException.BK001.getText(), CodeException.BK001));
 
@@ -81,7 +81,7 @@ class BookControllerTest {
     }
 
     @Test
-    void should_return_list_of_books() throws Exception {
+    void shouldReturnListOfBooks() throws Exception {
 
         Mockito.when(mockBookService.getAll()).thenReturn(bookTOList);
         mockMvc.perform(get("/books")
@@ -129,7 +129,7 @@ class BookControllerTest {
     }
 
     @Test
-    void should_update() throws Exception {
+    void shouldUpdate() throws Exception {
         Mockito.when(mockBookService.update(bookTO)).thenReturn(bookTO);
 
         mockMvc.perform(put("/books/"+bookTO.getId())
@@ -139,7 +139,7 @@ class BookControllerTest {
     }
 
     @Test
-    void shouldnt_update_if_book_not_found() throws Exception {
+    void shouldntUpdateIfBookNotFound() throws Exception {
         Mockito.when(mockBookService.update(bookTO)).thenThrow(new ResourceNotFoundException(CodeException.BK002.getText(), CodeException.BK002));
 
         mockMvc.perform(put("/books/"+bookTO.getId())
@@ -149,7 +149,7 @@ class BookControllerTest {
     }
 
     @Test
-    void shouldnt_update_if_book_has_no_authors() throws Exception {
+    void shouldntUpdateIfBookHasNoAuthors() throws Exception {
         Mockito.when(mockBookService.update(bookTONoAuthors)).thenThrow(new ResourceBadRequestException(CodeException.BK003.getText(), CodeException.BK003));
 
         mockMvc.perform(put("/books/" + bookTONoAuthors.getId())
