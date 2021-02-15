@@ -49,7 +49,8 @@ public enum CodeException {
     GR001("GR001: Group not found", "GR001"),
     GR002("GR002: Group name already exists", "GR002"),
     GR003("GR003: Requester is not group's owner", "GR003"),
-    GR004("GR004: Requester is not group's owner or admin", "GR004");
+    GR004("GR004: Requester is not group's owner or admin", "GR004"),
+    CP001("CP001: Competition not found", "CP001");
 
 
 

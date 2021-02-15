@@ -43,7 +43,7 @@ public class CompetitionController {
     @PostMapping
     public CompetitionTO save(@RequestBody CompetitionTO competition) {
         logger.info("Requisitando competições");
-        return null;
+        return service.save(competition);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")
