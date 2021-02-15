@@ -4,9 +4,36 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompetitionTO {
-    private String competition;
+    public class Competition {
+
+        private UUID id;
+
+        private String title;
+
+        private String rules;
+
+        private LocalDateTime finalDate;
+
+        private LocalDateTime subscriptionDate;
+
+        private LocalDateTime subscriptionFinalDate;
+
+        private LocalDateTime creationDate;
+
+        private UUID winnerProfile;
+
+        private UUID creatorProfile;
+
+        //TODO: Lista de competidores
+        //private List<CompetitionMember> members;
+
+
+    }
 }
