@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.competition.api.domain;
+package br.edu.ifsp.spo.bulls.competition.api.dto;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import io.swagger.annotations.ApiModel;
@@ -6,11 +6,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
 @Data
-@ApiModel(value = "Objeto de domínio: Membros da competição")
-public class CompetitionMember {
-
+@ApiModel(value = "Objeto de transito: Membros da competição")
+public class CompetitionMemberTO {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID memberId;
@@ -27,6 +25,6 @@ public class CompetitionMember {
     @Column(nullable = false)
     private Role role;
 
-    @OneToMany
-    private Competition competition;
+    private UUID competitionId;
+
 }

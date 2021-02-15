@@ -16,7 +16,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Component
 public class ExchangeBeanUtil {
-    private final Logger logger = LoggerFactory.getLogger(ExchangeController.class);
+    private final Logger logger = LoggerFactory.getLogger(ExchangeBeanUtil.class);
 
     @Autowired
     private BookAdUtil bookAdUtil;
