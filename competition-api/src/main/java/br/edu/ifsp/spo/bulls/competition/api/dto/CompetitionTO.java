@@ -11,8 +11,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompetitionTO {
-    public class Competition {
-
         private UUID id;
 
         private String title;
@@ -32,5 +30,4 @@ public class CompetitionTO {
         private UUID creatorProfile;
 
         private List<CompetitionMemberTO> members;
-    }
 }

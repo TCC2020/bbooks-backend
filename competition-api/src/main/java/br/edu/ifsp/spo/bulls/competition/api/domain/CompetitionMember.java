@@ -27,6 +27,6 @@ public class CompetitionMember {
     @Column(nullable = false)
     private Role role;
 
-    @OneToMany
+    @ManyToOne
     private Competition competition;
 }
