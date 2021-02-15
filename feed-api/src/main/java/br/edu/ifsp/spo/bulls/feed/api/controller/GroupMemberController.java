@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 import java.util.UUID;
@@ -32,10 +33,8 @@ public class GroupMemberController {
             @ApiResponse(code = 200, message = "Membro adicionado")
     })
     @PostMapping
-    public void enterGroup(@RequestBody GroupMemberTO member) {
-        // TODO: Authorization e identificação da pessoa para diferenciar membro ou não - Para adicionar admin
-
-        service.putMember(member);
+    public void enterGroup(@RequestHeader("AUTHORIZATION") String token, @RequestBody GroupMemberTO member) {
+        service.putMember(token, member);
     }
 
     @ApiOperation(value = "Sair de um grupo")
@@ -43,9 +42,8 @@ public class GroupMemberController {
             @ApiResponse(code = 200, message = "Membro retirado do grupo")
     })
     @DeleteMapping
-    public void exitGroup(@RequestBody GroupMemberTO member) {
-        // TODO: Authorization e identificação da pessoa - Para excluir outras pessoas do grupo (só para o dono e admin)
-        service.exitMember(member);
+    public void exitGroup(@RequestHeader("AUTHORIZATION") String token, @RequestBody GroupMemberTO member) {
+        service.exitMember(token, member);
     }
 
     @ApiOperation(value = "Buscar grupos por usuário")

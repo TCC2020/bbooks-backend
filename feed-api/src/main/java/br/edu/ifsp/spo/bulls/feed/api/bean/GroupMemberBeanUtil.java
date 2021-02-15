@@ -14,6 +14,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class GroupMemberBeanUtil {
     private Logger logger = LoggerFactory.getLogger(GroupBeanUtil.class);
@@ -29,6 +31,8 @@ public class GroupMemberBeanUtil {
 
         try{
             BeanUtils.copyProperties(memberTO, groupMembers);
+            if(groupMembers.getDate() == null)
+                groupMembers.setDate(LocalDateTime.now());
         }catch(Exception e) {
             logger.error("Error while converting GroupMemberTO to GroupMembers: " +  e);
         }

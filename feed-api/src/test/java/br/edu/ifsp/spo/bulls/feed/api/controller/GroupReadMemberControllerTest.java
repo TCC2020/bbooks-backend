@@ -1,9 +1,11 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
+import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDateTime;
@@ -34,6 +37,9 @@ public class GroupReadMemberControllerTest {
 
     @MockBean
     private GroupMemberService mockGroupMemberService;
+
+    @MockBean
+    private UserCommonFeign feign;
 
     private GroupMemberTO groupMemberTO;
     private GroupRead groupRead;
@@ -63,20 +69,21 @@ public class GroupReadMemberControllerTest {
 
     @Test
     void enterGroup() throws Exception {
-        Mockito.doNothing().when(mockGroupMemberService).putMember(groupMemberTO);
+        Mockito.doNothing().when(mockGroupMemberService).putMember("token", groupMemberTO);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/group/member")
                 .contentType("application/json")
+                .header(HttpHeaders.AUTHORIZATION,"Basic 32131989321")
                 .content(objectMapper.writeValueAsString(groupMemberTO)))
                 .andExpect(status().isOk());
     }
 
     @Test
     void exitGroup() throws Exception {
-        Mockito.doNothing().when(mockGroupMemberService).exitMember(groupMemberTO);
+        Mockito.doNothing().when(mockGroupMemberService).exitMember("token", groupMemberTO);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/group/member")
-                .contentType("application/json")
+                .contentType("application/json").header(HttpHeaders.AUTHORIZATION,"Basic 32131989321")
                 .content(objectMapper.writeValueAsString(groupMemberTO)))
                 .andExpect(status().isOk());
     }

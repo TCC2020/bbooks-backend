@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,9 +50,9 @@ public class GroupController {
             @ApiResponse(code = 200, message = "Grupo editad")
     })
     @PutMapping("/{idGroup}")
-    public GroupTO put(@RequestBody GroupTO group, @PathVariable UUID idGroup) {
+    public GroupTO put(@RequestHeader("AUTHORIZATION") String token, @RequestBody GroupTO group, @PathVariable UUID idGroup) {
         logger.info("Editando group: " + group.toString());
-        GroupTO result = service.update(group, idGroup);
+        GroupTO result = service.update(token, group, idGroup);
         logger.info("Groupo editado " + result.toString());
         return result;
     }
@@ -75,9 +76,9 @@ public class GroupController {
             @ApiResponse(code = 404, message = "Grupo não existe")
     })
     @DeleteMapping("/{idGroup}")
-    public void delete(@PathVariable UUID idGroup) {
+    public void delete(@RequestHeader("AUTHORIZATION") String token , @PathVariable UUID idGroup) {
         logger.info("Deletando group: " + idGroup);
-        service.delete( idGroup);
+        service.delete(token, idGroup);
         logger.info("Groupo deletado " + idGroup);
     }
 

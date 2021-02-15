@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,10 +57,10 @@ public class GroupReadControllerTest {
 
     @Test
     void put() throws Exception {
-        Mockito.when(mockGroupService.update(group, group.getId())).thenReturn(group);
+        Mockito.when(mockGroupService.update("token", group, group.getId())).thenReturn(group);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/group/" + group.getId())
-                .contentType("application/json")
+                .contentType("application/json").header(HttpHeaders.AUTHORIZATION,"Basic 32131989321")
                 .content(objectMapper.writeValueAsString(group)))
                 .andExpect(status().isOk());
     }
@@ -75,11 +76,11 @@ public class GroupReadControllerTest {
 
     @Test
     void delete() throws Exception{
-        Mockito.doNothing().when(mockGroupService).delete(group.getId());
+        Mockito.doNothing().when(mockGroupService).delete("token", group.getId());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/group/" + group.getId())
                 .contentType("application/json"))
-                .andExpect(status().isOk());
+                .andExpect(status().isBadRequest());
     }
 
     @Test

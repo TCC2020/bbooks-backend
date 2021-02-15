@@ -47,7 +47,9 @@ public enum CodeException {
     RTG003("RTG003: Userbook not in the list", "RTG003"),
     PT001("PT001: Post not found", "PT001"),
     GR001("GR001: Group not found", "GR001"),
-    GR002("GR002: Group name already exists", "GR002");
+    GR002("GR002: Group name already exists", "GR002"),
+    GR003("GR003: Requester is not group's owner", "GR003"),
+    GR004("GR004: Requester is not group's owner or admin", "GR004");
 
 
 
