@@ -1,11 +1,9 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
-import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
-import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupMemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,9 +35,6 @@ public class GroupReadMemberControllerTest {
 
     @MockBean
     private GroupMemberService mockGroupMemberService;
-
-    @MockBean
-    private UserCommonFeign feign;
 
     private GroupMemberTO groupMemberTO;
     private GroupRead groupRead;

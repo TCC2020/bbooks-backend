@@ -56,9 +56,6 @@ public class GroupReadServiceTest {
     @Autowired
     private GroupBeanUtil beanUtil;
 
-    @Autowired
-    private GroupMemberBeanUtil groupMemberBeanUtil;
-
     private GroupTO groupTO;
     private GroupRead groupRead;
 

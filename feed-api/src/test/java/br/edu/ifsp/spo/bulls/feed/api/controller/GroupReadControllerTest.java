@@ -57,10 +57,11 @@ public class GroupReadControllerTest {
 
     @Test
     void put() throws Exception {
-        Mockito.when(mockGroupService.update("token", group, group.getId())).thenReturn(group);
+        Mockito.when(mockGroupService.update("Basic 32131989321", group, group.getId())).thenReturn(group);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/group/" + group.getId())
-                .contentType("application/json").header(HttpHeaders.AUTHORIZATION,"Basic 32131989321")
+                .contentType("application/json")
+                .header(HttpHeaders.AUTHORIZATION,"Basic 32131989321")
                 .content(objectMapper.writeValueAsString(group)))
                 .andExpect(status().isOk());
     }
