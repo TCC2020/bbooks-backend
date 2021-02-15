@@ -33,4 +33,9 @@ public interface GroupMemberRepository extends CrudRepository<GroupMembers, Grou
     UUID findGroupOwner(@Param("groupId") UUID groupId,
                         @Param("cargo") Role role);
 
+    @Query(value =
+            "SELECT g FROM GroupMembers g " +
+                    "WHERE g.id.user = :userId AND g.id.groupRead.id = :groupId")
+    GroupMembers findMemberByUserId(@Param("userId") UUID userId, @Param("groupId") UUID groupId);
+
 }

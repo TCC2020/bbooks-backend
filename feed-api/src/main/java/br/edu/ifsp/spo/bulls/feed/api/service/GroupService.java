@@ -1,14 +1,18 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.GroupBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +26,9 @@ public class GroupService {
 
     @Autowired
     private GroupRepository repository;
+
+    @Autowired
+    private GroupMemberRepository groupMemberRepository;
 
     @Autowired
     private GroupMemberService memberService;
@@ -49,7 +56,7 @@ public class GroupService {
         member.setRole(Role.owner);
         member.setGroupId(result.getId());
         member.setUserId(groupTO.getUserId());
-        memberService.putMember(member);
+        memberService.putMember(null, member);
     }
 
     private void verifyIfNameIsUnique(String name) {
@@ -58,7 +65,11 @@ public class GroupService {
         }
     }
 
-    public GroupTO update(GroupTO groupTO, UUID groupId) {
+    public GroupTO update(String token, GroupTO groupTO, UUID groupId) {
+        UserTO requester = feign.getUserInfo(token);
+        GroupMembers member = groupMemberRepository.findMemberByUserId(requester.getId(), groupTO.getId());
+        if(!(Role.admin.equals(member.getRole()) || Role.owner.equals(member.getRole())))
+            throw new ResourceUnauthorizedException(CodeException.GR004);
         GroupRead groupRead = beanUtil.toDomain(groupTO);
         return beanUtil.toDto(repository.findById(groupId).map( group1 -> {
             if(!groupRead.getName().equals(group1.getName())){
@@ -76,7 +87,11 @@ public class GroupService {
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001)));
     }
 
-    public void delete(UUID groupId) {
+    public void delete(String token, UUID groupId) {
+        UserTO requester = feign.getUserInfo(token);
+        UUID owner = groupMemberRepository.findGroupOwner(groupId, Role.owner);
+        if(!requester.getId().equals(owner))
+            throw new ResourceUnauthorizedException(CodeException.GR003);
         repository.deleteById(groupId);
     }
 

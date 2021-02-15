@@ -83,8 +83,10 @@ public class GroupReadMemberServiceTest {
         Mockito.when(mockGroupMemberRepository.save(groupMembers)).thenReturn(groupMembers);
         Mockito.when(feign.getUserById(groupMembers.getId().getUser())).thenReturn(new UserTO());
         Mockito.when(mockGroupRepository.findById(groupMembers.getId().getGroupRead().getId())).thenReturn(Optional.ofNullable(groupRead));
+        Mockito.when(feign.getUserById(groupMembers.getId().getUser())).thenReturn(new UserTO());
+        Mockito.when(feign.getUserInfo("token")).thenReturn(new UserTO());
 
-        service.putMember(groupMemberTO);
+        service.putMember(null, groupMemberTO);
 
         Mockito.verify(mockGroupMemberRepository).save(groupMembers);
     }
@@ -93,8 +95,11 @@ public class GroupReadMemberServiceTest {
     void exitMember() {
         Mockito.doNothing().when(mockGroupMemberRepository).deleteById(groupMembers.getId());
         Mockito.when(mockGroupRepository.findById(groupMembers.getId().getGroupRead().getId())).thenReturn(Optional.ofNullable(groupRead));
+        UserTO user = new UserTO();
+        user.setId(groupMemberTO.getUserId());
+        Mockito.when(feign.getUserInfo("token")).thenReturn(user);
 
-        service.exitMember(groupMemberTO);
+        service.exitMember("token", groupMemberTO);
 
         Mockito.verify(mockGroupMemberRepository).deleteById(groupMembers.getId());
     }
