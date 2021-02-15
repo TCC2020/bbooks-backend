@@ -3,8 +3,8 @@ package br.edu.ifsp.spo.bulls.competition.api.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -31,9 +31,6 @@ public class CompetitionTO {
 
         private UUID creatorProfile;
 
-        //TODO: Lista de competidores
-        //private List<CompetitionMember> members;
-
-
+        private List<CompetitionMemberTO> members;
     }
 }
