@@ -3,10 +3,12 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +25,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,9 @@ public class PostServiceTest {
     @MockBean
     private PostRepository mockPostRepository;
 
+    @MockBean
+    private GroupRepository mockGroupRepository;
+
     @Autowired
     private PostService postService;
 
@@ -53,9 +57,14 @@ public class PostServiceTest {
     private Post comment;
     private PostTO postTO;
     private List<PostTO> comments;
+    private GroupRead group;
 
     @BeforeEach
     void setUp() {
+        group = new GroupRead();
+        group.setId(UUID.randomUUID());
+
+
         post = new Post();
         post.setId(UUID.randomUUID());
         post.setProfileId(1);
@@ -63,6 +72,7 @@ public class PostServiceTest {
         post.setDescription("post");
         post.setTipoPost(TypePost.post);
         post.setPrivacy(Privacy.friends_only);
+        post.setGroup(group);
 
         comment = new Post();
         comment.setId(UUID.randomUUID());
@@ -81,18 +91,28 @@ public class PostServiceTest {
         PostTO postagem = postBeanUtil.toDto(post);
         postTO = postagem;
         postTO.setComments(comments);
+        postTO.setGroupId(group.getId());
 
     }
 
     @Test
     void create() {
         Mockito.when(mockPostRepository.save(post)).thenReturn(post);
+        Mockito.when(mockGroupRepository.findById(post.getGroup().getId())).thenReturn(Optional.ofNullable(group));
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
 
-        Post result = postService.create(post);
+        Post result = postService.create(postTO);
 
         assertEquals(post, result);
+    }
+
+    @Test
+    void shouldNotcreateWhenGroupNotFound() {
+        Mockito.when(mockPostRepository.save(post)).thenReturn(post);
+        Mockito.when(mockGroupRepository.findById(post.getGroup().getId())).thenReturn(Optional.ofNullable(null));
+
+        assertThrows(ResourceNotFoundException.class, () ->  postService.create(postTO));
     }
 
     @Test

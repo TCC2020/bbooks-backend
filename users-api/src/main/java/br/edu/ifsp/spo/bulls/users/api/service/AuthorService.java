@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class AuthorService {
     @Autowired
-    AuthorRepository repository;
+    private AuthorRepository repository;
 
 
     public Author save (Author author){

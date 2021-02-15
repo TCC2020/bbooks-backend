@@ -28,16 +28,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TagServiceTest {
 
     @MockBean
-    TagRepository mockTagRepository;
+    private TagRepository mockTagRepository;
 
     @MockBean
-    ProfileRepository mockProfileRepository;
+    private ProfileRepository mockProfileRepository;
 
     @MockBean
-    UserBooksRepository mockUserBooksRepository;
+    private UserBooksRepository mockUserBooksRepository;
 
     @Autowired
-    TagService tagService;
+    private TagService tagService;
 
     private Tag tag = new Tag();
     private Profile profile = new Profile();

@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class UserBeanUtilTest {
 
 	@Autowired
-	UserBeanUtil bean;
+	private UserBeanUtil bean;
 	
 	@Test
 	void testToUser() {

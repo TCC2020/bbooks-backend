@@ -26,7 +26,8 @@ public class PostService {
     @Autowired
     private PostBeanUtil postBeanUtil;
 
-    public Post create(Post post) {
+    public Post create(PostTO postTO) {
+        Post post = postBeanUtil.toDomain(postTO);
         return repository.save(post);
     }
 

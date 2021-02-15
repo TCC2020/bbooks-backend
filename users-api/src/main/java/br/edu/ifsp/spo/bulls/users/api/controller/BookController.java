@@ -22,7 +22,7 @@ public class BookController {
     private Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    BookService service;
+    private BookService service;
 
     @Autowired
     private Client client;

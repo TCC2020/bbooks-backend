@@ -41,7 +41,7 @@ class BookTOTest {
     }
 
 
-    List<Author> listaAutores(){
+    private List<Author> listaAutores(){
         List<Author> autores = new ArrayList<>();
 
         autores.add(new Author("autor 1"));

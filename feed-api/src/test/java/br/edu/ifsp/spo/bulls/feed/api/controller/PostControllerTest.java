@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
+import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,7 @@ public class PostControllerTest {
     private PostService mockPostService;
 
     private Post post;
+    private PostTO postTO;
 
     @BeforeEach
     void setUp() {
@@ -45,11 +47,14 @@ public class PostControllerTest {
         post.setProfileId(1);
         post.setCreationDate(LocalDateTime.now());
         post.setDescription("post");
+
+
+        postTO = postBeanUtil.toDto(post);
     }
 
     @Test
     void post() throws Exception {
-        Mockito.when(mockPostService.create(post)).thenReturn(post);
+        Mockito.when(mockPostService.create(postTO)).thenReturn(post);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/post")
                 .contentType("application/json")
