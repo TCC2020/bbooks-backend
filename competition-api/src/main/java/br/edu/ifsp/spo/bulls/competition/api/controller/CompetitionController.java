@@ -51,9 +51,9 @@ public class CompetitionController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @PutMapping("/{id}")
-    public CompetitionTO update(@RequestBody CompetitionTO competition, @PathVariable UUID id) {
+    public CompetitionTO update(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionTO competition, @PathVariable UUID id) {
         logger.info("Requisitando competições");
-        return service.update(competition, id);
+        return service.update(token, competition, id);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")
@@ -62,9 +62,9 @@ public class CompetitionController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
+    public void delete(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID id) {
         logger.info("Requisitando competições");
-        service.delete(id);
+        service.delete(token, id);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")

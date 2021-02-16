@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.common.api.dto.BookTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,4 +21,7 @@ public interface UserCommonFeign {
 
     @RequestMapping(method = RequestMethod.GET, value = "/profiles/{id}")
     ProfileTO getProfile(@PathParam("id") UUID id);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/profiles/token/{token}")
+    ProfileTO getProfileByToken(@PathVariable("token") String token);
 }

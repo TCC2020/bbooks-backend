@@ -35,5 +35,10 @@ public class Competition {
 
     private UUID winnerProfile;
 
+    @PrePersist
+    public void prePersist() {
+        creationDate = LocalDateTime.now();
+    }
+
 
 }

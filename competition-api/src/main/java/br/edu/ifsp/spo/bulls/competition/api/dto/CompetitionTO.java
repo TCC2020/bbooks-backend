@@ -27,7 +27,7 @@ public class CompetitionTO {
 
         private UUID winnerProfile;
 
-        private UUID creatorProfile;
+        private int creatorProfile;
 
         private List<CompetitionMemberTO> members;
 }

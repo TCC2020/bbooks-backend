@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface CompetitionRepository extends CrudRepository<Competition, UUID> {
 
-    Page<Competition> findByTitleAndRulesContaining(String title, String rules, Pageable pageable);
+    Page<Competition> findByTitleOrRulesContaining(String title, String rules,  Pageable pageable);
 }

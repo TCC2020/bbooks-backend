@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.beans.BeanUtils.copyProperties;
+
 @Component
 public class CompetitionMemberBeanUtil {
 
@@ -13,13 +15,23 @@ public class CompetitionMemberBeanUtil {
 
     public CompetitionMember toDomain(CompetitionMemberTO memberTO){
         CompetitionMember member = new CompetitionMember();
-        //  TODO: implementar
+        try {
+            copyProperties(memberTO, member);
+        }   catch(Exception e) {
+            logger.error("Exception coverting to dto: " + e);
+        }
+
         return member;
     }
 
     public CompetitionMemberTO toDto(CompetitionMember member){
         CompetitionMemberTO memberTO = new CompetitionMemberTO();
-        //  TODO: implementar
+        try {
+            copyProperties(member, memberTO);
+            memberTO.setCompetitionId(member.getCompetition().getId());
+        }   catch(Exception e) {
+            logger.error("Exception coverting to dto: " + e);
+        }
         return memberTO;
     }
 }
