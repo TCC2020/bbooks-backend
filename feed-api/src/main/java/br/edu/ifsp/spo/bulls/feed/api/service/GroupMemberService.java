@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.GroupInviteTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
@@ -12,6 +13,7 @@ import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupInviteRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class GroupMemberService {
 
     @Autowired
     private GroupMemberBeanUtil memberBeanUtil;
+
+    @Autowired
+    private GroupInviteRepository inviteRepository;
 
     @Autowired
     private UserCommonFeign feign;
@@ -55,7 +60,7 @@ public class GroupMemberService {
             return;
         }
         GroupMembers member = repository.findMemberByUserId(user.getId(), group.getId());
-        if(member.getRole().equals(Role.admin) || member.getRole().equals(Role.owner)) {
+        if(member != null && (member.getRole().equals(Role.admin) || member.getRole().equals(Role.owner))) {
             repository.save(memberBeanUtil.toDomain(membro));
             return;
         }
@@ -69,7 +74,7 @@ public class GroupMemberService {
             return;
         }
         GroupMembers member = repository.findMemberByUserId(user.getId(), membro.getGroupId());
-        if(member.getRole().equals(Role.admin) || member.getRole().equals(Role.owner)) {
+        if(member != null && (member.getRole().equals(Role.admin) || member.getRole().equals(Role.owner))) {
             repository.deleteById(memberBeanUtil.toDomain(membro).getId());
             return;
         }
@@ -90,5 +95,21 @@ public class GroupMemberService {
         members.stream().forEach( a -> membersFull.add(memberBeanUtil.toDtoFull(a)));
 
         return membersFull;
+    }
+
+    public GroupInviteTO invite(String token, GroupInviteTO dto) {
+        UserTO user = feign.getUserInfo(token);
+        GroupMembers member = repository.findMemberByUserId(user.getId(), dto.getGroupId());
+        if(member != null && (member.getRole().equals(Role.admin) || member.getRole().equals(Role.owner))) {
+            return memberBeanUtil.toInviteDto(inviteRepository.save(memberBeanUtil.toInvite(dto)));
+        }
+        throw new ResourceUnauthorizedException(CodeException.GR004);
+    }
+
+    public List<GroupInviteTO> getInvites(String token, UUID id){
+        UserTO user = feign.getUserInfo(token);
+        if(user.getId().equals(id))
+            return memberBeanUtil.toInviteDtoList(inviteRepository.findByUserId(id));
+        throw new ResourceUnauthorizedException(CodeException.GR005);
     }
 }
