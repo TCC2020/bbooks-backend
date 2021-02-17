@@ -1,15 +1,20 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.GroupInviteTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.GroupMemberBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupInvite;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupInviteRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,12 +49,16 @@ public class GroupReadMemberServiceTest {
     @MockBean
     private UserCommonFeign feign;
 
+    @MockBean
+    private GroupInviteRepository inviteRepository;
+
 
     private GroupMembers groupMembers;
     private List<GroupMembers> groupMembersList;
     private GroupRead groupRead;
     private List<GroupRead> groupReadList;
     private GroupMemberTO groupMemberTO;
+    private UserTO user = new UserTO();
 
     @BeforeEach
     void setUp() {
@@ -59,6 +68,8 @@ public class GroupReadMemberServiceTest {
         GroupMemberId id = new GroupMemberId();
         id.setGroupRead(groupRead);
         id.setUser(UUID.randomUUID());
+
+        user.setId(id.getUser());
 
         groupMembers = new GroupMembers();
         groupMembers.setRole(Role.admin);
@@ -120,5 +131,31 @@ public class GroupReadMemberServiceTest {
         service.getGroupMembers(groupMembers.getId().getGroupRead().getId());
 
         Mockito.verify(mockGroupMemberRepository).findByIdGroupRead(groupMembers.getId().getGroupRead());
+    }
+
+    @Test
+    void shouldInvite() {
+        GroupInvite invite = new GroupInvite();
+        invite.setId(UUID.randomUUID());
+        invite.setGroup(groupMembers.getId().getGroupRead());
+        invite.setUserId(groupMembers.getId().getUser());
+
+        GroupInviteTO inviteTO = new GroupInviteTO();
+        inviteTO.setGroup(groupMembers.getId().getGroupRead());
+        inviteTO.setUserId(groupMembers.getId().getUser());
+
+        Mockito.when(mockGroupMemberRepository.findMemberByUserId(invite.getUserId(), invite.getGroup().getId())).thenReturn(groupMembers);
+        Mockito.when(mockGroupRepository.findById(groupMembers.getId().getGroupRead().getId())).thenReturn(Optional.of(groupRead));
+        Mockito.when(feign.getUserInfo("token")).thenReturn(user);
+        Mockito.when(inviteRepository.save(invite)).thenReturn(invite);
+        Assertions.assertThrows(ResourceUnauthorizedException.class, () -> service.invite("token", inviteTO));
+    }
+
+    @Test
+    void shouldGetInvites() {
+        Mockito.when(inviteRepository.findByUserId(groupMembers.getId().getUser())).thenReturn(new ArrayList<>());
+        Mockito.when(feign.getUserInfo("token")).thenReturn(user);
+        service.getInvites("token", groupMembers.getId().getUser());
+        Mockito.verify(inviteRepository).findByUserId(user.getId());
     }
 }

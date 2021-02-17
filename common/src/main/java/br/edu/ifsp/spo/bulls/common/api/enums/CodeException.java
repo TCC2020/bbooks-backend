@@ -50,9 +50,10 @@ public enum CodeException {
     GR002("GR002: Group name already exists", "GR002"),
     GR003("GR003: Requester is not group's owner", "GR003"),
     GR004("GR004: Requester is not group's owner or admin", "GR004"),
-    GR005("GR004: Requester is has not access to this data", "GR005");
-
-
+    GR005("GR005: Requester is has not access to this data", "GR005"),
+    GR006("GR006: invite already sent", "GR006"),
+    INV001("INV001: Invite not found", "INV001"),
+    INV002("INV002: You have no permission to do this", "INV002");
 
 
     private final String text;

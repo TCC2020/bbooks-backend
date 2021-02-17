@@ -7,6 +7,8 @@ import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.GroupMemberBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupInvite;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
@@ -101,6 +103,9 @@ public class GroupMemberService {
         UserTO user = feign.getUserInfo(token);
         GroupMembers member = repository.findMemberByUserId(user.getId(), dto.getGroupId());
         if(member != null && (member.getRole().equals(Role.admin) || member.getRole().equals(Role.owner))) {
+            GroupInvite inv = inviteRepository.findByUserIdAndGroup(dto.getUserId(), dto.getGroupId());
+            if (inv != null)
+                throw new ResourceUnauthorizedException(CodeException.GR005);
             return memberBeanUtil.toInviteDto(inviteRepository.save(memberBeanUtil.toInvite(dto)));
         }
         throw new ResourceUnauthorizedException(CodeException.GR004);
@@ -111,5 +116,31 @@ public class GroupMemberService {
         if(user.getId().equals(id))
             return memberBeanUtil.toInviteDtoList(inviteRepository.findByUserId(id));
         throw new ResourceUnauthorizedException(CodeException.GR005);
+    }
+
+    public GroupMemberTO accept(String token, UUID id) {
+        UserTO user = feign.getUserInfo(token);
+        GroupInvite invite = inviteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.INV001));
+        if(user.getId().equals(invite.getUserId())){
+            GroupMembers member = new GroupMembers();
+            member.setRole(Role.member);
+            GroupMemberId memberId = new GroupMemberId();
+            memberId.setUser(invite.getUserId());
+            memberId.setGroupRead(invite.getGroup());
+            member.setId(memberId);
+            inviteRepository.delete(invite);
+            return memberBeanUtil.toDto(repository.save(member));
+        }
+        throw new ResourceUnauthorizedException(CodeException.INV002);
+    }
+
+    public void refuse(String token, UUID inviteId) {
+        UserTO user = feign.getUserInfo(token);
+        GroupInvite invite = inviteRepository.findById(inviteId).orElseThrow(() -> new ResourceNotFoundException(CodeException.INV001));
+        if(user.getId().equals(invite.getUserId())) {
+            inviteRepository.deleteById(inviteId);
+            return;
+        }
+        throw new ResourceUnauthorizedException(CodeException.INV002);
     }
 }
