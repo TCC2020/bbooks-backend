@@ -37,6 +37,8 @@ public class PostTO {
 
     private List<PostTO> comments;
 
+    private UUID upperPostId;
+
     @Enumerated(EnumType.STRING)
     private Privacy privacy;
 
