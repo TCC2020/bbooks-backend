@@ -1,12 +1,14 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVotesTO;
+import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionVoteService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +19,9 @@ public class CompetitionVotesController {
 
     private final Logger logger = LoggerFactory.getLogger(CompetitionVotesController.class);
 
+    @Autowired
+    private CompetitionVoteService service;
+
     @ApiOperation(value = "Retorna uma competicação por Id")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Competicação encontrada"),
@@ -25,8 +30,7 @@ public class CompetitionVotesController {
     @GetMapping("/{memberId}")
     public List<CompetitionVotesTO> getVotesByMember(@PathVariable UUID memberId) {
         logger.info("Requisitando votos de um membro");
-        // service.getVotesByMember(memberId);
-        return null;
+        return service.getVotesByMember(memberId);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")
@@ -37,8 +41,7 @@ public class CompetitionVotesController {
     @PostMapping
     public CompetitionVotesTO vote(@RequestBody CompetitionVotesTO vote) {
         logger.info("Votando em um membro");
-        // service.vote(vote);
-        return null;
+        return service.vote(vote);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")
@@ -50,8 +53,7 @@ public class CompetitionVotesController {
     public CompetitionVotesTO updateVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId, @RequestBody CompetitionVotesTO vote) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Votando em um membro");
-        // service.updateVote(vote, voteId, tokenValue);
-        return null;
+        return service.updateVote(vote, voteId, tokenValue);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")
@@ -60,10 +62,9 @@ public class CompetitionVotesController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @DeleteMapping("/{voteId}")
-    public CompetitionVotesTO updateVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId) {
+    public void deleteVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Votando em um membro");
-        // service.deleteVote(voteId, tokenValue);
-        return null;
+        service.deleteVote(voteId, tokenValue);
     }
 }
