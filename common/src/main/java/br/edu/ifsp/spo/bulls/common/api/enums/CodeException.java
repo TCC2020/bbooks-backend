@@ -55,7 +55,8 @@ public enum CodeException {
     CM002("CM002: Profile not authorized, id not match", "CM002"),
     CM003("CM003: Profile requester not a member of competition", "CM003"),
     CM004("CM004: Profile already in competition", "CM004"),
-    CM005("CM005: Only owner can create admin members", "CM005");
+    CM005("CM005: Only owner can create/delete admin members", "CM005"),
+    CM006("CM006: You cannot add or edit other profile in competition", "CM006");
 
 
 

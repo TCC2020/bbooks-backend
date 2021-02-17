@@ -20,7 +20,7 @@ public interface UserCommonFeign {
     BookTO getBook(@PathParam("id")int id);
 
     @RequestMapping(method = RequestMethod.GET, value = "/profiles/{id}")
-    ProfileTO getProfile(@PathParam("id") UUID id);
+    ProfileTO getProfile(@PathVariable("id") int id);
 
     @RequestMapping(method = RequestMethod.GET, value = "/profiles/token/{token}")
     ProfileTO getProfileByToken(@PathVariable("token") String token);

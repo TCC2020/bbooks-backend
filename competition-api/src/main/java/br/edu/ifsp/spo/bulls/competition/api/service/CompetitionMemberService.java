@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 @Service
@@ -55,20 +54,24 @@ public class CompetitionMemberService {
     }
 
     public void exitMember(String token, UUID id) {
-        // TODO: Testar admin apagando
-        // TODO: Testar member apagando ele mesmo
-        // TODO: Testar member apagando outro member (bloquear)
-        // TODO: Testar owner apagando
+        // Testar admin apagando (bloquear)
+        // Testar member apagando ele mesmo
+        // Testar member apagando outro member (bloquear)
+        // Testar owner apagando member (bloquear)
+        // Testar owner apagando admin
 
         CompetitionMember competitionMember = repository.findById(id)
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText(), CodeException.CM001));
-
         ProfileTO profileTO = feign.getProfileByToken(token);
-        CompetitionMember requester = repository.getByProfileIdAndCompetition(profileTO.getId(), competitionMember.getCompetition())
-                .orElseThrow(() -> new ResourceNotFoundException(CodeException.CM003.getText(), CodeException.CM003));
+        CompetitionMember owner = repository.getCreatorOfCompetition(competitionMember.getCompetition().getId(), Role.owner);
 
-        // TODO: Verificar se caso for um admin ou o owner pode excluir
-        if( (requester.getRole() == Role.member) && (profileTO.getId() != competitionMember.getProfileId()) ){
+
+        if(competitionMember.getRole() == Role.admin){
+            if (profileTO.getId() != owner.getProfileId())
+                throw new ResourceUnauthorizedException(CodeException.CM005.getText(), CodeException.CM005);
+
+        }
+        else if(profileTO.getId() != competitionMember.getProfileId()){
             throw new ResourceUnauthorizedException(CodeException.CM002.getText(), CodeException.CM002);
         }
         repository.deleteById(id);
@@ -80,51 +83,67 @@ public class CompetitionMemberService {
     }
 
     public CompetitionMemberTO updateMember(String token, CompetitionMemberTO memberTO, UUID id) {
-        // TODO: Testar member editando cadastro dele
-        // TODO: Testar member editando outro member (bloquear)
-        // TODO: Testar owner editando
-        // TODO: Testar admin editando
+        // Testar member editando cadastro dele
+        // Testar member editando outro member (bloquear)
+        // Testar owner editando
+        // Testar admin editando
 
         CompetitionMember member = beanUtil.toDomain(memberTO);
         ProfileTO profileTO = feign.getProfileByToken(token);
 
-        if(profileTO.getId() != memberTO.getProfileId() ){
+        CompetitionMember requester = repository.getByProfileIdAndCompetition(profileTO.getId(), member.getCompetition())
+          .orElseThrow(() -> new ResourceNotFoundException(CodeException.CM003.getText(), CodeException.CM003));
+
+        if(requester.getRole() != Role.member ){
             return updateByAdmin(member, id);
         }else{
-            return updateByProfile(member, id);
+            return updateByProfile(member, id, profileTO);
         }
     }
 
     public CompetitionMemberTO saveMember(String token,CompetitionMemberTO memberTO) {
         // Testar profile adicionando ele mesmo
         // Testar profile adicionando outro profile (bloquear)
-        // TODO: Testar owner adicionando admin -> está parando no id que não bate, deveria deixar
-        // TODO: Testar admin adicionando outro admin (bloquear)
-        // TODO: Testar member adicionando admin (bloquear) -> está parando no id que não bate, arrumar mensagem
-        // TODO: Testar owner adicionando member -> está parando no id que não bate, deveria deixar
+        // Testar owner adicionando admin
+        // Testar admin adicionando outro admin (bloquear)
+        // Testar member adicionando admin (bloquear)
+        // Testar owner adicionando member (bloquear)
         // TODO: implementar requisições
-        // TODO: Verificar se o profile existe
+        // Verificar se o profile existe
 
-        ProfileTO profileTO = feign.getProfileByToken(token);
-        CompetitionMember owner = repository.getCreatorOfCompetition(memberTO.getCompetitionId(), Role.owner);
-
+        feign.getProfile(memberTO.getProfileId());
+        ProfileTO requester = feign.getProfileByToken(token);
         verifyIfProfileIsInCompetition(memberTO);
+        CompetitionMemberTO savedMember;
 
-        System.out.println(owner);
-        System.out.println(profileTO);
-        if(memberTO.getRole().equals(Role.admin) && owner.getProfileId() != profileTO.getId() ) {
-        System.out.println("passou aqui");
-            throw new ResourceUnauthorizedException(CodeException.CM005.getText(), CodeException.CM005);
-        }
-        else if( profileTO.getId() != memberTO.getProfileId())
-        {
-            throw new ResourceUnauthorizedException(CodeException.CM002.getText(), CodeException.CM002);
+        if(memberTO.getRole().equals(Role.admin))
+            savedMember = createAdmin(memberTO, requester);
+        else
+            savedMember = createMember(memberTO, requester);
+
+        return savedMember;
+    }
+
+    private CompetitionMemberTO createMember(CompetitionMemberTO memberTO, ProfileTO requester) {
+
+        if(requester.getId() != memberTO.getProfileId()){
+            throw new ResourceUnauthorizedException(CodeException.CM006.getText(), CodeException.CM006);
         }
 
         return beanUtil.toDto(repository.save(beanUtil.toDomain(memberTO)));
     }
 
+    private CompetitionMemberTO createAdmin(CompetitionMemberTO memberTO, ProfileTO requester) {
+        CompetitionMember owner = repository.getCreatorOfCompetition(memberTO.getCompetitionId(), Role.owner);
+
+        if(requester.getId() != owner.getProfileId()){
+            throw new ResourceUnauthorizedException(CodeException.CM005.getText(), CodeException.CM005);
+        }
+        return beanUtil.toDto(repository.save(beanUtil.toDomain(memberTO)));
+    }
+
     private void verifyIfProfileIsInCompetition(CompetitionMemberTO memberTO) {
+
         Competition competition = competitionRepository.findById(memberTO.getCompetitionId())
                 .orElseThrow( () -> new ResourceConflictException(CodeException.CP001.getText(), CodeException.CP001));
         boolean member = repository.getByProfileIdAndCompetition(memberTO.getProfileId(), competition).isPresent();
@@ -133,7 +152,10 @@ public class CompetitionMemberService {
         }
     }
 
-    private CompetitionMemberTO updateByProfile(CompetitionMember member, UUID id) {
+    private CompetitionMemberTO updateByProfile(CompetitionMember member, UUID id, ProfileTO profileTO) {
+        if(profileTO.getId() != member.getProfileId()){
+            throw new ResourceUnauthorizedException(CodeException.CM006.getText(), CodeException.CM006);
+        }
         return beanUtil.toDto(repository.findById(id).map( member1 -> {
             member1.setStory(member.getStory());
             member1.setTitle(member.getTitle());
