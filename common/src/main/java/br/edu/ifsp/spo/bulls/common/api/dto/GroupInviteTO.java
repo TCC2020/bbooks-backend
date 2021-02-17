@@ -6,6 +6,7 @@ import java.util.UUID;
 
 @Data
 public class GroupInviteTO {
+    private UUID id;
     private UUID groupId;
     private Object group;
     private UUID userId;

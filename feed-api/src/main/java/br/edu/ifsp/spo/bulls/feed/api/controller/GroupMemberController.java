@@ -9,8 +9,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,9 +45,20 @@ public class GroupMemberController {
         return service.invite(token, dto);
     }
 
-    @GetMapping("/invites/{userId}")
+    @GetMapping("/invites/user/{userId}")
     public List<GroupInviteTO> getInvites(@RequestHeader("AUTHORIZATION") String token, @PathVariable("userId") UUID userId) {
         return service.getInvites(token, userId);
+    }
+
+    @PutMapping("/invites/{id}/accept")
+    public GroupMemberTO accept(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID id) {
+        return service.accept(token, id);
+    }
+
+    @DeleteMapping("/invites/{id}/refuse")
+    public HttpStatus refuse(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID id) {
+        service.refuse(token, id);
+        return HttpStatus.ACCEPTED;
     }
 
     @ApiOperation(value = "Sair de um grupo")

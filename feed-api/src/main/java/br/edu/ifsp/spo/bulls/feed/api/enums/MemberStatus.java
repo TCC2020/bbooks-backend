@@ -2,7 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.enums;
 
 public enum MemberStatus {
 
-    aceppted("aceppted"),
+    accepted("accepted"),
     reject("reject"),
     analyze("analyze");
 
