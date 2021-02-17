@@ -1,10 +1,9 @@
-package br.edu.ifsp.spo.bulls.competition.api.dto;
+package br.edu.ifsp.spo.bulls.common.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -25,7 +24,7 @@ public class CompetitionTO {
 
         private LocalDateTime creationDate;
 
-        private UUID winnerProfile;
+        private CompetitionMemberTO winnerProfile;
 
         private int creatorProfile;
 }

@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.competition.api.dto;
+package br.edu.ifsp.spo.bulls.common.api.dto;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.common.api.enums.Status;
@@ -27,5 +27,7 @@ public class CompetitionMemberTO {
     private Status status;
 
     private UUID competitionId;
+
+    private float meanVote;
 
 }

@@ -33,7 +33,8 @@ public class Competition {
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
-    private UUID winnerProfile;
+    @OneToOne
+    private CompetitionMember winnerProfile;
 
     @PrePersist
     public void prePersist() {

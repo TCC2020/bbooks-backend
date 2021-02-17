@@ -9,7 +9,7 @@ import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.competition.api.bean.CompetitionMemberBeanUtil;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
-import br.edu.ifsp.spo.bulls.competition.api.dto.CompetitionMemberTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
 import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionMemberRepository;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionRepository;

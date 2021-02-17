@@ -3,7 +3,7 @@ package br.edu.ifsp.spo.bulls.competition.api.bean;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
-import br.edu.ifsp.spo.bulls.competition.api.dto.CompetitionMemberTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

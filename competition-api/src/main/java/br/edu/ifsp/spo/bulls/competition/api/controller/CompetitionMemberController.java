@@ -2,7 +2,7 @@ package br.edu.ifsp.spo.bulls.competition.api.controller;
 
 import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
-import br.edu.ifsp.spo.bulls.competition.api.dto.CompetitionMemberTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionMemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
