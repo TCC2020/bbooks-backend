@@ -1,7 +1,9 @@
 package br.edu.ifsp.spo.bulls.feed.api.bean;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.GroupInviteTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
+import br.edu.ifsp.spo.bulls.feed.api.domain.GroupInvite;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class GroupMemberBeanUtil {
@@ -77,5 +81,33 @@ public class GroupMemberBeanUtil {
         memberTO.setGroupId(groupMembers.getId().getGroupRead().getId());
 
         return memberTO;
+    }
+
+    public GroupInvite toInvite(GroupInviteTO dto) {
+        GroupInvite invite = new GroupInvite();
+        try {
+            BeanUtils.copyProperties(dto, invite);
+            invite.setGroup(groupRepository.findById(dto.getGroupId()).orElse(null));
+        } catch (Exception e) {
+            logger.error("Error while converting GroupInviteTO: " +  e);
+        }
+        return invite;
+    }
+
+    public GroupInviteTO toInviteDto(GroupInvite domain) {
+        GroupInviteTO invite = new GroupInviteTO();
+        try {
+            BeanUtils.copyProperties(domain, invite);
+            invite.setGroupId(domain.getGroup().getId());
+            invite.setGroup(domain.getGroup());
+
+        } catch (Exception e) {
+            logger.error("Error while converting GroupInvite: " +  e);
+        }
+        return invite;
+    }
+
+    public List<GroupInviteTO> toInviteDtoList(List<GroupInvite> list) {
+        return list.stream().parallel().map(this::toInviteDto).collect(Collectors.toList());
     }
 }
