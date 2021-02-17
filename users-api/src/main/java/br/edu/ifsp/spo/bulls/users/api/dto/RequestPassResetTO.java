@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "Objeto de trânsito: Mudar senha via email ")
 public class RequestPassResetTO {
     @ApiModelProperty(value = "Email do usuário")
-    String email;
+    public String email;
     @ApiModelProperty(value = "Link para trocar de senha")
-    String url;
+    public String url;
 }

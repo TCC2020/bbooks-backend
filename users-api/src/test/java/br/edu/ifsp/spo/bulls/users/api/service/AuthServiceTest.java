@@ -34,8 +34,6 @@ public class AuthServiceTest {
     private UserRepository mockUserRepository;
     @MockBean
     private ProfileRepository mockProfileRepository;
-    @MockBean
-    private EmailServiceImpl mockEmailService;
     @Autowired
     private UserBeanUtil userBeanUtil;
     @Autowired
@@ -92,7 +90,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void should_login() {
+    void shouldLogin() {
         Mockito.when(mockUserRepository.findByEmail(loginTo.getEmail())).thenReturn(Optional.of(user));
         Mockito.when(mockProfileRepository.findByUser(user)).thenReturn(profile);
         UserTO userTOResult = authService.authLogin(loginTo);
@@ -100,19 +98,19 @@ public class AuthServiceTest {
     }
 
     @Test
-    void shouldnt_login_when_password_wrong() {
+    void shouldntLoginWhenPasswordWrong() {
         Mockito.when(mockUserRepository.findByEmail(userSenhaDiferente.getEmail())).thenReturn(Optional.of(userSenhaDiferente));
         assertThrows(ResourceUnauthorizedException.class, () -> authService.authLogin(loginTo));
     }
 
     @Test
-    void shouldnt_login_when_user_not_found() {
+    void shouldntLoginWhenUserNotFound() {
         Mockito.when(mockUserRepository.findByEmail(userSenhaDiferente.getEmail())).thenReturn(Optional.ofNullable(null));
         assertThrows(ResourceUnauthorizedException.class, () -> authService.authLogin(loginTo));
     }
 
     @Test
-    void should_login_when_user_token_is_null() {
+    void shouldLoginWhenUserTokenIsNull() {
         Mockito.when(mockUserRepository.findByEmail(userTokenNull.getEmail())).thenReturn(Optional.ofNullable(userTokenNull));
         Mockito.when(mockProfileRepository.findByUser(userTokenNull)).thenReturn(profile);
         assertNull(userTokenNull.getToken());
@@ -121,7 +119,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void should_login_using_token() {
+    void shouldLoginUsingToken() {
         Mockito.when(mockUserRepository.findByEmail(loginTo.getEmail())).thenReturn(Optional.of(user));
         Mockito.when(mockProfileRepository.findByUser(user)).thenReturn(profile);
         UserTO userTOResult = authService.authLoginToken(loginTo);
@@ -129,19 +127,19 @@ public class AuthServiceTest {
     }
 
     @Test
-    void shouldnt_login_using_token_when_token_not_found(){
+    void shouldntLoginUsingTokenWhenTokenNotFound(){
         Mockito.when(mockUserRepository.findByEmail(loginTo.getEmail())).thenReturn(Optional.of(userSenhaDiferente));
         assertThrows(ResourceNotFoundException.class,() -> authService.authLoginToken(loginTo));
     }
 
     @Test
-    void shouldnt_login_using_token_when_user_not_found(){
+    void shouldntLoginUsingTokenWhenUserNotFound(){
         Mockito.when(mockUserRepository.findByEmail(loginTo.getEmail())).thenReturn(Optional.ofNullable(null));
         assertThrows(ResourceUnauthorizedException.class,() -> authService.authLoginToken(loginTo));
     }
 
     @Test
-    void should_confirm_user() throws Exception {
+    void shouldConfirmUser() throws Exception {
         Mockito.when(mockUserRepository.findByEmail(loginTo.getEmail())).thenReturn(Optional.ofNullable(user));
         Mockito.when(mockProfileRepository.findByUser(user)).thenReturn(profile);
         UserTO userTOResult = authService.verified(loginTo);
@@ -149,19 +147,19 @@ public class AuthServiceTest {
     }
 
     @Test
-    void shouldnt_confirm_user_when_password_wrong() {
+    void shouldntConfirmUserWhenPasswordWrong() {
         Mockito.when(mockUserRepository.findByEmail(userSenhaDiferente.getEmail())).thenReturn(Optional.of(userSenhaDiferente));
         assertThrows(ResourceUnauthorizedException.class, () -> authService.verified(loginTo));
     }
 
     @Test
-    void shouldnt_confirm_user_when_user_not_found() {
+    void shouldntConfirmUserWhenUserNotFound() {
         Mockito.when(mockUserRepository.findByEmail(userSenhaDiferente.getEmail())).thenReturn(Optional.ofNullable(null));
         assertThrows(ResourceUnauthorizedException.class, () -> authService.verified(loginTo));
     }
 
     @Test
-    void should_confirm_user_when_token_null() throws Exception {
+    void shouldConfirmUserWhenTokenNull() throws Exception {
         Mockito.when(mockUserRepository.findByEmail(userTokenNull.getEmail())).thenReturn(Optional.ofNullable(userTokenNull));
         Mockito.when(mockProfileRepository.findByUser(userTokenNull)).thenReturn(profile);
         assertNull(userTokenNull.getToken());
@@ -170,13 +168,13 @@ public class AuthServiceTest {
     }
 
     @Test
-    void shouldnt_send_reset_password_email_user_not_found(){
+    void shouldntSendResetPasswordEmailUserNotFound(){
         Mockito.when(mockUserRepository.findByEmail(requestPassResetTO.getEmail())).thenThrow(new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
         assertThrows(ResourceNotFoundException.class, () -> authService.sendResetPasswordEmail(requestPassResetTO.getEmail(), requestPassResetTO.getUrl()));
     }
 
     @Test
-    void should_reset_password(){
+    void shouldResetPassword(){
         Mockito.when(mockUserRepository.findByToken(resetPassTO.getToken())).thenReturn(Optional.of(user));
         Mockito.when(mockUserRepository.save(user)).thenReturn(user);
         Mockito.when(mockProfileRepository.findByUser(user)).thenReturn(profile);
@@ -186,13 +184,13 @@ public class AuthServiceTest {
     }
 
     @Test
-    void shouldnt_reset_password_user_not_found(){
+    void shouldntResetPasswordUserNotFound(){
         Mockito.when(mockUserRepository.findByToken(resetPassTO.getToken())).thenThrow(new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
         assertThrows(ResourceNotFoundException.class, () -> authService.resetPass(resetPassTO));
     }
 
     @Test
-    void should_get_by_token(){
+    void shouldGetByToken(){
         Mockito.when(mockUserRepository.findByToken(resetPassTO.getToken())).thenReturn(Optional.of(user));
         Mockito.when(mockProfileRepository.findByUser(user)).thenReturn(profile);
         UserTO userTOResult = authService.getByToken(resetPassTO.getToken());
@@ -200,7 +198,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void should_get_by_token_when_user_not_found(){
+    void shouldGetByTokenWhenUserNotFound(){
         Mockito.when(mockUserRepository.findByToken(resetPassTO.getToken())).thenThrow(new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
         assertThrows(ResourceNotFoundException.class, () -> authService.getByToken(resetPassTO.getToken()));
     }

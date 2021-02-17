@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class EmailContentBuilderTest {
 
     @Autowired
-    TemplateEngine te;
+    private TemplateEngine te;
 
     @Test
     void verify_message_in_template_engine(){

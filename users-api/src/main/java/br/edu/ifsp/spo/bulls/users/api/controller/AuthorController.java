@@ -20,7 +20,7 @@ public class AuthorController {
     private Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
     @Autowired
-    AuthorService service;
+    private AuthorService service;
 
     @ApiOperation(value = "Cadastrar um autor")
     @ApiResponses(value = {
