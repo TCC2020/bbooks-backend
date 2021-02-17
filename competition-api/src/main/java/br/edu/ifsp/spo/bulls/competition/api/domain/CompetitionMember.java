@@ -36,6 +36,9 @@ public class CompetitionMember {
 
     @PrePersist
     public void prePersist() {
-        status = Status.pending;
+
+        if(role != Role.admin){
+            status = Status.pending;
+        }
     }
 }

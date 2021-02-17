@@ -56,6 +56,7 @@ public class CompetitionService {
                 size,
                 Sort.Direction.ASC,
                 "id");
+
         return repository.findByTitleOrRulesContaining(name, name, pageRequest);
     }
 

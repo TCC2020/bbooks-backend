@@ -78,4 +78,7 @@ public class CompetitionController {
         return service.getById(id);
     }
 
+    // TODO: Rota para finalizar a competição
+
+
 }

@@ -1,11 +1,13 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
+import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
+import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
 import br.edu.ifsp.spo.bulls.competition.api.dto.CompetitionMemberTO;
-import br.edu.ifsp.spo.bulls.competition.api.dto.CompetitionTO;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionMemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,19 +43,21 @@ public class CompetitionMemberController {
     })
     @DeleteMapping("/{id}")
     public void exitMember(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID id) {
+        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Requisitando competições");
-        service.exitMember(token,id);
+        service.exitMember(tokenValue,id);
     }
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Cadastro um membro na competição")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Competicação encontrada"),
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @PostMapping
     public CompetitionMemberTO saveMember(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionMemberTO memberTO) {
+        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Requisitando competições");
-        return service.saveMember(token,memberTO);
+        return service.saveMember(tokenValue,memberTO);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")
@@ -63,8 +67,9 @@ public class CompetitionMemberController {
     })
     @PutMapping("/{id}")
     public CompetitionMemberTO updateMember(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionMemberTO memberTO, @PathVariable UUID id) {
+        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Requisitando competições");
-        return service.updateMember(token, memberTO, id);
+        return service.updateMember(tokenValue, memberTO, id);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")
@@ -73,7 +78,7 @@ public class CompetitionMemberController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @GetMapping("/competitors/{id}")
-    public Page<CompetitionMemberTO> getMembers(@PathVariable UUID id, @RequestParam int page, @RequestParam int size) {
+    public Page<CompetitionMember> getMembers(@PathVariable UUID id, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando competições");
         return service.getMembers(id, page, size);
     }
@@ -84,7 +89,7 @@ public class CompetitionMemberController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @GetMapping("/profile/{id}")
-    public Page<CompetitionTO> getCompetitionByProfile(@PathVariable UUID id, @RequestParam int page, @RequestParam int size) {
+    public Page<Competition> getCompetitionByProfile(@PathVariable int id, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando competições");
         return service.getCompetitionsByProfile(id, page, size);
     }

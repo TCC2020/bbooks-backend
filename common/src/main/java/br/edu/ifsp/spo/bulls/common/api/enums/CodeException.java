@@ -52,7 +52,10 @@ public enum CodeException {
     GR004("GR004: Requester is not group's owner or admin", "GR004"),
     CP001("CP001: Competition not found", "CP001"),
     CM001("CM001: Competition member not found", "CM001"),
-    CM002("CM002: Profile not authorized, id not match", "CM002");
+    CM002("CM002: Profile not authorized, id not match", "CM002"),
+    CM003("CM003: Profile requester not a member of competition", "CM003"),
+    CM004("CM004: Profile already in competition", "CM004"),
+    CM005("CM005: Only owner can create admin members", "CM005");
 
 
 
