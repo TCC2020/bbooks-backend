@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.competition.api.domain;
 
 import br.edu.ifsp.spo.bulls.common.api.bean.StringConverter;
+import br.edu.ifsp.spo.bulls.common.api.enums.BookCondition;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -30,6 +31,7 @@ public class BookAd {
     private String isbn;
     @Column(nullable = false)
     private UUID userId;
+    private BookCondition condition;
     private String idBookGoogle;
     private String bookId;
     @OneToOne
