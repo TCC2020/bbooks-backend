@@ -29,6 +29,8 @@ public class PostTO {
     private LocalDateTime creationDate;
 
     private String image;
+    
+    private UUID upperPostId;
 
     private UserTO user;
 
