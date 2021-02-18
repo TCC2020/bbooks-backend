@@ -48,7 +48,7 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
 
     @Query(value =
             "SELECT DISTINCT(p.*) FROM POST p, FRIENDSHIPS f " +
-                    "WHERE (p.profile_id = f.profile1 AND f.profile2 = :id OR p.profile_id = f.profile2 AND f.profile1 = :id) AND f.status = 'added' AND p.group_id IS NULL " +
+                    "WHERE (p.profile_id = f.profile1 AND f.profile2 = :id OR p.profile_id = f.profile2 AND f.profile1 = :id) AND f.status = 'added' AND p.tipo_post = 'post' AND p.group_id IS NULL " +
                     "OR (p.group_id IN (SELECT gro.group_id FROM profiles prof, group_members gro WHERE prof.user_id = gro.user_id AND prof.id = :id)) " +
                     "AND p.tipo_post = 'post' " +
                     "ORDER BY p.creation_date DESC", nativeQuery = true)
