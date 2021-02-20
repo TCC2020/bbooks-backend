@@ -24,6 +24,7 @@ public class BookAd {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
+    private String title;
     private String description;
     @Column(name = "images", length = 1000)
     @Convert(converter = StringConverter.class)
@@ -34,6 +35,9 @@ public class BookAd {
     private BookCondition condition;
     private String idBookGoogle;
     private String bookId;
+    @Column(length = 16)
+    private String contact;
+    private String address;
     @OneToOne
     private AdReview review;
 }

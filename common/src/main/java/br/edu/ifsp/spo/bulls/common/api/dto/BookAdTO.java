@@ -15,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BookAdTO {
     private UUID id;
+    private String title;
     private String description;
     @Convert(converter = StringConverter.class)
     private List<String> images;
@@ -22,6 +23,8 @@ public class BookAdTO {
     private UUID userId;
     private String idBookGoogle;
     private int bookId;
+    private String address;
+    private String contact;
     private AdReviewTO review;
     private BookCondition condition;
 }
