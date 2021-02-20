@@ -10,6 +10,7 @@ import java.util.UUID;
 @Data
 @ApiModel(value = "Objeto de transito: Membros da competição")
 public class CompetitionMemberTO {
+    // TODO: Criar um TO de retorno que coloca UserTO e CompetitionTO
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID memberId;

@@ -16,5 +16,6 @@ public class CompetitionVotesTO {
     @ManyToOne
     private CompetitionMemberTO member;
 
+    // TODO: Colocar o profileTO
     private int profileId;
 }
