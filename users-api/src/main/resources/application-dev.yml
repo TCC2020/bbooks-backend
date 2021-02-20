@@ -1,10 +1,8 @@
 server:
   port: 8080
+feign:
+  competition: 'localhost:8082'
 spring:
-  thymeleaf:
-    cache: false
-    enabled: false
-    suffix: .html
   profiles:
     active: dev
   datasource:

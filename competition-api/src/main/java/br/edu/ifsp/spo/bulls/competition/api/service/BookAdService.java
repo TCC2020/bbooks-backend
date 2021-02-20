@@ -11,6 +11,7 @@ import br.edu.ifsp.spo.bulls.competition.api.repository.BookAdRepository;
 import br.edu.ifsp.spo.bulls.competition.api.util.BookAdUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,5 +66,16 @@ public class BookAdService {
 
     public BookAdTO getAdById(UUID id) {
         return utils.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001.getText(), CodeException.BAD001)));
+    }
+
+    public HttpStatus setImage(UUID bookAdId, String url, String token) {
+        BookAd ad = repository.findById(bookAdId).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001));
+        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
+        UserTO user = feign.getUserInfo(tokenValue);
+        if(user == null || !user.getId().equals(ad.getUserId()))
+            throw new ResourceUnauthorizedException(CodeException.US001.getText(), CodeException.US001);
+        ad.getImages().add(url);
+        repository.save(ad);
+        return HttpStatus.CREATED;
     }
 }

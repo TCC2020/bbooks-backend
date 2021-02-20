@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.bean.SurveyBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
@@ -35,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {PostService.class, PostBeanUtil.class})
+@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {PostService.class, SurveyBeanUtil.class, PostBeanUtil.class, })
 public class PostServiceTest {
 
     @MockBean
