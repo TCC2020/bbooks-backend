@@ -1,8 +1,9 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
-import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberSaveTO;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionMemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -54,7 +55,7 @@ public class CompetitionMemberController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @PostMapping
-    public CompetitionMemberTO saveMember(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionMemberTO memberTO) {
+    public CompetitionMemberTO saveMember(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionMemberSaveTO memberTO) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Requisitando competições");
         return service.saveMember(tokenValue,memberTO);
@@ -66,7 +67,7 @@ public class CompetitionMemberController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @PutMapping("/{id}")
-    public CompetitionMemberTO updateMember(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionMemberTO memberTO, @PathVariable UUID id) {
+    public CompetitionMemberTO updateMember(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionMemberSaveTO memberTO, @PathVariable UUID id) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Requisitando competições");
         return service.updateMember(tokenValue, memberTO, id);

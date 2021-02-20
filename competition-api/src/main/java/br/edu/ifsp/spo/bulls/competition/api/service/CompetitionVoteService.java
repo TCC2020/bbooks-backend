@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.competition.api.service;
 
-import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVotesTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVotesSaveTO;
 import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionMemberRepository;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionVotesRepository;
@@ -26,19 +26,19 @@ public class CompetitionVoteService {
         // TODO: Verificar de o token existe
     }
 
-    public List<CompetitionVotesTO> getVotesByMember(UUID memberId) {
+    public List<CompetitionVotesSaveTO> getVotesByMember(UUID memberId) {
         // TODO: Verificar se o member existe e está em status "aceito"
 
         return null;
     }
 
-    public CompetitionVotesTO vote(CompetitionVotesTO vote) {
+    public CompetitionVotesSaveTO vote(CompetitionVotesSaveTO vote) {
         // TODO: Verificar se o member existe e está em status "aceito"
 
         return null;
     }
 
-    public CompetitionVotesTO updateVote(CompetitionVotesTO vote, UUID voteId, String tokenValue) {
+    public CompetitionVotesSaveTO updateVote(CompetitionVotesSaveTO vote, UUID voteId, String tokenValue) {
         // TODO: Verificar de o token existe
         // TODO: Verificar se o member existe e está em status "aceito"
 

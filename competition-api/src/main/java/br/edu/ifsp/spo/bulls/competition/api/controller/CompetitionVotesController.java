@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
-import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVotesTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVotesSaveTO;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionVoteService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -28,7 +28,7 @@ public class CompetitionVotesController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @GetMapping("/{memberId}")
-    public List<CompetitionVotesTO> getVotesByMember(@PathVariable UUID memberId) {
+    public List<CompetitionVotesSaveTO> getVotesByMember(@PathVariable UUID memberId) {
         logger.info("Requisitando votos de um membro");
         return service.getVotesByMember(memberId);
     }
@@ -39,7 +39,7 @@ public class CompetitionVotesController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @PostMapping
-    public CompetitionVotesTO vote(@RequestBody CompetitionVotesTO vote) {
+    public CompetitionVotesSaveTO vote(@RequestBody CompetitionVotesSaveTO vote) {
         logger.info("Votando em um membro");
         return service.vote(vote);
     }
@@ -50,7 +50,7 @@ public class CompetitionVotesController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @PutMapping("/{voteId}")
-    public CompetitionVotesTO updateVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId, @RequestBody CompetitionVotesTO vote) {
+    public CompetitionVotesSaveTO updateVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId, @RequestBody CompetitionVotesSaveTO vote) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Votando em um membro");
         return service.updateVote(vote, voteId, tokenValue);

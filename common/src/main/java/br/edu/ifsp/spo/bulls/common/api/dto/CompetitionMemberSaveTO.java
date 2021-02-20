@@ -2,14 +2,14 @@ package br.edu.ifsp.spo.bulls.common.api.dto;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.common.api.enums.Status;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import javax.persistence.*;
 import java.util.UUID;
 
-public class CompetitionMemberTO {
+@Data
+@ApiModel(value = "Objeto de transito: Membros da competição")
+public class CompetitionMemberSaveTO {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID memberId;
@@ -18,13 +18,12 @@ public class CompetitionMemberTO {
 
     private String story;
 
-    private ProfileTO profile;
+    private int profileId;
 
     private Role role;
 
     private Status status;
 
-    private CompetitionTO competitionTO;
+    private UUID competitionId;
 
-    private float meanVote;
 }

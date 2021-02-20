@@ -24,7 +24,7 @@ public class CompetitionTO {
 
         private LocalDateTime creationDate;
 
-        private CompetitionMemberTO winnerProfile;
+        private CompetitionMemberSaveTO winnerProfile;
 
         private int creatorProfile;
 }

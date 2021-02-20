@@ -6,16 +6,14 @@ import javax.persistence.ManyToOne;
 import java.util.UUID;
 
 @Data
-@ApiModel(value = "Objeto de transito: Votos de um competidor")
-public class CompetitionVotesTO {
+@ApiModel(value = "Objeto de transito: Votos de um competidor ")
+public class CompetitionVotesSaveTO {
 
     private UUID id;
 
     private int value;
 
-    @ManyToOne
-    private CompetitionMemberTO member;
+    private UUID memberId;
 
-    // TODO: Colocar o profileTO
     private int profileId;
 }

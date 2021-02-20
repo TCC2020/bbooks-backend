@@ -3,7 +3,7 @@ package br.edu.ifsp.spo.bulls.competition.api.bean;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
-import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberSaveTO;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class CompetitionMemberBeanUtil {
     @Autowired
     private CompetitionRepository competitionRepository;
 
-    public CompetitionMember toDomain(CompetitionMemberTO memberTO){
+    public CompetitionMember toDomain(CompetitionMemberSaveTO memberTO){
         CompetitionMember member = new CompetitionMember();
         try {
             copyProperties(memberTO, member);
@@ -33,11 +33,12 @@ public class CompetitionMemberBeanUtil {
         return member;
     }
 
-    public CompetitionMemberTO toDto(CompetitionMember member){
-        CompetitionMemberTO memberTO = new CompetitionMemberTO();
+    public CompetitionMemberSaveTO toDto(CompetitionMember member){
+        CompetitionMemberSaveTO memberTO = new CompetitionMemberSaveTO();
         try {
             copyProperties(member, memberTO);
             memberTO.setCompetitionId(member.getCompetition().getId());
+            // TODO: calcular a média de votações
         }   catch(Exception e) {
             logger.error("Exception coverting to dto: " + e);
         }

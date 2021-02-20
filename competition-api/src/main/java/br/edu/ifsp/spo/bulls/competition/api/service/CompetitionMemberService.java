@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.competition.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
@@ -9,7 +10,7 @@ import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.competition.api.bean.CompetitionMemberBeanUtil;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
-import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberSaveTO;
 import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionMemberRepository;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionRepository;
@@ -82,7 +83,7 @@ public class CompetitionMemberService {
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText(), CodeException.CM001)));
     }
 
-    public CompetitionMemberTO updateMember(String token, CompetitionMemberTO memberTO, UUID id) {
+    public CompetitionMemberTO updateMember(String token, CompetitionMemberSaveTO memberTO, UUID id) {
         // Testar member editando cadastro dele
         // Testar member editando outro member (bloquear)
         // Testar owner editando
@@ -101,7 +102,7 @@ public class CompetitionMemberService {
         }
     }
 
-    public CompetitionMemberTO saveMember(String token,CompetitionMemberTO memberTO) {
+    public CompetitionMemberTO saveMember(String token, CompetitionMemberSaveTO memberTO) {
         // Testar profile adicionando ele mesmo
         // Testar profile adicionando outro profile (bloquear)
         // Testar owner adicionando admin
@@ -124,7 +125,7 @@ public class CompetitionMemberService {
         return savedMember;
     }
 
-    private CompetitionMemberTO createMember(CompetitionMemberTO memberTO, ProfileTO requester) {
+    private CompetitionMemberTO createMember(CompetitionMemberSaveTO memberTO, ProfileTO requester) {
 
         if(requester.getId() != memberTO.getProfileId()){
             throw new ResourceUnauthorizedException(CodeException.CM006.getText(), CodeException.CM006);
@@ -133,7 +134,7 @@ public class CompetitionMemberService {
         return beanUtil.toDto(repository.save(beanUtil.toDomain(memberTO)));
     }
 
-    private CompetitionMemberTO createAdmin(CompetitionMemberTO memberTO, ProfileTO requester) {
+    private CompetitionMemberTO createAdmin(CompetitionMemberSaveTO memberTO, ProfileTO requester) {
         CompetitionMember owner = repository.getCreatorOfCompetition(memberTO.getCompetitionId(), Role.owner);
 
         if(requester.getId() != owner.getProfileId()){
@@ -142,7 +143,7 @@ public class CompetitionMemberService {
         return beanUtil.toDto(repository.save(beanUtil.toDomain(memberTO)));
     }
 
-    private void verifyIfProfileIsInCompetition(CompetitionMemberTO memberTO) {
+    private void verifyIfProfileIsInCompetition(CompetitionMemberSaveTO memberTO) {
 
         Competition competition = competitionRepository.findById(memberTO.getCompetitionId())
                 .orElseThrow( () -> new ResourceConflictException(CodeException.CP001.getText(), CodeException.CP001));
