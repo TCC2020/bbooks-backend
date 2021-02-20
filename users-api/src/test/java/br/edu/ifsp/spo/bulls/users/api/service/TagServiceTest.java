@@ -82,14 +82,14 @@ public class TagServiceTest {
     }
 
     @Test
-    void should_save_tag(){
+    void shouldSaveTag(){
         Mockito.when(mockTagRepository.save(tag)).thenReturn(tag);
         Tag tagResult = tagService.save(tag);
         assertEquals(tag, tagResult);
     }
 
     @Test
-    void should_get_by_profile()  {
+    void shouldGetByProfile()  {
         Mockito.when(mockProfileRepository.findById(profile.getId())).thenReturn(Optional.of(profile));
         Mockito.when(mockTagRepository.findByProfile(profile)).thenReturn(tagsList);
 
@@ -98,33 +98,33 @@ public class TagServiceTest {
     }
 
     @Test
-    void shouldnt_get_by_profile_if_profile_not_found() {
+    void shouldntGetByProfileIfProfileNotFound() {
         Mockito.when(mockProfileRepository.findById(profile.getId())).thenThrow(new ResourceNotFoundException(CodeException.PF001.getText(), CodeException.PF001));
         assertThrows(ResourceNotFoundException.class, () -> tagService.getByProfile(profile.getId()));
     }
 
     @Test
-    void should_get_tag_by_book()  {
+    void shouldGetTagByBook()  {
         Mockito.when(mockTagRepository.findAll()).thenReturn(tagsList);
         List<Tag> tagResult = tagService.getByIdBook(userBooks.getId());
         assertEquals(1, tagResult.size());
     }
 
     @Test
-    void should_get_tag_by_id(){
+    void shouldGetTagById(){
         Mockito.when(mockTagRepository.findById(tag.getId())).thenReturn(Optional.of(tag));
         Tag tagResult = tagService.getbyId(tag.getId());
         assertNotNull(tagResult);
     }
 
     @Test
-    void shouldnt_get_tag_by_id_when_tag_not_found(){
+    void shouldntGetTagByIdWhenTagNotFound(){
         Mockito.when(mockTagRepository.findById(tagNotFound.getId())).thenThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         assertThrows(ResourceNotFoundException.class, () ->tagService.getbyId(tagNotFound.getId()));
     }
 
     @Test
-    void should_update(){
+    void shouldUpdate(){
         Mockito.when(mockTagRepository.findById(tag.getId())).thenReturn(Optional.ofNullable(tag));
         Mockito.when(mockUserBooksRepository.findById(userBooks.getId())).thenReturn(Optional.of(userBooks));
         Mockito.when(mockTagRepository.save(tag)).thenReturn(tag);
@@ -135,18 +135,18 @@ public class TagServiceTest {
     }
 
     @Test
-    void shouldnt_update_when_id_dont_match() {
+    void shouldntUpdateWhenIdDontMatch() {
         assertThrows(ResourceBadRequestException.class, () -> tagService.update(tagNotFound.getId(), tag));
     }
 
     @Test
-    void shouldnt_update_when_tag_not_found() {
+    void shouldntUpdateWhenTagNotFound() {
         Mockito.when(mockTagRepository.findById(tag.getId())).thenThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         assertThrows(ResourceNotFoundException.class, () ->  tagService.update(tag.getId(), tag));
     }
 
     @Test
-    void should_put_tag_on_book() {
+    void shouldPutTagOnBook() {
         Mockito.when(mockTagRepository.findById(tag.getId())).thenReturn(Optional.of(tag));
         Mockito.when(mockUserBooksRepository.findById(userBooks.getId())).thenReturn(Optional.of(userBooks));
         Mockito.when(mockTagRepository.save(tag)).thenReturn(tag);
@@ -157,20 +157,20 @@ public class TagServiceTest {
     }
 
     @Test
-    void shouldnt_put_tag_on_book_when_tag_not_found() {
+    void shouldntPutTagOnBookWhenTagNotFound() {
         Mockito.when(mockTagRepository.findById(tag.getId())).thenThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         assertThrows(ResourceNotFoundException.class, () -> tagService.tagBook(tag.getId(), userBooks.getId()));
 
     }
 
     @Test
-    void shouldnt_put_tag_on_book_when_userBooks_not_found() {
+    void shouldntPutTagOnBookWhenUserBooksNotFound() {
         Mockito.when(mockUserBooksRepository.findById(userBooks.getId())).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         assertThrows(ResourceNotFoundException.class, () -> tagService.tagBook(tag.getId(), userBooks.getId()));
     }
 
     @Test
-    void should_untag_on_book() {
+    void shouldUntagOnBook() {
         Mockito.when(mockTagRepository.findById(tag.getId())).thenReturn(Optional.of(tag));
         Mockito.when(mockUserBooksRepository.findById(userBooks.getId())).thenReturn(Optional.of(userBooks));
 
@@ -180,19 +180,19 @@ public class TagServiceTest {
     }
 
     @Test
-    void shouldnt_untag_book_when_tag_not_found() {
+    void shouldntUntagBookWhenTagNotFound() {
         Mockito.when(mockTagRepository.findById(tag.getId())).thenThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         assertThrows(ResourceNotFoundException.class, () -> tagService.untagBook(tag.getId(), userBooks.getId()));
     }
 
     @Test
-    void shouldnt_untag_book_when_userBooks_not_found() {
+    void shouldntUntagBookWhenUserBooksNotFound() {
         Mockito.when(mockUserBooksRepository.findById(userBooks.getId())).thenThrow(new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         assertThrows(ResourceNotFoundException.class, () -> tagService.untagBook(tag.getId(), userBooks.getId()));
     }
 
     @Test
-    void should_delete_tag()  {
+    void shouldDeleteTag()  {
         Mockito.when(mockTagRepository.findById(tag.getId())).thenReturn(Optional.of(tag));
         Mockito.when(mockUserBooksRepository.findById(userBooks.getId())).thenReturn(Optional.of(userBooks));
 
@@ -201,7 +201,7 @@ public class TagServiceTest {
     }
 
     @Test
-    void shouldnt_delete_tag() {
+    void shouldntDeleteTag() {
         Mockito.when(mockTagRepository.findById(tag.getId())).thenThrow(new ResourceNotFoundException(CodeException.TG001.getText(), CodeException.TG001));
         assertThrows(ResourceNotFoundException.class, () -> tagService.delete(tag.getId()));
     }
