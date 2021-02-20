@@ -25,7 +25,7 @@ public class BookAd {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
     private String description;
-    @Column(name = "images")
+    @Column(name = "images", length = 1000)
     @Convert(converter = StringConverter.class)
     private List<String> images;
     private String isbn;

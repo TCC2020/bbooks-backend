@@ -21,6 +21,9 @@ public class PostBeanUtil {
     @Autowired
     private UserCommonFeign feign;
 
+    @Autowired
+    private SurveyBeanUtil surveyBeanUtil;
+
     private Logger logger = LoggerFactory.getLogger(PostBeanUtil.class);
 
     @Autowired
@@ -34,7 +37,8 @@ public class PostBeanUtil {
         }catch(Exception e) {
             logger.error("Error while converting Post to PostTO: " +  e);
         }
-
+        if(post.getSurvey() != null)
+            postTO.setSurvey(surveyBeanUtil.toDto(post.getSurvey()));
         // TODO: teste aqui
         if(post.getGroup() != null)
             postTO.setGroupId(post.getGroup().getId());
