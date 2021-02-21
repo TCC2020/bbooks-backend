@@ -50,6 +50,7 @@ public enum CodeException {
     GR002("GR002: Group name already exists", "GR002"),
     GR003("GR003: Requester is not group's owner", "GR003"),
     GR004("GR004: Requester is not group's owner or admin", "GR004"),
+<<<<<<< HEAD
     CP001("CP001: Competition not found", "CP001"),
     CM001("CM001: Competition member not found", "CM001"),
     CM002("CM002: Profile not authorized, id not match", "CM002"),
@@ -59,6 +60,12 @@ public enum CodeException {
     CM006("CM006: You cannot add or edit other profile in competition", "CM006");
 
 
+=======
+    GR005("GR005: Requester is has not access to this data", "GR005"),
+    GR006("GR006: invite already sent", "GR006"),
+    INV001("INV001: Invite not found", "INV001"),
+    INV002("INV002: You have no permission to do this", "INV002");
+>>>>>>> 028f40056d7e8f8fe258283f737b065e7bb519f2
 
 
     private final String text;

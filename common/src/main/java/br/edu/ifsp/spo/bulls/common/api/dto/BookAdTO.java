@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.common.api.dto;
 
 import br.edu.ifsp.spo.bulls.common.api.bean.StringConverter;
+import br.edu.ifsp.spo.bulls.common.api.enums.BookCondition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,5 @@ public class BookAdTO {
     private String idBookGoogle;
     private int bookId;
     private AdReviewTO review;
+    private BookCondition condition;
 }
