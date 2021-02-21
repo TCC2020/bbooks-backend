@@ -79,7 +79,7 @@ public class CompetitionMemberService {
     }
 
     public CompetitionMemberTO getById(UUID id) {
-        return beanUtil.toDto(repository.findById(id)
+        return beanUtil.toReturnDTO(repository.findById(id)
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText(), CodeException.CM001)));
     }
 
@@ -131,7 +131,7 @@ public class CompetitionMemberService {
             throw new ResourceUnauthorizedException(CodeException.CM006.getText(), CodeException.CM006);
         }
 
-        return beanUtil.toDto(repository.save(beanUtil.toDomain(memberTO)));
+        return beanUtil.toReturnDTO(repository.save(beanUtil.toDomain(memberTO)));
     }
 
     private CompetitionMemberTO createAdmin(CompetitionMemberSaveTO memberTO, ProfileTO requester) {
@@ -140,7 +140,7 @@ public class CompetitionMemberService {
         if(requester.getId() != owner.getProfileId()){
             throw new ResourceUnauthorizedException(CodeException.CM005.getText(), CodeException.CM005);
         }
-        return beanUtil.toDto(repository.save(beanUtil.toDomain(memberTO)));
+        return beanUtil.toReturnDTO(repository.save(beanUtil.toDomain(memberTO)));
     }
 
     private void verifyIfProfileIsInCompetition(CompetitionMemberSaveTO memberTO) {
@@ -157,7 +157,7 @@ public class CompetitionMemberService {
         if(profileTO.getId() != member.getProfileId()){
             throw new ResourceUnauthorizedException(CodeException.CM006.getText(), CodeException.CM006);
         }
-        return beanUtil.toDto(repository.findById(id).map( member1 -> {
+        return beanUtil.toReturnDTO(repository.findById(id).map(member1 -> {
             member1.setStory(member.getStory());
             member1.setTitle(member.getTitle());
             return repository.save(member1);
@@ -165,7 +165,7 @@ public class CompetitionMemberService {
     }
 
     private CompetitionMemberTO updateByAdmin(CompetitionMember member, UUID id) {
-        return beanUtil.toDto(repository.findById(id).map( member1 -> {
+        return beanUtil.toReturnDTO(repository.findById(id).map(member1 -> {
             member1.setStatus(member.getStatus());
             return repository.save(member1);
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText(), CodeException.CM001)));
