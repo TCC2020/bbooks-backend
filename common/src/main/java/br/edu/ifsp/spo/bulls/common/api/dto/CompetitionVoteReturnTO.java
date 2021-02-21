@@ -13,7 +13,7 @@ public class CompetitionVoteReturnTO {
 
     private int value;
 
-    private CompetitionMemberSaveTO member;
+    private CompetitionMemberTO member;
 
     private ProfileTO profile;
 }

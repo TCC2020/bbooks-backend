@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVoteReturnTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVotesSaveTO;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionVoteService;
 import io.swagger.annotations.ApiOperation;
@@ -9,7 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;import java.util.List;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,7 +30,7 @@ public class CompetitionVotesController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @GetMapping("/{memberId}")
-    public List<CompetitionVotesSaveTO> getVotesByMember(@PathVariable UUID memberId) {
+    public List<CompetitionVoteReturnTO> getVotesByMember(@PathVariable UUID memberId) {
         logger.info("Requisitando votos de um membro");
         return service.getVotesByMember(memberId);
     }
@@ -39,9 +41,10 @@ public class CompetitionVotesController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @PostMapping
-    public CompetitionVotesSaveTO vote(@RequestBody CompetitionVotesSaveTO vote) {
+    public CompetitionVoteReturnTO vote(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionVotesSaveTO vote) {
+        String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Votando em um membro");
-        return service.vote(vote);
+        return service.vote(vote, tokenValue);
     }
 
     @ApiOperation(value = "Retorna uma competicação por Id")
@@ -50,7 +53,7 @@ public class CompetitionVotesController {
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
     @PutMapping("/{voteId}")
-    public CompetitionVotesSaveTO updateVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId, @RequestBody CompetitionVotesSaveTO vote) {
+    public CompetitionVoteReturnTO updateVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId, @RequestBody CompetitionVotesSaveTO vote) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Votando em um membro");
         return service.updateVote(vote, voteId, tokenValue);

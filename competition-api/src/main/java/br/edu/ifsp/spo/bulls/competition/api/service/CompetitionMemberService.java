@@ -109,7 +109,6 @@ public class CompetitionMemberService {
         // Testar admin adicionando outro admin (bloquear)
         // Testar member adicionando admin (bloquear)
         // Testar owner adicionando member (bloquear)
-        // TODO: implementar requisições
         // Verificar se o profile existe
 
         feign.getProfile(memberTO.getProfileId());
