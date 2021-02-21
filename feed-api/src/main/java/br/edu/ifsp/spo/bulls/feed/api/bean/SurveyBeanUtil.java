@@ -23,8 +23,38 @@ public class SurveyBeanUtil {
         return surveyTO;
     }
 
+    public Survey toDomain(SurveyTO dto) {
+        Survey domain = new Survey();
+        BeanUtils.copyProperties(dto, domain);
+        if(dto.getOptions() != null)
+            domain.setOptions(toSurveyOptionsDomainList(dto.getOptions()));
+        return domain;
+    }
+
+    private List<SurveysOptions> toSurveyOptionsDomainList(List<SurveyOptionsTO> options) {
+        return options.stream().parallel().map(this::toSurveyOptionDomain).collect(Collectors.toList());
+    }
+
     public List<SurveyOptionsTO> toSurveyOptionsDtoList(List<SurveysOptions> options) {
         return options.parallelStream().map(this::toSurveyOptionDto).collect(Collectors.toList());
+    }
+
+    public SurveysOptions toSurveyOptionDomain(SurveyOptionsTO dto) {
+        SurveysOptions domain = new SurveysOptions();
+        BeanUtils.copyProperties(dto, domain);
+        if(dto.getVotes() != null)
+            domain.setVotes(toVoteDomainList(dto.getVotes()));
+        return domain;
+    }
+
+    private List<Vote> toVoteDomainList(List<VoteTO> dtos) {
+        return dtos.stream().parallel().map(this::toVoteDomain).collect(Collectors.toList());
+    }
+
+    public Vote toVoteDomain(VoteTO dto) {
+        Vote domain = new Vote();
+        BeanUtils.copyProperties(dto, domain);
+        return domain;
     }
 
     public SurveyOptionsTO toSurveyOptionDto(SurveysOptions surveyOptions) {

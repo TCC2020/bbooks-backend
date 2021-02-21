@@ -46,10 +46,12 @@ public class PostBeanUtil {
         return postTO;
     }
 
-    public Post toDomain(PostTO postTO ) {
+    public Post toDomain(PostTO postTO) {
         Post post = new Post();
         try {
             BeanUtils.copyProperties(postTO, post);
+            if(postTO.getSurvey() != null)
+                post.setSurvey(surveyBeanUtil.toDomain(postTO.getSurvey()));
         } catch (Exception e) {
             logger.error("Error while converting Post to PostTO: " + e);
         }

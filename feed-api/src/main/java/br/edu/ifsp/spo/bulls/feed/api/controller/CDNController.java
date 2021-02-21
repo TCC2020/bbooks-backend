@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.common.api.enums.CDNEnum;
 import br.edu.ifsp.spo.bulls.feed.api.feign.CompetitionCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.service.PostService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.storage.BlobInfo;
@@ -27,6 +28,9 @@ public class CDNController {
 
     @Autowired
     private CompetitionCommonFeign competitionCommonFeign;
+
+    @Autowired
+    private PostService postService;
 
 //    Storage storage = StorageOptions.newBuilder()
 //            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("C:/Users/AndreNascimentodeFre/Downloads/key.json")))
@@ -62,6 +66,8 @@ public class CDNController {
         switch (objectType) {
             case book_ad_id :
                 return competitionCommonFeign.uploadImage(url, (UUID) infoMap.get("bookAdId"), token);
+            case post_image :
+                return postService.setImage(token, (UUID) infoMap.get("postId"), url);
             default:
                 return HttpStatus.CONFLICT;
         }
