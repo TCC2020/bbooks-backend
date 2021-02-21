@@ -43,7 +43,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         webSecurity.ignoring()
                 .antMatchers("/h2-console/**")
                 .antMatchers("/token/**")
-                .antMatchers("/auth/**");
+                .antMatchers("/auth/**")
+                .antMatchers("/swagger-ui.html**");
     }
 
     @Override
