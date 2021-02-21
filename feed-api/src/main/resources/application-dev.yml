@@ -2,6 +2,7 @@ server:
   port: 8081
 feign:
   users: 'localhost:8080'
+  competition: 'localhost:8081'
 spring:
   profiles:
     active: dev

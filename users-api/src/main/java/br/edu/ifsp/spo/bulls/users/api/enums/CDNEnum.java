@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.users.api.enums;
 
 public enum CDNEnum {
     profile_image("PROFILE_IMAGE"),
+    book_ad_id("BOOK_AD_ID"),
     book_image("BOOK_IMAGE");
 
     private final String text;

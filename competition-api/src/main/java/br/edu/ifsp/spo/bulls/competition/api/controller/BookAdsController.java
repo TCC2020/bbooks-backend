@@ -67,8 +67,8 @@ public class BookAdsController {
         return service.update(token, dto);
     }
 
-    @PutMapping("/{id}/token/{token}")
-    public HttpStatus setImage(@RequestHeader("X-URL") String url, @PathVariable("id") UUID bookAdId, @PathVariable("token") String token){
+    @PutMapping("/{id}/image")
+    public HttpStatus setImage(@RequestHeader("X-URL") String url, @PathVariable("id") UUID bookAdId, @RequestHeader("token") String token){
         return service.setImage(bookAdId, url, token);
     }
 

@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.controller;
 
 import br.edu.ifsp.spo.bulls.users.api.enums.CDNEnum;
-import br.edu.ifsp.spo.bulls.users.api.feign.CompetitionCommonFeign;
 import br.edu.ifsp.spo.bulls.users.api.service.BookService;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -30,9 +29,6 @@ public class CDNController {
 
     @Autowired
     private BookService bookService;
-
-    @Autowired
-    private CompetitionCommonFeign feign;
 
     private Storage storage = StorageOptions.getDefaultInstance().getService();
 
@@ -72,8 +68,6 @@ public class CDNController {
                 return profileService.updateProfileImage(url, token);
             case book_image :
                 return bookService.updateBookImage(url, (int) infoMap.get("bookId"));
-            case book_ad_id :
-                return feign.updateBookAdImage(token, url, (UUID) infoMap.get("bookAdId"));
             default:
                 return HttpStatus.CONFLICT;
         }
