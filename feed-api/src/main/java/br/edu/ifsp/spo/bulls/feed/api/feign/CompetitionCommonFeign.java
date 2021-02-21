@@ -12,6 +12,6 @@ import java.util.UUID;
 @FeignClient(name = "competition", url = "${feign.competition}")
 public interface CompetitionCommonFeign {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/book-ads/{id}/image")
+    @RequestMapping(method = RequestMethod.PUT, value = "/book-ads/{id}/image")
     HttpStatus uploadImage(@RequestHeader("X-URL") String url, @PathVariable("id") UUID bookAdId, @RequestHeader("token") String token);
 }

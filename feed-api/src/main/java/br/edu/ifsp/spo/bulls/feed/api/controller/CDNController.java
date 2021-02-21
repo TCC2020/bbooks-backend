@@ -67,7 +67,7 @@ public class CDNController {
             case book_ad_id :
                 return competitionCommonFeign.uploadImage(url, (UUID) infoMap.get("bookAdId"), token);
             case post_image :
-                return postService.setImage(token, (UUID) infoMap.get("postId"), url);
+                return postService.setImage(token, UUID.fromString(infoMap.get("postId").toString()), url);
             default:
                 return HttpStatus.CONFLICT;
         }
