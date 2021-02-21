@@ -65,7 +65,7 @@ public class CDNController {
         CDNEnum objectType = CDNEnum.getByString((String) infoMap.get("objectType"));
         switch (objectType) {
             case book_ad_id :
-                return competitionCommonFeign.uploadImage(url, (UUID) infoMap.get("bookAdId"), token);
+                return competitionCommonFeign.uploadImage(url, UUID.fromString(infoMap.get("bookAdId").toString()), token);
             case post_image :
                 return postService.setImage(token, UUID.fromString(infoMap.get("postId").toString()), url);
             default:
