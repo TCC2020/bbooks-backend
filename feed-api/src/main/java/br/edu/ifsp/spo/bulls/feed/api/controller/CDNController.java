@@ -5,7 +5,6 @@ import br.edu.ifsp.spo.bulls.feed.api.feign.CompetitionCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.service.PostService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
@@ -26,7 +24,7 @@ import java.util.UUID;
 public class CDNController {
     private final ObjectMapper mapper = new ObjectMapper();
 
-//    private Storage storage = StorageOptions.getDefaultInstance().getService();
+    private Storage storage = StorageOptions.getDefaultInstance().getService();
 
     @Autowired
     private CompetitionCommonFeign competitionCommonFeign;
@@ -34,10 +32,10 @@ public class CDNController {
     @Autowired
     private PostService postService;
 
-    Storage storage = StorageOptions.newBuilder()
-            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/home/feloureiro/Downloads/key.json")))
-            .build()
-            .getService();
+//    Storage storage = StorageOptions.newBuilder()
+//            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/home/feloureiro/Downloads/key.json")))
+//            .build()
+//            .getService();
 
     public CDNController() throws IOException {
     }
