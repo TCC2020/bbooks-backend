@@ -27,4 +27,5 @@ public class BookAdTO {
     private String contact;
     private AdReviewTO review;
     private BookCondition condition;
+    private Boolean isOpen;
 }

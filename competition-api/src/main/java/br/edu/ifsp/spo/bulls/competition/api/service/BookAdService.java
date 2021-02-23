@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class BookAdService {
@@ -48,7 +49,8 @@ public class BookAdService {
 
 
     public List<BookAdTO> getAds() {
-        return utils.toDtoList(repository.findAll());
+        return utils.toDtoList(repository.findAll()
+                .stream().parallel().filter(bookAd -> bookAd.getIsOpen()).collect(Collectors.toList()));
     }
 
     public List<BookAdTO> getAdsByUser(UUID userId) {

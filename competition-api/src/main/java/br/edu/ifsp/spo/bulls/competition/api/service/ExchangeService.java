@@ -49,6 +49,7 @@ public class ExchangeService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getReceiverId())) {
             exchange.setStatus(BookExchangeStatus.accepted);
+            exchange.getReceiverAds().stream().parallel().forEach(ad -> ad.setIsOpen(false));
             return util.toDto(repository.save(exchange));
         }
         throw new ResourceUnauthorizedException(CodeException.EXC003);

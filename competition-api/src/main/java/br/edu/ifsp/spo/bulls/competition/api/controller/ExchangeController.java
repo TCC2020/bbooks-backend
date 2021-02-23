@@ -58,7 +58,6 @@ public class ExchangeController {
             @ApiResponse(code = 401, message = "Usuário não é quem recebeu"),
             @ApiResponse(code = 404, message = "Anúncio não encontrado"),
     })
-
     @GetMapping("/sent/user/{id}")
     public List<ExchangeTO> getByUserSent(@PathVariable("id") UUID id) {
         logger.info("Buscando propostas enviadas do usuário: " + id);
@@ -71,7 +70,6 @@ public class ExchangeController {
             @ApiResponse(code = 401, message = "Usuário não é quem recebeu"),
             @ApiResponse(code = 404, message = "Anúncio não encontrado"),
     })
-
     @PutMapping("/accept/{id}")
     public ExchangeTO acceptExchange(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID id) {
         logger.info("Aceitando proposta: " + id);
