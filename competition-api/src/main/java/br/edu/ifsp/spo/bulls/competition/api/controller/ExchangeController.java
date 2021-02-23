@@ -87,6 +87,19 @@ public class ExchangeController {
         logger.info("Recusando proposta: " + id);
         return service.refuse(token, id);
     }
+
+    @ApiOperation(value = "Cancela uma poposta de troca")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Anuncio de livro cancelado"),
+            @ApiResponse(code = 401, message = "Usuário não é quem recebeu"),
+            @ApiResponse(code = 404, message = "Anúncio não encontrado"),
+    })
+    @PutMapping("/cancel/{id}")
+    public ExchangeTO cancelExchange(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID id) {
+        logger.info("Cancelando proposta: " + id);
+        return service.cancel(token, id);
+    }
+
     @ApiOperation(value = "Delete aceita uma poposta de troca")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Anuncio de livro criado"),
