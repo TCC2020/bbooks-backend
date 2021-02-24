@@ -67,8 +67,10 @@ public class BookAdService {
         BookAd ad = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001.getText(), CodeException.BAD001));
         if(exchangeService.hasExchangesById(id))
             throw new ResourceConflictException(CodeException.BAD003);
-        if(ad.getUserId().equals(user.getId()))
+        if(ad.getUserId().equals(user.getId())) {
             repository.deleteById(id);
+            return;
+        }
         throw new ResourceUnauthorizedException(CodeException.BAD002.getText(), CodeException.BAD002);
     }
 
