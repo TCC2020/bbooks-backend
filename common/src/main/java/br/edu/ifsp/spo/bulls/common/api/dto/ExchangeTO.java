@@ -15,6 +15,8 @@ public class ExchangeTO {
     private LocalDateTime creationDate;
     private UUID requesterId;
     private UUID receiverId;
+    private UserTO requester;
+    private UserTO receiver;
     private List<BookAdTO> requesterAds;
     private List<BookAdTO> receiverAds;
 }

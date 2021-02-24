@@ -51,7 +51,7 @@ public class CDNController {
 
         try {
             BlobInfo blobInfo = storage.create(
-                    BlobInfo.newBuilder("cdn-bbooks", file.getOriginalFilename()).build(), //get original file name
+                    BlobInfo.newBuilder("cdn-bbooks", fileName).build(), //get original file name
                     file.getBytes(), // the file
                     Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ) // Set file permission
             );

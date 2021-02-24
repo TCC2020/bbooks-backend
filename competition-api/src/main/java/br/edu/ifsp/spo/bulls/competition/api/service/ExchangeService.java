@@ -66,6 +66,10 @@ public class ExchangeService {
         throw new ResourceUnauthorizedException(CodeException.EXC003);
     }
 
+    public Boolean hasExchangesById(UUID bookAdId) {
+        return repository.hasExchanges(bookAdId);
+    }
+
     public ExchangeTO cancel(String token, UUID id) {
         UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
         Exchange exchange = repository.findById(id)

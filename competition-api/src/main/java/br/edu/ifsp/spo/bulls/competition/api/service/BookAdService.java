@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.competition.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.BookAdTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.competition.api.domain.BookAd;
@@ -25,6 +26,9 @@ public class BookAdService {
 
     @Autowired
     private BookAdUtil utils;
+
+    @Autowired
+    private ExchangeService exchangeService;
 
     @Autowired
     private UserCommonFeign feign;
@@ -61,9 +65,11 @@ public class BookAdService {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         UserTO user = feign.getUserInfo(tokenValue);
         BookAd ad = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001.getText(), CodeException.BAD001));
+        if(exchangeService.hasExchangesById(id))
+            throw new ResourceConflictException(CodeException.BAD003);
         if(ad.getUserId().equals(user.getId()))
             repository.deleteById(id);
-        new ResourceUnauthorizedException(CodeException.BAD002.getText(), CodeException.BAD002);
+        throw new ResourceUnauthorizedException(CodeException.BAD002.getText(), CodeException.BAD002);
     }
 
     public BookAdTO getAdById(UUID id) {

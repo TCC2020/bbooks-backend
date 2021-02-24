@@ -27,6 +27,7 @@ public enum CodeException {
     TG002("TG002: Tag sent does not match ID", "TG002"),
     BAD001("BAD001: Book ad not found", "BAD001"),
     BAD002("BAD002: User is not owner", "BAD002"),
+    BAD003("BAD003: Cannot delete when has exchanges", "BAD003"),
     EXC001("EXC001: RequesterId is not equals to requesterAds or ReceiverAds", "EXC001"),
     EXC002("EXC002: Exchange not found", "EXC002"),
     EXC003("EXC003: This ad is not from this user", "EXC003"),
