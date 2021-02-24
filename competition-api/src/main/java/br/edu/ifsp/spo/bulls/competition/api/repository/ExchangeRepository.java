@@ -15,6 +15,6 @@ public interface ExchangeRepository extends CrudRepository<Exchange, UUID> {
 
     List<Exchange> findByRequesterId(UUID id);
 
-    @Query("SELECT CASE WHEN EXISTS (SELECT * FROM BOOK_EXCHANGES_RECEIVER_ADS e1, BOOK_EXCHANGES_REQUESTER_ADS e2 WHERE e1.RECEIVER_ADS_ID = :id OR e2.REQUESTER_ADS_ID  = :id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END")
+    @Query(value = "SELECT CASE WHEN EXISTS (SELECT * FROM BOOK_EXCHANGES_RECEIVER_ADS e1, BOOK_EXCHANGES_REQUESTER_ADS e2 WHERE e1.RECEIVER_ADS_ID = :id OR e2.REQUESTER_ADS_ID  = :id ) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", nativeQuery = true)
     Boolean hasExchanges(@Param("id") UUID id);
 }
