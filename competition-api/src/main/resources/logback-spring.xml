@@ -49,8 +49,14 @@
         </layout>
     </appender>
 
-
     <root level="info">
         <appender-ref ref="LE" />
+    </root>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="br.edu.ifsp.spo.bulls.competitionApi" level="INFO"/>
+    <logger name="org.hibernate" level="INFO"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
