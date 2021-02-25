@@ -49,14 +49,25 @@
         </layout>
     </appender>
 
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <root level="info">
         <appender-ref ref="LE" />
     </root>
 
-    <logger name="org.springframework" level="INFO"/>
-    <logger name="br.edu.ifsp.spo.bulls.competitionApi" level="INFO"/>
-    <logger name="org.hibernate" level="INFO"/>
-    <root level="INFO">
+    <root level="debug">
+        <appender-ref ref="LE" />
+    </root>
+
+    <root level="debug">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <root level="info">
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
