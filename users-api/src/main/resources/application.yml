@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  ssl:
+    enabled-protocols: TLSv1.2,TLSv1.3
   datasource:
     driverClassName: org.postgresql.Driver
     url: $JDBC_DATABASE_URL
