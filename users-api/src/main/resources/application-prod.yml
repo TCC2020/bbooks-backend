@@ -5,10 +5,6 @@ server:
     protocol: TLS
     enabled-protocols: 'TLSv1.2,TLSv1.3'
 spring:
-  ssl:
-    enabled: true
-    protocol: TLS
-    enabled-protocols: 'TLSv1.2,TLSv1.3'
   datasource:
     driverClassName: org.postgresql.Driver
     url: $JDBC_DATABASE_URL
