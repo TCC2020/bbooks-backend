@@ -1,7 +1,5 @@
 server:
   port: 8080
-  ssl:
-    enabled-protocols: 'TLSv1.2,TLSv1.3'
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
