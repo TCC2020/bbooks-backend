@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.dto;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.SurveyTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
@@ -41,6 +42,8 @@ public class PostTO {
 
     @Enumerated(EnumType.STRING)
     private Privacy privacy;
+
+    private SurveyTO survey;
 
     public PostTO(UUID id, int profileId, String description, LocalDateTime creationDate, String image, TypePost tipoPost, Privacy privacy) {
         this.id = id;

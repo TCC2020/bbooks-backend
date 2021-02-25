@@ -5,14 +5,7 @@ import br.edu.ifsp.spo.bulls.common.api.enums.BookCondition;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +17,9 @@ public class BookAd {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
+    private String title;
     private String description;
-    @Column(name = "images")
+    @Column(name = "images", length = 1000)
     @Convert(converter = StringConverter.class)
     private List<String> images;
     private String isbn;
@@ -34,6 +28,15 @@ public class BookAd {
     private BookCondition condition;
     private String idBookGoogle;
     private String bookId;
+    @Column(length = 16)
+    private String contact;
+    private String address;
     @OneToOne
     private AdReview review;
+    private Boolean isOpen;
+
+    @PrePersist
+    public void prePersist() {
+        isOpen = true;
+    }
 }

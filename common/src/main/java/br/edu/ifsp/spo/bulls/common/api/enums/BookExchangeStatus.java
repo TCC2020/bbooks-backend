@@ -3,7 +3,8 @@ package br.edu.ifsp.spo.bulls.common.api.enums;
 public enum BookExchangeStatus {
     pending("pending"),
     refused("refused"),
-    accepted("accepted");
+    accepted("accepted"),
+    canceled("canceled");
 
     private final String text;
     BookExchangeStatus(final String text) {

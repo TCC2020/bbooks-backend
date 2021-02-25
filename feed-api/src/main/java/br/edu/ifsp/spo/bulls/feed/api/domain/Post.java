@@ -7,18 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.PrePersist;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -57,7 +46,9 @@ public class Post {
     @ManyToOne
     private GroupRead group;
 
-    //TODO: Campo da enquete
+    @OneToOne(orphanRemoval=true)
+    private Survey survey;
+
     //TODO: Reações
 
     @PrePersist

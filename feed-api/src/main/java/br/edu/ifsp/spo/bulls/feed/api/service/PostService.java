@@ -1,17 +1,21 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
+import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +29,9 @@ public class PostService {
 
     @Autowired
     private PostBeanUtil postBeanUtil;
+
+    @Autowired
+    private UserCommonFeign feign;
 
     public Post create(PostTO postTO) {
         Post post = postBeanUtil.toDomain(postTO);
@@ -75,5 +82,17 @@ public class PostService {
                 Sort.Direction.ASC,
                 "id");
         return repository.findByUpperPostIdQuery(idPost, pageRequest);
+    }
+
+    public HttpStatus setImage(String token, UUID postId, String url) {
+        Post post = repository.findById(postId)
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
+
+        ProfileTO profileTO = feign.getProfileByToken(token);
+        if(profileTO.getId() != post.getProfileId())
+            throw new ResourceConflictException(CodeException.PT002);
+        post.setImage(url);
+        repository.save(post);
+        return HttpStatus.CREATED;
     }
 }

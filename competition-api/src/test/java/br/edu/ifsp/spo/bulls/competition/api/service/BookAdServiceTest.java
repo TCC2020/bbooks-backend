@@ -31,6 +31,9 @@ public class BookAdServiceTest {
     @MockBean
     private UserCommonFeign feign;
 
+    @MockBean
+    private ExchangeService exchangeService;
+
     @Autowired
     private BookAdService service;
 
@@ -41,6 +44,7 @@ public class BookAdServiceTest {
     private UserTO userTO = new UserTO();
     @BeforeEach
     public void setup() {
+        exchangeService.getClass();
         bookAdTO.setId(UUID.fromString("e769397d-f8a5-4c21-a7b9-b709ab5ad7b8"));
         bookAdTO.setUserId(UUID.fromString("05cb05b7-6443-4d57-bba7-6e79ff05074c"));
 
