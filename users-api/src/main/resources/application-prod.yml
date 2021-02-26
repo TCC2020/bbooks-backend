@@ -3,6 +3,9 @@ server:
 spring:
   datasource:
     hikari:
+      maximumPoolSize: 6
+      max-active: 6
+      max-idle: 3
       connectionTimeout: 30000
       idleTimeout: 600000
       maxLifetime: 1800000
@@ -10,7 +13,6 @@ spring:
     url: $JDBC_DATABASE_URL
     username: $JDBC_DATABASE_USERNAME
     password: $JDBC_DATABASE_PASSWORD
-    max-active: 3
   jpa:
     generate-ddl: true
     databasePlatform: org.hibernate.dialect.PostgreSQL9Dialect
