@@ -12,7 +12,7 @@ spring:
     url: $JDBC_DATABASE_URL
     username: $JDBC_DATABASE_USERNAME
     password: $JDBC_DATABASE_PASSWORD
-    max-active: 6
+    max-active: 3
   jpa:
     generate-ddl: true
     databasePlatform: org.hibernate.dialect.PostgreSQL9Dialect
