@@ -105,7 +105,7 @@ public class GroupMemberService {
         if(member != null && (member.getRole().equals(Role.admin) || member.getRole().equals(Role.owner))) {
             GroupInvite inv = inviteRepository.findByUserIdAndGroup(dto.getUserId(), dto.getGroupId());
             if (inv != null)
-                throw new ResourceUnauthorizedException(CodeException.GR005);
+                throw new ResourceUnauthorizedException(CodeException.GR006);
             return memberBeanUtil.toInviteDto(inviteRepository.save(memberBeanUtil.toInvite(dto)));
         }
         throw new ResourceUnauthorizedException(CodeException.GR004);
