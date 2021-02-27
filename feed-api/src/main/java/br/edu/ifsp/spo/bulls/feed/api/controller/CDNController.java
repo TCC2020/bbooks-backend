@@ -46,7 +46,7 @@ public class CDNController {
         Map<String, Object> infoMap = mapper.readValue(info, new TypeReference<Map<String, Object>>() {
         });
         String fileName = file.getOriginalFilename();
-        System.out.println(StorageOptions.getDefaultInstance().getCredentials());
+        System.out.println("opts " +StorageOptions.getDefaultInstance().getCredentials());
 
         try {
             BlobInfo blobInfo = storage.create(
