@@ -16,6 +16,9 @@ public interface UserCommonFeign {
     @RequestMapping(method = RequestMethod.GET, value = "/users/info")
     UserTO getUserInfo(@RequestHeader("AUTHORIZATION") String token);
 
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
+    UserTO getUserById(@PathVariable("id") UUID userId);
+
     @RequestMapping(method = RequestMethod.GET, value = "/books/{id}")
     BookTO getBook(@PathParam("id")int id);
 

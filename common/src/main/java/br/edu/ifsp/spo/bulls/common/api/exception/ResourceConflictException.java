@@ -15,6 +15,11 @@ public class ResourceConflictException extends RuntimeException {
 		this.code = code;
 	}
 
+	public ResourceConflictException(CodeException code) {
+		super(code.getText());
+		this.code = code;
+	}
+
 	public ResourceConflictException(String message) {
 		super(message);
 	}

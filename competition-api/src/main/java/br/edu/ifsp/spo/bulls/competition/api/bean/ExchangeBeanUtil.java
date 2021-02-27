@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.competition.api.bean;
 import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTO;
 import br.edu.ifsp.spo.bulls.competition.api.controller.ExchangeController;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Exchange;
+import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.util.BookAdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +22,17 @@ public class ExchangeBeanUtil {
     @Autowired
     private BookAdUtil bookAdUtil;
 
+    @Autowired
+    private UserCommonFeign feign;
+
     public ExchangeTO toDto(Exchange domain) {
         ExchangeTO dto = new ExchangeTO();
         try {
             copyProperties(domain, dto);
             dto.setRequesterAds(bookAdUtil.toDtoList(domain.getRequesterAds()));
             dto.setReceiverAds(bookAdUtil.toDtoList(domain.getReceiverAds()));
+            dto.setRequester(feign.getUserById(domain.getRequesterId()));
+            dto.setReceiver(feign.getUserById(domain.getReceiverId()));
         }   catch(Exception e) {
             logger.error("Exception coverting to dto: " + e);
         }

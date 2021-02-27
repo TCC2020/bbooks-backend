@@ -1,8 +1,8 @@
-package br.edu.ifsp.spo.bulls.users.api.controller;
+package br.edu.ifsp.spo.bulls.feed.api.controller;
 
-import br.edu.ifsp.spo.bulls.users.api.enums.CDNEnum;
-import br.edu.ifsp.spo.bulls.users.api.service.BookService;
-import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
+import br.edu.ifsp.spo.bulls.common.api.enums.CDNEnum;
+import br.edu.ifsp.spo.bulls.feed.api.feign.CompetitionCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.service.PostService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.storage.BlobInfo;
@@ -24,16 +24,16 @@ import java.util.UUID;
 public class CDNController {
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Autowired
-    private ProfileService profileService;
-
-    @Autowired
-    private BookService bookService;
-
     private Storage storage = StorageOptions.getDefaultInstance().getService();
 
+    @Autowired
+    private CompetitionCommonFeign competitionCommonFeign;
+
+    @Autowired
+    private PostService postService;
+
 //    Storage storage = StorageOptions.newBuilder()
-//            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("C:/Users/AndreNascimentodeFre/Downloads/key.json")))
+//            .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/home/feloureiro/Downloads/key.json")))
 //            .build()
 //            .getService();
 
@@ -51,7 +51,7 @@ public class CDNController {
 
         try {
             BlobInfo blobInfo = storage.create(
-                    BlobInfo.newBuilder("cdn-bbooks", file.getOriginalFilename()).build(), //get original file name
+                    BlobInfo.newBuilder("cdn-bbooks", fileName).build(), //get original file name
                     file.getBytes(), // the file
                     Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ) // Set file permission
             );
@@ -64,10 +64,10 @@ public class CDNController {
     private HttpStatus handleUpload(String url, String token, Map<String, Object>infoMap) {
         CDNEnum objectType = CDNEnum.getByString((String) infoMap.get("objectType"));
         switch (objectType) {
-            case profile_image :
-                return profileService.updateProfileImage(url, token);
-            case book_image :
-                return bookService.updateBookImage(url, (int) infoMap.get("bookId"));
+            case book_ad_id :
+                return competitionCommonFeign.uploadImage(url, UUID.fromString(infoMap.get("bookAdId").toString()), token);
+            case post_image :
+                return postService.setImage(token, UUID.fromString(infoMap.get("postId").toString()), url);
             default:
                 return HttpStatus.CONFLICT;
         }

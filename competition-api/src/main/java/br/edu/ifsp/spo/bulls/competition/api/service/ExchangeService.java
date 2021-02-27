@@ -49,6 +49,8 @@ public class ExchangeService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getReceiverId())) {
             exchange.setStatus(BookExchangeStatus.accepted);
+            exchange.getReceiverAds().stream().parallel().forEach(ad -> ad.setIsOpen(false));
+            exchange.getRequesterAds().stream().parallel().forEach(ad -> ad.setIsOpen(false));
             return util.toDto(repository.save(exchange));
         }
         throw new ResourceUnauthorizedException(CodeException.EXC003);
@@ -60,6 +62,21 @@ public class ExchangeService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getReceiverId())) {
             exchange.setStatus(BookExchangeStatus.refused);
+            return util.toDto(repository.save(exchange));
+        }
+        throw new ResourceUnauthorizedException(CodeException.EXC003);
+    }
+
+    public Boolean hasExchangesById(UUID bookAdId) {
+        return repository.hasExchanges(bookAdId);
+    }
+
+    public ExchangeTO cancel(String token, UUID id) {
+        UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
+        Exchange exchange = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
+        if(user.getId().equals(exchange.getRequesterId())) {
+            exchange.setStatus(BookExchangeStatus.canceled);
             return util.toDto(repository.save(exchange));
         }
         throw new ResourceUnauthorizedException(CodeException.EXC003);

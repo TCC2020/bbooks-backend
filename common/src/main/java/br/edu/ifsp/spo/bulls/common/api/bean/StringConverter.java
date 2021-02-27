@@ -10,7 +10,7 @@ import java.util.List;
 public class StringConverter  implements AttributeConverter<List<String>, String> {
     @Override
     public String convertToDatabaseColumn(List<String> list) {
-        if(list == null) return "";
+        if(list == null || list.size() == 0) return null;
         return String.join(";", list);
     }
 

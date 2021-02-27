@@ -1,8 +1,9 @@
-package br.edu.ifsp.spo.bulls.users.api.enums;
+package br.edu.ifsp.spo.bulls.common.api.enums;
 
 public enum CDNEnum {
     profile_image("PROFILE_IMAGE"),
     book_ad_id("BOOK_AD_ID"),
+    post_image("POST_IMAGE"),
     book_image("BOOK_IMAGE");
 
     private final String text;

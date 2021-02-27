@@ -4,6 +4,14 @@ feign:
   users: ${USERS_API:''}
 spring:
   datasource:
+    hikari:
+      maximumPoolSize: 6
+      max-active: 6
+      max-idle: 3
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+
     driverClassName: org.postgresql.Driver
     url: $JDBC_DATABASE_URL
     username: $JDBC_DATABASE_USERNAME
