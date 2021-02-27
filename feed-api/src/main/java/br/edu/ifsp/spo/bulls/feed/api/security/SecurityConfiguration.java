@@ -59,15 +59,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(PROTECTED_URLS)
                 .authenticated()
-//                .and()
-//                .headers()
-//                .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy","default-src 'self'; " +
-//                        "style-src 'self' 'unsafe-line' https://fonts.googleapis.com/, https://use.typekit.net; " +
-//                        "script-src 'self' 'unsafe-line' 'unsafe-eval' https://fonts.googleapis.com/ http://apis.google.com/ http://connect.facebook.net/ *.facebook.com; " +
-//                        "connect-src *; " +
-//                        "child-src 'self' https://apis.google.com https://facebook.com https://www.googleapis.com/ https://bbooks-users-api-dev.herokuapp.com/ https://bbooks-users-api.herokuapp.com/ https://bbooks-competition-api.herokuapp.com/ https://bbooks-competition-api-dsv.herokuapp.com/ https://storage.googleapis.com/;"))
-//                .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "geolocation=(self), fullscreen=(self)"))
-//                .addHeaderWriter(new StaticHeadersWriter("Referrer-Policy", "same-origin"))
+                .and()
+                .headers()
+                .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy","default-src 'self'; " +
+                        "style-src 'self' 'unsafe-line' https://fonts.googleapis.com/, https://use.typekit.net; " +
+                        "script-src 'self' 'unsafe-line' 'unsafe-eval' https://fonts.googleapis.com/ http://apis.google.com/ http://connect.facebook.net/ *.facebook.com; " +
+                        "connect-src *; " +
+                        "child-src 'self' https://apis.google.com https://facebook.com https://www.googleapis.com/ https://bbooks-users-api-dev.herokuapp.com/ https://bbooks-users-api.herokuapp.com/ https://bbooks-competition-api.herokuapp.com/ https://bbooks-competition-api-dsv.herokuapp.com/ https://storage.googleapis.com/;"))
+                .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "geolocation=(self), fullscreen=(self)"))
+                .addHeaderWriter(new StaticHeadersWriter("Referrer-Policy", "same-origin"))
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
