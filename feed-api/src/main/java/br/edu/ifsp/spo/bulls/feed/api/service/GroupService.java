@@ -34,6 +34,9 @@ public class GroupService {
     private GroupMemberService memberService;
 
     @Autowired
+    private GroupMemberRepository memberRepository;
+
+    @Autowired
     private GroupBeanUtil beanUtil;
 
     @Autowired
@@ -92,6 +95,7 @@ public class GroupService {
         UUID owner = groupMemberRepository.findGroupOwner(groupId, Role.owner);
         if(!requester.getId().equals(owner))
             throw new ResourceUnauthorizedException(CodeException.GR003);
+        memberRepository.deleteByIdGroupRead(groupId);
         repository.deleteById(groupId);
     }
 
