@@ -65,7 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "style-src 'self' https://fonts.googleapis.com/, https://use.typekit.net; " +
                             "script-src 'self' https://fonts.googleapis.com/ http://apis.google.com/ http://connect.facebook.net/ *.facebook.com; " +
                             "connect-src *; " +
-                            "child-src 'self' https://apis.google.com https://facebook.com https://www.googleapis.com/ https://accounts.google.com/;"))
+                            "child-src 'self' https://apis.google.com https://facebook.com https://www.googleapis.com/ https://accounts.google.com/ https://storage.googleapis.com/;"))
                     .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "geolocation=(self), fullscreen=(self)"))
                     .addHeaderWriter(new StaticHeadersWriter("Referrer-Policy", "same-origin"))
                 .and()

@@ -25,6 +25,7 @@ public class BookAd {
     private String isbn;
     @Column(nullable = false)
     private UUID userId;
+    @Enumerated(EnumType.STRING)
     private BookCondition condition;
     private String idBookGoogle;
     private String bookId;
