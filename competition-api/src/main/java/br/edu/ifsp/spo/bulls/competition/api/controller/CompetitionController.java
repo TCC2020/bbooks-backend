@@ -23,10 +23,9 @@ public class CompetitionController {
     @Autowired
     private CompetitionService service;
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Retorna uma competicação pelo nome")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação encontrada"),
-            @ApiResponse(code = 404, message = "Competicação não encontrada")
+            @ApiResponse(code = 200, message = "Competicações encontradas")
     })
     @GetMapping
     public Page<Competition> search(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
@@ -34,10 +33,9 @@ public class CompetitionController {
         return service.search(name, page, size);
     }
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Salvar uma competição")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação encontrada"),
-            @ApiResponse(code = 404, message = "Competicação não encontrada")
+            @ApiResponse(code = 200, message = "Competicação criada")
     })
     @PostMapping
     public CompetitionTO save(@RequestBody CompetitionTO competition) {
@@ -45,10 +43,11 @@ public class CompetitionController {
         return service.save(competition);
     }
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Altera uma competicação por Id")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação encontrada"),
-            @ApiResponse(code = 404, message = "Competicação não encontrada")
+            @ApiResponse(code = 200, message = "Competicação alterada"),
+            @ApiResponse(code = 404, message = "Competicação não encontrada"),
+            @ApiResponse(code = 401, message = "Usuário não tem permissão para realizar essa ação")
     })
     @PutMapping("/{id}")
     public CompetitionTO update(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionTO competition, @PathVariable UUID id) {
@@ -56,10 +55,11 @@ public class CompetitionController {
         return service.update(token, competition, id);
     }
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Apagar uma competicação por Id")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação encontrada"),
-            @ApiResponse(code = 404, message = "Competicação não encontrada")
+            @ApiResponse(code = 200, message = "Competicação apagada"),
+            @ApiResponse(code = 404, message = "Competicação não encontrada"),
+            @ApiResponse(code = 401, message = "Usuário não tem permissão para realizar essa ação")
     })
     @DeleteMapping("/{id}")
     public void delete(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID id) {

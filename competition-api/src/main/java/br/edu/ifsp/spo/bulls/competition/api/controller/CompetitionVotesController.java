@@ -24,10 +24,10 @@ public class CompetitionVotesController {
     @Autowired
     private CompetitionVoteService service;
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Requisitando votos de um membro")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação encontrada"),
-            @ApiResponse(code = 404, message = "Competicação não encontrada")
+            @ApiResponse(code = 200, message = "Votações encontradas"),
+            @ApiResponse(code = 404, message = "Membro não encontrado")
     })
     @GetMapping("/{memberId}")
     public List<CompetitionVoteReturnTO> getVotesByMember(@PathVariable UUID memberId) {
@@ -35,10 +35,11 @@ public class CompetitionVotesController {
         return service.getVotesByMember(memberId);
     }
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Votar em um membro da competição")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação encontrada"),
-            @ApiResponse(code = 404, message = "Competicação não encontrada")
+            @ApiResponse(code = 200, message = "Votação realizada"),
+            @ApiResponse(code = 404, message = "Membro não encontrado"),
+            @ApiResponse(code = 409, message = "Usuário já votou nesse competidor")
     })
     @PostMapping
     public CompetitionVoteReturnTO vote(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionVotesSaveTO vote) {
@@ -47,10 +48,11 @@ public class CompetitionVotesController {
         return service.vote(vote, tokenValue);
     }
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Alterar voto ")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação encontrada"),
-            @ApiResponse(code = 404, message = "Competicação não encontrada")
+            @ApiResponse(code = 200, message = "Votação alterada"),
+            @ApiResponse(code = 404, message = "Votação não encontrado"),
+            @ApiResponse(code = 401, message = "Usuário não tem permissão para realizar essa ação")
     })
     @PutMapping("/{voteId}")
     public CompetitionVoteReturnTO updateVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId, @RequestBody CompetitionVotesSaveTO vote) {
@@ -59,15 +61,16 @@ public class CompetitionVotesController {
         return service.updateVote(vote, voteId, tokenValue);
     }
 
-    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiOperation(value = "Excluir um voto")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação encontrada"),
-            @ApiResponse(code = 404, message = "Competicação não encontrada")
+            @ApiResponse(code = 200, message = "Voto excluído"),
+            @ApiResponse(code = 404, message = "Voto não encontradk"),
+            @ApiResponse(code = 401, message = "Usuário não tem permissão para realizar essa ação")
     })
     @DeleteMapping("/{voteId}")
     public void deleteVote(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID voteId) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
-        logger.info("Votando em um membro");
+        logger.info("Excluindo um voto");
         service.deleteVote(voteId, tokenValue);
     }
 }
