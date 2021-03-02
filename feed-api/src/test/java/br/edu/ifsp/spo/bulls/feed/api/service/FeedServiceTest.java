@@ -9,6 +9,7 @@ import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
+import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +44,9 @@ public class FeedServiceTest {
 
     @MockBean
     private UserCommonFeign feign;
+
+    @MockBean
+    private GroupMemberRepository groupMemberRepository;
 
     @Autowired
     private FeedService service;

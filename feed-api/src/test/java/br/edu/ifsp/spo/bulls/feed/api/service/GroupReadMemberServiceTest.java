@@ -10,6 +10,7 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMemberId;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
+import br.edu.ifsp.spo.bulls.feed.api.enums.MemberStatus;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupInviteRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
@@ -98,6 +99,7 @@ public class GroupReadMemberServiceTest {
         Mockito.when(feign.getUserInfo("token")).thenReturn(new UserTO());
 
         service.putMember(null, groupMemberTO);
+        groupMembers.setStatus(MemberStatus.accepted);
 
         Mockito.verify(mockGroupMemberRepository).save(groupMembers);
     }
