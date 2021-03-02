@@ -60,4 +60,6 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
                     " FROM Post p WHERE p.privacy = 'public_all' AND p.profileId = :id AND p.tipoPost = 'post'")
     Page<PostTO> findFeedByRequesterIdPublic(@Param("id") int profileId, Pageable pageable);
 
+    @Query(value = "SELECT DISTINCT(p.*) FROM POST p WHERE p.group_id = :groupId ", nativeQuery = true)
+    List<Post> findByGroupId(@Param("groupId") UUID groupId);
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -46,5 +47,10 @@ public class FeedController {
         Page<PostTO> res = service.getProfileFeed(token, profileId, page, size);
         logger.info("Objeto encontrado: " + res);
         return res;
+    }
+
+    @GetMapping("/group/{groupId}")
+    public List<PostTO> getGroupFeed(@RequestHeader(value = "AUTHORIZATION") String token, @PathVariable("groupId") UUID groupId) {
+        return service.getGroupFeed(token, groupId);
     }
 }

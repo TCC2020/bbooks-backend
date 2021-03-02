@@ -13,6 +13,7 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberFull;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
+import br.edu.ifsp.spo.bulls.feed.api.enums.MemberStatus;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupInviteRepository;
@@ -43,6 +44,7 @@ public class GroupMemberService {
     private UserCommonFeign feign;
 
     public void putMember(String token, GroupMemberTO membro){
+        membro.setStatus(MemberStatus.accepted);
         if(token == null){
             GroupRead group = groupRepository.findById(membro.getGroupId()).orElseGet(null);
             if(group != null) {
@@ -128,6 +130,7 @@ public class GroupMemberService {
             memberId.setUser(invite.getUserId());
             memberId.setGroupRead(invite.getGroup());
             member.setId(memberId);
+            member.setStatus(MemberStatus.accepted);
             inviteRepository.delete(invite);
             return memberBeanUtil.toDto(repository.save(member));
         }
