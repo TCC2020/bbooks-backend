@@ -1,12 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import io.swagger.annotations.ApiModel;
@@ -45,6 +39,10 @@ public class User implements Serializable {
 	@ApiModelProperty(value = "Senha")
     @NotBlank(message = "Password is mandatory")
     private String password;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "public_profile_id", referencedColumnName = "id")
+	private PublicProfile publicProfile;
 
 	@ApiModelProperty(value = "Token de login")
     private String token;

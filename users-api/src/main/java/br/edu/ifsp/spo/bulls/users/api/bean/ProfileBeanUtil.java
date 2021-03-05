@@ -1,6 +1,9 @@
 package br.edu.ifsp.spo.bulls.users.api.bean;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +39,10 @@ public class ProfileBeanUtil {
 		}
 		
 		return profileTO;
+	}
+
+	public List<ProfileTO> toDtoList(List<Profile> list) {
+		return list.stream().parallel().map(this::toProfileTO).collect(Collectors.toList());
 	}
 
 	public HashSet<ProfileTO> toProfileTO(HashSet<Profile> profiles){
