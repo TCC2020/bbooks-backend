@@ -4,6 +4,7 @@ import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
+import br.edu.ifsp.spo.bulls.common.api.enums.Status;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -168,5 +171,14 @@ public class CompetitionMemberService {
             member1.setStatus(member.getStatus());
             return repository.save(member1);
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText(), CodeException.CM001)));
+    }
+
+    public List<CompetitionMemberTO> getMembersByRoleAndStatus(UUID competitionId, Role role, Status status) {
+
+        Competition competition = competitionRepository.findById(competitionId)
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.CP001.getText(), CodeException.CP001));
+
+        return  beanUtil.toDtoList(
+                repository.getByCompetitionAndRoleAnsStatus(competition, role, status));
     }
 }

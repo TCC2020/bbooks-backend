@@ -1,6 +1,8 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
+import br.edu.ifsp.spo.bulls.common.api.enums.Role;
+import br.edu.ifsp.spo.bulls.common.api.enums.Status;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberSaveTO;
@@ -14,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -97,6 +101,16 @@ public class CompetitionMemberController {
         return service.getCompetitionsByProfile(id, page, size);
     }
 
+    @ApiOperation(value = "Retorna uma competicação por Id")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Competicação encontrada"),
+            @ApiResponse(code = 404, message = "Competicação não encontrada")
+    })
+    @GetMapping("/role/{id}")
+    public List<CompetitionMemberTO> getMembersByRoleAndStatus(@PathVariable UUID competitionId, @RequestParam Role role, @RequestParam(required=false) Status status) {
+        logger.info("Requisitando competições");
+        return service.getMembersByRoleAndStatus(competitionId, role, status);
+    }
 
     //TODO: rota para aceitar um membro na competição
 }

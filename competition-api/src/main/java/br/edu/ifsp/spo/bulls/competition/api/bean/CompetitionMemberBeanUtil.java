@@ -1,11 +1,13 @@
 package br.edu.ifsp.spo.bulls.competition.api.bean;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberSaveTO;
+import br.edu.ifsp.spo.bulls.competition.api.domain.Exchange;
 import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionRepository;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionService;
@@ -14,6 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -58,5 +63,9 @@ public class CompetitionMemberBeanUtil {
             logger.error("Exception coverting to dto: " + e);
         }
         return memberTO;
+    }
+
+    public List<CompetitionMemberTO> toDtoList(List<CompetitionMember> list) {
+        return list.stream().parallel().map(this::toReturnDTO).collect(Collectors.toList());
     }
 }
