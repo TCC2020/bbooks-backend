@@ -179,6 +179,6 @@ public class CompetitionMemberService {
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.CP001.getText(), CodeException.CP001));
 
         return  beanUtil.toDtoList(
-                repository.getByCompetitionAndRoleAnsStatus(competition, role, status));
+                repository.getByCompetitionAndRoleAndStatus(competition, role, status));
     }
 }

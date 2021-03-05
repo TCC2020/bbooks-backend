@@ -45,5 +45,5 @@ public interface CompetitionMemberRepository extends CrudRepository<CompetitionM
     )
     Page<CompetitionMember> getMemberOfCompetition(@Param("competitionId") UUID competitionId, Pageable pageable);
 
-    List<CompetitionMember> getByCompetitionAndRoleAnsStatus(Competition competition, Role role, Status status);
+    List<CompetitionMember> getByCompetitionAndRoleAndStatus(Competition competition, Role role, Status status);
 }
