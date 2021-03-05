@@ -6,12 +6,15 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +26,9 @@ public class PostBeanUtil {
 
     @Autowired
     private SurveyBeanUtil surveyBeanUtil;
+
+    @Autowired
+    private PostRepository postRepository;
 
     private Logger logger = LoggerFactory.getLogger(PostBeanUtil.class);
 
@@ -65,5 +71,20 @@ public class PostBeanUtil {
 
     public List<PostTO> toDtoList(List<Post> list) {
         return list.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public Page<PostTO> toDtoList(Page<PostTO> list) {
+
+        List<PostTO> postSurveyList = new ArrayList<>();
+        List<PostTO> postList= list.getContent();
+
+        for (PostTO postTO: postList ) {
+            Post post = postRepository.findById(postTO.getId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
+            postTO.setSurvey(surveyBeanUtil.toDto(post.getSurvey()));
+            postSurveyList.add(postTO);
+        }
+
+        list.setContent(postSurveyList);
+        return list;
     }
 }

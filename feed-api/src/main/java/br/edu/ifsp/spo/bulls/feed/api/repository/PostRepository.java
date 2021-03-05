@@ -22,9 +22,7 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
                     "WHERE p.profileId = :profileId AND p.tipoPost = :tipoPost " +
                     "ORDER BY p.creationDate DESC"
     )
-    Page<PostTO> findByProfileId(@Param("profileId") int profileId,
-                                   @Param("tipoPost") TypePost typePost,
-                                   Pageable pageable);
+    Page<PostTO> findByProfileId(@Param("profileId") int profileId, @Param("tipoPost") TypePost typePost, Pageable pageable);
 
     @Query(value =
             "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO(" +
