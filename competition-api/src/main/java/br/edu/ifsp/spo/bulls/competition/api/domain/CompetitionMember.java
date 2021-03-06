@@ -19,6 +19,7 @@ public class CompetitionMember {
 
     private String title;
 
+    @Column(length = 5000)
     private String story;
 
     @Column(nullable = false)
