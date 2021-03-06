@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -93,6 +94,7 @@ public class CompetitionMemberService {
         // Testar admin editando
 
         CompetitionMember member = beanUtil.toDomain(memberTO);
+
         ProfileTO profileTO = feign.getProfileByToken(token);
 
         CompetitionMember requester = repository.getByProfileIdAndCompetition(profileTO.getId(), member.getCompetition())
@@ -105,6 +107,18 @@ public class CompetitionMemberService {
         }
     }
 
+    private void verifyDate(CompetitionMember member) {
+        // TODO: Não pode se inscrever antes do inicio das inscrições DA004
+        if(LocalDateTime.now().isBefore(member.getCompetition().getSubscriptionDate())){
+            throw new ResourceConflictException(CodeException.DA004.getText());
+        }
+        // TODO: Não pode ultrapassar a data de inscrição DA005
+        // TODO: Não pode alterar história depois da data de inscrição DA005
+        if(LocalDateTime.now().isAfter(member.getCompetition().getSubscriptionFinalDate())){
+            throw new ResourceConflictException(CodeException.DA005.getText());
+        }
+    }
+
     public CompetitionMemberTO saveMember(String token, CompetitionMemberSaveTO memberTO) {
         // Testar profile adicionando ele mesmo
         // Testar profile adicionando outro profile (bloquear)
@@ -113,6 +127,7 @@ public class CompetitionMemberService {
         // Testar member adicionando admin (bloquear)
         // Testar owner adicionando member (bloquear)
         // Verificar se o profile existe
+
 
         feign.getProfile(memberTO.getProfileId());
         ProfileTO requester = feign.getProfileByToken(token);
@@ -128,12 +143,13 @@ public class CompetitionMemberService {
     }
 
     private CompetitionMemberTO createMember(CompetitionMemberSaveTO memberTO, ProfileTO requester) {
-
+        CompetitionMember member = beanUtil.toDomain(memberTO);
         if(requester.getId() != memberTO.getProfileId()){
             throw new ResourceUnauthorizedException(CodeException.CM006.getText(), CodeException.CM006);
         }
 
-        return beanUtil.toReturnDTO(repository.save(beanUtil.toDomain(memberTO)));
+        verifyDate(member);
+        return beanUtil.toReturnDTO(repository.save(member));
     }
 
     private CompetitionMemberTO createAdmin(CompetitionMemberSaveTO memberTO, ProfileTO requester) {
@@ -159,6 +175,7 @@ public class CompetitionMemberService {
         if(profileTO.getId() != member.getProfileId()){
             throw new ResourceUnauthorizedException(CodeException.CM006.getText(), CodeException.CM006);
         }
+        verifyDate(member);
         return beanUtil.toReturnDTO(repository.findById(id).map(member1 -> {
             member1.setStory(member.getStory());
             member1.setTitle(member.getTitle());
