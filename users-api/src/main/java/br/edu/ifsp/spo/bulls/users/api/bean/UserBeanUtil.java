@@ -63,11 +63,11 @@ public class UserBeanUtil {
 		UserTO userTO = new UserTO();
 		try{
 			BeanUtils.copyProperties(user, userTO);
+			userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
+			userTO.setPublicProfile(publicProfileService.getByUserId(user.getId()));
 		}catch(Exception e) {
 			logger.error("Error while converting User to UserTO: " +  e);
 		}
-		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
-		userTO.setPublicProfile(publicProfileService.getByUserId(user.getId()));
 		return userTO;
 	}
 

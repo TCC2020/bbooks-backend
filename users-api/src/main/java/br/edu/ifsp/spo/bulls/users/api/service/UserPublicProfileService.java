@@ -105,7 +105,9 @@ public class UserPublicProfileService {
     }
 
     public UserPublicProfileTO getByUserId(UUID id) {
-        return util.toDto(repository.findByUserId(id).orElse(null));
-
+        PublicProfile publicProfile = repository.findByUserId(id).orElse(null);
+        if(publicProfile != null)
+            return util.toDto(publicProfile);
+        return null;
     }
 }
