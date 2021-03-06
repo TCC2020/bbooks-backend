@@ -17,7 +17,7 @@ public class PublicProfile {
     public UUID id;
     public String name;
     public String description;
-    @OneToOne(mappedBy = "publicProfile")
+    @OneToOne
     public User user;
     public LocalDateTime createdAt;
 

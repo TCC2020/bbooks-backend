@@ -40,10 +40,6 @@ public class User implements Serializable {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "public_profile_id", referencedColumnName = "id")
-	private PublicProfile publicProfile;
-
 	@ApiModelProperty(value = "Token de login")
     private String token;
 

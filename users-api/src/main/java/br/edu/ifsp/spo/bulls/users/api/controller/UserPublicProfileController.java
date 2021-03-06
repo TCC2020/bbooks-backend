@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -16,6 +17,16 @@ import java.util.UUID;
 public class UserPublicProfileController {
     @Autowired
     private UserPublicProfileService service;
+
+    @GetMapping("/search")
+    public List<UserPublicProfileTO> searchByName(@RequestParam String name) {
+        return service.search(name);
+    }
+
+    @GetMapping("/{id}")
+    public UserPublicProfileTO getById(@PathVariable("id") UUID id) {
+        return service.getById(id);
+    }
 
     @PostMapping
     public UserPublicProfileTO create(@RequestHeader("AUTHORIZATION") String token, @RequestBody UserPublicProfileCreateTO publicProfile) {
@@ -28,17 +39,17 @@ public class UserPublicProfileController {
     }
 
     @PutMapping("/follow/{id}")
-    public HttpStatus follow(@RequestHeader("AUTHORIZATION") String token, @RequestParam("id") UUID publicProfileId) {
+    public HttpStatus follow(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID publicProfileId) {
         return service.follow(token, publicProfileId);
     }
 
     @PutMapping("/unfollow/{id}")
-    public void unfollow(@RequestHeader("AUTHORIZATION") String token, @RequestParam("id") UUID publicProfileId) {
+    public void unfollow(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID publicProfileId) {
         service.unfollow(token, publicProfileId);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@RequestHeader("AUTHORIZATION") String token, @RequestParam("id") UUID publicProfileId) {
+    public void delete(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID publicProfileId) {
         service.delete(token, publicProfileId);
     }
 }

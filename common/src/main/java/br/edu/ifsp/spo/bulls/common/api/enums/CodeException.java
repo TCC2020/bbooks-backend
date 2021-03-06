@@ -56,7 +56,9 @@ public enum CodeException {
     GR006("GR006: invite already sent", "GR006"),
     INV001("INV001: Invite not found", "INV001"),
     INV002("INV002: You have no permission to do this", "INV002"),
-    UPF001("UPF001: Public profile not found", "UPF001");
+    UPF001("UPF001: Public profile not found", "UPF001"),
+    UPF002("UPF002: Public profile already exists", "UPF002"),
+    UPF003("UPF003: not owner of this public profile", "UPF003");
 
 
     private final String text;

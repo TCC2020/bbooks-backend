@@ -1,7 +1,9 @@
 package br.edu.ifsp.spo.bulls.users.api.domain;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +11,8 @@ import java.util.UUID;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "public_profiles_followers")
 public class PublicProfileFollowers implements Serializable {
     @Id

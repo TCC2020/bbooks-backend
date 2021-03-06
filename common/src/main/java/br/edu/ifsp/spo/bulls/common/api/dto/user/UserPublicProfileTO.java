@@ -1,7 +1,7 @@
 package br.edu.ifsp.spo.bulls.common.api.dto.user;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
-import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
+
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,8 +13,7 @@ public class UserPublicProfileTO {
     public UUID id;
     public String name;
     public String description;
-    public UserTO user;
+    public BaseUserTO user;
     public LocalDateTime createdAt;
     public List<ProfileTO> followers;
-
 }
