@@ -60,6 +60,9 @@ public class GroupMemberService {
         GroupRead group = groupRepository.findById(membro.getGroupId())
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.GR001));
         if(group.getPrivacy().equals(Privacy.public_all) && user.getId().equals(membro.getUserId())) {
+            if((membro.getRole().equals(Role.admin) || membro.getRole().equals(Role.owner))){
+                throw new ResourceUnauthorizedException(CodeException.GR007.getText(), CodeException.GR007);
+            }
             repository.save(memberBeanUtil.toDomain(membro));
             return;
         }
@@ -68,7 +71,6 @@ public class GroupMemberService {
             repository.save(memberBeanUtil.toDomain(membro));
             return;
         }
-        throw new ResourceUnauthorizedException(CodeException.GR004);
     }
 
     public void exitMember(String token, GroupMemberTO membro){
