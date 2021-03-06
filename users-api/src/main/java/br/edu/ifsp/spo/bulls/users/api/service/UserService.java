@@ -117,6 +117,11 @@ public class UserService{
 		return beanUtil.toUserTO(user);
 	}
 
+	public User getByIdDomain(UUID id) {
+		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
+		return user;
+	}
+
 	public UserTO getByEmail(String email) {
 		User user = rep.findByEmail(email).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 		return beanUtil.toUserTO(user);
