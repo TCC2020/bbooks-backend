@@ -105,6 +105,6 @@ public class GroupService {
                 size,
                 Sort.Direction.ASC,
                 "id");
-        return repository.findByNameContaining(name.toLowerCase(), pageRequest);
+        return repository.findByNameContainingIgnoreCase(name, pageRequest);
     }
 }

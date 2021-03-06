@@ -11,6 +11,6 @@ import java.util.UUID;
 public interface GroupRepository extends CrudRepository<GroupRead, UUID> {
     boolean existsByName(String name);
 
-    Page<GroupRead> findByNameContaining(String searchTerm, Pageable pageable);
+    Page<GroupRead> findByNameContainingIgnoreCase(String searchTerm, Pageable pageable);
 
 }

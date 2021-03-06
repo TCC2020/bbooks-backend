@@ -164,11 +164,11 @@ public class GroupReadServiceTest {
                 1,
                 Sort.Direction.ASC,
                 "id");
-        Mockito.when(mockGroupRepository.findByNameContaining("teste", pageRequest)).thenReturn(Page.empty());
+        Mockito.when(mockGroupRepository.findByNameContainingIgnoreCase("teste", pageRequest)).thenReturn(Page.empty());
 
         service.search("teste", 0, 1);
 
-        Mockito.verify(mockGroupRepository).findByNameContaining("teste", pageRequest);
+        Mockito.verify(mockGroupRepository).findByNameContainingIgnoreCase("teste", pageRequest);
 
     }
 }
