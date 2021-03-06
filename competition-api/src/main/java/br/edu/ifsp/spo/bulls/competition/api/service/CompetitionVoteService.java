@@ -17,6 +17,8 @@ import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionMemberReposit
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +61,7 @@ public class CompetitionVoteService {
 
         CompetitionMember member = memberRepository.findById(voteSaveTO.getMemberId()).orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText()));
 
+        verifyDate(member);
         verifyIfProfilePreviouslyVoted(voteSaveTO, member);
 
         if(member.getStatus() == Status.accept){
@@ -67,6 +70,12 @@ public class CompetitionVoteService {
 
         }else{
             throw new ResourceForbiddenException(CodeException.CV002.getText());
+        }
+    }
+
+    private void verifyDate(CompetitionMember member) {
+        if(LocalDateTime.now().isBefore(member.getCompetition().getSubscriptionFinalDate())){
+            throw new ResourceConflictException(CodeException.DA006.getText());
         }
     }
 

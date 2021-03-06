@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.competition.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.competition.api.bean.CompetitionBeanUtill;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -62,7 +64,7 @@ public class CompetitionService {
 
     public CompetitionTO update(String token, CompetitionTO competitionTO, UUID id) {
         verifyProfileRequested(token, id);
-
+        verifyDate(competitionTO);
         Competition competition = beanUtil.toDomain(competitionTO);
 
         return beanUtil.toDto(repository.findById(id).map( competition1 -> {
@@ -72,13 +74,30 @@ public class CompetitionService {
     }
 
     public CompetitionTO save(CompetitionTO competitionTO) {
+        verifyDate(competitionTO);
         Competition competition = repository.save(beanUtil.toDomain(competitionTO));
-        saveMember(competitionTO, competition);
+        saveOwner(competitionTO, competition);
 
         return beanUtil.toDto(competition);
     }
 
-    private void saveMember(CompetitionTO competitionTO, Competition competition) {
+    private void verifyDate(CompetitionTO competitionTO) {
+        //  TODO: não pode colocar data de inicio de inscricao anterior a data atual DA001
+        if(competitionTO.getSubscriptionDate().isBefore(LocalDateTime.now())){
+            throw new ResourceConflictException(CodeException.DA001.getText());
+        }
+        //  TODO: não pode data final de inscrição menor que a data inicial DA002
+        if(competitionTO.getSubscriptionDate().isAfter(competitionTO.getSubscriptionFinalDate())){
+            throw new ResourceConflictException(CodeException.DA002.getText());
+        }
+        //  TODO: data final da competição maior que a data final de inscrições DA003
+        if(competitionTO.getFinalDate().isBefore(competitionTO.getSubscriptionFinalDate())){
+            throw new ResourceConflictException(CodeException.DA003.getText());
+        }
+
+    }
+
+    private void saveOwner(CompetitionTO competitionTO, Competition competition) {
         CompetitionMember member = new CompetitionMember();
         member.setProfileId(competitionTO.getCreatorProfile());
         member.setRole(Role.owner);
