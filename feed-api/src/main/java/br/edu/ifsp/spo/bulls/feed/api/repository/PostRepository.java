@@ -19,7 +19,7 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
             "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO(  " +
                     "p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy) " +
                     "FROM Post p " +
-                    "WHERE p.profileId = :profileId AND p.tipoPost = :tipoPost AND p.group.id IS NULL " +
+                    "WHERE p.profileId = :profileId AND p.tipoPost = :tipoPost AND p.group IS NULL " +
                     "ORDER BY p.creationDate DESC"
     )
     Page<PostTO> findByProfileId(@Param("profileId") int profileId,
