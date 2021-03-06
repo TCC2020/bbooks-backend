@@ -106,7 +106,7 @@ public class CompetitionMemberController {
             @ApiResponse(code = 200, message = "Competicação encontrada"),
             @ApiResponse(code = 404, message = "Competicação não encontrada")
     })
-    @GetMapping("/role/{id}")
+    @GetMapping("/role/{competitionId}")
     public List<CompetitionMemberTO> getMembersByRoleAndStatus(@PathVariable UUID competitionId, @RequestParam Role role, @RequestParam(required=false) Status status) {
         logger.info("Requisitando competições");
         return service.getMembersByRoleAndStatus(competitionId, role, status);
