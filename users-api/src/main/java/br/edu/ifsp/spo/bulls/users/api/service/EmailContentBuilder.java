@@ -14,9 +14,13 @@ public class EmailContentBuilder {
         this.templateEngine = templateEngine;
     }
 
-    public String build(String text) {
+    public String build( String text, String title, String action, String link) {
         Context context  = new Context();
         context.setVariable("text", text);
+        context.setVariable("title", title);
+        context.setVariable("action", action);
+        context.setVariable("link", link);
+
         return templateEngine.process("template-email", context);
     }
 

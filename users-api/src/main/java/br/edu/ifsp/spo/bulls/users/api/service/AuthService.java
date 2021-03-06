@@ -85,9 +85,12 @@ public class AuthService {
 
         emailService.
                 getInstance()
-                .withUrls(url + user.getToken())
+                .withTitle("Recuperação de senha")
+                .withAction("Alterar senha")
+                .withLink(url + user.getToken())
                 .withTo(user.getEmail())
-                .withContent(" Recuperar senha " + user.getUserName())
+                .withContent("Olá, " + user.getUserName() + "! Você solicitou alteração da sua senha no BBooks. " +
+                        "Clique no botão a seguir para alterar sua senha.")
                 .withSubject(EmailSubject.RECUPERAR_SENHA.name())
                 .send();
      }
