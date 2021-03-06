@@ -62,9 +62,11 @@ public class UserService{
 		new Thread(()-> {
 			email.
 			getInstance()
-			.withUrls("https://bbooks-front.herokuapp.com/confirm")
 			.withTo(retorno.getEmail())
-			.withContent(" Bem Vindo " + retorno.getUserName())
+			.withTitle(" Bem vindo, " + retorno.getUserName())
+			.withAction("Confirmar cadastro")
+			.withLink("https://bbooks-front.herokuapp.com/confirm")
+			.withContent("Por favor, confirme seu endereço de e-mail clicando no botão abaixo para fazer parte do BBooks.")
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
 			.send();
 		}).start();

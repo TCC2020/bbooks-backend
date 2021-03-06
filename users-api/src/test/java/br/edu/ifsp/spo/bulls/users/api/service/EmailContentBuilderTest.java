@@ -19,7 +19,7 @@ public class EmailContentBuilderTest {
     void verifyMessageInTemplateEngine(){
         EmailContentBuilder ecb = new EmailContentBuilder(te);
         String content = "Confirm your e-mail";
-        String result = ecb.build("Confirm your e-mail");
+        String result = ecb.build("Confirm your e-mail", "confirm email", "confirmar", "https");
         assertTrue(result.contains(content));
     }
 }
