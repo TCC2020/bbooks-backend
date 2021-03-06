@@ -71,7 +71,7 @@ public class UserPublicProfileService {
     }
 
     public void unfollow(String token, UUID publicProfileId) {
-        PublicProfile publicProfile = publicProfileRepository.findById(publicProfileId)
+        publicProfileRepository.findById(publicProfileId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UPF001));
 
         ProfileTO profile = profileService.getByToken(StringUtils.removeStart(token, "Bearer"));
