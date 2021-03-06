@@ -91,7 +91,7 @@ public class ProfileController {
 	}
 
 	@GetMapping("/token/{token}")
-	public ProfileTO getAll(@PathVariable String token) {
+	public ProfileTO getByToken(@PathVariable String token) {
 		logger.info("Requisitando profile por token cadastro");
 		return service.getByToken(token);
 	}

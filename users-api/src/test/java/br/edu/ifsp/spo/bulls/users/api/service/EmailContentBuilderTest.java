@@ -16,7 +16,7 @@ public class EmailContentBuilderTest {
     private TemplateEngine te;
 
     @Test
-    void verify_message_in_template_engine(){
+    void verifyMessageInTemplateEngine(){
         EmailContentBuilder ecb = new EmailContentBuilder(te);
         String content = "Confirm your e-mail";
         String result = ecb.build("Confirm your e-mail");
