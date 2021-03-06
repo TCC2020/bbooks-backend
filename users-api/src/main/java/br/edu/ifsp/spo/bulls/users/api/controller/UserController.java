@@ -141,4 +141,5 @@ public class UserController {
 		logger.info("Usuario retornado: " + userTO.toString());
 		return userTO;
 	}
+
 }

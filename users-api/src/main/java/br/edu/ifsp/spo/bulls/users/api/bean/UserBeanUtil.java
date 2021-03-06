@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.bean;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.user.BaseUserTO;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
 import br.edu.ifsp.spo.bulls.users.api.dto.CadastroUserTO;
 import br.edu.ifsp.spo.bulls.users.api.domain.Friendship;
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import br.edu.ifsp.spo.bulls.users.api.repository.FriendshipRepository;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
+import br.edu.ifsp.spo.bulls.users.api.service.UserPublicProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +28,9 @@ public class UserBeanUtil {
 
 	@Autowired
 	private ProfileRepository profileRepository;
+
+	@Autowired
+	private UserPublicProfileService publicProfileService;
 
 	@Autowired
 	private FriendshipRepository friendshipRepository;
@@ -58,10 +63,22 @@ public class UserBeanUtil {
 		UserTO userTO = new UserTO();
 		try{
 			BeanUtils.copyProperties(user, userTO);
+			userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
+			userTO.setPublicProfile(publicProfileService.getByUserId(user.getId()));
 		}catch(Exception e) {
 			logger.error("Error while converting User to UserTO: " +  e);
 		}
-		userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
+		return userTO;
+	}
+
+	public BaseUserTO toBaseUserTO(User user) {
+		BaseUserTO userTO = new BaseUserTO();
+		try{
+			BeanUtils.copyProperties(user, userTO);
+			userTO.setProfile(profileBeanUtil.toProfileTO(profileRepository.findByUser(user)));
+		}catch(Exception e) {
+			logger.error("Error while converting User to UserTO: " +  e);
+		}
 		return userTO;
 	}
 

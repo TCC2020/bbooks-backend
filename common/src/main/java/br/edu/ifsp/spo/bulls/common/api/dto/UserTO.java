@@ -4,6 +4,7 @@ import java.util.UUID;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.user.UserPublicProfileTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -34,6 +35,8 @@ public class UserTO {
 
 	@ApiModelProperty(value = "Usuario dono da estante virtual")
     private ProfileTO profile;
+
+	private UserPublicProfileTO publicProfile;
 
 	public UserTO() {}
 
