@@ -3,6 +3,8 @@ package br.edu.ifsp.spo.bulls.common.api.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,7 +18,7 @@ public class CompetitionTO {
 
         private String rules;
 
-        private LocalDateTime finalDate;
+        private LocalDate finalDate;
 
         private LocalDateTime subscriptionDate;
 

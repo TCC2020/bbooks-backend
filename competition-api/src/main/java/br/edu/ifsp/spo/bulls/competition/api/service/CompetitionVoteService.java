@@ -65,6 +65,7 @@ public class CompetitionVoteService {
 
         if(member.getStatus() == Status.accept){
             CompetitionVotes vote = beanUtil.toDomain(voteSaveTO);
+            repository.save(vote);
             return beanUtil.toReturnTO(vote);
 
         }else{

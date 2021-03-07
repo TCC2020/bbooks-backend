@@ -18,13 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -87,39 +84,6 @@ public class CompetitionService {
         return beanUtil.toDto(competition);
     }
 
-    @Scheduled(cron = "0 1 1 * * ?")
-    public void competitionVerifyDate(){
-        List<Competition> competitions = repository.findCompetitionOpen();
-
-        competitions.stream().filter( z -> z.getFinalDate().isEqual(LocalDate.now()))
-                .forEach(z -> endCompetition(z));
-    }
-
-    public void endCompetition(Competition competition){
-        List<CompetitionMember> membros = memberRepository.getByCompetition(competition);
-
-        UUID winnerCompetitor = getWinner(toHashMap(membros));
-        setWinner(winnerCompetitor, competition);
-    }
-
-    private HashMap<UUID, Float> toHashMap(List<CompetitionMember> membros) {
-        HashMap<UUID, Float> map = new HashMap<>();
-        membros.forEach( m -> {
-            map.put(m.getMemberId(), voteService.average(m));
-        });
-        return map;
-    }
-
-    public UUID getWinner(HashMap<UUID, Float> map){
-        return map.entrySet().stream().max((e1, e2) ->e1.getValue()> e2.getValue()?1:-1).get().getKey();
-    }
-
-    private void setWinner(UUID competitionMemberId, Competition competition){
-        CompetitionMember member = memberRepository.findById(competitionMemberId).orElseThrow(() -> new ResourceNotFoundException(CodeException.CM001.getText(), CodeException.CM001));
-        competition.setWinnerProfile(member);
-        repository.save(competition);
-    }
-
     private void verifyDate(CompetitionTO competitionTO) {
         if(competitionTO.getSubscriptionDate().isBefore(LocalDateTime.now())){
             throw new ResourceConflictException(CodeException.DA001.getText());
@@ -127,7 +91,7 @@ public class CompetitionService {
         if(competitionTO.getSubscriptionDate().isAfter(competitionTO.getSubscriptionFinalDate())){
             throw new ResourceConflictException(CodeException.DA002.getText());
         }
-        if(competitionTO.getFinalDate().isBefore(competitionTO.getSubscriptionFinalDate())){
+        if(competitionTO.getFinalDate().isBefore(competitionTO.getSubscriptionFinalDate().toLocalDate())){
             throw new ResourceConflictException(CodeException.DA003.getText());
         }
     }
