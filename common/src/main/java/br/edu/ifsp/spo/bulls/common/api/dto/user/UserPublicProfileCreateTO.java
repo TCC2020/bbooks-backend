@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class UserPublicProfileCreateTO {
     public String name;
-    public String Description;
+    public String description;
 }

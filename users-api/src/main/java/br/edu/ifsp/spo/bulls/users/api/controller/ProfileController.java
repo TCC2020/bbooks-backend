@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import java.util.HashSet;
 import javax.validation.Valid;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.profile.BaseProfileTO;
 import br.edu.ifsp.spo.bulls.users.api.service.ProfileService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -49,6 +50,11 @@ public class ProfileController {
 	public void delete(@PathVariable int id){
 		logger.info("Requisião solicitada para deletar um profile " + id);
 		service.delete(id);
+	}
+
+	@GetMapping("/basic/{profileId}")
+	public BaseProfileTO getBaseProfileById(@PathVariable("profileId") int profileId) {
+		return service.getBaseProfileById(profileId);
 	}
 
 	@ApiOperation(value = "Retorna um profile a partir do identificador")

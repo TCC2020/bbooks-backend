@@ -43,7 +43,7 @@ public class UserPublicProfileService {
     private PublicProfileBeanUtil util;
 
     public UserPublicProfileTO create(String token, UserPublicProfileCreateTO dto) {
-        User user = userService.getByToken(StringUtils.removeStart(token, "Bearer"));
+        User user = userService.getByToken(StringUtils.removeStart(token, "Bearer").trim());
         if(repository.findByUserId(user.getId()).isPresent())
             throw new ResourceConflictException(CodeException.UPF002);
         PublicProfile publicProfile = new PublicProfile();
@@ -61,7 +61,7 @@ public class UserPublicProfileService {
         publicProfileRepository.findById(publicProfileId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UPF001));
 
-        ProfileTO profile = profileService.getByToken(StringUtils.removeStart(token, "Bearer"));
+        ProfileTO profile = profileService.getByToken(StringUtils.removeStart(token, "Bearer").trim());
         if(followersRepository.findByPublicProfileIdAndFollowerId(publicProfileId, profile.getId()).isPresent())
             return HttpStatus.NOT_MODIFIED;
 
@@ -74,7 +74,7 @@ public class UserPublicProfileService {
         publicProfileRepository.findById(publicProfileId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UPF001));
 
-        ProfileTO profile = profileService.getByToken(StringUtils.removeStart(token, "Bearer"));
+        ProfileTO profile = profileService.getByToken(StringUtils.removeStart(token, "Bearer").trim());
         followersRepository.findByPublicProfileIdAndFollowerId(publicProfileId, profile.getId())
                 .ifPresent(f -> followersRepository.deleteById(f.getId()));
     }
@@ -83,7 +83,7 @@ public class UserPublicProfileService {
         PublicProfile publicProfile = publicProfileRepository.findById(publicProfileId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UPF001));
 
-        User user = userService.getByToken(StringUtils.removeStart(token, "Bearer"));
+        User user = userService.getByToken(StringUtils.removeStart(token, "Bearer").trim());
         if(publicProfile.getUser().getId().equals(user.getId()))
             publicProfileRepository.deleteById(publicProfileId);
     }
@@ -92,7 +92,7 @@ public class UserPublicProfileService {
         PublicProfile publicProfile = publicProfileRepository.findById(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UPF001));
 
-        User user = userService.getByToken(StringUtils.removeStart(token, "Bearer"));
+        User user = userService.getByToken(StringUtils.removeStart(token, "Bearer").trim());
         if(!publicProfile.getUser().getId().equals(user.getId()))
             throw new ResourceUnauthorizedException(CodeException.UPF003);
         publicProfile.setDescription(dto.getDescription());

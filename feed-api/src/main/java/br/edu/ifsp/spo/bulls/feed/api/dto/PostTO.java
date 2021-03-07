@@ -45,6 +45,8 @@ public class PostTO {
 
     private SurveyTO survey;
 
+    private ReactionsTO reactions;
+
     public PostTO(UUID id, int profileId, String description, LocalDateTime creationDate, String image, TypePost tipoPost, Privacy privacy) {
         this.id = id;
         this.profileId = profileId;

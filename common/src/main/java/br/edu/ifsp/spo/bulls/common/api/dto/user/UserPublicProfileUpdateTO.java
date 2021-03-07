@@ -8,5 +8,5 @@ import java.util.UUID;
 public class UserPublicProfileUpdateTO {
     private UUID id;
     public String name;
-    public String Description;
+    public String description;
 }

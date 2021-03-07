@@ -3,6 +3,8 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import br.edu.ifsp.spo.bulls.common.api.dto.user.UserPublicProfileCreateTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.user.UserPublicProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.user.UserPublicProfileUpdateTO;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.users.api.service.UserPublicProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,14 @@ public class UserPublicProfileController {
     @GetMapping("/{id}")
     public UserPublicProfileTO getById(@PathVariable("id") UUID id) {
         return service.getById(id);
+    }
+
+    @GetMapping("/user/{id}")
+    public UserPublicProfileTO getByUserId(@PathVariable("id") UUID userId) {
+        UserPublicProfileTO to = service.getByUserId(userId);
+        if(to != null)
+            return to;
+        throw new ResourceNotFoundException(CodeException.UPF001);
     }
 
     @PostMapping

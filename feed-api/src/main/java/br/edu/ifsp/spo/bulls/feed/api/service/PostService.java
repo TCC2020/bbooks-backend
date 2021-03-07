@@ -6,10 +6,14 @@ import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
+import br.edu.ifsp.spo.bulls.feed.api.domain.Reactions;
+import br.edu.ifsp.spo.bulls.feed.api.dto.PostReactionTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
+import br.edu.ifsp.spo.bulls.feed.api.dto.ReactTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
+import br.edu.ifsp.spo.bulls.feed.api.repository.ReactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +34,8 @@ public class PostService {
     @Autowired
     private PostBeanUtil postBeanUtil;
 
+    @Autowired
+    private ReactionsRepository reactionsRepository;
     @Autowired
     private UserCommonFeign feign;
 
@@ -94,5 +100,31 @@ public class PostService {
         post.setImage(url);
         repository.save(post);
         return HttpStatus.CREATED;
+    }
+
+    public PostReactionTO react(String token, ReactTO reactionTO) {
+        Post post = repository.findById(reactionTO.getPostId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.PT001));
+        ProfileTO profileTO = feign.getProfileByToken(token);
+        List<Reactions> reactions = post.getReactions();
+
+        PostReactionTO postReactionTO = new PostReactionTO(post.getId());
+
+        if(reactions != null) {
+            Reactions reaction = reactions.stream().parallel().filter(r -> r.getProfileId() == profileTO.getId()).findFirst().orElse(null);
+            if (reaction != null && reactionTO.getReactionType().equals(reaction.getReaction())) {
+                reactions.remove(reaction);
+                postReactionTO.setReactions(postBeanUtil.reactionsToReactionsTO(repository.save(post).getReactions()));
+                return postReactionTO;
+            }
+            if (reaction != null) {
+                reaction.setReaction(reactionTO.getReactionType());
+                postReactionTO.setReactions(postBeanUtil.reactionsToReactionsTO(repository.save(post).getReactions()));
+                return postReactionTO;
+            }
+        }
+        Reactions reaction = reactionsRepository.save(new Reactions(profileTO.getId(), reactionTO.getReactionType()));
+        reactions.add(reaction);
+        postReactionTO.setReactions(postBeanUtil.reactionsToReactionsTO(repository.save(post).getReactions()));
+        return postReactionTO;
     }
 }

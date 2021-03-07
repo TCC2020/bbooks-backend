@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
 
@@ -48,6 +49,9 @@ public class Post {
 
     @OneToOne(orphanRemoval=true)
     private Survey survey;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Reactions> reactions;
 
     //TODO: Reações
 
