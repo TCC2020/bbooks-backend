@@ -1,13 +1,10 @@
 package br.edu.ifsp.spo.bulls.competition.api.bean;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
-import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
-import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionMember;
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberSaveTO;
-import br.edu.ifsp.spo.bulls.competition.api.domain.Exchange;
 import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionRepository;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionService;
@@ -58,7 +55,7 @@ public class CompetitionMemberBeanUtil {
             copyProperties(member, memberTO);
             memberTO.setCompetitionTO(competitionService.getById(member.getCompetition().getId()));
             memberTO.setProfile(feign.getProfile(member.getProfileId()));
-            memberTO.setMeanVote(voteService.mean(member.getMemberId()));
+            memberTO.setMeanVote(voteService.average(member.getMemberId()));
         }   catch(Exception e) {
             logger.error("Exception coverting to dto: " + e);
         }

@@ -88,18 +88,10 @@ public class CompetitionMemberService {
     }
 
     public CompetitionMemberTO updateMember(String token, CompetitionMemberSaveTO memberTO, UUID id) {
-        // Testar member editando cadastro dele
-        // Testar member editando outro member (bloquear)
-        // Testar owner editando
-        // Testar admin editando
-
         CompetitionMember member = beanUtil.toDomain(memberTO);
-
         ProfileTO profileTO = feign.getProfileByToken(token);
-
         CompetitionMember requester = repository.getByProfileIdAndCompetition(profileTO.getId(), member.getCompetition())
           .orElseThrow(() -> new ResourceNotFoundException(CodeException.CM003.getText(), CodeException.CM003));
-
         if(requester.getRole() != Role.member ){
             return updateByAdmin(member, id);
         }else{
@@ -108,27 +100,15 @@ public class CompetitionMemberService {
     }
 
     private void verifyDate(CompetitionMember member) {
-        // TODO: Não pode se inscrever antes do inicio das inscrições DA004
         if(LocalDateTime.now().isBefore(member.getCompetition().getSubscriptionDate())){
             throw new ResourceConflictException(CodeException.DA004.getText());
         }
-        // TODO: Não pode ultrapassar a data de inscrição DA005
-        // TODO: Não pode alterar história depois da data de inscrição DA005
         if(LocalDateTime.now().isAfter(member.getCompetition().getSubscriptionFinalDate())){
             throw new ResourceConflictException(CodeException.DA005.getText());
         }
     }
 
     public CompetitionMemberTO saveMember(String token, CompetitionMemberSaveTO memberTO) {
-        // Testar profile adicionando ele mesmo
-        // Testar profile adicionando outro profile (bloquear)
-        // Testar owner adicionando admin
-        // Testar admin adicionando outro admin (bloquear)
-        // Testar member adicionando admin (bloquear)
-        // Testar owner adicionando member (bloquear)
-        // Verificar se o profile existe
-
-
         feign.getProfile(memberTO.getProfileId());
         ProfileTO requester = feign.getProfileByToken(token);
         verifyIfProfileIsInCompetition(memberTO);

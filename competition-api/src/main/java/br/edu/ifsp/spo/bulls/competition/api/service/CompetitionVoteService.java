@@ -19,8 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class CompetitionVoteService {
@@ -102,7 +101,7 @@ public class CompetitionVoteService {
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.CV004.getText(), CodeException.CV004)));
     }
 
-    public float mean(UUID competitionMemberId){
+    public float average(UUID competitionMemberId){
         CompetitionMember member = memberRepository.findById(competitionMemberId).orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText()));
 
         List<CompetitionVotes> votes = repository.findByMember(member);
@@ -115,4 +114,18 @@ public class CompetitionVoteService {
 
         return total / votes.size();
     }
+
+
+    public float average(CompetitionMember member){
+        List<CompetitionVotes> votes = repository.findByMember(member);
+
+        float total = 0.0F;
+
+        for(int x = 0;  x < votes.size(); x ++){
+            total = total + votes.get(x).getValue();
+        }
+
+        return total / votes.size();
+    }
+
 }

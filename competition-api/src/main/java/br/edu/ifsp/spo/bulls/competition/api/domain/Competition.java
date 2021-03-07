@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.competition.api.domain;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class Competition {
     private String rules;
 
     @Column(nullable = false)
-    private LocalDateTime finalDate;
+    private LocalDate finalDate;
 
     @Column(nullable = false)
     private LocalDateTime subscriptionDate;
