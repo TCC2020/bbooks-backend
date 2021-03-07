@@ -34,9 +34,6 @@ public class CompetitionService {
     private CompetitionMemberRepository memberRepository;
 
     @Autowired
-    private CompetitionVoteService voteService;
-
-    @Autowired
     private CompetitionBeanUtill beanUtil;
 
     @Autowired
