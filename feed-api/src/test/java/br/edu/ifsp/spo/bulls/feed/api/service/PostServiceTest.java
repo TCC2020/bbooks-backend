@@ -98,6 +98,8 @@ public class PostServiceTest {
         postTO.setComments(comments);
         postTO.setGroupId(group.getId());
 
+        Mockito.when(reactionsRepository.findById(UUID.randomUUID())).thenReturn(null);
+
     }
 
     @Test

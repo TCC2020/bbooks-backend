@@ -52,6 +52,10 @@ public class ProfileController {
 		service.delete(id);
 	}
 
+	@ApiOperation(value = "Procura o profile básico por id")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorno padrão"),
+	})
 	@GetMapping("/basic/{profileId}")
 	public BaseProfileTO getBaseProfileById(@PathVariable("profileId") int profileId) {
 		return service.getBaseProfileById(profileId);

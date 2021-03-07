@@ -78,6 +78,11 @@ public class PostController {
         return service.getByProfile(idProfile, page, size);
     }
 
+    @ApiOperation(value = "Colocar ou remover reação ao post")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Reage ou tira a reação do post"),
+            @ApiResponse(code = 404, message = "Post ou perfil não encontrado")
+    })
     @PutMapping("/{id}/react")
     public PostReactionTO react(@RequestHeader("AUTHORIZATION") String token, @RequestBody ReactTO react) {
         return service.react(token, react);
