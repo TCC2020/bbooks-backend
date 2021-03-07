@@ -1,7 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.repository;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
-import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,35 +15,32 @@ import java.util.UUID;
 public interface PostRepository extends CrudRepository<Post, UUID> {
 
     @Query(value =
-            "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO(  " +
-                    "p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy) " +
+            "SELECT p "+
                     "FROM Post p " +
                     "WHERE p.profileId = :profileId AND p.tipoPost = :tipoPost AND p.group IS NULL " +
                     "ORDER BY p.creationDate DESC"
     )
-    Page<PostTO> findByProfileId(@Param("profileId") int profileId,
+    Page<Post> findByProfileId(@Param("profileId") int profileId,
                                    @Param("tipoPost") TypePost typePost,
                                    Pageable pageable);
 
     @Query(value =
-            "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO(" +
-                    "p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy) " +
+            "SELECT p " +
                     "FROM Post p " +
                     "WHERE p.upperPostId = :upperPostId " +
                     "ORDER BY p.creationDate DESC"
     )
-    List<PostTO> findByUpperPostIdQuery(@Param("upperPostId") UUID upperPostId);
+    List<Post> findByUpperPostIdQuery(@Param("upperPostId") UUID upperPostId);
 
     List<Post> findByUpperPostId(UUID upperPostId);
 
     @Query(value =
-            "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO(" +
-                    "p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy) " +
+            "SELECT p " +
                     "FROM Post p " +
                     "WHERE p.upperPostId = :upperPostId " +
                     "ORDER BY p.creationDate DESC"
     )
-    Page<PostTO> findByUpperPostIdQuery(@Param("upperPostId") UUID upperPostId, Pageable pageable);
+    Page<Post> findByUpperPostIdQuery(@Param("upperPostId") UUID upperPostId, Pageable pageable);
 
     @Query(value =
             "SELECT DISTINCT(p.*) FROM POST p, FRIENDSHIPS f " +
@@ -55,10 +51,9 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
     List<Post> findFeedByRequesterId(@Param("id") int profileId);
 
     @Query(value =
-            "SELECT new br.edu.ifsp.spo.bulls.feed.api.dto.PostTO"+
-                    "(p.id, p.profileId, p.description, p.creationDate, p.image, p.tipoPost, p.privacy)" +
+            "SELECT p" +
                     " FROM Post p WHERE p.privacy = 'public_all' AND p.profileId = :id AND p.tipoPost = 'post'")
-    Page<PostTO> findFeedByRequesterIdPublic(@Param("id") int profileId, Pageable pageable);
+    Page<Post> findFeedByRequesterIdPublic(@Param("id") int profileId, Pageable pageable);
 
     @Query(value = "SELECT DISTINCT(p.*) FROM POST p WHERE p.group_id = :groupId ", nativeQuery = true)
     List<Post> findByGroupId(@Param("groupId") UUID groupId);

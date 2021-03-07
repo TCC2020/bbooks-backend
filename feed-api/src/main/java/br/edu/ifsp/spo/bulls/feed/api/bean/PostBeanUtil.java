@@ -10,6 +10,7 @@ import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsByType;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
+import org.springframework.data.domain.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -102,5 +103,9 @@ public class PostBeanUtil {
 
     public List<PostTO> toDtoList(List<Post> list) {
         return list.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public Page<PostTO> toDtoPage(Page<Post> list) {
+        return list.map(this::toDto);
     }
 }
