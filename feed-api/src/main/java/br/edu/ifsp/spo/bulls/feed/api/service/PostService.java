@@ -36,6 +36,7 @@ public class PostService {
 
     @Autowired
     private ReactionsRepository reactionsRepository;
+
     @Autowired
     private UserCommonFeign feign;
 

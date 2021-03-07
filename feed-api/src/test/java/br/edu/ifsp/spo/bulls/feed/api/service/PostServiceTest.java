@@ -12,6 +12,7 @@ import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
+import br.edu.ifsp.spo.bulls.feed.api.repository.ReactionsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,6 +48,9 @@ public class PostServiceTest {
 
     @MockBean
     private GroupRepository mockGroupRepository;
+
+    @MockBean
+    private ReactionsRepository reactionsRepository;
 
     @Autowired
     private PostService postService;

@@ -53,6 +53,8 @@ public class PostBeanUtil {
 
     public ReactionsTO reactionsToReactionsTO(List<Reactions> reactionsDomain) {
         ReactionsTO reactions = new ReactionsTO();
+        if(reactionsDomain == null || reactionsDomain.size() == 0)
+            return reactions;
         reactions.setCount(reactionsDomain.size());
         reactions.setLikes(toReactionsByType(ReactionType.like, filterByType(ReactionType.like, reactionsDomain)));
         reactions.setDislike(toReactionsByType(ReactionType.dislike, filterByType(ReactionType.dislike, reactionsDomain)));
