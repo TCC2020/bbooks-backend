@@ -1,7 +1,9 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
+import br.edu.ifsp.spo.bulls.feed.api.dto.PostReactionTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
+import br.edu.ifsp.spo.bulls.feed.api.dto.ReactTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,16 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -83,6 +76,16 @@ public class PostController {
         logger.info("Buscando posts por profile: " + idProfile);
 
         return service.getByProfile(idProfile, page, size);
+    }
+
+    @ApiOperation(value = "Colocar ou remover reação ao post")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Reage ou tira a reação do post"),
+            @ApiResponse(code = 404, message = "Post ou perfil não encontrado")
+    })
+    @PutMapping("/{id}/react")
+    public PostReactionTO react(@RequestHeader("AUTHORIZATION") String token, @RequestBody ReactTO react) {
+        return service.react(token, react);
     }
 
     @ApiOperation(value = "Deletar uma publicação")
