@@ -1,7 +1,7 @@
 server:
   port: 8080
 app:
-  front: 'localhost:4200'
+  front: 'http://localhost:4200'
 feign:
   competition: 'localhost:8082'
 spring:

@@ -1,7 +1,7 @@
 server:
   port: 8082
 app:
-  front: 'localhost:4200'
+  front: 'http://localhost:4200'
 feign:
   users: 'localhost:8080'
 spring:
