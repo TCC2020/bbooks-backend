@@ -314,6 +314,55 @@
                                 </div>
                             </td>
                         </tr>
+                        <div  th:if="${exchangeTO} != null">
+                            <tr th:each="r : ${exchangeTO.getReceiverAds()}">
+                                <td>
+                                    <h4 style="text-align: center;" th:if="${exchangeTO.getReceiverAds().get(0).getId()} == ${r.getId()}">Sua(s) Oferta(s)</h4>
+                                    <div
+                                            style="  padding: 10px;
+								flex-direction: row;
+								display: flex;
+								gap: 10px;">
+                                        <div>
+                                            <img style="max-width: 100px"  th:src="${r.getImages().get(0)}">
+                                        </div>
+                                        <div style="  padding: 10px;
+								flex-direction: column;
+								display: flex;
+								gap: 10px;">
+                                            <div style="flex-direction: row;" th:text="${r.getTitle()}" ></div>
+                                            <div style="flex-direction: row;" th:if="${r.getCondition().toString()} == 'used'"> <b>Condição: </b> Usado</div>
+                                            <div style="flex-direction: row;" th:if="${r.getCondition().toString()} == 'not_used'"> <b>Condição: </b> Novo</div>
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </div>
+                        <div th:if="${exchangeTO} != null">
+                            <tr th:each="e : ${exchangeTO.getRequesterAds()}">
+                                <td >
+                                    <h4 style="text-align: center;" th:if="${exchangeTO.getRequesterAds().get(0).getId()} == ${e.getId()}">Proposta recebida</h4>
+                                    <div
+                                            style="  padding: 10px;
+								flex-direction: row;
+								display: flex;
+								gap: 10px;">
+                                        <div>
+                                            <img style="max-width: 100px"  th:src="${e.getImages().get(0)}">
+                                        </div>
+                                        <div style="  padding: 10px;
+								flex-direction: column;
+								display: flex;
+								gap: 10px;">
+                                            <div style="flex-direction: row;" th:text="${e.getTitle()}" ></div>
+                                            <div style="flex-direction: row;" th:if="${e.getCondition().toString()} == 'used'"><b>Condição: </b> Usado</div>
+                                            <div style="flex-direction: row;" th:if="${e.getCondition().toString()} == 'not_used'"><b>Condição: </b> Novo</div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </div>
                         <tr>
                             <td style="text-align: center;">
                                 <div class="text-author">

@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.users.api.service;
 
 import java.util.HashSet;
 
+import br.edu.ifsp.spo.bulls.common.api.service.EmailService;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;

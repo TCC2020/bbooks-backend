@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
+import br.edu.ifsp.spo.bulls.common.api.service.EmailService;
 import br.edu.ifsp.spo.bulls.competition.api.bean.ExchangeBeanUtil;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Exchange;
 import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
@@ -29,10 +30,24 @@ public class ExchangeService {
     @Autowired
     private ExchangeBeanUtil util;
 
+    @Autowired
+    private EmailService email;
+
     public ExchangeTO create(String token, ExchangeTO dto) {
         UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
-        if(user != null && user.getId().equals(dto.getRequesterId()) && checkExchangeIntegrity(dto))
-            return util.toDto(repository.save(util.toDomain(dto)));
+        if(user != null && user.getId().equals(dto.getRequesterId()) && checkExchangeIntegrity(dto)) {
+            ExchangeTO exchangeReturn = util.toDto(repository.save(util.toDomain(dto)));
+            this.sendEmailStatusExchange(
+                    exchangeReturn,
+                    exchangeReturn.getReceiver().getEmail(),
+                    "Proposta de troca",
+                    "Visualizar proposta",
+                    "https://bbooks-front.herokuapp.com/",
+                    "Você recebeu uma proposta para trocar seus livros",
+                    "Proposta de troca"
+            );
+            return exchangeReturn;
+        }
         throw new ResourceBadRequestException(CodeException.EXC001.getText(), CodeException.EXC001);
     }
 
@@ -51,7 +66,17 @@ public class ExchangeService {
             exchange.setStatus(BookExchangeStatus.accepted);
             exchange.getReceiverAds().stream().parallel().forEach(ad -> ad.setIsOpen(false));
             exchange.getRequesterAds().stream().parallel().forEach(ad -> ad.setIsOpen(false));
-            return util.toDto(repository.save(exchange));
+            ExchangeTO exchangeReturn = util. toDto(repository.save(exchange));
+            this.sendEmailStatusExchange(
+                    exchangeReturn,
+                    exchangeReturn.getRequester().getEmail(),
+                    "Proposta de troca aceita",
+                    "Visualizar proposta",
+                    "https://bbooks-front.herokuapp.com/",
+                    exchangeReturn.getReceiver().getUserName() + " aceitou sua proposta para trocar livros.",
+                    "Proposta de troca aceita"
+            );
+            return exchangeReturn;
         }
         throw new ResourceUnauthorizedException(CodeException.EXC003);
     }
@@ -62,7 +87,17 @@ public class ExchangeService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getReceiverId())) {
             exchange.setStatus(BookExchangeStatus.refused);
-            return util.toDto(repository.save(exchange));
+            ExchangeTO exchangeReturn = util. toDto(repository.save(exchange));
+            this.sendEmailStatusExchange(
+                    exchangeReturn,
+                    exchangeReturn.getRequester().getEmail(),
+                    "Proposta de troca recusada",
+                    "Visualizar proposta",
+                    "https://bbooks-front.herokuapp.com/",
+                    exchangeReturn.getReceiver().getUserName() + " recusou sua proposta para trocar livros.",
+                    "Proposta de troca recusada"
+            );
+            return exchangeReturn;
         }
         throw new ResourceUnauthorizedException(CodeException.EXC003);
     }
@@ -77,7 +112,17 @@ public class ExchangeService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getRequesterId())) {
             exchange.setStatus(BookExchangeStatus.canceled);
-            return util.toDto(repository.save(exchange));
+            ExchangeTO exchangeReturn = util. toDto(repository.save(exchange));
+            this.sendEmailStatusExchange(
+                    exchangeReturn,
+                    exchangeReturn.getReceiver().getEmail(),
+                    "Proposta de troca cancelada",
+                    "Visualizar proposta",
+                    "https://bbooks-front.herokuapp.com/",
+                    exchangeReturn.getRequester().getUserName() + " cancelou a proposta para trocar livros enviada anteriormente.",
+                    "Proposta de troca cancelada"
+            );
+            return exchangeReturn;
         }
         throw new ResourceUnauthorizedException(CodeException.EXC003);
     }
@@ -97,5 +142,20 @@ public class ExchangeService {
 
     public List<ExchangeTO> getByUserSent(UUID id) {
         return util.toDtoList(repository.findByRequesterId(id));
+    }
+
+    private void sendEmailStatusExchange(ExchangeTO exchangeTO, String emailSend, String title, String action, String link, String content, String subject) {
+        new Thread(()-> {
+            email.
+                    getInstance()
+                    .withTo(emailSend)
+                    .withExchangeTo(exchangeTO)
+                    .withTitle(title)
+                    .withAction(action)
+                    .withLink(link)
+                    .withContent(content)
+                    .withSubject(subject)
+                    .send();
+        }).start();
     }
 }
