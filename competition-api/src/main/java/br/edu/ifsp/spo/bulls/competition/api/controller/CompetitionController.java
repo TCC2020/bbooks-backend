@@ -92,5 +92,4 @@ public class CompetitionController {
         logger.info("Requisitando competições");
         return service.getById(id);
     }
-    // TODO: Rota para finalizar a competição
 }

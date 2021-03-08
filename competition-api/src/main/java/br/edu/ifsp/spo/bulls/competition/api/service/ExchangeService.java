@@ -14,6 +14,7 @@ import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.repository.ExchangeRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +28,9 @@ public class ExchangeService {
     @Autowired
     private UserCommonFeign feign;
 
+    @Value("${app.front}")
+    private String frontUrl;
+
     @Autowired
     private ExchangeBeanUtil util;
 
@@ -37,12 +41,13 @@ public class ExchangeService {
         UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
         if(user != null && user.getId().equals(dto.getRequesterId()) && checkExchangeIntegrity(dto)) {
             ExchangeTO exchangeReturn = util.toDto(repository.save(util.toDomain(dto)));
+            // TODO: Variável front
             this.sendEmailStatusExchange(
                     exchangeReturn,
                     exchangeReturn.getReceiver().getEmail(),
                     "Proposta de troca",
                     "Visualizar proposta",
-                    "https://bbooks-front.herokuapp.com/",
+                    frontUrl,
                     "Você recebeu uma proposta para trocar seus livros",
                     "Proposta de troca"
             );
@@ -67,12 +72,13 @@ public class ExchangeService {
             exchange.getReceiverAds().stream().parallel().forEach(ad -> ad.setIsOpen(false));
             exchange.getRequesterAds().stream().parallel().forEach(ad -> ad.setIsOpen(false));
             ExchangeTO exchangeReturn = util. toDto(repository.save(exchange));
+            // TODO: Variável front
             this.sendEmailStatusExchange(
                     exchangeReturn,
                     exchangeReturn.getRequester().getEmail(),
                     "Proposta de troca aceita",
                     "Visualizar proposta",
-                    "https://bbooks-front.herokuapp.com/",
+                    frontUrl,
                     exchangeReturn.getReceiver().getUserName() + " aceitou sua proposta para trocar livros.",
                     "Proposta de troca aceita"
             );
@@ -88,12 +94,13 @@ public class ExchangeService {
         if(user.getId().equals(exchange.getReceiverId())) {
             exchange.setStatus(BookExchangeStatus.refused);
             ExchangeTO exchangeReturn = util. toDto(repository.save(exchange));
+            // TODO: Variável front
             this.sendEmailStatusExchange(
                     exchangeReturn,
                     exchangeReturn.getRequester().getEmail(),
                     "Proposta de troca recusada",
                     "Visualizar proposta",
-                    "https://bbooks-front.herokuapp.com/",
+                    frontUrl,
                     exchangeReturn.getReceiver().getUserName() + " recusou sua proposta para trocar livros.",
                     "Proposta de troca recusada"
             );
@@ -113,12 +120,13 @@ public class ExchangeService {
         if(user.getId().equals(exchange.getRequesterId())) {
             exchange.setStatus(BookExchangeStatus.canceled);
             ExchangeTO exchangeReturn = util. toDto(repository.save(exchange));
+            // TODO: Variável front
             this.sendEmailStatusExchange(
                     exchangeReturn,
                     exchangeReturn.getReceiver().getEmail(),
                     "Proposta de troca cancelada",
                     "Visualizar proposta",
-                    "https://bbooks-front.herokuapp.com/",
+                    frontUrl,
                     exchangeReturn.getRequester().getUserName() + " cancelou a proposta para trocar livros enviada anteriormente.",
                     "Proposta de troca cancelada"
             );

@@ -75,7 +75,6 @@ public class EmailServiceImpl implements EmailService {
             return true;
         }
         catch (MailException e) {
-            e.printStackTrace();
             logger.error("Error while sending email to  "
                     + to + e);
             return false;
