@@ -11,7 +11,7 @@ import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserRepository;
-import br.edu.ifsp.spo.bulls.users.api.service.impl.EmailServiceImpl;
+import br.edu.ifsp.spo.bulls.common.api.service.impl.EmailServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class AuthService {
     private UserRepository repository;
     @Autowired
     private UserBeanUtil utils;
-    @Autowired
-    private EmailServiceImpl emailService;
+    @Autowired   private EmailServiceImpl emailService;
+
     @Autowired
     private UserService userService;
 
@@ -85,9 +85,12 @@ public class AuthService {
 
         emailService.
                 getInstance()
-                .withUrls(url + user.getToken())
+                .withTitle("Recuperação de senha")
+                .withAction("Alterar senha")
+                .withLink(url + user.getToken())
                 .withTo(user.getEmail())
-                .withContent(" Recuperar senha " + user.getUserName())
+                .withContent("Olá, " + user.getUserName() + "! Você solicitou alteração da sua senha no BBooks. " +
+                        "Clique no botão a seguir para alterar sua senha.")
                 .withSubject(EmailSubject.RECUPERAR_SENHA.name())
                 .send();
      }

@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.competition.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.enums.Role;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.competition.api.bean.CompetitionBeanUtill;
@@ -19,7 +20,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @Transactional
@@ -62,7 +64,7 @@ public class CompetitionService {
 
     public CompetitionTO update(String token, CompetitionTO competitionTO, UUID id) {
         verifyProfileRequested(token, id);
-
+        verifyDate(competitionTO);
         Competition competition = beanUtil.toDomain(competitionTO);
 
         return beanUtil.toDto(repository.findById(id).map( competition1 -> {
@@ -72,13 +74,26 @@ public class CompetitionService {
     }
 
     public CompetitionTO save(CompetitionTO competitionTO) {
+        verifyDate(competitionTO);
         Competition competition = repository.save(beanUtil.toDomain(competitionTO));
-        saveMember(competitionTO, competition);
+        saveOwner(competitionTO, competition);
 
         return beanUtil.toDto(competition);
     }
 
-    private void saveMember(CompetitionTO competitionTO, Competition competition) {
+    private void verifyDate(CompetitionTO competitionTO) {
+        if(competitionTO.getSubscriptionDate().isBefore(LocalDateTime.now())){
+            throw new ResourceConflictException(CodeException.DA001.getText());
+        }
+        if(competitionTO.getSubscriptionDate().isAfter(competitionTO.getSubscriptionFinalDate())){
+            throw new ResourceConflictException(CodeException.DA002.getText());
+        }
+        if(competitionTO.getFinalDate().isBefore(competitionTO.getSubscriptionFinalDate().toLocalDate())){
+            throw new ResourceConflictException(CodeException.DA003.getText());
+        }
+    }
+
+    private void saveOwner(CompetitionTO competitionTO, Competition competition) {
         CompetitionMember member = new CompetitionMember();
         member.setProfileId(competitionTO.getCreatorProfile());
         member.setRole(Role.owner);

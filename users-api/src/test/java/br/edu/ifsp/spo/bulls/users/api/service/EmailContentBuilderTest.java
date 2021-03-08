@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.service.EmailContentBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class EmailContentBuilderTest {
     void verifyMessageInTemplateEngine(){
         EmailContentBuilder ecb = new EmailContentBuilder(te);
         String content = "Confirm your e-mail";
-        String result = ecb.build("Confirm your e-mail");
+        String result = ecb.build("Confirm your e-mail", "confirm email", "confirmar", "https", null);
         assertTrue(result.contains(content));
     }
 }

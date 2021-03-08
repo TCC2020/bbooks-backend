@@ -1,5 +1,7 @@
 server:
   port: 8080
+app:
+  front: ${URL_FRONT}
 spring:
   datasource:
     hikari:

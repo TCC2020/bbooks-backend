@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.users.api.service;
 
 import java.util.HashSet;
 
+import br.edu.ifsp.spo.bulls.common.api.service.EmailService;
 import br.edu.ifsp.spo.bulls.users.api.bean.UserBeanUtil;
 import br.edu.ifsp.spo.bulls.users.api.domain.Profile;
 import br.edu.ifsp.spo.bulls.users.api.domain.User;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,9 @@ public class UserService{
 	
 	@Autowired
 	private UserBeanUtil beanUtil;
+
+	@Value("${app.front}")
+	private String frontUrl;
 	
 	@Autowired
 	private ProfileService profileService;
@@ -59,12 +64,15 @@ public class UserService{
 	}
 
 	private void sendEmail(User retorno) {
+		// TODO: Colocar variável front
 		new Thread(()-> {
 			email.
 			getInstance()
-			.withUrls("https://bbooks-front.herokuapp.com/confirm")
 			.withTo(retorno.getEmail())
-			.withContent(" Bem Vindo " + retorno.getUserName())
+			.withTitle(" Bem vindo, " + retorno.getUserName())
+			.withAction("Confirmar cadastro")
+			.withLink(frontUrl + "/confirm")
+			.withContent("Por favor, confirme seu endereço de e-mail clicando no botão abaixo para fazer parte do BBooks.")
 			.withSubject(EmailSubject.VERIFY_EMAIL.name())
 			.send();
 		}).start();
@@ -89,7 +97,6 @@ public class UserService{
 	}
 
 	private void validationPassword(CadastroUserTO entidade) {
-		System.out.println(entidade.getPassword().isEmpty());
 		if(entidade.getPassword().isEmpty())
 			throw new ResourceBadRequestException(CodeException.US003.getText(), CodeException.US003);
 		

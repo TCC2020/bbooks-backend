@@ -17,8 +17,9 @@ import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionMemberReposit
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.UUID;
+
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class CompetitionVoteService {
@@ -59,14 +60,22 @@ public class CompetitionVoteService {
 
         CompetitionMember member = memberRepository.findById(voteSaveTO.getMemberId()).orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText()));
 
+        verifyDate(member);
         verifyIfProfilePreviouslyVoted(voteSaveTO, member);
 
         if(member.getStatus() == Status.accept){
             CompetitionVotes vote = beanUtil.toDomain(voteSaveTO);
+            repository.save(vote);
             return beanUtil.toReturnTO(vote);
 
         }else{
             throw new ResourceForbiddenException(CodeException.CV002.getText());
+        }
+    }
+
+    private void verifyDate(CompetitionMember member) {
+        if(LocalDateTime.now().isBefore(member.getCompetition().getSubscriptionFinalDate())){
+            throw new ResourceConflictException(CodeException.DA006.getText());
         }
     }
 
@@ -93,7 +102,7 @@ public class CompetitionVoteService {
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.CV004.getText(), CodeException.CV004)));
     }
 
-    public float mean(UUID competitionMemberId){
+    public float average(UUID competitionMemberId){
         CompetitionMember member = memberRepository.findById(competitionMemberId).orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText()));
 
         List<CompetitionVotes> votes = repository.findByMember(member);
@@ -106,4 +115,18 @@ public class CompetitionVoteService {
 
         return total / votes.size();
     }
+
+
+    public float average(CompetitionMember member){
+        List<CompetitionVotes> votes = repository.findByMember(member);
+
+        float total = 0.0F;
+
+        for(int x = 0;  x < votes.size(); x ++){
+            total = total + votes.get(x).getValue();
+        }
+
+        return total / votes.size();
+    }
+
 }

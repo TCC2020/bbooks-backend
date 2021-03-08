@@ -1,7 +1,8 @@
-package br.edu.ifsp.spo.bulls.users.api.service.impl;
+package br.edu.ifsp.spo.bulls.common.api.service.impl;
 
-import br.edu.ifsp.spo.bulls.users.api.service.EmailContentBuilder;
-import br.edu.ifsp.spo.bulls.users.api.service.EmailService;
+import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTO;
+import br.edu.ifsp.spo.bulls.common.api.service.EmailContentBuilder;
+import br.edu.ifsp.spo.bulls.common.api.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,10 @@ public class EmailServiceImpl implements EmailService {
     private String to;
     private String subject;
     private StringBuilder content;
+    private String title;
+    private String action;
+    private String link;
+    private ExchangeTO exchangeTO;
 
     @Autowired
     public EmailServiceImpl(EmailContentBuilder emailContentBuilder, JavaMailSender emailSender) {
@@ -44,18 +49,22 @@ public class EmailServiceImpl implements EmailService {
         return this.sendEmailTo(
                 this.to,
                 this.subject,
-                this.content.toString()
+                this.content.toString(),
+                this.title,
+                this.action,
+                this.link,
+                this.exchangeTO
         );
     }
 
     @Override
-    public boolean sendEmailTo(String to, String subject, String text) {
+    public boolean sendEmailTo(String to, String subject, String text, String title, String action, String link, ExchangeTO exchangeTO) {
         MimeMessagePreparator preparator = mimeMessage -> {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
             message.setTo(to);
             message.setFrom("equipebull2020@gmail.com");
             message.setSubject(subject);
-            String content = emailContentBuilder.build(text);
+            String content = emailContentBuilder.build(text, title, action, link, exchangeTO);
             message.setText(content, true);
         };
 
@@ -66,7 +75,6 @@ public class EmailServiceImpl implements EmailService {
             return true;
         }
         catch (MailException e) {
-            e.printStackTrace();
             logger.error("Error while sending email to  "
                     + to + e);
             return false;
@@ -95,6 +103,31 @@ public class EmailServiceImpl implements EmailService {
         this.content.append(content);
         return this;
     }
+
+    @Override
+    public EmailService withTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    @Override
+    public EmailService withAction(String action) {
+        this.action = action;
+        return this;
+    }
+
+    @Override
+    public EmailService withLink(String link) {
+        this.link = link;
+        return this;
+    }
+
+    @Override
+    public EmailService withExchangeTo(ExchangeTO exchangeTO) {
+        this.exchangeTO = exchangeTO;
+        return this;
+    }
+
 
     @Override
     public String getTo() {

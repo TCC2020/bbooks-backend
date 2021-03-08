@@ -1,5 +1,7 @@
 server:
   port: 8081
+app:
+    front: 'http://localhost:4200'
 feign:
   users: 'localhost:8080'
   competition: 'localhost:8082'
