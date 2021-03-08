@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.bulls.common.api.dto;
+package br.edu.ifsp.spo.bulls.common.api.dto.survey;
 
 import lombok.Data;
 

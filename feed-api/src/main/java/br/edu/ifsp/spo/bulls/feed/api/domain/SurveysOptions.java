@@ -1,13 +1,9 @@
 package br.edu.ifsp.spo.bulls.feed.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.GenerationType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +15,12 @@ public class SurveysOptions {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
     private String option;
-    @OneToMany(orphanRemoval=true)
+    private String googleBookId;
+    @ManyToOne
+    @JsonIgnoreProperties(value = "options", allowSetters = true)
+    @JoinColumn(name = "survey_id",updatable = false)
+    private Survey survey;
+    private int bootId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="surveyOptions", orphanRemoval = true)
     private List<Vote> votes;
 }

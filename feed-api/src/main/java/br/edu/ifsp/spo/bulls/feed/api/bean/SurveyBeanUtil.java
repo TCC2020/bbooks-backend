@@ -1,12 +1,14 @@
 package br.edu.ifsp.spo.bulls.feed.api.bean;
 
-import br.edu.ifsp.spo.bulls.common.api.dto.SurveyOptionsTO;
-import br.edu.ifsp.spo.bulls.common.api.dto.SurveyTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.survey.SurveyOptionsTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.survey.SurveyTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.VoteTO;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Survey;
 import br.edu.ifsp.spo.bulls.feed.api.domain.SurveysOptions;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Vote;
+import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class SurveyBeanUtil {
+    @Autowired
+    private UserCommonFeign userCommonFeign;
 
     public SurveyTO toDto(Survey survey) {
         SurveyTO surveyTO = new  SurveyTO();
@@ -62,6 +66,8 @@ public class SurveyBeanUtil {
         BeanUtils.copyProperties(surveyOptions, dto);
         if(surveyOptions.getVotes() != null)
             dto.setVotes(toVoteDtoList(surveyOptions.getVotes()));
+        if(surveyOptions.getBootId() != 0)
+            dto.setBook(userCommonFeign.getBookTOById(surveyOptions.getBootId()));
         return dto;
     }
 

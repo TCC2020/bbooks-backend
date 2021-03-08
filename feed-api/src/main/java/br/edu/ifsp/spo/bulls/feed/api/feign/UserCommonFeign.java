@@ -1,10 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.feign;
 
 
-import br.edu.ifsp.spo.bulls.common.api.dto.FriendshipStatusTO;
-import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
-import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
-import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.*;
 import br.edu.ifsp.spo.bulls.common.api.dto.profile.BaseProfileTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,4 +32,7 @@ public interface UserCommonFeign {
 
     @RequestMapping(method = RequestMethod.GET, value = "/users/profile/{profileId}")
     UserTO getUserByProfileId(@PathVariable("profileId") int profileId);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/books/{id}")
+    BookTO getBookTOById(@PathVariable("id") int bootId);
 }

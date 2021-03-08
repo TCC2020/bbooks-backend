@@ -10,6 +10,7 @@ import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsByType;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsTO;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.repository.SurveyRepository;
 import org.springframework.data.domain.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,9 @@ public class PostBeanUtil {
 
     @Autowired
     private SurveyBeanUtil surveyBeanUtil;
+
+    @Autowired
+    private SurveyRepository surveyRepository;
 
     private Logger logger = LoggerFactory.getLogger(PostBeanUtil.class);
 
@@ -93,7 +97,13 @@ public class PostBeanUtil {
         } catch (Exception e) {
             logger.error("Error while converting Post to PostTO: " + e);
         }
-
+        if(postTO.getSurvey() != null) {
+            if(postTO.getSurvey().getId() != null) {
+                post.setSurvey(surveyBeanUtil.toDomain(postTO.getSurvey()));
+            }
+            else
+                post.setSurvey(surveyRepository.save(post.getSurvey()));
+        }
         if (postTO.getGroupId() != null)
             post.setGroup(groupRepository.findById(postTO.getGroupId())
                     .orElseThrow(() -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001)));
