@@ -43,7 +43,6 @@ public class PostBeanUtil {
         }
         if(post.getSurvey() != null)
             postTO.setSurvey(surveyBeanUtil.toDto(post.getSurvey()));
-        // TODO: teste aqui
         if(post.getGroup() != null)
             postTO.setGroupId(post.getGroup().getId());
         postTO.setReactions(reactionsToReactionsTO(post.getReactions()));

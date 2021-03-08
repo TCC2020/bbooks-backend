@@ -10,7 +10,6 @@ import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.users.api.repository.UserRepository;
-import br.edu.ifsp.spo.bulls.users.api.service.impl.EmailServiceImpl;
 import br.edu.ifsp.spo.bulls.users.api.repository.ProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
