@@ -33,8 +33,6 @@ import java.util.UUID;
 @Service
 public class FeedService {
 
-    @Value("app.front")
-    String urlFront;
     @Autowired
     private PostRepository repository;
 
