@@ -101,7 +101,8 @@ public class PostControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/post/comment/" + post.getId())
                 .param("page", "0")
-                .param("size", "1"))
+                .param("size", "1")
+                .header(HttpHeaders.AUTHORIZATION,"Basic AUTH"))
                 .andExpect(status().isOk());
     }
 
