@@ -50,7 +50,7 @@ public class FeedService {
 
     public List<PostTO> getFeed(String token, int page, int size) {
         ProfileTO profileTO = feign.getProfileByToken(StringUtils.removeStart(token, "Bearer").trim());
-        return utils.toDtoList(repository.findFeedByRequesterId(profileTO.getId()));
+        return utils.toDtoList(repository.findFeedByRequesterId(profileTO.getId()), profileTO.getId());
     }
 
     public Page<PostTO> getProfileFeed(String token, int profileId,  int page, int size) {
