@@ -5,8 +5,10 @@ import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.bean.SurveyBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Reactions;
+import br.edu.ifsp.spo.bulls.feed.api.domain.Survey;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostReactionTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactTO;
@@ -14,6 +16,7 @@ import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.ReactionsRepository;
+import br.edu.ifsp.spo.bulls.feed.api.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +38,12 @@ public class PostService {
     private PostBeanUtil postBeanUtil;
 
     @Autowired
+    private SurveyBeanUtil surveyBeanUtil;
+
+    @Autowired
+    private SurveyRepository surveyRepository;
+
+    @Autowired
     private ReactionsRepository reactionsRepository;
 
     @Autowired
@@ -42,7 +51,14 @@ public class PostService {
 
     public Post create(PostTO postTO) {
         Post post = postBeanUtil.toDomain(postTO);
-        return repository.save(post);
+        Post retorno = repository.save(post);
+
+        Survey survey = surveyBeanUtil.toDomain(postTO.getSurvey());
+        survey.setPost(retorno);
+        surveyRepository.save(survey);
+        // TODO: Criar post e depois criar o enquetes relacionado
+        // TODO: Salvar opcoes da enquete
+        return retorno;
     }
 
     public Post update(Post post, UUID idPost) {

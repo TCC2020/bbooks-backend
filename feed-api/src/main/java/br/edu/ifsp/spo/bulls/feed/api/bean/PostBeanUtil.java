@@ -42,9 +42,9 @@ public class PostBeanUtil {
         }catch(Exception e) {
             logger.error("Error while converting Post to PostTO: " +  e);
         }
-        if(post.getSurvey() != null)
-            postTO.setSurvey(surveyBeanUtil.toDto(post.getSurvey()));
-        // TODO: teste aqui
+        // TODO: Arrumar aqui
+        //if(post.getSurvey() != null)
+        //    postTO.setSurvey(surveyBeanUtil.toDto(post.getSurvey()));
         if(post.getGroup() != null)
             postTO.setGroupId(post.getGroup().getId());
         postTO.setReactions(reactionsToReactionsTO(post.getReactions()));
@@ -88,8 +88,9 @@ public class PostBeanUtil {
         Post post = new Post();
         try {
             BeanUtils.copyProperties(postTO, post);
-            if(postTO.getSurvey() != null)
-                post.setSurvey(surveyBeanUtil.toDomain(postTO.getSurvey()));
+            // TODO: Arrumar aqui
+            //if(postTO.getSurvey() != null)
+                //post.setSurvey(surveyBeanUtil.toDomain(postTO.getSurvey()));
         } catch (Exception e) {
             logger.error("Error while converting Post to PostTO: " + e);
         }

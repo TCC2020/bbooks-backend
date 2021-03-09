@@ -2,12 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.GenerationType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +14,9 @@ public class SurveysOptions {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
     private String option;
+    @ManyToOne
+    private Survey survey;
+
     @OneToMany(orphanRemoval=true)
     private List<Vote> votes;
 }

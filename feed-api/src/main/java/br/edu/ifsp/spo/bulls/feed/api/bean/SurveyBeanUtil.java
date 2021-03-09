@@ -18,16 +18,18 @@ public class SurveyBeanUtil {
     public SurveyTO toDto(Survey survey) {
         SurveyTO surveyTO = new  SurveyTO();
         BeanUtils.copyProperties(survey, surveyTO);
-        if(survey.getOptions() != null)
-            surveyTO.setOptions(toSurveyOptionsDtoList(survey.getOptions()));
+        // TODO: Arrumar isso
+//        if(survey.getOptions() != null)
+        //    surveyTO.setOptions(toSurveyOptionsDtoList(survey.getOptions()));
         return surveyTO;
     }
 
     public Survey toDomain(SurveyTO dto) {
         Survey domain = new Survey();
         BeanUtils.copyProperties(dto, domain);
-        if(dto.getOptions() != null)
-            domain.setOptions(toSurveyOptionsDomainList(dto.getOptions()));
+        // TODO: Arrumar isso
+        //if(dto.getOptions() != null)
+            //domain.setOptions(toSurveyOptionsDomainList(dto.getOptions()));
         return domain;
     }
 

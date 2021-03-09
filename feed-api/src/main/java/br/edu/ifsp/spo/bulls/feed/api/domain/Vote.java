@@ -7,10 +7,10 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "surveys")
+@Table(name = "surveys_vote")
 public class Vote {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
-    private UUID userId;
+    private int profileId;
 }
