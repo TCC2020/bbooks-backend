@@ -47,10 +47,11 @@ public class Post {
     @ManyToOne
     private GroupRead group;
 
-    @OneToOne(orphanRemoval=true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval=true)
+//    @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reactions> reactions;
 
     @PrePersist

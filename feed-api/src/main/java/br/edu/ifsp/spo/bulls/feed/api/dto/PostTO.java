@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.bulls.feed.api.dto;
 
-import br.edu.ifsp.spo.bulls.common.api.dto.SurveyTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.survey.SurveyTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
