@@ -62,9 +62,9 @@ public class PostController {
             @ApiResponse(code = 200, message = "Publicação encontrada")
     })
     @GetMapping("/comment/{idPost}")
-    public List<PostTO> getComment(@PathVariable UUID idPost, @RequestParam int page, @RequestParam int size) {
+    public List<PostTO> getComment(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID idPost, @RequestParam int page, @RequestParam int size) {
         logger.info("Buscando comenários do post: " + idPost);
-        return service.getCommentList(idPost, page, size);
+        return service.getCommentList(idPost, page, size, token);
     }
 
     @ApiOperation(value = "Ver publicações de um perfil")

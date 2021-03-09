@@ -77,8 +77,9 @@ public class PostService {
 
         repository.deleteById(idPost);
     }
-    public List<PostTO> getCommentList(UUID idPost, int page, int pageSize) {
-        return postBeanUtil.toDtoList(repository.findByUpperPostId(idPost));
+    public List<PostTO> getCommentList(UUID idPost, int page, int pageSize, String token) {
+        ProfileTO profileTO = feign.getProfileByToken(token);
+        return postBeanUtil.toDtoList(repository.findByUpperPostId(idPost), profileTO.getId());
     }
 
     public Page<PostTO> getComment(UUID idPost, int page, int pageSize) {

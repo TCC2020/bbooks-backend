@@ -105,6 +105,10 @@ public class PostBeanUtil {
         return list.stream().map(this::toDto).collect(Collectors.toList());
     }
 
+    public List<PostTO> toDtoList(List<Post> list, int profileId) {
+        return list.stream().map(p -> this.toDto(p, profileId)).collect(Collectors.toList());
+    }
+
     public Page<PostTO> toDtoPage(Page<Post> list) {
         if(list != null)
             return list.map(this::toDto);
@@ -113,11 +117,11 @@ public class PostBeanUtil {
 
     public Page<PostTO> toDtoPage(Page<Post> list, int profileId) {
         if(list != null)
-            return list.map(post -> this.setActorAction(post, profileId));
+            return list.map(post -> this.toDto(post, profileId));
         return null;
     }
 
-    private PostTO setActorAction(Post post, int profileId) {
+    private PostTO toDto(Post post, int profileId) {
         PostTO dto = this.toDto(post);
         post.getReactions()
                 .parallelStream()
