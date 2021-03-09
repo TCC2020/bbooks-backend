@@ -78,10 +78,10 @@ public class FeedService {
         GroupRead group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.GR001));
         if(!group.getPrivacy().equals(Privacy.private_group))
-            return utils.toDtoList(repository.findByGroupId(groupId));
+            return utils.toDtoList(repository.findByGroupId(groupId), user.getProfile().getId());
         GroupMembers member = groupMemberRepository.findMemberByUserId(user.getId(), groupId);
         if (member != null && MemberStatus.accepted.equals(member.getStatus()))
-            return utils.toDtoList(repository.findByGroupId(groupId));
+            return utils.toDtoList(repository.findByGroupId(groupId), user.getProfile().getId());
         throw new ResourceUnauthorizedException(CodeException.GR005);
     }
 }
