@@ -96,13 +96,13 @@ public class PostBeanUtil {
         } catch (Exception e) {
             logger.error("Error while converting Post to PostTO: " + e);
         }
-        if(postTO.getSurvey() != null) {
-            if(postTO.getSurvey().getId() != null) {
-                post.setSurvey(surveyBeanUtil.toDomain(postTO.getSurvey()));
-            }
-            else
-                post.setSurvey(surveyRepository.save(post.getSurvey()));
-        }
+//        if(postTO.getSurvey() != null) {
+//            if(postTO.getSurvey().getId() != null) {
+//                post.setSurvey(surveyBeanUtil.toDomain(postTO.getSurvey()));
+//            }
+//            else
+//                post.setSurvey(surveyRepository.save(post.getSurvey()));
+//        }
         if (postTO.getGroupId() != null)
             post.setGroup(groupRepository.findById(postTO.getGroupId())
                     .orElseThrow(() -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001)));

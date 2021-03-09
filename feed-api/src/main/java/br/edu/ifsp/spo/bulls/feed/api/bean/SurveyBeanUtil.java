@@ -46,8 +46,8 @@ public class SurveyBeanUtil {
     public SurveysOptions toSurveyOptionDomain(SurveyOptionsTO dto) {
         SurveysOptions domain = new SurveysOptions();
         BeanUtils.copyProperties(dto, domain);
-        if(dto.getVotes() != null)
-            domain.setVotes(toVoteDomainList(dto.getVotes()));
+//        if(dto.getVotes() != null)
+//            domain.setVotes(toVoteDomainList(dto.getVotes()));
         return domain;
     }
 
@@ -64,10 +64,10 @@ public class SurveyBeanUtil {
     public SurveyOptionsTO toSurveyOptionDto(SurveysOptions surveyOptions) {
         SurveyOptionsTO dto = new SurveyOptionsTO();
         BeanUtils.copyProperties(surveyOptions, dto);
-        if(surveyOptions.getVotes() != null)
-            dto.setVotes(toVoteDtoList(surveyOptions.getVotes()));
-        if(surveyOptions.getBootId() != 0)
-            dto.setBook(userCommonFeign.getBookTOById(surveyOptions.getBootId()));
+//        if(surveyOptions.getVotes() != null)
+//            dto.setVotes(toVoteDtoList(surveyOptions.getVotes()));
+        if(surveyOptions.getBookId() != 0)
+            dto.setBook(userCommonFeign.getBookTOById(surveyOptions.getBookId()));
         return dto;
     }
 

@@ -48,6 +48,7 @@ public class Post {
     private GroupRead group;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval=true)
+//    @JoinColumn(name = "survey_id")
     private Survey survey;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

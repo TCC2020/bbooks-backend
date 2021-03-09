@@ -43,21 +43,25 @@ public class SurveyService {
     public SurveyTO vote(String token, SurveyVoteTO dto) {
         ProfileTO profile = userCommonFeign.getProfileByToken(token);
         Survey survey = surveyRepository.findById(dto.getSurveyId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.SUR001));
-        Vote vote = voteRepository.findByProfileIdAndSurvey(profile.getId(), survey).orElse(null);
-        if(vote != null) {
-            SurveysOptions options = optionsRepository.findById(dto.getSurveyOptionId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.SUR001));
-            if(vote.getSurveyOptions().getId().equals(options.getId())) {
-                options.getVotes().remove(vote);
-                optionsRepository.save(options);
-                return beanUtil.toDto(surveyRepository.findById(dto.getSurveyId()).get());
-            }
-            vote.setSurveyOptions(options);
-            voteRepository.save(vote);
-            return beanUtil.toDto(surveyRepository.findById(dto.getSurveyId()).get());
-        }
-        vote = new Vote(profile.getId(), survey, optionsRepository.findById(dto.getSurveyOptionId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.SUR001)));
-        voteRepository.save(vote);
-        return beanUtil.toDto(surveyRepository.findById(dto.getSurveyId()).get());
+//        Vote vote = voteRepository.findByProfileIdAndSurveyId(profile.getId(), survey.getId()).orElse(null);
+
+
+//        if(vote != null) {
+//            SurveysOptions options = optionsRepository.findById(dto.getSurveyOptionId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.SUR001));
+//            if(vote.getSurveyOptions().getId().equals(options.getId())) {
+//                options.getVotes().remove(vote);
+//                survey.getOptions().add(options);
+//                return beanUtil.toDto(surveyRepository.save(survey));
+//            }
+//            vote.setSurveyOptions(options);
+//            options.getVotes().add(vote);
+//            return beanUtil.toDto(surveyRepository.save(survey));
+//        }
+//        vote = new Vote(profile.getId(), survey, optionsRepository.findById(dto.getSurveyOptionId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.SUR001)));
+//        SurveysOptions options = optionsRepository.findById(dto.getSurveyOptionId()).orElseThrow(() -> new ResourceNotFoundException(CodeException.SUR001));
+//        options.getVotes().add(vote);
+//        survey.getOptions().add(options);
+//        return beanUtil.toDto(surveyRepository.save(survey));
 
 //        ProfileTO profile = userCommonFeign.getProfileByToken(token);
 //        SurveysOptions options = optionsRepository.findById(dto.getSurveyOptionId())
@@ -71,5 +75,6 @@ public class SurveyService {
 //
 //        optionsRepository.save(options);
 //        return beanUtil.toDto(repository.findById(options.getSurvey().getId()).orElse(null));
+        return null;
     }
 }

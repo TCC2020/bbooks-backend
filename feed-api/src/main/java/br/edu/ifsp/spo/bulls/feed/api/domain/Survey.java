@@ -15,9 +15,10 @@ public class Survey {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL , mappedBy="survey", orphanRemoval = true)
-    private List<SurveysOptions> options;
     private LocalDateTime createdAt;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "survey_id")
+    private List<SurveysOptions> options;
 
     @PrePersist
     public void prePersist() {
