@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -101,5 +102,11 @@ public class PostBeanUtil {
 
     public List<PostTO> toDtoList(List<Post> list) {
         return list.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public Page<PostTO> toDtoPage(Page<Post> list) {
+        if(list != null)
+            return list.map(this::toDto);
+        return null;
     }
 }

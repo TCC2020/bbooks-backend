@@ -76,7 +76,7 @@ public class FeedServiceTest {
 
     @Test
     public void getProfileFeed() {
-        Page<PostTO> postPage = null;
+        Page<Post> postPage = null;
         statusTO.setStatus("added");
         getStatus.setProfileId(1);
         getStatus.setProfileFriendId(2);

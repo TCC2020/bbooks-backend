@@ -1,13 +1,13 @@
 package br.edu.ifsp.spo.bulls.common.api.enums;
 
 public enum ReactionType {
-    like("LIKE"),
-    dislike("DISLIKED"),
-    loved("LOVED"),
-    hilarius("HILARIUS"),
-    surprised("SURPRISED"),
-    sad("SAD"),
-    hated("HATED");
+    like("like"),
+    dislike("dislike"),
+    loved("loved"),
+    hilarius("hilarius"),
+    surprised("surprised"),
+    sad("sad"),
+    hated("hated");
 
     private final String text;
 

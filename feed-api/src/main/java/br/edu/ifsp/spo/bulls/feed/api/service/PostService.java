@@ -58,7 +58,7 @@ public class PostService {
         PostTO postTO = postBeanUtil.toDto(repository.findById(idPost)
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001)));
 
-        postTO.setComments(repository.findByUpperPostIdQuery(idPost));
+        postTO.setComments(postBeanUtil.toDtoList(repository.findByUpperPostIdQuery(idPost)));
 
         return postTO;
     }
@@ -70,7 +70,7 @@ public class PostService {
                 Sort.Direction.ASC,
                 "id");
 
-        return repository.findByProfileId(profileId, TypePost.post, pageRequest);
+        return postBeanUtil.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageRequest));
     }
 
     public void delete(UUID idPost) {
@@ -88,7 +88,7 @@ public class PostService {
                 pageSize,
                 Sort.Direction.ASC,
                 "id");
-        return repository.findByUpperPostIdQuery(idPost, pageRequest);
+        return postBeanUtil.toDtoPage(repository.findByUpperPostIdQuery(idPost, pageRequest));
     }
 
     public HttpStatus setImage(String token, UUID postId, String url) {
