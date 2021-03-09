@@ -111,6 +111,4 @@ public class CompetitionMemberController {
         logger.info("Requisitando competições");
         return service.getMembersByRoleAndStatus(competitionId, role, status);
     }
-
-    //TODO: rota para aceitar um membro na competição
 }

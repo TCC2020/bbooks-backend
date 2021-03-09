@@ -56,7 +56,7 @@ public class UserService{
 			retorno = rep.save(user);
 			saveProfile(cadastroUserTO, user);
 			sendEmail(retorno);
-			logger.info("URL FRONT PARA EMAIL " + frontUrl);
+			logger.info("URL front para de confirmacao" + frontUrl);
 		}catch (Exception e){
 			logger.error("Error while save user: " +  e);
 		}
@@ -65,7 +65,6 @@ public class UserService{
 	}
 
 	private void sendEmail(User retorno) {
-		// TODO: Colocar variável front
 		new Thread(()-> {
 			email.
 			getInstance()
