@@ -12,5 +12,5 @@ public class ReactionsTO {
     private ReactionsByType surprised;
     private ReactionsByType sad;
     private ReactionsByType hated;
-
+    private ActorAction actorAction;
 }
