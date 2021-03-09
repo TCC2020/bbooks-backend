@@ -59,18 +59,18 @@ public class FeedService {
 
         ProfileTO profileTO = feign.getProfileByToken(tokenValue);
         if(profileTO != null && profileId == profileTO.getId())
-            return utils.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageable));
+            return utils.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageable), profileTO.getId());
         GetFriendStatusTO getStatus = new GetFriendStatusTO();
         getStatus.setProfileId(profileTO.getId());
         getStatus.setProfileFriendId(profileId);
         try {
             FriendshipStatusTO friendship = feign.getFriendshipStatusTO(getStatus);
             if("added".equalsIgnoreCase(friendship.getStatus()))
-                return utils.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageable));
+                return utils.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageable), profileTO.getId());
         } catch (Exception e) {
             System.out.println(e);
         }
-        return utils.toDtoPage(repository.findFeedByRequesterIdPublic(profileId, pageable));
+        return utils.toDtoPage(repository.findFeedByRequesterIdPublic(profileId, pageable), profileTO.getId());
     }
 
     public List<PostTO> getGroupFeed(String token, UUID groupId) {

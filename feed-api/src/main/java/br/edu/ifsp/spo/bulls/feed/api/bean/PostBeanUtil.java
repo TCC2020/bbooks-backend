@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.common.api.enums.ReactionType;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Reactions;
+import br.edu.ifsp.spo.bulls.feed.api.dto.ActorAction;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsByType;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsTO;
@@ -108,5 +109,21 @@ public class PostBeanUtil {
         if(list != null)
             return list.map(this::toDto);
         return null;
+    }
+
+    public Page<PostTO> toDtoPage(Page<Post> list, int profileId) {
+        if(list != null)
+            return list.map(post -> this.setActorAction(post, profileId));
+        return null;
+    }
+
+    private PostTO setActorAction(Post post, int profileId) {
+        PostTO dto = this.toDto(post);
+        post.getReactions()
+                .parallelStream()
+                .filter(reactions -> reactions.getProfileId() == profileId)
+                .findAny()
+                .ifPresent(r -> dto.getReactions().setActorAction(new ActorAction(r.getReaction())));
+        return dto;
     }
 }

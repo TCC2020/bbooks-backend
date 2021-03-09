@@ -128,4 +128,14 @@ public class PostService {
         postReactionTO.setReactions(postBeanUtil.reactionsToReactionsTO(repository.save(post).getReactions()));
         return postReactionTO;
     }
+
+    public Page<PostTO> getByProfile(int profileId, int page, int size, String token) {
+        Pageable pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "id");
+        ProfileTO profileTO = feign.getProfileByToken(token);
+        return postBeanUtil.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageRequest), profileTO.getId());
+    }
 }

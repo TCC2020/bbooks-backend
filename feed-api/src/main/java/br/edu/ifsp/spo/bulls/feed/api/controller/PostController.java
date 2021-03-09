@@ -72,10 +72,10 @@ public class PostController {
             @ApiResponse(code = 200, message = "Publicação encontradas")
     })
     @GetMapping("/profile/{idProfile}")
-    public Page<PostTO> get(@PathVariable int idProfile, @RequestParam int page, @RequestParam int size) {
+    public Page<PostTO> get(@PathVariable int idProfile, @RequestParam int page, @RequestParam int size, @RequestHeader("AUTHORIZATION") String token) {
         logger.info("Buscando posts por profile: " + idProfile);
 
-        return service.getByProfile(idProfile, page, size);
+        return service.getByProfile(idProfile, page, size, token);
     }
 
     @ApiOperation(value = "Colocar ou remover reação ao post")
