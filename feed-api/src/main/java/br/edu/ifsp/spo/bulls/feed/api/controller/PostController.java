@@ -42,7 +42,7 @@ public class PostController {
             @ApiResponse(code = 200, message = "Publicação editada")
     })
     @PutMapping("/{idPost}")
-    public Post put(@RequestBody Post post, @PathVariable UUID idPost) {
+    public PostTO    put(@RequestBody PostTO post, @PathVariable UUID idPost) {
         logger.info("Editando post: " + post.toString());
         return service.update(post, idPost);
     }
