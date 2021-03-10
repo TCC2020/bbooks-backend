@@ -112,6 +112,11 @@ public class ExchangeController {
         return service.exchangeByToken(token, exchangeToken);
     }
 
+    @PutMapping("/{exchangeId}/chat/{chatId}")
+    public ExchangeTO putChatId(@PathVariable("exchangeId") UUID exchangeId, @PathVariable("chatId") String chatId) {
+        return service.putChatId(exchangeId, chatId);
+    }
+
     @ApiOperation(value = "aceita uma poposta de troca")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Anuncio de livro criado"),

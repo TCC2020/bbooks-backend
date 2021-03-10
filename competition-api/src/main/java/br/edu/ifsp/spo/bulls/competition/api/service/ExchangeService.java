@@ -99,6 +99,8 @@ public class ExchangeService {
         Exchange exchange = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getReceiverId())) {
+            if(!exchange.getStatus().equals(BookExchangeStatus.accepted))
+                throw new ResourceConflictException("Exhange status not right");
             exchange.setToken(UUID.randomUUID());
             exchange.setExpiryTime(LocalDateTime.now().plusMinutes(5));
             Exchange ex = repository.save(exchange);
@@ -112,7 +114,7 @@ public class ExchangeService {
         Exchange exchange = repository.findByToken(exchangeToken)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getRequesterId())) {
-            if(exchange.getExpiryTime().isAfter(LocalDateTime.now()))
+            if(exchange.getExpiryTime().isBefore(LocalDateTime.now()))
                 throw new ResourceUnauthorizedException(CodeException.EXC006);
             exchange.setStatus(BookExchangeStatus.exchanged);
             return util.toDto(repository.save(exchange));
@@ -199,5 +201,12 @@ public class ExchangeService {
                     .withSubject(subject)
                     .send();
         }).start();
+    }
+
+    public ExchangeTO putChatId(UUID exchangeId, String chatId) {
+        Exchange exchange = repository.findById(exchangeId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
+        exchange.setChatId(chatId);
+        return util.toDto(repository.save(exchange));
     }
 }
