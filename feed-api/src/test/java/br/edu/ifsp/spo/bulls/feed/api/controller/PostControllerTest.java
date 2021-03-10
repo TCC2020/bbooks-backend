@@ -65,11 +65,11 @@ public class PostControllerTest {
 
     @Test
     void put() throws Exception {
-        Mockito.when(mockPostService.update(post, post.getId())).thenReturn(post);
+        Mockito.when(mockPostService.update(postTO, post.getId())).thenReturn(postTO);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/post/" + post.getId())
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(post)))
+                .content(objectMapper.writeValueAsString(postTO)))
                 .andExpect(status().isOk());
     }
 
