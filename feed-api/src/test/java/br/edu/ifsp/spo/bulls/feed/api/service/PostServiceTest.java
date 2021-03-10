@@ -146,6 +146,8 @@ public class PostServiceTest {
 
     @Test
     void get() {
+        ArrayList<Post> comments = new ArrayList<>();
+        comments.add(comment);
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenReturn(Optional.ofNullable(post));
@@ -169,7 +171,7 @@ public class PostServiceTest {
     void getByProfile() {
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
-        Page<PostTO> postPage = null;
+        Page<Post> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,
@@ -184,7 +186,7 @@ public class PostServiceTest {
 
     @Test
     void getComment() {
-        Page<PostTO> postPage = null;
+        Page<Post> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,

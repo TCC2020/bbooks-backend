@@ -50,7 +50,7 @@ public class FeedService {
 
     public List<PostTO> getFeed(String token, int page, int size) {
         ProfileTO profileTO = feign.getProfileByToken(StringUtils.removeStart(token, "Bearer").trim());
-        return utils.toDtoList(repository.findFeedByRequesterId(profileTO.getId()));
+        return utils.toDtoList(repository.findFeedByRequesterId(profileTO.getId()), profileTO.getId());
     }
 
     public Page<PostTO> getProfileFeed(String token, int profileId,  int page, int size) {
@@ -59,18 +59,18 @@ public class FeedService {
 
         ProfileTO profileTO = feign.getProfileByToken(tokenValue);
         if(profileTO != null && profileId == profileTO.getId())
-            return repository.findByProfileId(profileId, TypePost.post, pageable);
+            return utils.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageable), profileTO.getId());
         GetFriendStatusTO getStatus = new GetFriendStatusTO();
         getStatus.setProfileId(profileTO.getId());
         getStatus.setProfileFriendId(profileId);
         try {
             FriendshipStatusTO friendship = feign.getFriendshipStatusTO(getStatus);
             if("added".equalsIgnoreCase(friendship.getStatus()))
-                return repository.findByProfileId(profileId, TypePost.post, pageable);
+                return utils.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageable), profileTO.getId());
         } catch (Exception e) {
             System.out.println(e);
         }
-        return repository.findFeedByRequesterIdPublic(profileId, pageable);
+        return utils.toDtoPage(repository.findFeedByRequesterIdPublic(profileId, pageable), profileTO.getId());
     }
 
     public List<PostTO> getGroupFeed(String token, UUID groupId) {
@@ -78,10 +78,10 @@ public class FeedService {
         GroupRead group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.GR001));
         if(!group.getPrivacy().equals(Privacy.private_group))
-            return utils.toDtoList(repository.findByGroupId(groupId));
+            return utils.toDtoList(repository.findByGroupId(groupId), user.getProfile().getId());
         GroupMembers member = groupMemberRepository.findMemberByUserId(user.getId(), groupId);
         if (member != null && MemberStatus.accepted.equals(member.getStatus()))
-            return utils.toDtoList(repository.findByGroupId(groupId));
+            return utils.toDtoList(repository.findByGroupId(groupId), user.getProfile().getId());
         throw new ResourceUnauthorizedException(CodeException.GR005);
     }
 }
