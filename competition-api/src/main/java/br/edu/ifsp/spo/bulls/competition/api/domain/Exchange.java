@@ -27,7 +27,8 @@ public class Exchange {
     private List<BookAd> requesterAds;
     @ManyToMany
     private List<BookAd> receiverAds;
-
+    private UUID token;
+    private LocalDateTime expiryTime;
 
     @PrePersist
     public void prePersist() {

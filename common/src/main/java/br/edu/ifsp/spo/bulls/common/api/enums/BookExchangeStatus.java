@@ -4,6 +4,7 @@ public enum BookExchangeStatus {
     pending("pending"),
     refused("refused"),
     accepted("accepted"),
+    exchanged("exchanged"),
     canceled("canceled");
 
     private final String text;
