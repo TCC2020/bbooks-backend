@@ -38,13 +38,20 @@ public class PostService {
     private ReactionsRepository reactionsRepository;
 
     @Autowired
+    private SurveyService surveyService;
+
+    @Autowired
     private UserCommonFeign feign;
 
-    public Post create(PostTO postTO) {
-        Post post = postBeanUtil.toDomain(postTO);
-        return repository.save(post);
+    public PostTO create(PostTO postTO) {
+        Post post = repository.save(postBeanUtil.toDomain(postTO));
+        if(postTO.getSurvey() != null){
+            surveyService.save( post.getSurvey(),postTO.getSurvey().getOptions());
+        }
+        return postBeanUtil.toDto(post);
     }
 
+<<<<<<< Updated upstream
     public Post update(Post post, UUID idPost) {
         return repository.findById(idPost).map( post1 -> {
                     post1 = post;
@@ -52,6 +59,16 @@ public class PostService {
                     return repository.save(post1);
                 })
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
+=======
+    public PostTO update(PostTO dto, UUID idPost) {
+        Post post = repository.findById(idPost).map(p -> {
+            p.setDescription(dto.getDescription());
+            return repository.save(p);
+        })
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
+        surveyService.save( post.getSurvey(), dto.getSurvey().getOptions());
+        return postBeanUtil.toDto(post);
+>>>>>>> Stashed changes
     }
 
     public PostTO get(UUID idPost) {

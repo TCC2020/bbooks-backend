@@ -47,7 +47,7 @@ public class Post {
     @ManyToOne
     private GroupRead group;
 
-    @OneToOne(orphanRemoval=true)
+    @OneToOne(cascade = CascadeType.ALL)
     private Survey survey;
 
     @OneToMany(cascade = CascadeType.ALL)
