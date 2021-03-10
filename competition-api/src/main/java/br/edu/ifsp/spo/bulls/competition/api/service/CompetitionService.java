@@ -52,14 +52,14 @@ public class CompetitionService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.CP001.getText(), CodeException.CP001)));
     }
 
-    public Page<Competition> search(String name, int page, int size) {
+    public Page<CompetitionTO> search(String name, int page, int size) {
         PageRequest pageRequest = PageRequest.of(
                 page,
                 size,
                 Sort.Direction.ASC,
                 "id");
 
-        return repository.findByTitleOrRulesContaining(name, name, pageRequest);
+        return beanUtil.toCompetitionTO(repository.findByTitleOrRulesContaining(name, name, pageRequest));
     }
 
     public CompetitionTO update(String token, CompetitionTO competitionTO, UUID id) {

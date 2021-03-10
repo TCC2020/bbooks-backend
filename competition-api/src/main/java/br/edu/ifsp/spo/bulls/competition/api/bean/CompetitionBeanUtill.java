@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionMemberReposit
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
@@ -18,6 +19,9 @@ public class CompetitionBeanUtill {
 
     @Autowired
     private CompetitionMemberRepository memberRepository;
+
+    @Autowired
+    private CompetitionMemberBeanUtil memberBeanUtil;
 
     public Competition toDomain(CompetitionTO competitionTO){
         Competition competition = new Competition();
@@ -35,10 +39,16 @@ public class CompetitionBeanUtill {
         try {
             copyProperties(competition, competitionTO);
             competitionTO.setCreatorProfile(memberRepository.getCreatorOfCompetition(competition.getId(), Role.owner).getProfileId());
+            competitionTO.setWinnerProfile(
+                    competition.getWinnerProfile() != null?memberBeanUtil.toSaveTO(competition.getWinnerProfile()):null);
         }   catch(Exception e) {
             logger.error("Exception coverting to dto: " + e);
         }
         return competitionTO;
+    }
+
+    public Page<CompetitionTO> toCompetitionTO(Page<Competition> competitionPage ){
+        return competitionPage.map(this::toDto);
     }
 
 }
