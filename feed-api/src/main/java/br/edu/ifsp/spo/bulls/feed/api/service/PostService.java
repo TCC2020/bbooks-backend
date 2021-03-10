@@ -73,11 +73,21 @@ public class PostService {
         return postBeanUtil.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageRequest));
     }
 
+
+    public Page<PostTO> getPageFeed(String token, UUID pageId, int page, int size) {
+        Pageable pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "id");
+        return postBeanUtil.toDtoPage(repository.findByPageId(pageId,TypePost.post, pageRequest));
+    }
+
     public void delete(UUID idPost) {
 
         repository.deleteById(idPost);
     }
-    public List<PostTO> getCommentList(UUID idPost, int page, int pageSize, String token) {
+    public List<PostTO> getCommentList(UUID idPost, String token) {
         ProfileTO profileTO = feign.getProfileByToken(token);
         return postBeanUtil.toDtoList(repository.findByUpperPostId(idPost), profileTO.getId());
     }
