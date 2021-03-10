@@ -102,21 +102,6 @@ public class CompetitionVoteService {
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.CV004.getText(), CodeException.CV004)));
     }
 
-    public float average(UUID competitionMemberId){
-        CompetitionMember member = memberRepository.findById(competitionMemberId).orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText()));
-
-        List<CompetitionVotes> votes = repository.findByMember(member);
-
-        float total = 0.0F;
-
-        for(int x = 0;  x < votes.size(); x ++){
-            total = total + votes.get(x).getValue();
-        }
-
-        return total / votes.size();
-    }
-
-
     public float average(CompetitionMember member){
         List<CompetitionVotes> votes = repository.findByMember(member);
 
@@ -129,4 +114,10 @@ public class CompetitionVoteService {
         return total / votes.size();
     }
 
+    public CompetitionVoteReturnTO getVoteByMemberAndProfile(UUID memberId, int profileId) {
+        CompetitionMember member = memberRepository.findById(memberId)
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.CM001.getText()));
+
+        return beanUtil.toReturnTO(repository.getVoteByMemberAndProfileId(member, profileId));
+    }
 }

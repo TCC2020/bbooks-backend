@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.competition.api.controller;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVoteReturnTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVotesSaveTO;
+import br.edu.ifsp.spo.bulls.common.api.enums.Role;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionVoteService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -33,6 +34,17 @@ public class CompetitionVotesController {
     public List<CompetitionVoteReturnTO> getVotesByMember(@PathVariable UUID memberId) {
         logger.info("Requisitando votos de um membro");
         return service.getVotesByMember(memberId);
+    }
+
+    @ApiOperation(value = "Requisitando voto de uma pessoa em um membro")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Voto encontrada"),
+            @ApiResponse(code = 404, message = "Membro não encontrado")
+    })
+    @GetMapping("/{memberId}/profile/{profileId}")
+    public CompetitionVoteReturnTO getVoteByMemberAndProfile(@PathVariable UUID memberId, @PathVariable int profileId) {
+        logger.info("Buscando voto do usuário " + profileId + " para o membro " + memberId);
+        return service.getVoteByMemberAndProfile(memberId, profileId);
     }
 
     @ApiOperation(value = "Votar em um membro da competição")

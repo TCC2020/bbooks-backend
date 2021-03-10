@@ -13,4 +13,6 @@ public interface CompetitionVotesRepository extends CrudRepository<CompetitionVo
      boolean existsByProfileIdAndMember(int profileId, CompetitionMember member);
 
      List<CompetitionVotes> findByMember(CompetitionMember member);
+
+    CompetitionVotes getVoteByMemberAndProfileId(CompetitionMember member, int profileId);
 }

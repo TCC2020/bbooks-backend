@@ -49,13 +49,25 @@ public class CompetitionMemberBeanUtil {
         return member;
     }
 
+    public CompetitionMemberSaveTO toSaveTO(CompetitionMember member){
+        CompetitionMemberSaveTO saveTO = new CompetitionMemberSaveTO();
+        try {
+            copyProperties(member, saveTO);
+            saveTO.setCompetitionId(member.getCompetition().getId());
+                    }   catch(Exception e) {
+            logger.error("Exception coverting to dto: " + e);
+        }
+
+        return saveTO;
+    }
+
     public CompetitionMemberTO toReturnDTO(CompetitionMember member){
         CompetitionMemberTO memberTO = new CompetitionMemberTO();
         try {
             copyProperties(member, memberTO);
             memberTO.setCompetitionTO(competitionService.getById(member.getCompetition().getId()));
             memberTO.setProfile(feign.getProfile(member.getProfileId()));
-            memberTO.setMeanVote(voteService.average(member.getMemberId()));
+            memberTO.setMeanVote(voteService.average(member));
         }   catch(Exception e) {
             logger.error("Exception coverting to dto: " + e);
         }

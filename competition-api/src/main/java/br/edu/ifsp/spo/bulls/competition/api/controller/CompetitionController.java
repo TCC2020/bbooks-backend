@@ -43,7 +43,7 @@ public class CompetitionController {
             @ApiResponse(code = 200, message = "Competicações encontradas")
     })
     @GetMapping
-    public Page<Competition> search(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
+    public Page<CompetitionTO> search(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando competições");
         return service.search(name, page, size);
     }

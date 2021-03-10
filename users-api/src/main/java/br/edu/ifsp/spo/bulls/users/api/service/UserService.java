@@ -56,6 +56,7 @@ public class UserService{
 			retorno = rep.save(user);
 			saveProfile(cadastroUserTO, user);
 			sendEmail(retorno);
+			logger.info("URL FRONT PARA EMAIL " + frontUrl);
 		}catch (Exception e){
 			logger.error("Error while save user: " +  e);
 		}
