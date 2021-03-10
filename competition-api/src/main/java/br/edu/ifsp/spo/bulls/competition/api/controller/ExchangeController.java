@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.ChatIdTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTokenTO;
 import br.edu.ifsp.spo.bulls.competition.api.service.ExchangeService;
@@ -110,6 +111,16 @@ public class ExchangeController {
     @PutMapping("/exchange-by-token/{exchangeToken}")
     public ExchangeTO exchangeByToken(@RequestHeader("AUTHORIZATION") String token, @PathVariable("exchangeToken") UUID exchangeToken){
         return service.exchangeByToken(token, exchangeToken);
+    }
+
+    @PutMapping("/{exchangeId}/chat/{chatId}")
+    public ExchangeTO putChatId(@PathVariable("exchangeId") UUID exchangeId, @PathVariable("chatId") String chatId) {
+        return service.putChatId(exchangeId, chatId);
+    }
+
+    @GetMapping("/{exchangeId}/chat")
+    public ChatIdTO getChatId(@RequestHeader("AUTHORIZATION") String token, @PathVariable("exchangeId") UUID exchangeId) {
+        return service.getChatId(token, exchangeId);
     }
 
     @ApiOperation(value = "aceita uma poposta de troca")

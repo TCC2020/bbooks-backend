@@ -34,6 +34,8 @@ public enum CodeException {
     EXC004("EXC004: This users is not who created", "EXC004"),
     EXC005("EXC005: You can't accept this exchange", "EXC005"),
     EXC006("EXC006: Token expired", "EXC006"),
+    EXC007("EXC007: This chat is not yours", "EXC007"),
+    EXC008("EXC008: This exchange is not accepted", "EXC008"),
     PF001("PF001: Profile not found", "PF001"),
     UB001("UB001: UserBook not found", "UB001"),
     UB002("UB002: Invalid status", "UB002"),

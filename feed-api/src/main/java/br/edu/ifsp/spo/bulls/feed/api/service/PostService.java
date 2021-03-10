@@ -45,13 +45,12 @@ public class PostService {
         return repository.save(post);
     }
 
-    public Post update(Post post, UUID idPost) {
-        return repository.findById(idPost).map( post1 -> {
-                    post1 = post;
-                    post1.setId(idPost);
-                    return repository.save(post1);
+    public PostTO update(PostTO dto, UUID idPost) {
+        return postBeanUtil.toDto(repository.findById(idPost).map(p -> {
+                    p.setDescription(dto.getDescription());
+                    return repository.save(p);
                 })
-                .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
+                .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001)));
     }
 
     public PostTO get(UUID idPost) {
