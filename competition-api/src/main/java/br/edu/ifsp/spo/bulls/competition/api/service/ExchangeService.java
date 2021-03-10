@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.competition.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.ChatIdTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.BookExchangeStatus;
@@ -100,7 +101,7 @@ public class ExchangeService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getReceiverId())) {
             if(!exchange.getStatus().equals(BookExchangeStatus.accepted))
-                throw new ResourceConflictException("Exhange status not right");
+                throw new ResourceConflictException(CodeException.EXC008);
             exchange.setToken(UUID.randomUUID());
             exchange.setExpiryTime(LocalDateTime.now().plusMinutes(5));
             Exchange ex = repository.save(exchange);
@@ -129,6 +130,8 @@ public class ExchangeService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         if(user.getId().equals(exchange.getReceiverId())) {
             exchange.setStatus(BookExchangeStatus.refused);
+            exchange.getReceiverAds().stream().parallel().forEach(ad -> ad.setIsOpen(true));
+            exchange.getRequesterAds().stream().parallel().forEach(ad -> ad.setIsOpen(true));
             ExchangeTO exchangeReturn = util. toDto(repository.save(exchange));
             // TODO: Variável front
             this.sendEmailStatusExchange(
@@ -153,7 +156,9 @@ public class ExchangeService {
         UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
         Exchange exchange = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
-        if(user.getId().equals(exchange.getRequesterId())) {
+        if(user.getId().equals(exchange.getRequesterId()) || user.getId().equals(exchange.getReceiverId())) {
+            exchange.getReceiverAds().stream().parallel().forEach(ad -> ad.setIsOpen(true));
+            exchange.getRequesterAds().stream().parallel().forEach(ad -> ad.setIsOpen(true));
             exchange.setStatus(BookExchangeStatus.canceled);
             ExchangeTO exchangeReturn = util. toDto(repository.save(exchange));
             // TODO: Variável front
@@ -208,5 +213,14 @@ public class ExchangeService {
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
         exchange.setChatId(chatId);
         return util.toDto(repository.save(exchange));
+    }
+
+    public ChatIdTO getChatId(String token, UUID exchangeId) {
+        Exchange exchange = repository.findById(exchangeId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
+        UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
+        if(user.getId().equals(exchange.getRequesterId()) || user.getId().equals(exchange.getReceiverId()))
+            return new ChatIdTO(exchange.getChatId());
+        throw new ResourceUnauthorizedException(CodeException.EXC007);
     }
 }
