@@ -9,8 +9,10 @@ import br.edu.ifsp.spo.bulls.feed.api.dto.ActorAction;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsByType;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsTO;
+import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -30,6 +32,9 @@ public class PostBeanUtil {
     @Autowired
     private SurveyBeanUtil surveyBeanUtil;
 
+    @Autowired
+    private PostRepository postRepository;
+
     private Logger logger = LoggerFactory.getLogger(PostBeanUtil.class);
 
     @Autowired
@@ -40,6 +45,8 @@ public class PostBeanUtil {
         try{
             BeanUtils.copyProperties(post, postTO);
             postTO.setUser(feign.getUserByProfileId(post.getProfileId()));
+            if(post.getTipoPost().equals(TypePost.post))
+                postTO.setComments(this.toDtoList(postRepository.findByUpperPostId(post.getId())));
         }catch(Exception e) {
             logger.error("Error while converting Post to PostTO: " +  e);
         }

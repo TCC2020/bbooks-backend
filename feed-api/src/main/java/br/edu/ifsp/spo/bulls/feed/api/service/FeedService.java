@@ -8,6 +8,7 @@ import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.PostBeanUtil;
+import br.edu.ifsp.spo.bulls.feed.api.controller.FeedController;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
 import br.edu.ifsp.spo.bulls.feed.api.enums.MemberStatus;
@@ -19,6 +20,8 @@ import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -32,6 +35,8 @@ import java.util.UUID;
 
 @Service
 public class FeedService {
+
+    private final Logger logger = LoggerFactory.getLogger(FeedService.class);
 
     @Autowired
     private PostRepository repository;
@@ -68,7 +73,7 @@ public class FeedService {
             if("added".equalsIgnoreCase(friendship.getStatus()))
                 return utils.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageable), profileTO.getId());
         } catch (Exception e) {
-            System.out.println(e);
+            logger.error(String.valueOf(e.getStackTrace()));
         }
         return utils.toDtoPage(repository.findFeedByRequesterIdPublic(profileId, pageable), profileTO.getId());
     }
@@ -84,4 +89,6 @@ public class FeedService {
             return utils.toDtoList(repository.findByGroupId(groupId), user.getProfile().getId());
         throw new ResourceUnauthorizedException(CodeException.GR005);
     }
+
+
 }

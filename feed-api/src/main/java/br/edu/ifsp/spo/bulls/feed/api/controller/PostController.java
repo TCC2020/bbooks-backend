@@ -37,6 +37,14 @@ public class PostController {
         return service.create(post);
     }
 
+    @GetMapping("/page/{pageId}")
+    public Page<PostTO> getPageFeed(@RequestHeader(value = "AUTHORIZATION") String token, @PathVariable("pageId") UUID pageId, @RequestParam int page, @RequestParam int size) {
+        logger.info("Requisitando feed do perfil publico: " + pageId);
+        Page<PostTO> res = service.getPageFeed(token, pageId, page, size);
+        logger.info("Objeto encontrado: " + res);
+        return res;
+    }
+
     @ApiOperation(value = "Editar uma publicação")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Publicação editada")
@@ -64,7 +72,7 @@ public class PostController {
     @GetMapping("/comment/{idPost}")
     public List<PostTO> getComment(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID idPost, @RequestParam int page, @RequestParam int size) {
         logger.info("Buscando comenários do post: " + idPost);
-        return service.getCommentList(idPost, page, size, token);
+        return service.getCommentList(idPost, token);
     }
 
     @ApiOperation(value = "Ver publicações de um perfil")

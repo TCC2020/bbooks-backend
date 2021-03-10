@@ -26,6 +26,8 @@ public class Post {
                     referencedColumnName="id")})
     private int profileId;
 
+    private UUID pageId;
+
     @Column(length = 300)
     private String description;
 

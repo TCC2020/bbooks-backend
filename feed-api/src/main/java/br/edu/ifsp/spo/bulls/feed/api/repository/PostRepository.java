@@ -25,6 +25,16 @@ public interface PostRepository extends CrudRepository<Post, UUID> {
                                Pageable pageable);
 
     @Query(value =
+            "SELECT p "+
+                    "FROM Post p " +
+                    "WHERE p.pageId = :pageId AND p.tipoPost = :tipoPost AND p.group IS NULL " +
+                    "ORDER BY p.creationDate DESC"
+    )
+    Page<Post> findByPageId(@Param("pageId") UUID pageId,
+                               @Param("tipoPost") TypePost typePost,
+                               Pageable pageable);
+
+    @Query(value =
             "SELECT p " +
                     "FROM Post p " +
                     "WHERE p.upperPostId = :upperPostId " +
