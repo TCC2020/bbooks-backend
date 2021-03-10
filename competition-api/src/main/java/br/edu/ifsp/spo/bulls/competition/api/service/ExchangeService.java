@@ -5,11 +5,13 @@ import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.BookExchangeStatus;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceBadRequestException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceConflictException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.common.api.service.EmailService;
 import br.edu.ifsp.spo.bulls.competition.api.bean.ExchangeBeanUtil;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Exchange;
+import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTokenTO;
 import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.repository.ExchangeRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +39,10 @@ public class ExchangeService {
 
     @Autowired
     private EmailService email;
+
+    public ExchangeTO getById(UUID id) {
+        return util.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002)));
+    }
 
     public ExchangeTO create(String token, ExchangeTO dto) {
         UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
@@ -87,7 +94,34 @@ public class ExchangeService {
         throw new ResourceUnauthorizedException(CodeException.EXC003);
     }
 
-    public ExchangeTO refuse(String token, UUID id) {
+    public ExchangeTokenTO generateExchangeToken(String token, UUID id) {
+        UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
+        Exchange exchange = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
+        if(user.getId().equals(exchange.getReceiverId())) {
+            exchange.setToken(UUID.randomUUID());
+            exchange.setExpiryTime(LocalDateTime.now().plusMinutes(5));
+            Exchange ex = repository.save(exchange);
+            return new ExchangeTokenTO(ex.getToken(), ex.getExpiryTime());
+        }
+        throw new ResourceUnauthorizedException(CodeException.EXC003);
+    }
+
+    public ExchangeTO exchangeByToken(String token, UUID exchangeToken) {
+        UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
+        Exchange exchange = repository.findByToken(exchangeToken)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
+        if(user.getId().equals(exchange.getRequesterId())) {
+            if(exchange.getExpiryTime().isAfter(LocalDateTime.now()))
+                throw new ResourceUnauthorizedException(CodeException.EXC006);
+            exchange.setStatus(BookExchangeStatus.exchanged);
+            return util.toDto(repository.save(exchange));
+        }
+        throw new ResourceConflictException(CodeException.EXC005);
+    }
+
+
+        public ExchangeTO refuse(String token, UUID id) {
         UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
         Exchange exchange = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.EXC002));
