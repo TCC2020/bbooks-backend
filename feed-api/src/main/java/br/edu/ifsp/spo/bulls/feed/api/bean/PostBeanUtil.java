@@ -47,6 +47,8 @@ public class PostBeanUtil {
             postTO.setUser(feign.getUserByProfileId(post.getProfileId()));
             if(post.getTipoPost().equals(TypePost.post))
                 postTO.setComments(this.toDtoList(postRepository.findByUpperPostId(post.getId())));
+            if(post.getPageId() != null)
+                postTO.setPublicProfile(feign.getPublicProfile(post.getPageId()));
         }catch(Exception e) {
             logger.error("Error while converting Post to PostTO: " +  e);
         }

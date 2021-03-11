@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.dto;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.SurveyTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.user.UserPublicProfileTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import io.swagger.annotations.ApiModelProperty;
@@ -49,6 +50,8 @@ public class PostTO {
     private SurveyTO survey;
 
     private ReactionsTO reactions;
+
+    private UserPublicProfileTO publicProfile;
 
     public PostTO(UUID id, int profileId, String description, LocalDateTime creationDate, String image, TypePost tipoPost, Privacy privacy) {
         this.id = id;

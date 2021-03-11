@@ -14,7 +14,7 @@ public class FriendsBeanUtil {
     private ProfileService profileService;
 
     public List<FriendRequestTO> convertToFriendRequests(List<Friendship> friendships, int of){
-        return friendships.parallelStream().map(friendship -> this.toFriendRequest(friendship, of)).collect(Collectors.toList());
+        return friendships.parallelStream().filter(friendship -> !Friendship.FriendshipStatus.added.equals(friendship.getStatus())).map(friendship -> this.toFriendRequest(friendship, of)).collect(Collectors.toList());
     }
 
     public FriendRequestTO toFriendRequest(Friendship friendship, int of) {
