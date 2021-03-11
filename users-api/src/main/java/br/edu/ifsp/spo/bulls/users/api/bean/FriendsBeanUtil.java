@@ -19,8 +19,6 @@ public class FriendsBeanUtil {
 
     public FriendRequestTO toFriendRequest(Friendship friendship, int of) {
         FriendRequestTO request = new FriendRequestTO();
-        if(friendship.getStatus().equals(Friendship.FriendshipStatus.added))
-            return null;
         request.setId(friendship.getId());
         request.setAddDate(friendship.getAddDate());
         request.setStatus(friendship.getProfile1() == of ? Friendship.FriendshipStatus.sent : Friendship.FriendshipStatus.received);
