@@ -51,15 +51,6 @@ public class PostService {
         return postBeanUtil.toDto(post);
     }
 
-<<<<<<< Updated upstream
-    public Post update(Post post, UUID idPost) {
-        return repository.findById(idPost).map( post1 -> {
-                    post1 = post;
-                    post1.setId(idPost);
-                    return repository.save(post1);
-                })
-                .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
-=======
     public PostTO update(PostTO dto, UUID idPost) {
         Post post = repository.findById(idPost).map(p -> {
             p.setDescription(dto.getDescription());
@@ -68,7 +59,6 @@ public class PostService {
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
         surveyService.save( post.getSurvey(), dto.getSurvey().getOptions());
         return postBeanUtil.toDto(post);
->>>>>>> Stashed changes
     }
 
     public PostTO get(UUID idPost) {
@@ -91,8 +81,10 @@ public class PostService {
     }
 
     public void delete(UUID idPost) {
-
+        surveyService.deleteByPost(idPost);
         repository.deleteById(idPost);
+
+
     }
     public List<PostTO> getCommentList(UUID idPost, int page, int pageSize) {
         return postBeanUtil.toDtoList(repository.findByUpperPostId(idPost));
