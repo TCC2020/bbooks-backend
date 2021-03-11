@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -64,11 +65,11 @@ public class PostControllerTest {
 
     @Test
     void put() throws Exception {
-        Mockito.when(mockPostService.update(post, post.getId())).thenReturn(post);
+        Mockito.when(mockPostService.update(postTO, post.getId())).thenReturn(postTO);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/post/" + post.getId())
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(post)))
+                .content(objectMapper.writeValueAsString(postTO)))
                 .andExpect(status().isOk());
     }
 
@@ -84,11 +85,12 @@ public class PostControllerTest {
     @Test
     void getByProfile() throws Exception {
 
-        Mockito.when(mockPostService.getByProfile(post.getProfileId(), 0, 1)).thenReturn(null);
+        Mockito.when(mockPostService.getByProfile(post.getProfileId(), 0, 1, "Basic AUTH")).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/post/profile/" + post.getProfileId())
                 .param("page", "0")
-                .param("size", "1"))
+                .param("size", "1")
+                .header(HttpHeaders.AUTHORIZATION,"Basic AUTH"))
                 .andExpect(status().isOk());
     }
 
@@ -99,7 +101,8 @@ public class PostControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/post/comment/" + post.getId())
                 .param("page", "0")
-                .param("size", "1"))
+                .param("size", "1")
+                .header(HttpHeaders.AUTHORIZATION,"Basic AUTH"))
                 .andExpect(status().isOk());
     }
 

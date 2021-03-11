@@ -25,6 +25,9 @@ public class PostTO {
     @ApiModelProperty(value = "Id do usuário")
     private int profileId;
 
+    @ApiModelProperty(value = "Id da página pública")
+    private UUID pageId;
+
     private String description;
 
     private LocalDateTime creationDate;

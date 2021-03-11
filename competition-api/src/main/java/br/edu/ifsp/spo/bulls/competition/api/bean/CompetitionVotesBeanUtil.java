@@ -5,6 +5,7 @@ import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionVotesSaveTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.competition.api.domain.CompetitionVotes;
+import br.edu.ifsp.spo.bulls.competition.api.feign.UserCommonFeign;
 import br.edu.ifsp.spo.bulls.competition.api.repository.CompetitionMemberRepository;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionMemberService;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionVoteService;
@@ -30,6 +31,9 @@ public class CompetitionVotesBeanUtil {
     @Autowired
     private CompetitionMemberService memberService;
 
+    @Autowired
+    private UserCommonFeign feign;
+
     public CompetitionVotes toDomain(CompetitionVotesSaveTO save){
         CompetitionVotes competitionVotes = new CompetitionVotes();
 
@@ -50,6 +54,7 @@ public class CompetitionVotesBeanUtil {
         try {
             copyProperties(votes, returnTO);
             returnTO.setMember(memberService.getById(votes.getMember().getMemberId()));
+            returnTO.setProfile(feign.getProfile(votes.getProfileId()));
         }   catch(Exception e) {
             logger.error("Exception coverting to dto: " + e);
         }

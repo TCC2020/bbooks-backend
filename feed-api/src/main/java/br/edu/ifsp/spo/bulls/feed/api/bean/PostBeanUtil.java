@@ -5,15 +5,19 @@ import br.edu.ifsp.spo.bulls.common.api.enums.ReactionType;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Reactions;
+import br.edu.ifsp.spo.bulls.feed.api.dto.ActorAction;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsByType;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactionsTO;
+import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
+import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,6 +32,9 @@ public class PostBeanUtil {
     @Autowired
     private SurveyBeanUtil surveyBeanUtil;
 
+    @Autowired
+    private PostRepository postRepository;
+
     private Logger logger = LoggerFactory.getLogger(PostBeanUtil.class);
 
     @Autowired
@@ -38,12 +45,13 @@ public class PostBeanUtil {
         try{
             BeanUtils.copyProperties(post, postTO);
             postTO.setUser(feign.getUserByProfileId(post.getProfileId()));
+            if(post.getTipoPost().equals(TypePost.post))
+                postTO.setComments(this.toDtoList(postRepository.findByUpperPostId(post.getId())));
         }catch(Exception e) {
             logger.error("Error while converting Post to PostTO: " +  e);
         }
         if(post.getSurvey() != null)
             postTO.setSurvey(surveyBeanUtil.toDto(post.getSurvey()));
-        // TODO: teste aqui
         if(post.getGroup() != null)
             postTO.setGroupId(post.getGroup().getId());
         postTO.setReactions(reactionsToReactionsTO(post.getReactions()));
@@ -102,5 +110,31 @@ public class PostBeanUtil {
 
     public List<PostTO> toDtoList(List<Post> list) {
         return list.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public List<PostTO> toDtoList(List<Post> list, int profileId) {
+        return list.stream().map(p -> this.toDto(p, profileId)).collect(Collectors.toList());
+    }
+
+    public Page<PostTO> toDtoPage(Page<Post> list) {
+        if(list != null)
+            return list.map(this::toDto);
+        return null;
+    }
+
+    public Page<PostTO> toDtoPage(Page<Post> list, int profileId) {
+        if(list != null)
+            return list.map(post -> this.toDto(post, profileId));
+        return null;
+    }
+
+    private PostTO toDto(Post post, int profileId) {
+        PostTO dto = this.toDto(post);
+        post.getReactions()
+                .parallelStream()
+                .filter(reactions -> reactions.getProfileId() == profileId)
+                .findAny()
+                .ifPresent(r -> dto.getReactions().setActorAction(new ActorAction(r.getReaction())));
+        return dto;
     }
 }

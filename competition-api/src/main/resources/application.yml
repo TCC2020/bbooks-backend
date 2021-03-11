@@ -1,5 +1,7 @@
 server:
   port: 8082
+app:
+  front: ${URL_FRONT}
 feign:
   users: ${USERS_API:''}
 spring:

@@ -37,12 +37,20 @@ public class PostController {
         return service.create(post);
     }
 
+    @GetMapping("/page/{pageId}")
+    public Page<PostTO> getPageFeed(@RequestHeader(value = "AUTHORIZATION") String token, @PathVariable("pageId") UUID pageId, @RequestParam int page, @RequestParam int size) {
+        logger.info("Requisitando feed do perfil publico: " + pageId);
+        Page<PostTO> res = service.getPageFeed(token, pageId, page, size);
+        logger.info("Objeto encontrado: " + res);
+        return res;
+    }
+
     @ApiOperation(value = "Editar uma publicação")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Publicação editada")
     })
     @PutMapping("/{idPost}")
-    public Post put(@RequestBody Post post, @PathVariable UUID idPost) {
+    public PostTO    put(@RequestBody PostTO post, @PathVariable UUID idPost) {
         logger.info("Editando post: " + post.toString());
         return service.update(post, idPost);
     }
@@ -62,9 +70,9 @@ public class PostController {
             @ApiResponse(code = 200, message = "Publicação encontrada")
     })
     @GetMapping("/comment/{idPost}")
-    public List<PostTO> getComment(@PathVariable UUID idPost, @RequestParam int page, @RequestParam int size) {
+    public List<PostTO> getComment(@RequestHeader("AUTHORIZATION") String token, @PathVariable UUID idPost, @RequestParam int page, @RequestParam int size) {
         logger.info("Buscando comenários do post: " + idPost);
-        return service.getCommentList(idPost, page, size);
+        return service.getCommentList(idPost, token);
     }
 
     @ApiOperation(value = "Ver publicações de um perfil")
@@ -72,10 +80,10 @@ public class PostController {
             @ApiResponse(code = 200, message = "Publicação encontradas")
     })
     @GetMapping("/profile/{idProfile}")
-    public Page<PostTO> get(@PathVariable int idProfile, @RequestParam int page, @RequestParam int size) {
+    public Page<PostTO> get(@PathVariable int idProfile, @RequestParam int page, @RequestParam int size, @RequestHeader("AUTHORIZATION") String token) {
         logger.info("Buscando posts por profile: " + idProfile);
 
-        return service.getByProfile(idProfile, page, size);
+        return service.getByProfile(idProfile, page, size, token);
     }
 
     @ApiOperation(value = "Colocar ou remover reação ao post")

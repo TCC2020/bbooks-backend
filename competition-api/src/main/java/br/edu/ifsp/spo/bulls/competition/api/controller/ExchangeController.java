@@ -1,6 +1,8 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.ChatIdTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.ExchangeTokenTO;
 import br.edu.ifsp.spo.bulls.competition.api.service.ExchangeService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -74,6 +76,51 @@ public class ExchangeController {
     public ExchangeTO acceptExchange(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID id) {
         logger.info("Aceitando proposta: " + id);
         return service.accept(token, id);
+    }
+
+
+    @ApiOperation(value = "Busca troca por id")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Retorna a troca"),
+            @ApiResponse(code = 404, message = "Troca não encontrada")
+    })
+    @GetMapping("/{id}")
+    public ExchangeTO getById(@PathVariable("id") UUID id) {
+        return service.getById(id);
+    }
+
+
+    @ApiOperation(value = "Gera um token para trocar os livros")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Retorna token criado"),
+            @ApiResponse(code = 401, message = "Usuário não é quem recebeu a proposta"),
+            @ApiResponse(code = 404, message = "Troca não encontrada")
+    })
+    @PutMapping("/generate-token/{id}")
+    public ExchangeTokenTO generateToken(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID exchangeId) {
+        return service.generateExchangeToken(token, exchangeId);
+    }
+
+    @ApiOperation(value = "Gera um token para trocar os livros")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Retorna troca feita"),
+            @ApiResponse(code = 401, message = "Token expirado"),
+            @ApiResponse(code = 404, message = "Troca não encontrada"),
+            @ApiResponse(code = 409, message = "Usuário não é quem enviou a proposta"),
+    })
+    @PutMapping("/exchange-by-token/{exchangeToken}")
+    public ExchangeTO exchangeByToken(@RequestHeader("AUTHORIZATION") String token, @PathVariable("exchangeToken") UUID exchangeToken){
+        return service.exchangeByToken(token, exchangeToken);
+    }
+
+    @PutMapping("/{exchangeId}/chat/{chatId}")
+    public ExchangeTO putChatId(@PathVariable("exchangeId") UUID exchangeId, @PathVariable("chatId") String chatId) {
+        return service.putChatId(exchangeId, chatId);
+    }
+
+    @GetMapping("/{exchangeId}/chat")
+    public ChatIdTO getChatId(@RequestHeader("AUTHORIZATION") String token, @PathVariable("exchangeId") UUID exchangeId) {
+        return service.getChatId(token, exchangeId);
     }
 
     @ApiOperation(value = "aceita uma poposta de troca")

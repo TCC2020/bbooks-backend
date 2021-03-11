@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.bulls.users.api.service;
 
+import br.edu.ifsp.spo.bulls.common.api.service.EmailService;
 import br.edu.ifsp.spo.bulls.users.api.enums.EmailSubject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

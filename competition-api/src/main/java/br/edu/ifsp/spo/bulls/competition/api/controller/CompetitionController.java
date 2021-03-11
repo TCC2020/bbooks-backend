@@ -1,8 +1,8 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
-import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionTO;
+import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionEndService;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,12 +24,26 @@ public class CompetitionController {
     @Autowired
     private CompetitionService service;
 
+    @Autowired
+    private CompetitionEndService endService;
+
+
+    @ApiOperation(value = "Busca competições que podem ser finalizadas e finaliza. ")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Competicações encontradas")
+    })
+    @GetMapping("/end")
+    public void endCompetitions() {
+        logger.info("Requisitando competições");
+        endService.competitionVerifyDate();
+    }
+
     @ApiOperation(value = "Retorna uma competicação pelo nome")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Competicações encontradas")
     })
     @GetMapping
-    public Page<Competition> search(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
+    public Page<CompetitionTO> search(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
         logger.info("Requisitando competições");
         return service.search(name, page, size);
     }
@@ -80,5 +92,4 @@ public class CompetitionController {
         logger.info("Requisitando competições");
         return service.getById(id);
     }
-    // TODO: Rota para finalizar a competição
 }

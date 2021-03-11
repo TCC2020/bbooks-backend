@@ -1,5 +1,7 @@
 server:
   port: 8081
+app:
+  front: ${URL_FRONT}
 feign:
   users: ${USERS_API:'localhost:8080'}
   competition: ${COMPETITION_API:'localhost:8082'}

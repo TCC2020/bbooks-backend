@@ -26,6 +26,8 @@ public class Post {
                     referencedColumnName="id")})
     private int profileId;
 
+    private UUID pageId;
+
     @Column(length = 300)
     private String description;
 
@@ -50,10 +52,8 @@ public class Post {
     @OneToOne(orphanRemoval=true)
     private Survey survey;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reactions> reactions;
-
-    //TODO: Reações
 
     @PrePersist
     public void prePersist() {

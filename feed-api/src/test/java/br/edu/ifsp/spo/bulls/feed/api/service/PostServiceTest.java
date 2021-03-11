@@ -124,14 +124,15 @@ public class PostServiceTest {
 
     @Test
     void update() {
+        PostTO toUpdate = postBeanUtil.toDto(post);
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
-        Mockito.when(mockPostRepository.findById(post.getId())).thenReturn(Optional.ofNullable(post));
+        Mockito.when(mockPostRepository.findById(toUpdate.getId())).thenReturn(Optional.ofNullable(post));
         Mockito.when(mockPostRepository.save(post)).thenReturn(post);
 
-        Post result = postService.update(post, post.getId());
+        PostTO result = postService.update(toUpdate, post.getId());
 
-        assertEquals(post, result);
+        assertEquals(toUpdate, result);
     }
 
     @Test
@@ -140,12 +141,14 @@ public class PostServiceTest {
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
 
-        assertThrows(ResourceNotFoundException.class, () -> postService.update(post, post.getId()));
+        assertThrows(ResourceNotFoundException.class, () -> postService.update(postTO, post.getId()));
 
     }
 
     @Test
     void get() {
+        ArrayList<Post> comments = new ArrayList<>();
+        comments.add(comment);
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenReturn(Optional.ofNullable(post));
@@ -169,7 +172,7 @@ public class PostServiceTest {
     void getByProfile() {
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
-        Page<PostTO> postPage = null;
+        Page<Post> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,
@@ -184,7 +187,7 @@ public class PostServiceTest {
 
     @Test
     void getComment() {
-        Page<PostTO> postPage = null;
+        Page<Post> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,
