@@ -6,6 +6,7 @@ import br.edu.ifsp.spo.bulls.common.api.dto.GetFriendStatusTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.ProfileTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.profile.BaseProfileTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.user.UserPublicProfileTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,4 +36,7 @@ public interface UserCommonFeign {
 
     @RequestMapping(method = RequestMethod.GET, value = "/users/profile/{profileId}")
     UserTO getUserByProfileId(@PathVariable("profileId") int profileId);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/users/public-profiles/{id}")
+    UserPublicProfileTO getPublicProfile(@PathVariable("id") UUID pageId);
 }
