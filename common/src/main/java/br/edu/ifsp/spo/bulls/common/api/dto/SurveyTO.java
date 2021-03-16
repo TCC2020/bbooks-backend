@@ -8,6 +8,6 @@ import java.util.UUID;
 @Data
 public class SurveyTO {
     private UUID id;
-    private String description;
+    private boolean bookMonth;
     private List<SurveyOptionsTO> options;
 }

@@ -12,5 +12,5 @@ public class Survey {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
-    private String description;
+    private boolean bookMonth;
 }
