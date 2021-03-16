@@ -3,6 +3,8 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 import br.edu.ifsp.spo.bulls.common.api.dto.BookMonthTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.SurveyOptionsTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.VoteTO;
+import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
+import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.BookMonthBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.bean.SurveyBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.BookMonth;
@@ -81,5 +83,10 @@ public class SurveyService {
 
     public void deleteBookMonth(UUID bookMonthId) {
         bookMonthRepository.deleteById(bookMonthId);
+    }
+
+    public BookMonthTO getBookMonthById(UUID bookId) {
+        return monthBeanUtil.toDto(bookMonthRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.BKM001.getText(), CodeException.BKM001)));
     }
 }

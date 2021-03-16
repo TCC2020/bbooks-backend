@@ -84,8 +84,18 @@ public class GroupController {
     })
     @DeleteMapping("/{groupId}/book/{bookId}")
     public void deleteBookMoth(@PathVariable UUID bookId) {
-        logger.info("Deletando um livro do mês para o grupo : " + bookId);
+        logger.info("Deletando um livro do mês com o id : " + bookId);
         surveyService.deleteBookMonth(bookId);
+    }
+
+    @ApiOperation(value = "Busca livros do mês por grupo")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Livros encontrados")
+    })
+    @GetMapping("/{groupId}/book/{bookId}")
+    public BookMonthTO getBookMonthById(@PathVariable UUID bookId) {
+        logger.info("Buscando um livro do mês com o id : " + bookId);
+        return surveyService.getBookMonthById(bookId);
     }
 
     @ApiOperation(value = "Editar um grupo")

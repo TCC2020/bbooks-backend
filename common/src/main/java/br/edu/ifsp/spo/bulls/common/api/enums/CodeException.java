@@ -69,7 +69,8 @@ public enum CodeException {
     INV002("INV002: You have no permission to do this", "INV002"),
     UPF001("UPF001: Public profile not found", "UPF001"),
     UPF002("UPF002: Public profile already exists", "UPF002"),
-    UPF003("UPF003: not owner of this public profile", "UPF003");
+    UPF003("UPF003: not owner of this public profile", "UPF003"),
+    BKM001("BKM001: BookMonth not found", "BKM001");
 
 
     private final String text;
