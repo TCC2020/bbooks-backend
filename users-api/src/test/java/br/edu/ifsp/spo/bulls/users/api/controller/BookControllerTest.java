@@ -66,7 +66,7 @@ class BookControllerTest {
         mockMvc.perform(post("/books")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(bookTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

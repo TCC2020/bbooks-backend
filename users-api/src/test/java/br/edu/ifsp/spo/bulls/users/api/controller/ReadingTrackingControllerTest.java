@@ -80,7 +80,7 @@ public class ReadingTrackingControllerTest {
         mockMvc.perform(post("/tracking")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(readingTrackingTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

@@ -74,7 +74,7 @@ public class TagControllerTest {
         mockMvc.perform(post("/tags")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(tag)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

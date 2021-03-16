@@ -193,7 +193,7 @@ public class ReviewControllerTest {
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(reviewTO))
                 .header(HttpHeaders.AUTHORIZATION,"Basic " + user.getToken() ))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

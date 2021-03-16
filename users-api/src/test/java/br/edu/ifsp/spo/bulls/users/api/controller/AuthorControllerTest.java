@@ -36,7 +36,7 @@ public class AuthorControllerTest {
         mockMvc.perform(post("/authors")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(author)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
