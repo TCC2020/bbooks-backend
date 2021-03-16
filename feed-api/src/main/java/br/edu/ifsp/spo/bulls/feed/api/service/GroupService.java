@@ -10,6 +10,7 @@ import br.edu.ifsp.spo.bulls.common.api.exception.ResourceUnauthorizedException;
 import br.edu.ifsp.spo.bulls.feed.api.bean.GroupBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupMembers;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.domain.Survey;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupMemberTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
@@ -35,6 +36,9 @@ public class GroupService {
 
     @Autowired
     private GroupMemberService memberService;
+
+    @Autowired
+    private SurveyService surveyService;
 
     @Autowired
     private GroupMemberRepository memberRepository;
@@ -99,6 +103,8 @@ public class GroupService {
         if(!requester.getId().equals(owner))
             throw new ResourceUnauthorizedException(CodeException.GR003);
         memberRepository.deleteByIdGroupRead(groupId);
+        surveyService.deleteBookByGroup(groupId);
+
         repository.deleteById(groupId);
     }
 

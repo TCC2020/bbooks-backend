@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.bulls.feed.api.service;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.BookMonthTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.SurveyOptionsTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.SurveyTO;
 import br.edu.ifsp.spo.bulls.common.api.dto.VoteTO;
 import br.edu.ifsp.spo.bulls.common.api.enums.CodeException;
 import br.edu.ifsp.spo.bulls.common.api.exception.ResourceNotFoundException;
@@ -10,10 +11,7 @@ import br.edu.ifsp.spo.bulls.feed.api.bean.SurveyBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.BookMonth;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Survey;
-import br.edu.ifsp.spo.bulls.feed.api.repository.BookMonthRepository;
-import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
-import br.edu.ifsp.spo.bulls.feed.api.repository.SurveyOptionsRepository;
-import br.edu.ifsp.spo.bulls.feed.api.repository.VoteRepository;
+import br.edu.ifsp.spo.bulls.feed.api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +21,10 @@ import java.util.UUID;
 @Service
 public class SurveyService {
 
+    @Autowired
+    private SurveyRepository surveyRepository;
+    @Autowired
+    private SurveyBeanUtil surveyBeanUtil;
     @Autowired
     private SurveyOptionsRepository surveysOptionsRepository;
     @Autowired
@@ -39,6 +41,7 @@ public class SurveyService {
     private SurveyBeanUtil beanUtil;
 
     public void save(Survey survey, List<SurveyOptionsTO> optionsTO) {
+        // TODO:? Excluir uma opção quando ela n vier para ser salva/alterada
         optionsTO.stream().forEach( x -> surveysOptionsRepository.save(beanUtil.toSurveyOptionDomain(x, survey)));
     }
 
@@ -47,6 +50,8 @@ public class SurveyService {
         surveysOptionsRepository.deleteAllBySurvey(post.getSurvey());
     }
 
+    // public PostReactionTO react(String token, ReactTO reactionTO) {
+    // tentar fazer tudo de voto em um método
     public VoteTO vote(int profileId, VoteTO voteTO){
         // TODO: Implementar
         return null;
@@ -77,12 +82,19 @@ public class SurveyService {
     }
 
     public BookMonthTO saveBookMonth(BookMonthTO bookMonthTO) {
+        // TODO: Verificar se tem algum pro mês/ano
+        // TODO: Verificar admin
         BookMonth bookMonth = monthBeanUtil.toDomain(bookMonthTO);
         return monthBeanUtil.toDto(bookMonthRepository.save(bookMonth));
     }
 
     public void deleteBookMonth(UUID bookMonthId) {
+        // TODO: Verificar admin
         bookMonthRepository.deleteById(bookMonthId);
+    }
+
+    public void deleteBookByGroup(UUID groupId) {
+        bookMonthRepository.deleteByGroupId(groupId);
     }
 
     public BookMonthTO getBookMonthById(UUID bookId) {

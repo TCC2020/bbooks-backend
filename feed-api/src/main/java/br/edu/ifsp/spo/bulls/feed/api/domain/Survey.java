@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.bulls.feed.api.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -13,4 +14,10 @@ public class Survey {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
     private boolean bookMonth;
+    private boolean open;
+
+    @PrePersist
+    public void prePersist() {
+        open = true;
+    }
 }

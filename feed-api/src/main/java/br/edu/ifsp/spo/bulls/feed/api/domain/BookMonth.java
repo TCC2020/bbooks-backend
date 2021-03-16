@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -17,9 +18,14 @@ public class BookMonth {
     @ManyToOne
     private GroupRead group;
 
-    private String month;
+    private LocalDate monthYear;
 
     private int bookId;
 
     private String bookGoogleId;
+
+    @PrePersist
+    public void prePersist() {
+        monthYear = LocalDate.now();
+    }
 }

@@ -34,6 +34,7 @@ public class PostBeanUtil {
     @Autowired
     private GroupRepository groupRepository;
 
+    // TODO: Retornar último voto de enquete
     public PostTO toDto(Post post){
         PostTO postTO = new PostTO();
         try{

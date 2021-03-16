@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface BookMonthRepository extends CrudRepository<BookMonth, UUID>  {
 
     List<BookMonth> findByGroupId(UUID groupId);
+
+    void deleteByGroupId(UUID groupId);
 }

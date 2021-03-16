@@ -9,5 +9,6 @@ import java.util.UUID;
 public class SurveyTO {
     private UUID id;
     private boolean bookMonth;
+    private boolean open;
     private List<SurveyOptionsTO> options;
 }
