@@ -38,9 +38,9 @@ public class BookAdsController {
             @ApiResponse(code = 401, message = "Usuário não encontrado")
     })
     @PostMapping
-    public BookAdTO create(@RequestHeader("AUTHORIZATION") String token, @RequestBody BookAdTO dto){
+    public BookAdTO save(@RequestHeader("AUTHORIZATION") String token, @RequestBody BookAdTO dto){
         logger.info("Criando uma AD para o objeto: " + dto);
-        return service.create(token, dto);
+        return service.save(token, dto);
     }
 
     @GetMapping
@@ -58,7 +58,7 @@ public class BookAdsController {
 
     @GetMapping("/user/{id}")
     public List<BookAdTO> getAll(@PathVariable("id") UUID id){
-        logger.info("Buscando todas as ads");
+        logger.info("Buscando todas as ads por usuário ");
         return service.getAdsByUser(id);
     }
 
@@ -74,6 +74,6 @@ public class BookAdsController {
 
     @DeleteMapping("/{id}")
     public void deleteById(@RequestHeader("AUTHORIZATION") String token, @PathVariable("id") UUID id) {
-        service.deleteById(token, id);
+        service.delete(token, id);
     }
 }

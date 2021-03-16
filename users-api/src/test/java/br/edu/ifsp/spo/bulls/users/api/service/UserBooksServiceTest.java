@@ -253,7 +253,7 @@ public class UserBooksServiceTest {
     public void userBooksShouldDelete(){
         Mockito.doNothing().when(mockUserBooksRepository).deleteById(userBooksTO.getId());
 
-        userBookService.deleteById(userBooksTO.getId());
+        userBookService.delete(userBooksTO.getId());
         verify(mockUserBooksRepository).deleteById(userBooksTO.getId());
     }
 

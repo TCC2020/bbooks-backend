@@ -60,8 +60,8 @@ public class UserPublicProfileController {
             @ApiResponse(code = 409, message = "Perfil público já existe")
     })
     @PostMapping
-    public UserPublicProfileTO create(@RequestHeader("AUTHORIZATION") String token, @RequestBody UserPublicProfileCreateTO publicProfile) {
-        return service.create(token, publicProfile);
+    public UserPublicProfileTO save(@RequestHeader("AUTHORIZATION") String token, @RequestBody UserPublicProfileCreateTO publicProfile) {
+        return service.save(token, publicProfile);
     }
 
     @ApiOperation(value = "Atualiza perfil público")

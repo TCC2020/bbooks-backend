@@ -29,7 +29,7 @@ public class ExchangeService {
     @Autowired
     private ExchangeBeanUtil util;
 
-    public ExchangeTO create(String token, ExchangeTO dto) {
+    public ExchangeTO save(String token, ExchangeTO dto) {
         UserTO user = feign.getUserInfo(StringUtils.removeStart(token, "Bearer").trim());
         if(user != null && user.getId().equals(dto.getRequesterId()) && checkExchangeIntegrity(dto))
             return util.toDto(repository.save(util.toDomain(dto)));

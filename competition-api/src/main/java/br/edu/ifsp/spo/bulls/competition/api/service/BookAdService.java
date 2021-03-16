@@ -33,7 +33,7 @@ public class BookAdService {
     @Autowired
     private UserCommonFeign feign;
 
-    public BookAdTO create(String token, BookAdTO dto) {
+    public BookAdTO save(String token, BookAdTO dto) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         UserTO user = feign.getUserInfo(tokenValue);
         if(user == null)
@@ -61,7 +61,7 @@ public class BookAdService {
         return utils.toDtoList(repository.findByUserId(userId));
     }
 
-    public void deleteById(String token, UUID id) {
+    public void delete(String token, UUID id) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         UserTO user = feign.getUserInfo(tokenValue);
         BookAd ad = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CodeException.BAD001.getText(), CodeException.BAD001));

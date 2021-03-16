@@ -19,6 +19,8 @@ import br.edu.ifsp.spo.bulls.feed.api.repository.GroupMemberRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
 import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,8 @@ import java.util.UUID;
 
 @Service
 public class FeedService {
+    private final Logger logger = LoggerFactory.getLogger(FeedService.class);
+
     @Autowired
     private PostRepository repository;
 
@@ -66,7 +70,7 @@ public class FeedService {
             if("added".equalsIgnoreCase(friendship.getStatus()))
                 return utils.toDtoPage(repository.findByProfileId(profileId, TypePost.post, pageable));
         } catch (Exception e) {
-            System.out.println(e);
+            logger.error(e.getStackTrace().toString());
         }
         return utils.toDtoPage(repository.findFeedByRequesterIdPublic(profileId, pageable));
     }

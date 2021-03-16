@@ -46,7 +46,7 @@ public class ReadingTargetService {
         if(target == null)
             target = new ReadingTarget(null, LocalDateTime.now().getYear(), null, id);
         if(target.getTargets() == null)
-            target.setTargets(new ArrayList<UserBooks>());
+            target.setTargets(new ArrayList<>());
         UserBooks userBooks = userBooksRepository.findById(userBookId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.UB001.getText(), CodeException.UB001));
         if(!target.getTargets().contains(userBooks))

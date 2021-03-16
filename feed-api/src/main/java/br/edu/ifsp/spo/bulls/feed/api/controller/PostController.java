@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
-import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostReactionTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.dto.ReactTO;
@@ -34,7 +33,7 @@ public class PostController {
     @PostMapping
     public PostTO post(@RequestBody PostTO post) {
         logger.info("Criando post: " + post.toString());
-        return service.create(post);
+        return service.save(post);
     }
 
     @ApiOperation(value = "Editar uma publicação")

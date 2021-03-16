@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.bulls.feed.api.service;
 
 import br.edu.ifsp.spo.bulls.common.api.dto.SurveyOptionsTO;
+import br.edu.ifsp.spo.bulls.common.api.dto.VoteTO;
 import br.edu.ifsp.spo.bulls.feed.api.bean.SurveyBeanUtil;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Survey;
@@ -32,8 +33,30 @@ public class SurveyService {
 
     public void deleteByPost(UUID idPost) {
         Post post = postRepository.findById(idPost).get();
-        System.out.println(post.getSurvey());
         surveysOptionsRepository.deleteAllBySurvey(post.getSurvey());
+    }
 
+    public VoteTO vote(int profileId, VoteTO voteTO){
+        // TODO: Implementar
+        return null;
+    }
+
+    public VoteTO updateVote(int profileId, VoteTO voteTO, UUID voteId){
+        // TODO: Implementar
+        return null;
+    }
+
+    public void deleteVote(UUID voteId) {
+        // TODO: Implementar
+    }
+
+    public int getVotesBySurvey(UUID surveyId) {
+        // TODO: Implementar
+        return 0;
+    }
+
+    public VoteTO getVoteByProfileAndOption(int profileId, UUID optionId){
+        // TODO: Implementar
+        return null;
     }
 }

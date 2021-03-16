@@ -7,6 +7,7 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.Survey;
 import br.edu.ifsp.spo.bulls.feed.api.domain.SurveysOptions;
 import br.edu.ifsp.spo.bulls.feed.api.domain.Vote;
 import br.edu.ifsp.spo.bulls.feed.api.repository.SurveyOptionsRepository;
+import br.edu.ifsp.spo.bulls.feed.api.repository.VoteRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,15 +21,16 @@ public class SurveyBeanUtil {
     @Autowired
     private SurveyOptionsRepository optionsRepository;
 
+    @Autowired
+    private VoteRepository voteRepository;
+
     public SurveyTO toDto(Survey survey) {
         SurveyTO surveyTO = new  SurveyTO();
         BeanUtils.copyProperties(survey, surveyTO);
-        // TODO: Ajustar
         List<SurveysOptions> options = optionsRepository.findBySurvey(survey);
 
         surveyTO.setOptions(toSurveyOptionsDtoList(options));
 
-        System.out.println(surveyTO);
         return surveyTO;
     }
 
@@ -75,6 +77,8 @@ public class SurveyBeanUtil {
     public SurveyOptionsTO toSurveyOptionDto(SurveysOptions surveyOptions) {
         SurveyOptionsTO dto = new SurveyOptionsTO();
         BeanUtils.copyProperties(surveyOptions, dto);
+        List<Vote> votes = voteRepository.findByOption(surveyOptions);
+        dto.setVotes(this.toVoteDtoList(votes));
         return dto;
     }
 
@@ -84,7 +88,7 @@ public class SurveyBeanUtil {
         return dto;
     }
 
-//    public List<VoteTO> toVoteDtoList(List<Vote> votes) {
-//        return votes.stream().parallel().map(this::toVoteDto).collect(Collectors.toList());
-//    }
+    public List<VoteTO> toVoteDtoList(List<Vote> votes) {
+        return votes.stream().parallel().map(this::toVoteDto).collect(Collectors.toList());
+    }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class AuthorController {
 
-    private Logger logger = LoggerFactory.getLogger(AuthorController.class);
+    private final Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
     @Autowired
     private AuthorService service;

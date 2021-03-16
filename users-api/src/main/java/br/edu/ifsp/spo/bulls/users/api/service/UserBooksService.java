@@ -76,7 +76,7 @@ public class UserBooksService {
         return util.toDto(userBooks1);
     }
 
-    public void deleteById(Long id){
+    public void delete(Long id){
         targetRepository.deleteTargetRelationship(id);
         repository.deleteById(id);
     }

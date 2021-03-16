@@ -38,17 +38,17 @@ public class AuthServiceTest {
     private UserBeanUtil userBeanUtil;
     @Autowired
     private AuthService authService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     private LoginTO loginTo;
-    private UserTO userTO = new UserTO();
+    private final UserTO userTO = new UserTO();
     private User user = new User();
     private User userSenhaDiferente;
     private User userTokenNull;
-    private ProfileTO profileTO = new ProfileTO();
-    private Profile profile = new Profile();
-    private RequestPassResetTO requestPassResetTO = new RequestPassResetTO();
-    private ResetPassTO resetPassTO = new ResetPassTO();
+    private final ProfileTO profileTO = new ProfileTO();
+    private final Profile profile = new Profile();
+    private final RequestPassResetTO requestPassResetTO = new RequestPassResetTO();
+    private final ResetPassTO resetPassTO = new ResetPassTO();
 
     @BeforeEach
     void setUp() {

@@ -100,8 +100,8 @@ public class CompetitionVoteService {
 
         float total = 0.0F;
 
-        for(int x = 0;  x < votes.size(); x ++){
-            total = total + votes.get(x).getValue();
+        for (CompetitionVotes vote : votes) {
+            total = total + vote.getValue();
         }
 
         return total / votes.size();

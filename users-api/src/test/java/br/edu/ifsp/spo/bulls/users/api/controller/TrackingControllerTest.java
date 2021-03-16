@@ -69,7 +69,7 @@ public class TrackingControllerTest {
 
     @Test
     void shouldGetOneTrackingById() throws Exception {
-        Mockito.when(mockTrackingService.findById(trackingTO.getId())).thenReturn(trackingTO);
+        Mockito.when(mockTrackingService.getById(trackingTO.getId())).thenReturn(trackingTO);
 
         mockMvc.perform(get("/tracking-group/" + trackingTO.getId())
                 .contentType("application/json"))
@@ -79,7 +79,7 @@ public class TrackingControllerTest {
 
     @Test
     void shouldntGetOneTrackingByIdWhenTrackingNotFound() throws Exception {
-        Mockito.when(mockTrackingService.findById(trackingTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
+        Mockito.when(mockTrackingService.getById(trackingTO.getId())).thenThrow(new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002));
 
         mockMvc.perform(get("/tracking-group/" + trackingTO.getId())
                 .contentType("application/json"))

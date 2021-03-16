@@ -39,7 +39,7 @@ public class ExchangeController {
     @PostMapping
     public ExchangeTO createExchange(@RequestHeader("AUTHORIZATION") String token, @RequestBody ExchangeTO dto) {
         logger.info("Criando proposta de troca");
-        return service.create(token, dto);
+        return service.save(token, dto);
     }
 
     @ApiOperation(value = "Busca uma popostas de troca do usuário")

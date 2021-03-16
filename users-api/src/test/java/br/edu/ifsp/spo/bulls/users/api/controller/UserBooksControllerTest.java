@@ -116,7 +116,7 @@ public class UserBooksControllerTest {
 
     @Test
     void deleteById() throws Exception {
-        Mockito.doNothing().when(mockUserBooksService).deleteById(userBooksTO.getId());
+        Mockito.doNothing().when(mockUserBooksService).delete(userBooksTO.getId());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/bookcases/" + userBooksTO.getId())
                 .contentType("application/json"))

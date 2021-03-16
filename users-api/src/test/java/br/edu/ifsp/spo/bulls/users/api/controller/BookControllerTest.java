@@ -40,8 +40,8 @@ class BookControllerTest {
 
     private BookTO bookTO;
     private BookTO bookTONoAuthors;
-    private HashSet<BookTO> bookTOList = new HashSet<>();
-    private List<Author> autores = new ArrayList<>();
+    private final HashSet<BookTO> bookTOList = new HashSet<>();
+    private final List<Author> autores = new ArrayList<>();
 
     @BeforeEach
     void setUp() {

@@ -42,8 +42,7 @@ public class ReviewController {
     public ReviewTO getOne(@PathVariable UUID reviewId, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Acessar dados de uma resenha " + reviewId);
-        ReviewTO review = service.getOneById(reviewId, tokenValue);
-        return review;
+        return service.getById(reviewId, tokenValue);
     }
 
     @ApiOperation(value = "Retorna uma resenha por livro")
@@ -55,8 +54,7 @@ public class ReviewController {
     public Page<ReviewTO> getAllByBook(@PathVariable int bookId,@RequestParam int page, @RequestParam int size, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Acessar resenhas por livro " + bookId);
-        Page<ReviewTO> reviews = service.getAllByBook(bookId, tokenValue, page, size);
-        return reviews;
+        return service.getAllByBook(bookId, tokenValue, page, size);
     }
 
     @ApiOperation(value = "Retorna uma resenha por livro")
@@ -68,8 +66,7 @@ public class ReviewController {
     public Page<ReviewTO> getAllByGoogleBook(@PathVariable String googleBookId, @RequestParam int page, @RequestParam int size, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Acessar resenhas por livro " + googleBookId);
-        Page<ReviewTO> reviews = service.getAllByGoogleBook(googleBookId, tokenValue, page,size);
-        return reviews;
+        return service.getAllByGoogleBook(googleBookId, tokenValue, page,size);
     }
 
     @ApiOperation(value = "Salvar uma resenha")
@@ -81,8 +78,7 @@ public class ReviewController {
     public ReviewTO postReview(@RequestBody ReviewTO reviewTO, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Cadastrando resenha");
-        ReviewTO review = service.save(reviewTO, tokenValue);
-        return review;
+        return service.save(reviewTO, tokenValue);
     }
 
     @ApiOperation(value = "Editar uma resenha")
@@ -94,8 +90,7 @@ public class ReviewController {
     public ReviewTO putReview(@PathVariable UUID reviewId ,@RequestBody ReviewTO reviewTO, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Editar resenha " + reviewId);
-        ReviewTO review = service.updateReview(reviewId, reviewTO, tokenValue);
-        return review;
+        return service.update(reviewId, reviewTO, tokenValue);
     }
 
     @ApiOperation(value = "Deletar resenha por ID")
@@ -106,6 +101,6 @@ public class ReviewController {
     public void deleteById(@PathVariable UUID reviewId, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Acessr dados de uma resenha " + reviewId);
-        service.deleteById(reviewId, tokenValue);
+        service.delete(reviewId, tokenValue);
     }
 }

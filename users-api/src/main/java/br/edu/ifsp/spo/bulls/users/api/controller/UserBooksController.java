@@ -101,6 +101,6 @@ public class UserBooksController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id){
         logger.info("Deletar estante" + id);
-        service.deleteById(id);
+        service.delete(id);
     }
 }

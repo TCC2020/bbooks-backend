@@ -54,7 +54,7 @@ public class PostControllerTest {
 
     @Test
     void post() throws Exception {
-        Mockito.when(mockPostService.create(postTO)).thenReturn(post);
+        Mockito.when(mockPostService.save(postTO)).thenReturn(postTO);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/post")
                 .contentType("application/json")
@@ -64,7 +64,7 @@ public class PostControllerTest {
 
     @Test
     void put() throws Exception {
-        Mockito.when(mockPostService.update(post, post.getId())).thenReturn(post);
+        Mockito.when(mockPostService.update(postTO, post.getId())).thenReturn(postTO);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/post/" + post.getId())
                 .contentType("application/json")

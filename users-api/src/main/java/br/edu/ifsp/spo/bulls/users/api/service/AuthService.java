@@ -31,9 +31,9 @@ public class AuthService {
     @Autowired
     private UserService userService;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    private Logger logger = LoggerFactory.getLogger(AuthService.class);
+    private final Logger logger = LoggerFactory.getLogger(AuthService.class);
     
     public UserTO authLogin(LoginTO loginTO){
         Optional<User> optionalUser = repository.findByEmail(loginTO.getEmail());

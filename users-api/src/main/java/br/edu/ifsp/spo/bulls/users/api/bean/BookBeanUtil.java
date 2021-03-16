@@ -11,7 +11,7 @@ import java.util.HashSet;
 @Component
 public class BookBeanUtil {
 
-    private Logger logger = LoggerFactory.getLogger(BookBeanUtil.class);
+    private final Logger logger = LoggerFactory.getLogger(BookBeanUtil.class);
 
     public Book toBook(BookTO bookTo) {
         Book book = new Book();

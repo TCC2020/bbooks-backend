@@ -37,14 +37,13 @@ public class BookAdServiceTest {
     @Autowired
     private BookAdService service;
 
-    private BookAdTO bookAdTO = new BookAdTO();
+    private final BookAdTO bookAdTO = new BookAdTO();
 
-    private BookAd bookAd = new BookAd();
+    private final BookAd bookAd = new BookAd();
 
-    private UserTO userTO = new UserTO();
+    private final UserTO userTO = new UserTO();
     @BeforeEach
     public void setup() {
-        exchangeService.getClass();
         bookAdTO.setId(UUID.fromString("e769397d-f8a5-4c21-a7b9-b709ab5ad7b8"));
         bookAdTO.setUserId(UUID.fromString("05cb05b7-6443-4d57-bba7-6e79ff05074c"));
 
@@ -58,7 +57,7 @@ public class BookAdServiceTest {
     public void shouldCreate() {
         Mockito.when(repository.save(bookAd)).thenReturn(bookAd);
         Mockito.when(feign.getUserInfo("token")).thenReturn(userTO);
-        BookAdTO res = service.create("token", bookAdTO);
+        BookAdTO res = service.save("token", bookAdTO);
         assertEquals(bookAdTO, res);
     }
 

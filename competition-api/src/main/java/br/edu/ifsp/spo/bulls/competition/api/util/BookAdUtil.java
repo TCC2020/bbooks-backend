@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class BookAdUtil {
-    private Logger logger = LoggerFactory.getLogger(BookAdUtil.class);
+    private final Logger logger = LoggerFactory.getLogger(BookAdUtil.class);
 
     public BookAd toDomain(BookAdTO dto) {
         BookAd ad = new BookAd();

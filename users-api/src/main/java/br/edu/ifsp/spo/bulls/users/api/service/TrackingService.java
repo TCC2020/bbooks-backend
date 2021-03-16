@@ -58,7 +58,7 @@ public class TrackingService {
         return beanUtil.toDTO(repository.save(tracking));
     }
 
-    public TrackingTO findById(UUID trackingId){
+    public TrackingTO getById(UUID trackingId){
         TrackingTO trackingTO = beanUtil.toDTO(repository.findById(trackingId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.TA002.getText(), CodeException.TA002)));
         trackingTO.setVelocidadeLeitura(calcularVelocidadeLeitura(trackingTO));

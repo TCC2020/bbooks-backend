@@ -19,7 +19,7 @@ import java.util.HashSet;
 @CrossOrigin(origins = "*")
 public class BookController {
 
-    private Logger logger = LoggerFactory.getLogger(BookController.class);
+    private final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     private BookService service;

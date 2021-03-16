@@ -118,8 +118,7 @@ public class UserService{
 	}
 
 	public User getByIdDomain(UUID id) {
-		User user = rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
-		return user;
+		return rep.findById(id).orElseThrow( () -> new ResourceNotFoundException(CodeException.US001.getText(), CodeException.US001));
 	}
 
 	public UserTO getByEmail(String email) {

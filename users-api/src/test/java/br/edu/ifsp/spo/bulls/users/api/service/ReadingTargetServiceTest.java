@@ -73,7 +73,7 @@ public class ReadingTargetServiceTest {
         readingTarget = new ReadingTarget();
         readingTarget.setId(UUID.randomUUID());
         readingTarget.setProfileId(1);
-        readingTarget.setTargets(new ArrayList<UserBooks>());
+        readingTarget.setTargets(new ArrayList<>());
         readingTarget.getTargets().add(userBooks);
         readingTarget.setYear(LocalDateTime.now().getYear());
     }

@@ -83,29 +83,29 @@ public class TrackingServiceTest {
 
         trackingTO.setId(UUID.randomUUID());
         trackingTO.setUserBookId(userBooksQueroLer.getId());
-        trackingTO.setTrackings(new ArrayList<ReadingTrackingTO>());
+        trackingTO.setTrackings(new ArrayList<>());
         trackingTO.setFinishedDate(LocalDateTime.now());
         trackingTO.setVelocidadeLeitura(null);
 
         trackingTOLido.setId(UUID.randomUUID());
         trackingTOLido.setUserBookId(userBooksLido.getId());
-        trackingTOLido.setTrackings(new ArrayList<ReadingTrackingTO>());
+        trackingTOLido.setTrackings(new ArrayList<>());
         trackingTOLido.setFinishedDate(LocalDateTime.now());
         trackingTOLido.setVelocidadeLeitura(null);
 
         trackingQueroLer.setId(trackingTO.getId());
         trackingQueroLer.setUserBook(userBooksQueroLer);
-        trackingQueroLer.setReadingTrackings(new ArrayList<ReadingTracking>());
+        trackingQueroLer.setReadingTrackings(new ArrayList<>());
         trackingQueroLer.setFinishedDate(LocalDateTime.now());
 
         trackingLido.setId(trackingTOLido.getId());
         trackingLido.setUserBook(userBooksLido);
-        trackingLido.setReadingTrackings(new ArrayList<ReadingTracking>());
+        trackingLido.setReadingTrackings(new ArrayList<>());
         trackingLido.setFinishedDate(LocalDateTime.now());
 
         trackingOpen.setId(trackingTO.getId());
         trackingOpen.setUserBook(userBooksQueroLer);
-        trackingOpen.setReadingTrackings(new ArrayList<ReadingTracking>());
+        trackingOpen.setReadingTrackings(new ArrayList<>());
         trackingOpen.setFinishedDate(null);
 
         trackingTOList.add(trackingTO);
@@ -140,7 +140,7 @@ public class TrackingServiceTest {
     @Test
     void shouldGetOneTrackingGroupById() {
         Mockito.when(mockTrackingRepository.findById(trackingTO.getId())).thenReturn(Optional.ofNullable(trackingQueroLer));
-        TrackingTO resultado = trackingService.findById(trackingTO.getId());
+        TrackingTO resultado = trackingService.getById(trackingTO.getId());
         assertNotNull(resultado);
     }
 

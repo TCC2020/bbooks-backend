@@ -24,7 +24,7 @@ import java.util.UUID;
 public class CDNController {
     private final ObjectMapper mapper = new ObjectMapper();
 
-    private Storage storage = StorageOptions.getDefaultInstance().getService();
+    private final Storage storage = StorageOptions.getDefaultInstance().getService();
 
     @Autowired
     private CompetitionCommonFeign competitionCommonFeign;

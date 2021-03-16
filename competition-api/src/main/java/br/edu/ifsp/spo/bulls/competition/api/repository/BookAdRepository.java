@@ -13,6 +13,6 @@ import java.util.UUID;
 public interface BookAdRepository extends CrudRepository<BookAd, UUID> {
     List<BookAd> findAll();
 
-    @Query(value = "SELECT * FROM book_ads WHERE user_id = :id", nativeQuery = true)
+            @Query(value = "SELECT * FROM book_ads WHERE user_id = :id", nativeQuery = true)
     List<BookAd> findByUserId(@Param("id") UUID id);
 }

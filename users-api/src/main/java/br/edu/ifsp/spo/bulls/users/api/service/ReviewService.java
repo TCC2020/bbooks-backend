@@ -25,7 +25,7 @@ public class ReviewService {
     @Autowired
     private ReviewBeanUtil beanUtil;
 
-    public ReviewTO getOneById(UUID reviewId, String token){
+    public ReviewTO getById(UUID reviewId, String token){
         return beanUtil.toDto(repository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException(CodeException.RE001.getText(),CodeException.RE001)));
     }
@@ -56,7 +56,7 @@ public class ReviewService {
         return beanUtil.toDto(repository.save(review));
     }
 
-    public ReviewTO updateReview(UUID reviewId, ReviewTO reviewTO, String token){
+    public ReviewTO update(UUID reviewId, ReviewTO reviewTO, String token){
         if(!reviewTO.getId().equals(reviewId))
             throw new ResourceBadRequestException(CodeException.RE002.getText(), CodeException.RE002);
 
@@ -67,7 +67,7 @@ public class ReviewService {
         }).orElseThrow( () -> new ResourceNotFoundException(CodeException.RE001.getText(), CodeException.RE001)));
     }
 
-    public void deleteById(UUID reviewId, String token){
+    public void delete(UUID reviewId, String token){
          repository.deleteById(reviewId);
     }
 }

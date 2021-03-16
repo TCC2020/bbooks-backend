@@ -9,5 +9,6 @@ import java.util.UUID;
 public class SurveyOptionsTO {
     private UUID id;
     private String option;
+    private int totalVotes;
     private List<VoteTO> votes;
 }

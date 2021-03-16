@@ -9,10 +9,8 @@ import br.edu.ifsp.spo.bulls.feed.api.domain.Post;
 import br.edu.ifsp.spo.bulls.feed.api.dto.PostTO;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import br.edu.ifsp.spo.bulls.feed.api.enums.TypePost;
-import br.edu.ifsp.spo.bulls.feed.api.repository.GroupRepository;
+import br.edu.ifsp.spo.bulls.feed.api.repository.*;
 import br.edu.ifsp.spo.bulls.feed.api.feign.UserCommonFeign;
-import br.edu.ifsp.spo.bulls.feed.api.repository.PostRepository;
-import br.edu.ifsp.spo.bulls.feed.api.repository.ReactionsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,11 +35,21 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {PostService.class, SurveyBeanUtil.class, PostBeanUtil.class, })
+@ContextConfiguration(loader= AnnotationConfigContextLoader.class, classes = {PostService.class, SurveyBeanUtil.class,
+        PostBeanUtil.class,SurveyOptionsRepository.class,VoteRepository.class, ReactionsRepository.class, GroupRepository.class,
+        SurveyService.class})
 public class PostServiceTest {
 
     @MockBean
+    private SurveyService mockSurveyService;
+    @MockBean
     private UserCommonFeign feign;
+
+    @MockBean
+    private SurveyOptionsRepository optionsRepository;
+
+    @MockBean
+    private VoteRepository voteRepository;
 
     @MockBean
     private PostRepository mockPostRepository;
@@ -61,9 +69,10 @@ public class PostServiceTest {
     private Post post;
     private Post comment;
     private PostTO postTO;
-    private List<PostTO> comments;
+    private List<Post> comments;
     private GroupRead group;
 
+    // TODO: Testes não passam
     @BeforeEach
     void setUp() {
         group = new GroupRead();
@@ -89,13 +98,11 @@ public class PostServiceTest {
         comment.setUpperPostId(post.getId());
 
         comments = new ArrayList<>();
-        PostTO comentario = postBeanUtil.toDto(comment);
-        comments.add(comentario);
+        comments.add(comment);
 
         postTO = new PostTO();
-        PostTO postagem = postBeanUtil.toDto(post);
-        postTO = postagem;
-        postTO.setComments(comments);
+        postTO = postBeanUtil.toDto(post);
+        postTO.setComments(postBeanUtil.toDtoList(comments));
         postTO.setGroupId(group.getId());
 
         Mockito.when(reactionsRepository.findById(UUID.randomUUID())).thenReturn(null);
@@ -109,9 +116,9 @@ public class PostServiceTest {
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
 
-        Post result = postService.create(postTO);
-
-        assertEquals(post, result);
+        PostTO result = postService.save(postTO);
+    // TODO: Comentário está vindo null
+        assertEquals(postTO, result);
     }
 
     @Test
@@ -119,7 +126,7 @@ public class PostServiceTest {
         Mockito.when(mockPostRepository.save(post)).thenReturn(post);
         Mockito.when(mockGroupRepository.findById(post.getGroup().getId())).thenReturn(Optional.ofNullable(null));
 
-        assertThrows(ResourceNotFoundException.class, () ->  postService.create(postTO));
+        assertThrows(ResourceNotFoundException.class, () ->  postService.save(postTO));
     }
 
     @Test
@@ -129,9 +136,10 @@ public class PostServiceTest {
         Mockito.when(mockPostRepository.findById(post.getId())).thenReturn(Optional.ofNullable(post));
         Mockito.when(mockPostRepository.save(post)).thenReturn(post);
 
-        Post result = postService.update(post, post.getId());
+        // TODO: Comentário está vindo null
+        PostTO result = postService.update(postTO, post.getId());
 
-        assertEquals(post, result);
+        assertEquals(postTO, result);
     }
 
     @Test
@@ -140,7 +148,7 @@ public class PostServiceTest {
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
         Mockito.when(mockPostRepository.findById(post.getId())).thenThrow(new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
 
-        assertThrows(ResourceNotFoundException.class, () -> postService.update(post, post.getId()));
+        assertThrows(ResourceNotFoundException.class, () -> postService.update(postTO, post.getId()));
 
     }
 
@@ -169,32 +177,36 @@ public class PostServiceTest {
     void getByProfile() {
         Mockito.when(feign.getUserByProfileId(1)).thenReturn(null);
         Mockito.when(feign.getUserByProfileId(3)).thenReturn(null);
-        Page<PostTO> postPage = null;
+        Page<Post> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,
                 Sort.Direction.ASC,
                 "id");
+        Page<PostTO> postPageTO = postBeanUtil.toDtoPage(postPage);
+        // TODO: Mock toDtoPage
         Mockito.when(mockPostRepository.findByProfileId(post.getProfileId(), TypePost.post, pageRequest)).thenReturn(postPage);
 
         Page<PostTO> result = postService.getByProfile(post.getProfileId(), 0, 1);
 
-        assertEquals(postPage, result);
+        assertEquals(postPageTO, result);
     }
 
     @Test
     void getComment() {
-        Page<PostTO> postPage = null;
+        // TODO: Mock do toDtoPage
+        Page<Post> postPage = null;
         Pageable pageRequest = PageRequest.of(
                 0,
                 1,
                 Sort.Direction.ASC,
                 "id");
+        Page<PostTO> postPageTO = postBeanUtil.toDtoPage(postPage);
         Mockito.when(mockPostRepository.findByUpperPostIdQuery(post.getId(), pageRequest)).thenReturn(postPage);
 
         Page<PostTO> result = postService.getComment(post.getId(), 0, 1);
 
-        assertEquals(postPage, result);
+        assertEquals(postPageTO, result);
     }
 
     @Test

@@ -42,7 +42,7 @@ public class UserPublicProfileService {
     @Autowired
     private PublicProfileBeanUtil util;
 
-    public UserPublicProfileTO create(String token, UserPublicProfileCreateTO dto) {
+    public UserPublicProfileTO save(String token, UserPublicProfileCreateTO dto) {
         User user = userService.getByToken(StringUtils.removeStart(token, "Bearer").trim());
         if(repository.findByUserId(user.getId()).isPresent())
             throw new ResourceConflictException(CodeException.UPF002);

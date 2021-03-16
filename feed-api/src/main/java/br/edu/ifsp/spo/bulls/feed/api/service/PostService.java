@@ -43,7 +43,7 @@ public class PostService {
     @Autowired
     private UserCommonFeign feign;
 
-    public PostTO create(PostTO postTO) {
+    public PostTO save(PostTO postTO) {
         Post post = repository.save(postBeanUtil.toDomain(postTO));
         if(postTO.getSurvey() != null){
             surveyService.save( post.getSurvey(),postTO.getSurvey().getOptions());
@@ -57,7 +57,8 @@ public class PostService {
             return repository.save(p);
         })
                 .orElseThrow( () -> new ResourceNotFoundException(CodeException.PT001.getText(), CodeException.PT001));
-        surveyService.save( post.getSurvey(), dto.getSurvey().getOptions());
+        if(post.getSurvey() != null)
+            surveyService.save( post.getSurvey(), dto.getSurvey().getOptions());
         return postBeanUtil.toDto(post);
     }
 

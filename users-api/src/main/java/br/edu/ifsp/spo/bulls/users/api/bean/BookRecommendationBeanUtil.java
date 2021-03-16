@@ -20,7 +20,7 @@ public class BookRecommendationBeanUtil {
     @Autowired
     private BookRepository bookRepository;
 
-    private Logger logger = LoggerFactory.getLogger(BookController.class);
+    private final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     public BookRecommendation toDomain(BookRecommendationTO bookRecommendationTO){
         BookRecommendation bookRecommendation =  new BookRecommendation();

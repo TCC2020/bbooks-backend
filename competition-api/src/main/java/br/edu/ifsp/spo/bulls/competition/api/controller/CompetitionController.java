@@ -1,6 +1,5 @@
 package br.edu.ifsp.spo.bulls.competition.api.controller;
 
-import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionMemberTO;
 import br.edu.ifsp.spo.bulls.competition.api.domain.Competition;
 import br.edu.ifsp.spo.bulls.common.api.dto.CompetitionTO;
 import br.edu.ifsp.spo.bulls.competition.api.service.CompetitionService;
@@ -12,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -80,5 +77,4 @@ public class CompetitionController {
         logger.info("Requisitando competições");
         return service.getById(id);
     }
-    // TODO: Rota para finalizar a competição
 }

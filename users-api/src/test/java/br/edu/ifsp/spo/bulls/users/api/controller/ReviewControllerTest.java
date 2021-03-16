@@ -157,7 +157,7 @@ public class ReviewControllerTest {
 
     @Test
     void getOne() throws Exception {
-        Mockito.when(mockReviewService.getOneById(reviewTO.getId(), user.getToken())).thenReturn(reviewTO);
+        Mockito.when(mockReviewService.getById(reviewTO.getId(), user.getToken())).thenReturn(reviewTO);
         mockMvc.perform(get("/review/" + reviewTO.getId())
                 .contentType("application/json")
                 .header(HttpHeaders.AUTHORIZATION,"Basic " + user.getToken() ))
@@ -198,7 +198,7 @@ public class ReviewControllerTest {
 
     @Test
     void putReview() throws Exception {
-        Mockito.when(mockReviewService.updateReview(reviewTO.getId(), reviewTO, user.getToken())).thenReturn(reviewTO);
+        Mockito.when(mockReviewService.update(reviewTO.getId(), reviewTO, user.getToken())).thenReturn(reviewTO);
         mockMvc.perform(put("/review/" + reviewTO.getId())
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(reviewTO))
@@ -208,7 +208,7 @@ public class ReviewControllerTest {
 
     @Test
     void deleteById() throws Exception  {
-        Mockito.doNothing().when(mockReviewService).deleteById(reviewTO.getId(), user.getToken());
+        Mockito.doNothing().when(mockReviewService).delete(reviewTO.getId(), user.getToken());
         mockMvc.perform(delete("/review/" + reviewTO.getId())
                 .contentType("application/json")
                 .header(HttpHeaders.AUTHORIZATION,"Basic " + user.getToken() ))

@@ -43,7 +43,7 @@ public class TrackingController {
     @GetMapping("/{trackingGroupId}")
     public TrackingTO getOne(@PathVariable UUID trackingGroupId){
         logger.info("Acessando um grupo de acompanhamento: " + trackingGroupId);
-        TrackingTO grupo = service.findById(trackingGroupId);
+        TrackingTO grupo = service.getById(trackingGroupId);
         logger.info("Grupo de acompanhamento retornado: " + grupo.toString());
         return grupo ;
     }

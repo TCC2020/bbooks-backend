@@ -53,8 +53,6 @@ public class Post {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Reactions> reactions;
 
-    //TODO: Reações
-
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();

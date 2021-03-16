@@ -4,7 +4,7 @@ public enum EmailSubject {
     VERIFY_EMAIL("Verificar email"),
     RECUPERAR_SENHA("Recuperar senha");
     @SuppressWarnings("unused")
-	private String text;
+	private final String text;
 
     EmailSubject(String text){
         this.text =text;

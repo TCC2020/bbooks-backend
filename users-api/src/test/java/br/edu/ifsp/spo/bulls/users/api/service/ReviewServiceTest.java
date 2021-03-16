@@ -200,14 +200,14 @@ public class ReviewServiceTest {
     void shouldGetOneReviewById() {
         Mockito.when(mockReviewRepository.findById(review.getId())).thenReturn(Optional.ofNullable(review));
         Mockito.when(mockProfileRepository.findById(review.getProfile().getId())).thenReturn(Optional.ofNullable(profile));
-        ReviewTO result = service.getOneById(review.getId(), user.getToken());
+        ReviewTO result = service.getById(review.getId(), user.getToken());
         assertEquals(reviewTO, result);
     }
 
     @Test
     void shouldntGetOneReviewByIdWhenReviewNotFound() {
         Mockito.when(mockReviewRepository.findById(review.getId())).thenThrow(new ResourceNotFoundException(CodeException.RE001.getText(),CodeException.RE001));
-        assertThrows(ResourceNotFoundException.class, () ->  service.getOneById(review.getId(), user.getToken()));
+        assertThrows(ResourceNotFoundException.class, () ->  service.getById(review.getId(), user.getToken()));
     }
 
     @Test
@@ -252,7 +252,7 @@ public class ReviewServiceTest {
     void updateReview() {
         Mockito.when(mockReviewRepository.findById(review.getId())).thenReturn(Optional.ofNullable(review));
         Mockito.when(mockReviewRepository.save(review)).thenReturn(review);
-        ReviewTO result = service.updateReview(reviewTO.getId(), reviewTO, user.getToken());
+        ReviewTO result = service.update(reviewTO.getId(), reviewTO, user.getToken());
 
         assertEquals(reviewTO, result);
     }
@@ -260,18 +260,18 @@ public class ReviewServiceTest {
     @Test
     void shouldntUpdateReviewWhenReviewNotFound() {
         Mockito.when(mockReviewRepository.findById(review.getId())).thenThrow(new ResourceNotFoundException(CodeException.RE001.getText(),CodeException.RE001));
-        assertThrows(ResourceNotFoundException.class, () -> service.updateReview(reviewTOBook.getId(), reviewTOBook, user.getToken()));
+        assertThrows(ResourceNotFoundException.class, () -> service.update(reviewTOBook.getId(), reviewTOBook, user.getToken()));
     }
 
     @Test
     void shouldntUpdateReviewWhenIdNotMatch() {
-        assertThrows(ResourceBadRequestException.class, () -> service.updateReview(UUID.randomUUID(), reviewTOBook, user.getToken()));
+        assertThrows(ResourceBadRequestException.class, () -> service.update(UUID.randomUUID(), reviewTOBook, user.getToken()));
     }
 
     @Test
     void shouldDeleteReviewById() {
         Mockito.doNothing().when(mockReviewRepository).deleteById(review.getId());
-        service.deleteById(review.getId(), user.getToken());
+        service.delete(review.getId(), user.getToken());
         Mockito.verify(mockReviewRepository).deleteById(review.getId());
     }
 }
