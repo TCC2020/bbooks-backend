@@ -28,7 +28,7 @@ public class AuthController {
 
     @ApiOperation(value = "Fazer login na plataforma")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Login concluído, retorna o usuário"),
+            @ApiResponse(code = 201, message = "Login concluído, retorna o usuário"),
             @ApiResponse(code = 401, message = "Não autorizado, senha incorreta"),
             @ApiResponse(code = 404, message = "Usuário não encontrado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção")

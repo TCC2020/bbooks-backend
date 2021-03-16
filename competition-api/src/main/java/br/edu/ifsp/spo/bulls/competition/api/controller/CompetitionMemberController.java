@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,12 +57,13 @@ public class CompetitionMemberController {
 
     @ApiOperation(value = "Cadastro um membro na competição")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Membro cadastrado"),
+            @ApiResponse(code = 201, message = "Membro cadastrado"),
             @ApiResponse(code = 404, message = "Competicação não encontrada"),
             @ApiResponse(code = 409, message = "Usuário já é um membro da competição"),
             @ApiResponse(code = 401, message = "Usuário não tem permissão para realizar essa ação")
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CompetitionMemberTO saveMember(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionMemberSaveTO memberTO) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Salvando membro da competição");

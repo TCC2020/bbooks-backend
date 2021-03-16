@@ -8,15 +8,9 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -44,11 +38,12 @@ public class ReadingTrackingController {
 
     @ApiOperation(value = "Cadastra um acompanhamento de leitura")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Acompanhamento cadastrado"),
+            @ApiResponse(code = 201, message = "Acompanhamento cadastrado"),
             @ApiResponse(code = 404, message = "O livro do usuário não existe em sua estante"),
             @ApiResponse(code = 409, message = "O livro indicado está com status lido")
     })
-    @PostMapping()
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ReadingTrackingTO post(@RequestBody ReadingTrackingTO readingTracking){
         logger.info("Cadastrando um novo acompanhamento: " + readingTracking);
         ReadingTrackingTO acompanhamento = service.save(readingTracking);

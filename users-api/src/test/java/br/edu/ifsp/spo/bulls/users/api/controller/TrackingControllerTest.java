@@ -92,7 +92,7 @@ public class TrackingControllerTest {
         mockMvc.perform(post("/tracking-group")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(trackingTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import br.edu.ifsp.spo.bulls.common.api.dto.UserTO;
+import org.springframework.http.HttpStatus;
+
 
 @RestController
 @ControllerAdvice
@@ -32,11 +34,12 @@ public class UserController {
 
 	@ApiOperation(value = "Cadastrar um usuário")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna o usuário cadastrado"),
+			@ApiResponse(code = 201, message = "Retorna o usuário cadastrado"),
 			@ApiResponse(code = 409, message = "Conflito ao cadastrar o usuário. O email ou nome de usuário já está sendo utilizado"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
 	@PostMapping(consumes="application/json")
+	@ResponseStatus(HttpStatus.CREATED)
 	public UserTO create(@RequestBody @Valid CadastroUserTO userTO) throws Exception  {
 		UserTO user = service.save(userTO);
 		logger.info("Novo cadastro no sistema" + user);

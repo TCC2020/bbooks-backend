@@ -62,7 +62,7 @@ public class UserBooksControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/bookcases")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(userBooksTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

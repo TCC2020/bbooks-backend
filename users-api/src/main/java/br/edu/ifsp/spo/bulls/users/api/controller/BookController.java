@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 
@@ -25,12 +26,13 @@ public class BookController {
 
     @ApiOperation(value = "Cadastrar um livro")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna o livro cadastrado"),
+            @ApiResponse(code = 201, message = "Retorna o livro cadastrado"),
             @ApiResponse(code = 409, message = "Conflito ao cadastrar o livro. ISBN já está sendo utilizado"),
             @ApiResponse(code = 400, message = "O livro deve ter pelo menos 1 autor"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public BookTO save(@RequestBody BookTO bookTO){
         logger.info("Cadastrando novo Livro " + bookTO);
         return service.save(bookTO);
