@@ -55,7 +55,7 @@ public class TrackingControllerTest {
 
         mockMvc.perform(get("/tracking-group/book/" + userBooks.getId())
                 .contentType("application/json"))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -92,7 +92,7 @@ public class TrackingControllerTest {
         mockMvc.perform(post("/tracking-group")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(trackingTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
