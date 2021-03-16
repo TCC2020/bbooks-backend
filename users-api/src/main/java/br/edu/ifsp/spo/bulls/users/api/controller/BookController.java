@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookSearchTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookTO;
 import br.edu.ifsp.spo.bulls.users.api.service.BookService;
-import br.edu.ifsp.spo.bulls.users.api.webclient.Client;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -23,9 +22,6 @@ public class BookController {
 
     @Autowired
     private BookService service;
-
-    @Autowired
-    private Client client;
 
     @ApiOperation(value = "Cadastrar um livro")
     @ApiResponses(value = {
