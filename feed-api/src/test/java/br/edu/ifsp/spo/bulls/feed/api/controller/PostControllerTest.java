@@ -60,7 +60,7 @@ public class PostControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/post")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(post)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

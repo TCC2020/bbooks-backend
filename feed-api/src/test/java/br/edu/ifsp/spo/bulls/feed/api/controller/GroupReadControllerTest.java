@@ -52,7 +52,7 @@ public class GroupReadControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/group")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(group)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
