@@ -70,7 +70,7 @@ public class GroupController {
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Livros encontrados")
     })
-    @GetMapping("/{groupId}")
+    @GetMapping("/book/{groupId}")
     public List<BookMonthTO> getBookMonth(@PathVariable UUID groupId) {
         logger.info("Criando um livro do mês para o grupo : " + groupId);
         List<BookMonthTO> result = surveyService.getBookByGroup(groupId);
