@@ -20,6 +20,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.postgresql:postgresql'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.6.RELEASE'
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '3.2.0'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     runtimeOnly 'com.h2database:h2'
@@ -31,7 +32,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     compile 'com.google.cloud:google-cloud-storage:1.113.1'
     compile'io.github.createam-labs:spring-boot-starter-heroku:1.1'
-    compile 'org.springframework.boot:spring-boot-starter-webflux'
     compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile('io.springfox:springfox-swagger2:2.9.2')
@@ -49,7 +49,7 @@ test {
 check.dependsOn jacocoTestCoverageVerification
 
 jacocoTestReport {
-    getClassDirectories().setFrom(files(classDirectories.files.collect {
+    getClassDirectories().setFrom(files(classDirectories.files.collect {build
         fileTree(dir: it, exclude: [ '**br/edu/ifsp/spo/bulls/users/api/domain**',
                                      '**br/edu/ifsp/spo/bulls/users/api/dto**',
                                      '**br/edu/ifsp/spo/bulls/users/api/repository**',
