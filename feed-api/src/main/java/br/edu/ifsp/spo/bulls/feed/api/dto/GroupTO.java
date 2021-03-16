@@ -1,11 +1,14 @@
 package br.edu.ifsp.spo.bulls.feed.api.dto;
 
+import br.edu.ifsp.spo.bulls.feed.api.domain.BookMonth;
 import br.edu.ifsp.spo.bulls.feed.api.enums.Privacy;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -16,6 +19,8 @@ public class GroupTO {
 
     @ApiModelProperty(value = "Id do usuário")
     private UUID userId;
+
+    private List<BookMonth> bookMonthList;
 
     @ApiModelProperty(value = "Nome do grupo")
     private String name;

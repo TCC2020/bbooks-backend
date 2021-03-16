@@ -1,8 +1,12 @@
 package br.edu.ifsp.spo.bulls.feed.api.controller;
 
+import br.edu.ifsp.spo.bulls.common.api.dto.BookMonthTO;
+import br.edu.ifsp.spo.bulls.feed.api.domain.BookMonth;
 import br.edu.ifsp.spo.bulls.feed.api.domain.GroupRead;
+import br.edu.ifsp.spo.bulls.feed.api.domain.Survey;
 import br.edu.ifsp.spo.bulls.feed.api.dto.GroupTO;
 import br.edu.ifsp.spo.bulls.feed.api.service.GroupService;
+import br.edu.ifsp.spo.bulls.feed.api.service.SurveyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -10,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +39,9 @@ public class GroupController {
     @Autowired
     private GroupService service;
 
+    @Autowired
+    private SurveyService surveyService;
+
     @ApiOperation(value = "Cria um novo grupo de leitura")
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "Grupo criado")
@@ -41,8 +50,42 @@ public class GroupController {
     public GroupTO post(@RequestBody GroupTO group) {
         logger.info("Criando um grupo: " + group.toString());
         GroupTO result = service.save(group);
+        logger.info("Grupo criado " + result.toString());
+        return result;
+    }
+
+    @ApiOperation(value = "Cria um livro do mês no grupo de leitura")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Livro do mês criado")
+    })
+    @PostMapping("/{groupId}/book")
+    public BookMonthTO postBookMonth(@PathVariable UUID groupId, @RequestBody BookMonthTO bookMonth) {
+        logger.info("Criando um livro do mês para o grupo : " + groupId);
+        BookMonthTO result = surveyService.saveBookMonth(bookMonth);
+        logger.info("Groupo criado " + result.toString());
+        return result;
+    }
+
+    @ApiOperation(value = "Busca livros do mês por grupo")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Livros encontrados")
+    })
+    @GetMapping("/{groupId}")
+    public List<BookMonthTO> getBookMonth(@PathVariable UUID groupId) {
+        logger.info("Criando um livro do mês para o grupo : " + groupId);
+        List<BookMonthTO> result = surveyService.getBookByGroup(groupId);
         logger.info("Groupo criado " + result.toString());
         return result ;
+    }
+
+    @ApiOperation(value = "Busca livros do mês por grupo")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "Livros encontrados")
+    })
+    @DeleteMapping("/{groupId}/book/{bookId}")
+    public void deleteBookMoth(@PathVariable UUID bookId) {
+        logger.info("Deletando um livro do mês para o grupo : " + bookId);
+        surveyService.deleteBookMonth(bookId);
     }
 
     @ApiOperation(value = "Editar um grupo")
