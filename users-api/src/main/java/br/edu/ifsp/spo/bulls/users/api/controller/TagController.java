@@ -24,10 +24,11 @@ public class TagController {
 
     @ApiOperation(value = "Cadastrar uma tag")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna a Tag cadastrada"),
+            @ApiResponse(code = 201, message = "Retorna a Tag cadastrada"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Tag save(@RequestBody Tag tag) {
         logger.info("Cadastrando uma nova tag " + tag);
         return service.save(tag);

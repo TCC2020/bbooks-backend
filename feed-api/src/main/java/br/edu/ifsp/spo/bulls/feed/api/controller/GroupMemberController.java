@@ -10,16 +10,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -33,9 +25,10 @@ public class GroupMemberController {
 
     @ApiOperation(value = "Entrar em um grupo")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Membro adicionado")
+            @ApiResponse(code = 201, message = "Membro adicionado")
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void enterGroup(@RequestHeader("AUTHORIZATION") String token, @RequestBody GroupMemberTO member) {
         service.putMember(token, member);
     }

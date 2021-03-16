@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -54,6 +55,7 @@ public class CompetitionVotesController {
             @ApiResponse(code = 409, message = "Usuário já votou nesse competidor")
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CompetitionVoteReturnTO vote(@RequestHeader("AUTHORIZATION") String token, @RequestBody CompetitionVotesSaveTO vote) {
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Votando em um membro");
