@@ -37,9 +37,6 @@ public class SurveyBeanUtil {
     public Survey toDomain(SurveyTO dto) {
         Survey domain = new Survey();
         BeanUtils.copyProperties(dto, domain);
-        // TODO: Ajustar
-        //if(dto.getOptions() != null)
-        //    domain.setOptions(toSurveyOptionsDomainList(dto.getOptions()));
         return domain;
     }
 
