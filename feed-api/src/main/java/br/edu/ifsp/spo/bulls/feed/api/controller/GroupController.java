@@ -83,7 +83,7 @@ public class GroupController {
             @ApiResponse(code = 200, message = "Livros encontrados")
     })
     @DeleteMapping("/{groupId}/book/{bookId}")
-    public void deleteBookMoth(@PathVariable UUID bookId) {
+    public void deleteBookMonth(@PathVariable UUID bookId) {
         logger.info("Deletando um livro do mês com o id : " + bookId);
         surveyService.deleteBookMonth(bookId);
     }
