@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -50,11 +51,12 @@ public class TrackingController {
 
     @ApiOperation(value = "Cadastra um grupo de acompanhamento de leitura")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Grupo de acompanhamento cadastrado"),
+            @ApiResponse(code = 201, message = "Grupo de acompanhamento cadastrado"),
             @ApiResponse(code = 404, message = "O livro do usuário não existe em sua estante"),
             @ApiResponse(code = 409, message = "O livro indicado está com status lido")
     })
-    @PostMapping()
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public TrackingTO post(@RequestBody TrackingTO trackingTo){
         logger.info("Cadastrando um novo acompanhamento: " + trackingTo);
         TrackingTO grupoAcompanhamento = service.save(trackingTo);

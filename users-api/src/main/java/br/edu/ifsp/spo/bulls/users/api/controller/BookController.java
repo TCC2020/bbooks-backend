@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.users.api.controller;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookSearchTO;
 import br.edu.ifsp.spo.bulls.users.api.dto.BookTO;
 import br.edu.ifsp.spo.bulls.users.api.service.BookService;
-import br.edu.ifsp.spo.bulls.users.api.webclient.Client;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -11,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 
@@ -24,17 +24,15 @@ public class BookController {
     @Autowired
     private BookService service;
 
-    @Autowired
-    private Client client;
-
     @ApiOperation(value = "Cadastrar um livro")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna o livro cadastrado"),
+            @ApiResponse(code = 201, message = "Retorna o livro cadastrado"),
             @ApiResponse(code = 409, message = "Conflito ao cadastrar o livro. ISBN já está sendo utilizado"),
             @ApiResponse(code = 400, message = "O livro deve ter pelo menos 1 autor"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public BookTO save(@RequestBody BookTO bookTO){
         logger.info("Cadastrando novo Livro " + bookTO);
         return service.save(bookTO);
@@ -102,7 +100,7 @@ public class BookController {
     @PostMapping("/searchByString")
     public BookSearchTO searchByString(@RequestBody BookSearchTO bookSearchTO, @RequestParam Integer size){
         logger.info("Requisitando lista de  livros com titulo ou isbn: " + bookSearchTO.getSearch());
-        return client.searchBooks(bookSearchTO, size);
+        return service.searchBooks(bookSearchTO, size);
     }
 
 

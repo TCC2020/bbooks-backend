@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
@@ -50,9 +51,10 @@ public class CompetitionController {
 
     @ApiOperation(value = "Salvar uma competição")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Competicação criada")
+            @ApiResponse(code = 201, message = "Competicação criada")
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CompetitionTO save(@RequestBody CompetitionTO competition) {
         logger.info("Requisitando competições");
         return service.save(competition);

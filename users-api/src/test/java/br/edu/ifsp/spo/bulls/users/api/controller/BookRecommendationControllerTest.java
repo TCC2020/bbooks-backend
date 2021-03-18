@@ -65,7 +65,7 @@ public class BookRecommendationControllerTest {
         mockMvc.perform(post("/book-recommendation")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(bookRecommendationTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated   ());
     }
 
     @Test

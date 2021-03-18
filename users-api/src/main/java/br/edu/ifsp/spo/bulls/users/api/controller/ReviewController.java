@@ -10,17 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -74,10 +66,11 @@ public class ReviewController {
 
     @ApiOperation(value = "Salvar uma resenha")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna a resenha cadastrada"),
+            @ApiResponse(code = 201, message = "Retorna a resenha cadastrada"),
             @ApiResponse(code = 404, message = "Livro não encontrado")
     })
-    @PostMapping()
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ReviewTO postReview(@RequestBody ReviewTO reviewTO, @RequestHeader(value = "AUTHORIZATION") String token){
         String tokenValue = StringUtils.removeStart(token, "Bearer").trim();
         logger.info("Cadastrando resenha");

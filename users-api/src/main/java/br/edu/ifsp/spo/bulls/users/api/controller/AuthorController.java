@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,11 +25,12 @@ public class AuthorController {
 
     @ApiOperation(value = "Cadastrar um autor")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna o autor cadastrado"),
+            @ApiResponse(code = 201, message = "Retorna o autor cadastrado"),
             @ApiResponse(code = 409, message = "Conflito ao cadastrar o autor. Nome já deve estar cadastro"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping(consumes="application/json")
+    @ResponseStatus(HttpStatus.CREATED)
     public Author save(@RequestBody Author author){
         logger.info("Cadastrando novo autor " + author);
         return service.save(author);

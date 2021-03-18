@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +30,10 @@ public class PostController {
 
     @ApiOperation(value = "Cria uma nova publicação")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Publicação criada")
+            @ApiResponse(code = 201, message = "Publicação criada")
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Post post(@RequestBody PostTO post) {
         logger.info("Criando post: " + post.toString());
         return service.create(post);

@@ -70,7 +70,7 @@ public class GroupReadMemberControllerTest {
                 .contentType("application/json")
                 .header(HttpHeaders.AUTHORIZATION,"Basic 32131989321")
                 .content(objectMapper.writeValueAsString(groupMemberTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

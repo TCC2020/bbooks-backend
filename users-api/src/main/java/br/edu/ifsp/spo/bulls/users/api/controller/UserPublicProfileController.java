@@ -60,6 +60,7 @@ public class UserPublicProfileController {
             @ApiResponse(code = 409, message = "Perfil público já existe")
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserPublicProfileTO create(@RequestHeader("AUTHORIZATION") String token, @RequestBody UserPublicProfileCreateTO publicProfile) {
         return service.create(token, publicProfile);
     }
