@@ -3,7 +3,6 @@ package br.edu.ifsp.spo.bulls.feed.api.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraintvalidation.SupportedValidationTarget;
 import java.time.LocalDate;
 import java.util.UUID;
 

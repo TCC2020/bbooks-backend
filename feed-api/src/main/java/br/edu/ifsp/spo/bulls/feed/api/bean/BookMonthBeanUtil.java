@@ -28,12 +28,13 @@ public class BookMonthBeanUtil {
         try{
             BeanUtils.copyProperties(monthTO, bookMonth);
 
-            GroupRead groupRead = groupRepository.findById(monthTO.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001));
-            bookMonth.setGroup(groupRead);
         }catch(Exception e) {
             logger.error("Error while converting BookMonthTO to BookMonth: " +  e);
         }
+        GroupRead groupRead = groupRepository.findById(monthTO.getGroupId())
+                .orElseThrow(() -> new ResourceNotFoundException(CodeException.GR001.getText(), CodeException.GR001));
+        bookMonth.setGroup(groupRead);
+
         return bookMonth;
     }
 
